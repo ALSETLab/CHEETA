@@ -21,4 +21,3 @@ package Interfaces
           fillPattern=FillPattern.Solid,
           points={{-100.0,20.0},{-60.0,20.0},{-30.0,70.0},{-10.0,70.0},{-10.0,-70.0},{-30.0,-70.0},{-60.0,-20.0},{-100.0,-20.0}})}));
 end Interfaces;
-

@@ -1,6 +1,6 @@
 within CHEETA.Aircraft.Electrical;
 package Battery
-  
+
   annotation (Icon(graphics={
         Rectangle(
           extent={{-80,60},{80,-80}},
