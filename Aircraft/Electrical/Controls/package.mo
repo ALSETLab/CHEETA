@@ -16,17 +16,10 @@ package Controls
     parameter Real Vref "Terminal Reference Voltage (pu)";
     Modelica.Blocks.Interfaces.RealInput Vterm
       annotation (Placement(transformation(extent={{-240,-18},{-200,22}})));
-    Modelica.Blocks.Continuous.FirstOrder LPF(k=1, T=T_R,
-      initType=Modelica.Blocks.Types.Init.InitialState,
-      y_start=0)                                          "Low Pass Filter"
-      annotation (Placement(transformation(extent={{-172,-8},{-152,12}})));
     Modelica.Blocks.Continuous.TransferFunction LeadLag(b={T_C,1}, a={T_B,1},
     initType=Modelica.Blocks.Types.Init.SteadyState,
       x_start={0})
       annotation (Placement(transformation(extent={{-102,-8},{-82,12}})));
-    Modelica.Blocks.Continuous.FirstOrder Regulator(k=K_A, T=T_A,
-      initType=Modelica.Blocks.Types.Init.InitialState)           "Regulator"
-      annotation (Placement(transformation(extent={{-68,-8},{-48,12}})));
     Modelica.Blocks.Continuous.TransferFunction TGR(b={K_F,0}, a={T_F,0},
     initType=Modelica.Blocks.Types.Init.SteadyState)
       annotation (Placement(transformation(
@@ -52,13 +45,17 @@ package Controls
     Modelica.Blocks.Continuous.TransferFunction Exciter(b={1}, a={T_E,K_E},
     initType=Modelica.Blocks.Types.Init.SteadyState)
       annotation (Placement(transformation(extent={{22,-8},{42,12}})));
+    Modelica.Blocks.Continuous.TransferFunction LPF(
+    b={1},
+    a={T_R},
+    initType=Modelica.Blocks.Types.Init.SteadyState)
+    annotation (Placement(transformation(extent={{-176,-8},{-156,12}})));
+    Modelica.Blocks.Continuous.TransferFunction LeadLag1(
+    b={K_A},
+    a={T_A},
+    initType=Modelica.Blocks.Types.Init.SteadyState)
+      annotation (Placement(transformation(extent={{-64,-8},{-44,12}})));
   equation
-    connect(LPF.u, Vterm)
-      annotation (Line(points={{-174,2},{-220,2}}, color={0,0,127}));
-    connect(Regulator.u, LeadLag.y)
-      annotation (Line(points={{-70,2},{-81,2}}, color={0,0,127}));
-    connect(limiter.u, Regulator.y)
-      annotation (Line(points={{-32,2},{-47,2}}, color={0,0,127}));
     connect(feedback1.u1, limiter.y)
       annotation (Line(points={{-2,2},{-9,2}}, color={0,0,127}));
     connect(TGR.u, feedback1.u2) annotation (Line(points={{-46,-40},{60,-40},{
@@ -66,8 +63,6 @@ package Controls
                              color={0,0,127}));
     connect(SUM.y, LeadLag.u)
       annotation (Line(points={{-113,2},{-104,2}}, color={0,0,127}));
-    connect(LPF.y, SUM.u2)
-      annotation (Line(points={{-151,2},{-136,2}}, color={0,0,127}));
     connect(TGR.y, SUM.u3) annotation (Line(points={{-69,-40},{-142,-40},{-142,
           -6},{-136,-6}},
                         color={0,0,127}));
@@ -80,6 +75,14 @@ package Controls
       annotation (Line(points={{15,2},{20,2}}, color={0,0,127}));
     connect(Exciter.y, feedback1.u2) annotation (Line(points={{43,2},{60,2},{
             60,-22},{6,-22},{6,-6}}, color={0,0,127}));
+  connect(SUM.u2, LPF.y)
+    annotation (Line(points={{-136,2},{-155,2}}, color={0,0,127}));
+  connect(Vterm, LPF.u)
+    annotation (Line(points={{-220,2},{-178,2}}, color={0,0,127}));
+  connect(LeadLag.y, LeadLag1.u)
+    annotation (Line(points={{-81,2},{-66,2}}, color={0,0,127}));
+  connect(limiter.u, LeadLag1.y)
+    annotation (Line(points={{-32,2},{-43,2}}, color={0,0,127}));
       annotation (Placement(transformation(extent={{66,-20},{106,20}})),
                 Icon(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -60},{100,60}}), graphics={  Rectangle(extent={{-200,60},{100,-60}},
