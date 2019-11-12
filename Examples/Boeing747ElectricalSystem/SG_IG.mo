@@ -54,12 +54,12 @@ model SG_IG
 equation
   connect(RPMtoRPS.u,timeTable. y)
     annotation (Line(points={{58,-16},{85,-16}},   color={0,0,127}));
-  connect(RPMtoRPS.y, SGandAVR.w_ref) annotation (Line(points={{35,-16},{30,
-          -16},{30,-17.4},{18,-17.4}}, color={0,0,127}));
+  connect(RPMtoRPS.y, SGandAVR.w_ref) annotation (Line(points={{35,-16},{30,-16},
+          {30,-17.4},{18,-17.4}},      color={0,0,127}));
   connect(SGandAVR.plugSupply, AC_Hydraulic_Pump.plug_sp)
     annotation (Line(points={{8,-4},{8,24}}, color={0,0,255}));
   connect(pump_Load.flange, AC_Hydraulic_Pump.flange)
-    annotation (Line(points={{-40,9},{-2,9},{-2,20}},   color={0,0,0}));
+    annotation (Line(points={{-40,10},{-2,10},{-2,20}}, color={0,0,0}));
   connect(star.pin_n, ground1.p)
     annotation (Line(points={{-44,98},{-54,98}}, color={0,0,255}));
   connect(AC_Hydraulic_Pump.plug_sn, star.plug_p)

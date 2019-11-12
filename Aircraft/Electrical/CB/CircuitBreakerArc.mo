@@ -1,10 +1,10 @@
 within CHEETA.Aircraft.Electrical.CB;
 model CircuitBreakerArc "Circuit breaker with arc during opening"
   extends Modelica.Electrical.Analog.Interfaces.IdealSwitch;
-  parameter SI.Voltage ArcVoltageLevel=0.5 "Switch voltage level";
+  parameter Modelica.SIunits.Voltage ArcVoltageLevel=0.5 "Switch voltage level";
 
 
-  Modelica.Electrical.Analog.Interfaces.PositivePin Control
+  Modelica.Electrical.Analog.Interfaces.PositivePin control
     "Voltage control for circuit breaker"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
 equation

@@ -177,14 +177,14 @@ equation
     annotation (Line(points={{-12,36},{20,36},{20,43}}, color={0,0,127}));
   connect(PerUnitConversion.u, rms.y)
     annotation (Line(points={{-44,36},{-35,36}}, color={0,0,127}));
-  connect(PerUnitConversion.y, iEEEtype1AVR.Vterm) annotation (Line(points={{
-          -67,36},{-74,36},{-74,19.6},{-74.8,19.6}}, color={0,0,127}));
+  connect(PerUnitConversion.y, iEEEtype1AVR.Vterm) annotation (Line(points={{-67,36},
+          {-74,36},{-74,21},{-75,21}},               color={0,0,127}));
   connect(signalVoltage.p, smee.pin_ep) annotation (Line(points={{-42,-4},{-30,-4},
           {-30,-8},{-16,-8}}, color={0,0,255}));
   connect(signalVoltage.n, smee.pin_en) annotation (Line(points={{-42,-24},{-30,
           -24},{-30,-20},{-16,-20}}, color={0,0,255}));
   connect(signalVoltage.v, iEEEtype1AVR.Ifd) annotation (Line(points={{-30,-14},
-          {-54,-14},{-54,-12.9},{-74.7,-12.9}}, color={0,0,127}));
+          {-54,-14},{-54,-12.6},{-75,-12.6}},   color={0,0,127}));
   connect(groundExcitation.p, signalVoltage.n) annotation (Line(points={{-76,-28},
           {-60,-28},{-60,-24},{-42,-24}}, color={0,0,255}));
   annotation (

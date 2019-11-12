@@ -192,11 +192,11 @@ equation
   connect(signalVoltage.n, smee.pin_en) annotation (Line(points={{-42,-24},{-30,
           -24},{-30,-20},{-16,-20}}, color={0,0,255}));
   connect(signalVoltage.v, iEEEtype1AVR.Ifd) annotation (Line(points={{-30,-14},
-          {-54,-14},{-54,-12.9},{-74.7,-12.9}}, color={0,0,127}));
+          {-54,-14},{-54,-12.6},{-75,-12.6}},   color={0,0,127}));
   connect(groundExcitation.p, signalVoltage.n) annotation (Line(points={{-76,-28},
           {-60,-28},{-60,-24},{-42,-24}}, color={0,0,255}));
-  connect(add.y, iEEEtype1AVR.Vterm) annotation (Line(points={{-74,21},{-78,
-          21},{-78,19.6},{-74.8,19.6}}, color={0,0,127}));
+  connect(add.y, iEEEtype1AVR.Vterm) annotation (Line(points={{-74,21},{-78,21},
+          {-78,21},{-75,21}},           color={0,0,127}));
   connect(PerUnitConversion.y, add.u1)
     annotation (Line(points={{-67,52},{-68,52},{-68,44}}, color={0,0,127}));
   connect(u, add.u2) annotation (Line(points={{-120,0},{-80,0},{-80,44}},
@@ -211,5 +211,8 @@ equation
     experiment(
       StopTime=36000,
       __Dymola_NumberOfIntervals=5000,
-      Tolerance=1e-06));
+      Tolerance=1e-06),
+    Documentation(info="<html>
+<p>synchronous generator, avr, synchronous </p>
+</html>"));
 end SG_AVR_SS;
