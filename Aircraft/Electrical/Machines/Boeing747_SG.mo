@@ -1,5 +1,5 @@
 within CHEETA.Aircraft.Electrical.Machines;
-model SG_747 "Synchronous generator used in Boeing 747 electrical system"
+model Boeing747_SG "Synchronous generator used in Boeing 747 electrical system"
   parameter Records.Boeing747electricalModel.SM100kVA
                                                 Data(
     SNominal=100000,
@@ -32,8 +32,7 @@ model SG_747 "Synchronous generator used in Boeing 747 electrical system"
     Rs=Data.Rs,
     TsRef=Data.TsRef,
     Lssigma=Data.Lssigma,
-    phiMechanical(start=0),
-    wMechanical(start=0),
+    useSupport=true,
     Lmd=Data.Lmd,
     Lmq=Data.Lmq,
     Lrsigmad=Data.Lrsigmad,
@@ -148,13 +147,14 @@ equation
   connect(PerUnitConversion.u,rms. y)
     annotation (Line(points={{-46,34},{-35,34}}, color={0,0,127}));
   connect(PerUnitConversion.y,iEEEtype1AVR. Vterm) annotation (Line(points={{-69,34},
-          {-74,34},{-74,-13.8667},{-63.2,-13.8667}}, color={0,0,127}));
+          {-74,34},{-74,-14},{-63.2,-14}},           color={0,0,127}));
   connect(signalVoltage.p,smee. pin_ep) annotation (Line(points={{-26,-8},{-10,
           -8}},               color={0,0,255}));
   connect(signalVoltage.n,smee. pin_en) annotation (Line(points={{-26,-20},{-10,
           -20}},                     color={0,0,255}));
   connect(signalVoltage.v,iEEEtype1AVR. Ifd) annotation (Line(points={{-33.2,
-          -14},{-33.2,-13.8},{-42.86,-13.8}},   color={0,0,127}));
+          -14},{-33.2,-14.0667},{-42.86,-14.0667}},
+                                                color={0,0,127}));
   connect(groundExcitation.p,signalVoltage. n) annotation (Line(points={{-26,-26},
           {-26,-20}},                     color={0,0,255}));
   connect(w_ref,speed. w_ref)
@@ -167,4 +167,4 @@ equation
           extent={{-68,48},{74,-26}},
           lineColor={28,108,200},
           textString="AC Synchronous Generator")}));
-end SG_747;
+end Boeing747_SG;
