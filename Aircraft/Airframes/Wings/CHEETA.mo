@@ -1,7 +1,6 @@
 within CHEETA.Aircraft.Airframes.Wings;
-model CHEETA "Wing model for CHEETA aircraft"
-
-    extends AircraftDynamics.Aircraft.Airframes.Wings.Shevell(
+model CHEETA
+  extends AircraftDynamics.Aircraft.Airframes.Wings.Shevell(
     lex=0.0,
     winglethOverB=0,
     I_sc=Modelon.Units.Conversions.from_lbmPerFt2(3.5),
@@ -21,7 +20,4 @@ model CHEETA "Wing model for CHEETA aircraft"
     prescribeTex=false,
     texangle=1.5707963267949,
     prescribeTexangle=true);
-
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-        coordinateSystem(preserveAspectRatio=false)));
 end CHEETA;

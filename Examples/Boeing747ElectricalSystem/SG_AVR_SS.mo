@@ -1,8 +1,6 @@
 within CHEETA.Examples.Boeing747ElectricalSystem;
 model SG_AVR_SS
-  Modelica.Blocks.Sources.CombiTimeTable
-                                    combiTimeTable(
-                                              table=[0.0,0; 0.4,11900; 0.5,
+  Modelica.Blocks.Sources.TimeTable timeTable(table=[0.0,0; 0.4,11900; 0.5,
         12000; 1,12000; 2,12000; 3,10000; 4.5,18000; 6,1; 6,0.0; 10,0.0],
       timeScale=3600) annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
@@ -37,7 +35,7 @@ model SG_AVR_SS
     boeing747_SG_disturbance_input
     annotation (Placement(transformation(extent={{24,12},{70,-12}})));
 equation
-  connect(RPMtoRPS.u, combiTimeTable.y)
+  connect(RPMtoRPS.u, timeTable.y)
     annotation (Line(points={{-32,20},{-49,20}}, color={0,0,127}));
   connect(ground.p, star.pin_n)
     annotation (Line(points={{-64,-20},{-50,-20}},

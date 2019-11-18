@@ -6,13 +6,13 @@ model SG_to_secondary_distribution
       timeScale=3600) annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=180,
-        origin={-82,80})));
+        origin={-80,72})));
   Modelica.Blocks.Math.Gain RPMtoRPS(k=Modelica.Constants.pi/30)
                                                 annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=180,
-        origin={-48,80})));
+        origin={-48,72})));
   Modelica.Electrical.Machines.BasicMachines.AsynchronousInductionMachines.AIM_SquirrelCage
     AC_Hydraulic_Pump(
     p=8,
@@ -44,8 +44,8 @@ model SG_to_secondary_distribution
   Aircraft.Electrical.Machines.Boeing747_SG SGandAVR annotation (Placement(
         transformation(rotation=0, extent={{8,76},{-24,60}})));
   Aircraft.Mechanical.Pumps.Boeing747_Pump_Load Pumped_Load
-    "Pumped load for 12kVA induction motor of an AC hydraulic pump" annotation
-    (Placement(transformation(
+    "Pumped load for 12kVA induction motor of an AC hydraulic pump" annotation (
+     Placement(transformation(
         rotation=180,
         extent={{-10,-4},{10,4}},
         origin={44,8})));
@@ -59,7 +59,8 @@ model SG_to_secondary_distribution
         origin={74,2},
         extent={{10,-10},{-10,10}},
         rotation=0)));
-  Modelica.Electrical.MultiPhase.Basic.Resistor Lamp(m=3, R=1000/(200^2))
+  Modelica.Electrical.MultiPhase.Basic.Resistor Lamp(m=3, R={1000/(200^2),1000/
+        (200^2),1000/(200^2)})
     "AC 1kW load to power a resistive lamp"
     annotation (Placement(transformation(extent={{28,-24},{48,-4}})));
   Modelica.Electrical.MultiPhase.Basic.Star star1
@@ -80,9 +81,9 @@ equation
   connect(Pumped_Load.flange, AC_Hydraulic_Pump.flange)
     annotation (Line(points={{33,8},{26,8},{26,30},{34,30}}, color={0,0,0}));
   connect(SGandAVR.w_ref, RPMtoRPS.y) annotation (Line(points={{-25.6,71.84},{
-          -34,71.84},{-34,80},{-37,80}}, color={0,0,127}));
+          -34,71.84},{-34,72},{-37,72}}, color={0,0,127}));
   connect(RPMtoRPS.u, timeTable.y)
-    annotation (Line(points={{-60,80},{-71,80}}, color={0,0,127}));
+    annotation (Line(points={{-60,72},{-69,72}}, color={0,0,127}));
   connect(Lamp.plug_p, AC_Hydraulic_Pump.plug_sp) annotation (Line(points={{28,
           -14},{-8,-14},{-8,40},{38,40}}, color={0,0,255}));
   connect(Lamp.plug_n, star1.plug_p)

@@ -43,7 +43,6 @@ model Boeing747_BLDC_Motor_pump "Boeing 747 BLDC motor pump"
     Ra=Ra,
     TaRef=TaRef,
     alpha20a(displayUnit="1/K") = Modelica.Electrical.Machines.Thermal.Constants.alpha20Zero,
-
     La=La,
     Re=Re,
     TeRef=TeRef,
@@ -51,6 +50,7 @@ model Boeing747_BLDC_Motor_pump "Boeing 747 BLDC motor pump"
     sigmae=sigmae,
     TeNominal=TeNominal)
     annotation (Placement(transformation(extent={{70,-30},{90,-10}})));
+
   parameter Modelica.SIunits.Resistance Ra=0.35 "Armature resistance at TRef";
   parameter Modelica.SIunits.Temperature TaRef=65
     "Reference temperature of armature resistance";
