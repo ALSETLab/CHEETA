@@ -58,7 +58,8 @@ equation
         points={{-26,-6},{-50,-6},{-50,11.8},{-51,11.8}}, color={0,0,
           255}));
   connect(positivePlug, diode_Snubber.positivePlug) annotation (Line(
-        points={{-110,20},{-51,20},{-51,39.8}}, color={0,0,255}));
+        points={{-110,20},{-82,20},{-82,34},{-51,34},{-51,39.8}},
+                                                color={0,0,255}));
   connect(pin_p, star.pin_n)
     annotation (Line(points={{50,50},{18,50},{18,66},{-14,66}},
                                                 color={0,0,255}));

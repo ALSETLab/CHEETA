@@ -161,8 +161,7 @@ equation
   connect(signalVoltage.n,smee. pin_en) annotation (Line(points={{-26,-20},{-10,
           -20}},                     color={0,0,255}));
   connect(signalVoltage.v,iEEEtype1AVR. Ifd) annotation (Line(points={{-33.2,
-          -14},{-33.2,-14.0667},{-42.86,-14.0667}},
-                                                color={0,0,127}));
+          -14},{-33.2,-14},{-43.04,-14}},       color={0,0,127}));
   connect(groundExcitation.p,signalVoltage. n) annotation (Line(points={{-26,-26},
           {-26,-20}},                     color={0,0,255}));
   connect(w_ref,speed. w_ref)
