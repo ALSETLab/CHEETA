@@ -1,6 +1,7 @@
 within CHEETA.Aircraft.Airframes.Wings;
 model CHEETA
-  extends AircraftDynamics.Aircraft.Airframes.Wings.Shevell(
+  import AircraftDynamics.Aircraft.Airframes.Wings;
+  extends Wings.Shevell(
     lex=0.0,
     winglethOverB=0,
     I_sc=Modelon.Units.Conversions.from_lbmPerFt2(3.5),
