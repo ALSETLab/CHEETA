@@ -1,0 +1,108 @@
+ 
+Compiling and linking the model (Visual C++). 
+ 
+64-bit mode activated. 
+**********************************************************************
+** Visual Studio 2017 Developer Command Prompt v15.9.15
+** Copyright (c) 2017 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+dsmodel.c
+C:/Program Files/Dymola 2020\source\matrixop.h(249): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+C:/Program Files/Dymola 2020\source\matrixop.h(1085): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2020\source\matrixop.c(3145): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2020\source\matrixop.c(3601): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\program files\dymola 2020\source\matrixop.c(3649): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2020\source\matrixop.c(3659): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2020\source\matrixop.c(3668): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2020\source\matrixop.c(3677): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2020\source\matrixop.c(3689): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2020\source\matrixop.c(3699): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2020\source\matrixop.c(3709): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2020\source\matrixop.c(3794): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+dsmodel.c(38949): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(38959): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(38969): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(38992): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(39002): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(39012): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(39288): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(39316): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(39343): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(39364): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41035): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41043): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41051): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41059): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41067): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41075): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41083): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41090): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41098): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41106): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41114): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41122): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41130): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41138): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41145): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41153): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41161): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41169): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41179): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41187): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41195): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41203): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41211): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41218): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41226): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41234): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41242): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41250): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41258): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41266): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41273): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41281): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41289): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41297): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41305): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41313): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41321): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41329): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41337): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41344): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41352): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41360): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41368): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41376): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41384): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41392): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41399): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41407): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41415): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41423): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41431): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41439): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41447): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41455): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41463): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41470): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41478): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41486): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41494): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41502): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41510): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41518): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41525): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(41533): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+dsmodel.c(51320): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
+dsmodel.c(55914): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
+dsmodel.c(60137): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
+dsmodel.c(61418): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
+Microsoft (R) Incremental Linker Version 14.16.27032.1
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/stack:0x500000 /MACHINE:X64 /NODEFAULTLIB:LIBC /NODEFAULTLIB:LIBCD /OPT:NOREF libdsdll.lib legacy_stdio_definitions.lib 
+   Creating library dymosim.lib and object dymosim.exp
+ 
+Successful generation of Dymosim with DDE. 
+ 
