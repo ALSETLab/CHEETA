@@ -1,0 +1,1599 @@
+#1
+char Aclass(3,24)
+Adymosim
+1.4
+Modelica experiment file
+
+
+#    Experiment parameters
+double experiment(7,1)
+       0                   # StartTime    Time at which integration starts
+                           #              (and linearization and trimming time)
+      20                   # StopTime     Time at which integration stops
+       0                   # Increment    Communication step size, if > 0
+     500                   # nInterval    Number of communication intervals, if > 0
+  1.0000000000000000E-04   # Tolerance    Relative precision of signals for
+                           #              simulation, linearization and trimming
+       0                   # MaxFixedStep Maximum step size of fixed step size
+                           #              integrators, if > 0.0
+       8                   # Algorithm    Integration algorithm as integer (1...28)
+                           #
+                           #             | model|       |        | dense | state |
+                           # Algorithm   | typ  | stiff | order  | output| event |
+                           # ------------+------+-------+--------+-------+-------+
+                           #  1 | deabm  |  ode |   no  |  1-12  |  yes  |   no  |
+                           #  2 | lsode1 |  ode |   no  |  1-12  |  yes  |   no  |
+                           #  3 | lsode2 |  ode |  yes  |  1-5   |  yes  |   no  |
+                           #  4 | lsodar |  ode |  both |1-12,1-5|  yes  |  yes  |
+                           #  5 | dopri5 |  ode |   no  |   5    |   no  |   no  |
+                           #  6 | dopri8 |  ode |   no  |   8    |   no  |   no  |
+                           #  7 | grk4t  |  ode |  yes  |   4    |   no  |   no  |
+                           #  8 | dassl  |  dae |  yes  |  1-5   |  yes  |  yes  |
+                           #  9 | odassl | hdae |  yes  |  1-5   |  yes  |  yes  |
+                           # 10 | mexx   | hdae |   no  |  2-24  |   no  |   no  |
+                           # 11 | euler  |  ode |   no  |   1    |   no  |  yes  |
+                           # 12 | rkfix2 |  ode |   no  |   2    |   no  |  yes  |
+                           # 13 | rkfix3 |  ode |   no  |   3    |   no  |  yes  |
+                           # 14 | rkfix4 |  ode |   no  |   4    |   no  |  yes  |
+                           #>=14| others |  ode |yes/no |  2-5   |   yes |  yes  |
+                           # ---+--------+------+-------+--------+-------+-------+
+                           # euler and rkfix have fixed stepsize.
+
+
+#    Method tuning parameters
+double method(27,1)
+       1                   # grid     type of communication time grid, defined by
+                           #          = 1: equidistant points ("Increment/nInterval")
+                           #          = 2: vector of grid points ("tgrid")
+                           #          = 3: variable step integrator (automatically)
+                           #          = 4: model (call of "increment" in Dymola, e.g.
+                           #                      incr=Time > 2 then 0 else 0.1
+                           #                      dummy=increment(incr))
+                           #          grid = 1,3 is stopped by "StopTime"
+                           #          grid = 2   is stopped by "tgrid(last)"
+                           #          grid = 4   runs forever (stopped by model)
+       1                   # nt       Use every NT time instant, if grid = 3
+       3                   # dense    1/2/3 restart/step/interpolate GRID points
+       1                   # evgrid   0/1 do not/save event points in comm. time grid
+       1                   # evu      0/1 U-discontinuity does not/trigger events
+       0                   # evuord       U-discontinuity order to consider (0,1,...)
+       0                   # error    0/1/2 One message/warning/error messages
+       0                   # jac      0/1 Compute jacobian numerically/by BLOCKJ
+       0                   # xd0c     0/1 Compute/set XD0
+       0                   # f3       0/1 Ignore/use F3 of HDAE (= index 1)
+       0                   # f4       0/1 Ignore/use F4 of HDAE (= index 2)
+       0                   # f5       0/1 Ignore/use F5 of HDAE (= invar.)
+       0                   # debug    flags for debug information (1<<0 uses pdebug) 
+     100                   # pdebug       priority of debug information (1...100)
+       0                   # fmax     Maximum number of evaluations of BLOCKF, if > 0
+       0                   # ordmax   Maximum allowed integration order, if > 0
+       0                   # hmax     Maximum absolute stepsize, if > 0
+       0                   # hmin     Minimum absolute stepsize, if > 0 (use with care!)
+       0                   # h0       Stepsize to be attempted on first step, if > 0
+  2.0000000000000000E-14   # teps     Bound to check, if 2 equal time instants
+  1.0000000000000000E-10   # eveps    Hysteresis epsilon at event points
+      20                   # eviter   Maximum number of event iterations
+  9.9999999999999995E-07   # delaym   Minimum time increment in delay buffers
+       1                   # fexcep   0/1 floating exception crashes/stops dymosim
+       1                   # tscale   clock-time = tscale*simulation-time, if grid = 5
+                           #          > 1: simulation too slow
+                           #          = 1: simulation-time = real-time
+                           #          < 1: simulation too fast
+       1                   # shared   (not used)
+    2473                   # memkey   (not used)
+
+
+#    Output parameters
+int settings(13,1)
+ 0                         # lprec    0/1 do not/store result data in double
+ 1                         # lx       0/1 do not/store x  (state variables)
+ 1                         # lxd      0/1 do not/store xd (derivative of states)
+ 1                         # lu       0/1 do not/store u  (input     signals)
+ 1                         # ly       0/1 do not/store y  (output    signals)
+ 0                         # lz       0/1 do not/store z  (indicator signals)
+ 1                         # lw       0/1 do not/store w  (auxiliary signals)
+ 1                         # la       0/1 do not/store a  (alias     signals)
+ 0                         # lperf    0/1 do not/store performance indicators
+ 0                         # levent   0/1 do not/store event point
+ 1                         # lres     0/1 do not/store results on result file
+ 0                         # lshare   0/1 do not/store info data for shared memory on dsshare.txt
+ 1                         # lform    0/1 ASCII/Matlab-binary storage format of results
+                           #              (for simulation/linearization; not for trimming)
+
+
+#    Names of initial variables
+char initialName(360,60)
+simplifiedFuelCell.constantVoltage.V
+simplifiedFuelCell.constantVoltage.n.v
+simplifiedFuelCell.resistor.R
+simplifiedFuelCell.resistor.T_ref
+simplifiedFuelCell.resistor.alpha
+simplifiedFuelCell.resistor.v
+simplifiedFuelCell.resistor.n.v
+simplifiedFuelCell.resistor.useHeatPort
+simplifiedFuelCell.resistor.T
+simplifiedFuelCell.resistor.LossPower
+simplifiedFuelCell.resistor.R_actual
+simplifiedFuelCell.inductor.v
+simplifiedFuelCell.inductor.i
+simplifiedFuelCell.inductor.der(i)
+simplifiedFuelCell.inductor.L
+simplifiedFuelCell.n1.i
+simplifiedFuelCell.pin_p.v
+simplifiedFuelCell.R
+simplifiedFuelCell.L
+simplifiedFuelCell.V
+simplifiedFuelCell.constantVoltage1.V
+simplifiedFuelCell.constantVoltage1.n.v
+simplifiedFuelCell.ground.p.v
+simplifiedFuelCell.ground.p.i
+dcdc.RonTransistor
+dcdc.GoffTransistor
+dcdc.VkneeTransistor
+dcdc.RonDiode
+dcdc.GoffDiode
+dcdc.VkneeDiode
+dcdc.vDC1
+dcdc.powerDC1
+dcdc.dc_p2.v
+dcdc.vDC2
+dcdc.powerDC2
+dcdc.useHeatPort
+dcdc.T
+dcdc.LossPower
+dcdc.T_heatPort
+dcdc.useConstantEnable
+dcdc.constantEnable
+dcdc.m
+dcdc.enableLogic.useConstantEnable
+dcdc.enableLogic.constantEnable
+dcdc.enableLogic.m
+dcdc.enableLogic.enableConstantSource.k
+dcdc.enableLogic.booleanReplicator.nout
+dcdc.andCondition_p.y
+dcdc.fire_p
+dcdc.transistor.v
+dcdc.transistor.i
+dcdc.transistor.Ron
+dcdc.transistor.Goff
+dcdc.transistor.Vknee
+dcdc.transistor.useHeatPort
+dcdc.transistor.T
+dcdc.transistor.LossPower
+dcdc.transistor.off
+dcdc.transistor.s
+dcdc.transistor.unitVoltage
+dcdc.transistor.unitCurrent
+dcdc.diode.v
+dcdc.diode.Ron
+dcdc.diode.Goff
+dcdc.diode.Vknee
+dcdc.diode.useHeatPort
+dcdc.diode.T
+dcdc.diode.LossPower
+dcdc.diode.off
+dcdc.diode.s
+dcdc.diode.unitVoltage
+dcdc.diode.unitCurrent
+inductor.v
+inductor.i
+inductor.der(i)
+inductor.n.v
+inductor.L
+pwm.useConstantDutyCycle
+pwm.constantDutyCycle
+pwm.f
+pwm.startTime
+pwm.notFire
+pwm.const.k
+pwm.limiter.uMax
+pwm.limiter.uMin
+pwm.limiter.strict
+pwm.limiter.homotopyType
+pwm.limiter.limitsAtInit
+pwm.limiter.y
+pwm.greaterEqual.u1
+pwm.greaterEqual.u2
+pwm.zeroOrderHold.samplePeriod
+pwm.zeroOrderHold.startTime
+pwm.zeroOrderHold.sampleTrigger
+pwm.zeroOrderHold.firstTrigger
+pwm.zeroOrderHold.ySample
+pwm.sawtooth.amplitude
+pwm.sawtooth.period
+pwm.sawtooth.nperiod
+pwm.sawtooth.offset
+pwm.sawtooth.startTime
+pwm.sawtooth.T_start
+pwm.sawtooth.count
+pwm1.useConstantDutyCycle
+pwm1.constantDutyCycle
+pwm1.f
+pwm1.startTime
+pwm1.fire
+pwm1.notFire
+pwm1.limiter.uMax
+pwm1.limiter.uMin
+pwm1.limiter.strict
+pwm1.limiter.homotopyType
+pwm1.limiter.limitsAtInit
+pwm1.limiter.y
+pwm1.greaterEqual.u1
+pwm1.greaterEqual.u2
+pwm1.zeroOrderHold.samplePeriod
+pwm1.zeroOrderHold.startTime
+pwm1.zeroOrderHold.sampleTrigger
+pwm1.zeroOrderHold.firstTrigger
+pwm1.zeroOrderHold.ySample
+pwm1.sawtooth.amplitude
+pwm1.sawtooth.period
+pwm1.sawtooth.nperiod
+pwm1.sawtooth.offset
+pwm1.sawtooth.startTime
+pwm1.sawtooth.T_start
+pwm1.sawtooth.count
+inductor1.v
+inductor1.i
+inductor1.der(i)
+inductor1.n.v
+inductor1.L
+simpleMotor.inductor.v
+simpleMotor.inductor.i
+simpleMotor.inductor.der(i)
+simpleMotor.inductor.p.v
+simpleMotor.inductor.n.v
+simpleMotor.inductor.L
+simpleMotor.R
+simpleMotor.resistor.R
+simpleMotor.resistor.T_ref
+simpleMotor.resistor.alpha
+simpleMotor.resistor.v
+simpleMotor.resistor.useHeatPort
+simpleMotor.resistor.T
+simpleMotor.resistor.LossPower
+simpleMotor.resistor.R_actual
+simpleMotor.R_trs
+simpleMotor.X_s
+simpleMotor.hysteresis.R
+simpleMotor.hysteresis.T_ref
+simpleMotor.hysteresis.alpha
+simpleMotor.hysteresis.i
+simpleMotor.hysteresis.n.v
+simpleMotor.hysteresis.useHeatPort
+simpleMotor.hysteresis.T
+simpleMotor.hysteresis.LossPower
+simpleMotor.hysteresis.R_actual
+simpleMotor.R_hyst
+simpleMotor.p1.v
+simpleMotor.emf.useSupport
+simpleMotor.emf.k
+simpleMotor.emf.i
+simpleMotor.emf.phi
+simpleMotor.emf.n.v
+simpleMotor.emf.fixed.phi0
+simpleMotor.k
+simpleMotor.flange1.phi
+simpleMotor.flange1.tau
+simpleMotor.ground.p.v
+simpleMotor.ground.p.i
+fan.inertia.flange_b.tau
+fan.inertia.J
+fan.inertia.stateSelect
+fan.inertia.phi
+fan.inertia.der(phi)
+fan.inertia.w
+fan.inertia.der(w)
+fan.J
+fan.disc.deltaPhi
+fan.disc.phi
+fan.deltaPhi
+modulatedSignalController.limiter.uMax
+modulatedSignalController.limiter.uMin
+modulatedSignalController.limiter.strict
+modulatedSignalController.limiter.homotopyType
+modulatedSignalController.limiter.limitsAtInit
+modulatedSignalController.limiter.u
+modulatedSignalController.limiter.der(u)
+modulatedSignalController.add.y
+modulatedSignalController.add.k1
+modulatedSignalController.add.k2
+modulatedSignalController.Reference
+modulatedSignalController.division.u1
+modulatedSignalController.division.der(u1)
+modulatedSignalController.y
+modulatedSignalController.der(y)
+modulatedSignalController.transferFunction.u
+modulatedSignalController.transferFunction.der(u)
+modulatedSignalController.transferFunction.y
+modulatedSignalController.transferFunction.der(y)
+modulatedSignalController.transferFunction.b[1]
+modulatedSignalController.transferFunction.b[2]
+modulatedSignalController.transferFunction.a[1]
+modulatedSignalController.transferFunction.a[2]
+modulatedSignalController.transferFunction.initType
+modulatedSignalController.transferFunction.x_start[1]
+modulatedSignalController.transferFunction.y_start
+modulatedSignalController.transferFunction.x[1]
+modulatedSignalController.transferFunction.na
+modulatedSignalController.transferFunction.nb
+modulatedSignalController.transferFunction.nx
+modulatedSignalController.transferFunction.bb[1]
+modulatedSignalController.transferFunction.bb[2]
+modulatedSignalController.transferFunction.d
+modulatedSignalController.transferFunction.a_end
+modulatedSignalController.transferFunction.x_scaled[1]
+modulatedSignalController.transferFunction.der(x_scaled[1])
+modulatedSignalController.transferFunction1.b[1]
+modulatedSignalController.transferFunction1.b[2]
+modulatedSignalController.transferFunction1.a[1]
+modulatedSignalController.transferFunction1.a[2]
+modulatedSignalController.transferFunction1.initType
+modulatedSignalController.transferFunction1.x_start[1]
+modulatedSignalController.transferFunction1.y_start
+modulatedSignalController.transferFunction1.x[1]
+modulatedSignalController.transferFunction1.na
+modulatedSignalController.transferFunction1.nb
+modulatedSignalController.transferFunction1.nx
+modulatedSignalController.transferFunction1.bb[1]
+modulatedSignalController.transferFunction1.bb[2]
+modulatedSignalController.transferFunction1.d
+modulatedSignalController.transferFunction1.a_end
+modulatedSignalController.transferFunction1.x_scaled[1]
+modulatedSignalController.transferFunction1.der(x_scaled[1])
+modulatedSignalController.transferFunction2.u
+modulatedSignalController.transferFunction2.b[1]
+modulatedSignalController.transferFunction2.b[2]
+modulatedSignalController.transferFunction2.a[1]
+modulatedSignalController.transferFunction2.a[2]
+modulatedSignalController.transferFunction2.a[3]
+modulatedSignalController.transferFunction2.initType
+modulatedSignalController.transferFunction2.x_start[1]
+modulatedSignalController.transferFunction2.x_start[2]
+modulatedSignalController.transferFunction2.y_start
+modulatedSignalController.transferFunction2.x[1]
+modulatedSignalController.transferFunction2.x[2]
+modulatedSignalController.transferFunction2.na
+modulatedSignalController.transferFunction2.nb
+modulatedSignalController.transferFunction2.nx
+modulatedSignalController.transferFunction2.bb[1]
+modulatedSignalController.transferFunction2.bb[2]
+modulatedSignalController.transferFunction2.bb[3]
+modulatedSignalController.transferFunction2.d
+modulatedSignalController.transferFunction2.a_end
+modulatedSignalController.transferFunction2.x_scaled[1]
+modulatedSignalController.transferFunction2.der(x_scaled[1])
+modulatedSignalController.transferFunction2.x_scaled[2]
+modulatedSignalController.transferFunction2.der(x_scaled[2])
+modulatedSignalController.gain.k
+modulatedSignalController.k
+modulatedSignalController.b1[1]
+modulatedSignalController.b1[2]
+modulatedSignalController.a1[1]
+modulatedSignalController.a1[2]
+modulatedSignalController.a1[3]
+modulatedSignalController.b2[1]
+modulatedSignalController.b2[2]
+modulatedSignalController.a2[1]
+modulatedSignalController.a2[2]
+modulatedSignalController.b3[1]
+modulatedSignalController.b3[2]
+modulatedSignalController.a3[1]
+modulatedSignalController.a3[2]
+modulatedSignalController.uMax
+modulatedSignalController.uMin
+const.k
+sine.amplitude
+sine.freqHz
+sine.phase
+sine.offset
+sine.startTime
+plant.R
+plant.L
+plant.ron
+plant.lambda
+plant.Vd
+dCAC_HalfBridgeAverage.switch1.pin_n.v
+dCAC_HalfBridgeAverage.switch1.signalCurrent.n.v
+dCAC_HalfBridgeAverage.switch1.signalCurrent.v
+dCAC_HalfBridgeAverage.switch1.gain2.k
+dCAC_HalfBridgeAverage.switch1.gain2.y
+dCAC_HalfBridgeAverage.switch1.gain2.der(y)
+dCAC_HalfBridgeAverage.switch1.const.k
+dCAC_HalfBridgeAverage.switch1.add.y
+dCAC_HalfBridgeAverage.switch1.add.der(y)
+dCAC_HalfBridgeAverage.switch1.add.k1
+dCAC_HalfBridgeAverage.switch1.add.k2
+dCAC_HalfBridgeAverage.switch1.add1.y
+dCAC_HalfBridgeAverage.switch1.add1.der(y)
+dCAC_HalfBridgeAverage.switch1.add1.k1
+dCAC_HalfBridgeAverage.switch1.add1.k2
+dCAC_HalfBridgeAverage.switch1.division.y
+dCAC_HalfBridgeAverage.switch1.division.der(y)
+dCAC_HalfBridgeAverage.switch1.const2.k
+dCAC_HalfBridgeAverage.switch1.const1.k
+dCAC_HalfBridgeAverage.switch1.resistor.R
+dCAC_HalfBridgeAverage.switch1.resistor.T_ref
+dCAC_HalfBridgeAverage.switch1.resistor.alpha
+dCAC_HalfBridgeAverage.switch1.resistor.n.v
+dCAC_HalfBridgeAverage.switch1.resistor.useHeatPort
+dCAC_HalfBridgeAverage.switch1.resistor.T
+dCAC_HalfBridgeAverage.switch1.resistor.LossPower
+dCAC_HalfBridgeAverage.switch1.resistor.R_actual
+dCAC_HalfBridgeAverage.switch1.Ron
+dCAC_HalfBridgeAverage.switch4.pin.v
+dCAC_HalfBridgeAverage.switch4.Ron
+dCAC_HalfBridgeAverage.switch4.signalCurrent.p.v
+dCAC_HalfBridgeAverage.switch4.signalCurrent.n.v
+dCAC_HalfBridgeAverage.switch4.gain2.k
+dCAC_HalfBridgeAverage.switch4.gain2.y
+dCAC_HalfBridgeAverage.switch4.gain2.der(y)
+dCAC_HalfBridgeAverage.switch4.const.k
+dCAC_HalfBridgeAverage.switch4.add.y
+dCAC_HalfBridgeAverage.switch4.add.der(y)
+dCAC_HalfBridgeAverage.switch4.add.k1
+dCAC_HalfBridgeAverage.switch4.add.k2
+dCAC_HalfBridgeAverage.switch4.add1.y
+dCAC_HalfBridgeAverage.switch4.add1.der(y)
+dCAC_HalfBridgeAverage.switch4.add1.k1
+dCAC_HalfBridgeAverage.switch4.add1.k2
+dCAC_HalfBridgeAverage.switch4.division.y
+dCAC_HalfBridgeAverage.switch4.division.der(y)
+dCAC_HalfBridgeAverage.switch4.const2.k
+dCAC_HalfBridgeAverage.switch4.const1.k
+dCAC_HalfBridgeAverage.switch4.resistor.R
+dCAC_HalfBridgeAverage.switch4.resistor.T_ref
+dCAC_HalfBridgeAverage.switch4.resistor.alpha
+dCAC_HalfBridgeAverage.switch4.resistor.v
+dCAC_HalfBridgeAverage.switch4.resistor.useHeatPort
+dCAC_HalfBridgeAverage.switch4.resistor.T
+dCAC_HalfBridgeAverage.switch4.resistor.LossPower
+dCAC_HalfBridgeAverage.switch4.resistor.R_actual
+dCAC_HalfBridgeAverage.signalVoltage.n.v
+dCAC_HalfBridgeAverage.plant.R
+dCAC_HalfBridgeAverage.plant.L
+dCAC_HalfBridgeAverage.plant.ron
+dCAC_HalfBridgeAverage.plant.lambda
+dCAC_HalfBridgeAverage.plant.Vd
+dCAC_HalfBridgeAverage.product2.u1
+dCAC_HalfBridgeAverage.const5.k
+dCAC_HalfBridgeAverage.add.u1
+dCAC_HalfBridgeAverage.add.k1
+dCAC_HalfBridgeAverage.add.k2
+dCAC_HalfBridgeAverage.gain2.k
+dCAC_HalfBridgeAverage.const.k
+dCAC_HalfBridgeAverage.ground1.p.v
+dCAC_HalfBridgeAverage.ground1.p.i
+
+double initialValue(360,6)
+  0       1                       0                       0                
+  6   256   # simplifiedFuelCell.constantVoltage.V
+  0       0                       0                       0                
+  6   260   # simplifiedFuelCell.constantVoltage.n.v
+  0       1                       0                       0                
+  6   256   # simplifiedFuelCell.resistor.R
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1   280   # simplifiedFuelCell.resistor.T_ref
+ -1       0                       0                       0                
+  1   280   # simplifiedFuelCell.resistor.alpha
+  0       0                       0                       0                
+  6   256   # simplifiedFuelCell.resistor.v
+  0       0                       0                       0                
+  6   260   # simplifiedFuelCell.resistor.n.v
+  0       0                       0                       0                
+  6   769   # simplifiedFuelCell.resistor.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6   256   # simplifiedFuelCell.resistor.T
+  0       0                       0                       0                
+  6   256   # simplifiedFuelCell.resistor.LossPower
+  0       0                       0                       0                
+  6   256   # simplifiedFuelCell.resistor.R_actual
+  0       0                       0                       0                
+  6   256   # simplifiedFuelCell.inductor.v
+ -1       0                       0                       0                
+  2   280   # simplifiedFuelCell.inductor.i
+  0       0                       0                       0                
+  3   256   # simplifiedFuelCell.inductor.der(i)
+  0       1                       0                       0                
+  6   256   # simplifiedFuelCell.inductor.L
+  0       0                       0                       0                
+  6   388   # simplifiedFuelCell.n1.i
+  0       0                       0                       0                
+  6   260   # simplifiedFuelCell.pin_p.v
+ -1     100                       0                       0                
+  1   280   # simplifiedFuelCell.R
+ -1    1000                       0                       0                
+  1   280   # simplifiedFuelCell.L
+ -1     500                       0                       0                
+  1   280   # simplifiedFuelCell.V
+  0       1                       0                       0                
+  6   256   # simplifiedFuelCell.constantVoltage1.V
+  0       0                       0                       0                
+  6   260   # simplifiedFuelCell.constantVoltage1.n.v
+  0       0                       0                       0                
+  6   260   # simplifiedFuelCell.ground.p.v
+  0       0                       0                       0                
+  6   388   # simplifiedFuelCell.ground.p.i
+ -1  1.0000000000000001E-05       0                       0                
+  1   280   # dcdc.RonTransistor
+ -1  1.0000000000000001E-05       0                       0                
+  1   280   # dcdc.GoffTransistor
+ -1       0                       0                       0                
+  1   280   # dcdc.VkneeTransistor
+ -1  1.0000000000000001E-05       0                 1.0000000000000000E+100
+  1   280   # dcdc.RonDiode
+ -1  1.0000000000000001E-05       0                 1.0000000000000000E+100
+  1   280   # dcdc.GoffDiode
+ -1       0                       0                 1.0000000000000000E+100
+  1   280   # dcdc.VkneeDiode
+  0       0                       0                       0                
+  6   256   # dcdc.vDC1
+  0       0                       0                       0                
+  6   256   # dcdc.powerDC1
+  0       0                       0                       0                
+  6   260   # dcdc.dc_p2.v
+  0       0                       0                       0                
+  6   256   # dcdc.vDC2
+  0       0                       0                       0                
+  6   256   # dcdc.powerDC2
+  0       0                       0                       0                
+  6   769   # dcdc.useHeatPort
+  0  2.9314999999999998E+02       0                 1.0000000000000000E+100
+  6   256   # dcdc.T
+  0       0                       0                       0                
+  6   256   # dcdc.LossPower
+  0  2.9314999999999998E+02       0                 1.0000000000000000E+100
+  6   256   # dcdc.T_heatPort
+  0       1                       0                       0                
+  6   257   # dcdc.useConstantEnable
+ -1       1                       0                       0                
+  1   281   # dcdc.constantEnable
+  0       1                       1                 1.0000000000000000E+100
+  6   258   # dcdc.m
+  0       1                       0                       0                
+  6   257   # dcdc.enableLogic.useConstantEnable
+  0       0                       0                       0                
+  6   257   # dcdc.enableLogic.constantEnable
+  0       1                       1                 1.0000000000000000E+100
+  6   258   # dcdc.enableLogic.m
+  0       0                       0                       0                
+  6   257   # dcdc.enableLogic.enableConstantSource.k
+  0       1                       0                       0                
+  6   258   # dcdc.enableLogic.booleanReplicator.nout
+  0       0                       0                       0                
+  6   321   # dcdc.andCondition_p.y
+  0       0                       0                       0                
+  6   321   # dcdc.fire_p
+  0       0                       0                       0                
+  6   256   # dcdc.transistor.v
+  0       0                       0                       0                
+  6   256   # dcdc.transistor.i
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # dcdc.transistor.Ron
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # dcdc.transistor.Goff
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # dcdc.transistor.Vknee
+  0       0                       0                       0                
+  6   769   # dcdc.transistor.useHeatPort
+ -1  2.9314999999999998E+02       0                 1.0000000000000000E+100
+  1   280   # dcdc.transistor.T
+  0       0                       0                       0                
+  6   256   # dcdc.transistor.LossPower
+  0       1                       0                       0                
+  6   353   # dcdc.transistor.off
+  0       0                       0                       0                
+  6  1280   # dcdc.transistor.s
+  0       1                       0                       0                
+  6   768   # dcdc.transistor.unitVoltage
+  0       1                       0                       0                
+  6   768   # dcdc.transistor.unitCurrent
+  0       0                       0                       0                
+  6   256   # dcdc.diode.v
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # dcdc.diode.Ron
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # dcdc.diode.Goff
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # dcdc.diode.Vknee
+  0       0                       0                       0                
+  6   769   # dcdc.diode.useHeatPort
+ -1  2.9314999999999998E+02       0                 1.0000000000000000E+100
+  1   280   # dcdc.diode.T
+  0       0                       0                       0                
+  6   256   # dcdc.diode.LossPower
+  0       1                       0                       0                
+  6   353   # dcdc.diode.off
+  0       0                       0                       0                
+  6  1280   # dcdc.diode.s
+  0       1                       0                       0                
+  6   768   # dcdc.diode.unitVoltage
+  0       1                       0                       0                
+  6   768   # dcdc.diode.unitCurrent
+  0       0                       0                       0                
+  6   256   # inductor.v
+  0       0                       0                       0                
+  6   256   # inductor.i
+  0       0                       0                       0                
+  6   256   # inductor.der(i)
+  0       0                       0                       0                
+  6   260   # inductor.n.v
+ -1  9.9999999999999995E-07       0                       0                
+  1   280   # inductor.L
+  0       1                       0                       0                
+  6   257   # pwm.useConstantDutyCycle
+ -1  5.0000000000000000E-01       0                       0                
+  1   280   # pwm.constantDutyCycle
+ -1      10                       0                       0                
+  1   280   # pwm.f
+ -1       0                       0                       0                
+  1   280   # pwm.startTime
+  0       0                       0                       0                
+  6   321   # pwm.notFire
+  0       1                       0                       0                
+  6   256   # pwm.const.k
+ -1       1                       0                       0                
+  1   280   # pwm.limiter.uMax
+ -1       0                       0                       0                
+  1   280   # pwm.limiter.uMin
+  0       0                       0                       0                
+  6   257   # pwm.limiter.strict
+  0       2                       1                       4                
+  6   258   # pwm.limiter.homotopyType
+  0       1                       0                       0                
+  6   257   # pwm.limiter.limitsAtInit
+  0       0                       0                       0                
+  6   256   # pwm.limiter.y
+  0       0                       0                       0                
+  6   256   # pwm.greaterEqual.u1
+  0       0                       0                       0                
+  6   320   # pwm.greaterEqual.u2
+  0  1.0000000000000001E-01  1.0000000000000000E-13 1.0000000000000000E+100
+  6   256   # pwm.zeroOrderHold.samplePeriod
+  0       0                       0                       0                
+  6   256   # pwm.zeroOrderHold.startTime
+  0       0                       0                       0                
+  6  1345   # pwm.zeroOrderHold.sampleTrigger
+  0       0                       0                       0                
+  6  1353   # pwm.zeroOrderHold.firstTrigger
+  0       0                       0                       0                
+  6   328   # pwm.zeroOrderHold.ySample
+  0       1                       0                       0                
+  6   256   # pwm.sawtooth.amplitude
+  0       1                  9.9999999999999997E-61 1.0000000000000000E+100
+  6   256   # pwm.sawtooth.period
+  0      -1                       0                       0                
+  6   258   # pwm.sawtooth.nperiod
+  0       0                       0                       0                
+  6   256   # pwm.sawtooth.offset
+  0       0                       0                       0                
+  6   256   # pwm.sawtooth.startTime
+  0       0                       0                       0                
+  6  1344   # pwm.sawtooth.T_start
+  0       0                       0                       0                
+  6  1346   # pwm.sawtooth.count
+  0       0                       0                       0                
+  6   257   # pwm1.useConstantDutyCycle
+ -1  5.0000000000000000E-01       0                       0                
+  1   280   # pwm1.constantDutyCycle
+ -1      10                       0                       0                
+  1   280   # pwm1.f
+ -1       0                       0                       0                
+  1   280   # pwm1.startTime
+  0       0                       0                       0                
+  6   321   # pwm1.fire
+  0       0                       0                       0                
+  6   321   # pwm1.notFire
+ -1       1                       0                       0                
+  1   280   # pwm1.limiter.uMax
+ -1       0                       0                       0                
+  1   280   # pwm1.limiter.uMin
+  0       0                       0                       0                
+  6   257   # pwm1.limiter.strict
+  0       2                       1                       4                
+  6   258   # pwm1.limiter.homotopyType
+  0       1                       0                       0                
+  6   257   # pwm1.limiter.limitsAtInit
+  0       0                       0                       0                
+  6   256   # pwm1.limiter.y
+  0       0                       0                       0                
+  6   256   # pwm1.greaterEqual.u1
+  0       0                       0                       0                
+  6   320   # pwm1.greaterEqual.u2
+  0  1.0000000000000001E-01  1.0000000000000000E-13 1.0000000000000000E+100
+  6   256   # pwm1.zeroOrderHold.samplePeriod
+  0       0                       0                       0                
+  6   256   # pwm1.zeroOrderHold.startTime
+  0       0                       0                       0                
+  6  1345   # pwm1.zeroOrderHold.sampleTrigger
+  0       0                       0                       0                
+  6  1353   # pwm1.zeroOrderHold.firstTrigger
+  0       0                       0                       0                
+  6   328   # pwm1.zeroOrderHold.ySample
+  0       1                       0                       0                
+  6   256   # pwm1.sawtooth.amplitude
+  0       1                  9.9999999999999997E-61 1.0000000000000000E+100
+  6   256   # pwm1.sawtooth.period
+  0      -1                       0                       0                
+  6   258   # pwm1.sawtooth.nperiod
+  0       0                       0                       0                
+  6   256   # pwm1.sawtooth.offset
+  0       0                       0                       0                
+  6   256   # pwm1.sawtooth.startTime
+  0       0                       0                       0                
+  6  1344   # pwm1.sawtooth.T_start
+  0       0                       0                       0                
+  6  1346   # pwm1.sawtooth.count
+  0       0                       0                       0                
+  6   256   # inductor1.v
+  0       0                       0                       0                
+  6   256   # inductor1.i
+  0       0                       0                       0                
+  6   256   # inductor1.der(i)
+  0       0                       0                       0                
+  6   260   # inductor1.n.v
+ -1  9.9999999999999995E-07       0                       0                
+  1   280   # inductor1.L
+  0       0                       0                       0                
+  6   256   # simpleMotor.inductor.v
+ -1       0                       0                       0                
+  2   280   # simpleMotor.inductor.i
+  0       0                       0                       0                
+  3   256   # simpleMotor.inductor.der(i)
+  0       0                       0                       0                
+  6   260   # simpleMotor.inductor.p.v
+  0       0                       0                       0                
+  6   260   # simpleMotor.inductor.n.v
+  0       1                       0                       0                
+  6   256   # simpleMotor.inductor.L
+ -1     149                       0                       0                
+  1   280   # simpleMotor.R
+  0       1                       0                       0                
+  6   256   # simpleMotor.resistor.R
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1   280   # simpleMotor.resistor.T_ref
+ -1       0                       0                       0                
+  1   280   # simpleMotor.resistor.alpha
+  0       0                       0                       0                
+  6   256   # simpleMotor.resistor.v
+  0       0                       0                       0                
+  6   769   # simpleMotor.resistor.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6   256   # simpleMotor.resistor.T
+  0       0                       0                       0                
+  6   256   # simpleMotor.resistor.LossPower
+  0       0                       0                       0                
+  6   256   # simpleMotor.resistor.R_actual
+ -1  9.9999999999999995E-07       0                       0                
+  1   280   # simpleMotor.R_trs
+ -1  4.1000000000000002E-02       0                       0                
+  1   280   # simpleMotor.X_s
+  0       1                       0                       0                
+  6   256   # simpleMotor.hysteresis.R
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1   280   # simpleMotor.hysteresis.T_ref
+ -1       0                       0                       0                
+  1   280   # simpleMotor.hysteresis.alpha
+  0       0                       0                       0                
+  6   256   # simpleMotor.hysteresis.i
+  0       0                       0                       0                
+  6   260   # simpleMotor.hysteresis.n.v
+  0       0                       0                       0                
+  6   769   # simpleMotor.hysteresis.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6   256   # simpleMotor.hysteresis.T
+  0       0                       0                       0                
+  6   256   # simpleMotor.hysteresis.LossPower
+  0       0                       0                       0                
+  6   256   # simpleMotor.hysteresis.R_actual
+ -1     149                       0                       0                
+  1   280   # simpleMotor.R_hyst
+  0       0                       0                       0                
+  6   260   # simpleMotor.p1.v
+  0       0                       0                       0                
+  6   769   # simpleMotor.emf.useSupport
+  0       1                       0                       0                
+  6   256   # simpleMotor.emf.k
+  0       0                       0                       0                
+  6   256   # simpleMotor.emf.i
+  0       0                       0                       0                
+  6   256   # simpleMotor.emf.phi
+  0       0                       0                       0                
+  6   260   # simpleMotor.emf.n.v
+ -1       0                       0                       0                
+  1  1304   # simpleMotor.emf.fixed.phi0
+ -1  2.1000000000000001E-02       0                       0                
+  1   280   # simpleMotor.k
+  0       0                       0                       0                
+  6   260   # simpleMotor.flange1.phi
+  0       0                       0                       0                
+  6   388   # simpleMotor.flange1.tau
+  0       0                       0                       0                
+  6   260   # simpleMotor.ground.p.v
+  0       0                       0                       0                
+  6   388   # simpleMotor.ground.p.i
+  0       0                       0                       0                
+  6   388   # fan.inertia.flange_b.tau
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # fan.inertia.J
+  0       3                       1                       5                
+  6   770   # fan.inertia.stateSelect
+ -1       0                       0                       0                
+  2   280   # fan.inertia.phi
+  0       0                       0                       0                
+  3   256   # fan.inertia.der(phi)
+ -1       0                       0                       0                
+  2   280   # fan.inertia.w
+  0       0                       0                       0                
+  3   256   # fan.inertia.der(w)
+ -1  5.0000000000000000E-01       0                       0                
+  1   280   # fan.J
+  0       0                       0                       0                
+  6   256   # fan.disc.deltaPhi
+  0       0                       0                       0                
+  6   256   # fan.disc.phi
+ -1       0                       0                       0                
+  1   280   # fan.deltaPhi
+  0       1                       0                       0                
+  6   256   # modulatedSignalController.limiter.uMax
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.limiter.uMin
+  0       0                       0                       0                
+  6   257   # modulatedSignalController.limiter.strict
+  0       2                       1                       4                
+  6   258   # modulatedSignalController.limiter.homotopyType
+  0       1                       0                       0                
+  6   257   # modulatedSignalController.limiter.limitsAtInit
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.limiter.u
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.limiter.der(u)
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.add.y
+ -1       1                       0                       0                
+  1   280   # modulatedSignalController.add.k1
+ -1      -1                       0                       0                
+  1   280   # modulatedSignalController.add.k2
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.Reference
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.division.u1
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.division.der(u1)
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.y
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.der(y)
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction.u
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction.der(u)
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction.y
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction.der(y)
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction.b[1]
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction.b[2]
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction.a[1]
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction.a[2]
+  0       2                       1                       4                
+  6   258   # modulatedSignalController.transferFunction.initType
+ -1       0                       0                       0                
+  1   280   # modulatedSignalController.transferFunction.x_start[1]
+ -1       0                       0                       0                
+  1   280   # modulatedSignalController.transferFunction.y_start
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction.x[1]
+  0       2                       0                       0                
+  6  1282   # modulatedSignalController.transferFunction.na
+  0       2                       0                       0                
+  6  1282   # modulatedSignalController.transferFunction.nb
+  0       1                       0                       0                
+  6  1282   # modulatedSignalController.transferFunction.nx
+  0       0                       0                       0                
+  6  1280   # modulatedSignalController.transferFunction.bb[1]
+  0       0                       0                       0                
+  6  1280   # modulatedSignalController.transferFunction.bb[2]
+  0       0                       0                       0                
+  6  1280   # modulatedSignalController.transferFunction.d
+  0       0                       0                       0                
+  6  1280   # modulatedSignalController.transferFunction.a_end
+ -1       0                       0                       0                
+  2  1296   # modulatedSignalController.transferFunction.x_scaled[1]
+  0       0                       0                       0                
+  3  1280   # modulatedSignalController.transferFunction.der(x_scaled[1])
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction1.b[1]
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction1.b[2]
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction1.a[1]
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction1.a[2]
+  0       1                       1                       4                
+  6   258   # modulatedSignalController.transferFunction1.initType
+ -1       0                       0                       0                
+  1   280   # modulatedSignalController.transferFunction1.x_start[1]
+ -1       0                       0                       0                
+  1   280   # modulatedSignalController.transferFunction1.y_start
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction1.x[1]
+  0       2                       0                       0                
+  6  1282   # modulatedSignalController.transferFunction1.na
+  0       2                       0                       0                
+  6  1282   # modulatedSignalController.transferFunction1.nb
+  0       1                       0                       0                
+  6  1282   # modulatedSignalController.transferFunction1.nx
+  0       0                       0                       0                
+  6  1280   # modulatedSignalController.transferFunction1.bb[1]
+  0       0                       0                       0                
+  6  1280   # modulatedSignalController.transferFunction1.bb[2]
+  0       0                       0                       0                
+  6  1280   # modulatedSignalController.transferFunction1.d
+  0       0                       0                       0                
+  6  1280   # modulatedSignalController.transferFunction1.a_end
+ -1       0                       0                       0                
+  2  1304   # modulatedSignalController.transferFunction1.x_scaled[1]
+  0       0                       0                       0                
+  3  1280   # modulatedSignalController.transferFunction1.der(x_scaled[1])
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction2.u
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction2.b[1]
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction2.b[2]
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction2.a[1]
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction2.a[2]
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction2.a[3]
+  0       2                       1                       4                
+  6   258   # modulatedSignalController.transferFunction2.initType
+ -1       0                       0                       0                
+  1   280   # modulatedSignalController.transferFunction2.x_start[1]
+ -1       0                       0                       0                
+  1   280   # modulatedSignalController.transferFunction2.x_start[2]
+ -1       0                       0                       0                
+  1   280   # modulatedSignalController.transferFunction2.y_start
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction2.x[1]
+  0       0                       0                       0                
+  6   256   # modulatedSignalController.transferFunction2.x[2]
+  0       3                       0                       0                
+  6  1282   # modulatedSignalController.transferFunction2.na
+  0       2                       0                       0                
+  6  1282   # modulatedSignalController.transferFunction2.nb
+  0       2                       0                       0                
+  6  1282   # modulatedSignalController.transferFunction2.nx
+  0       0                       0                       0                
+  6  1280   # modulatedSignalController.transferFunction2.bb[1]
+  0       0                       0                       0                
+  6  1280   # modulatedSignalController.transferFunction2.bb[2]
+  0       0                       0                       0                
+  6  1280   # modulatedSignalController.transferFunction2.bb[3]
+  0       0                       0                       0                
+  6  1280   # modulatedSignalController.transferFunction2.d
+  0       0                       0                       0                
+  6  1280   # modulatedSignalController.transferFunction2.a_end
+ -1       0                       0                       0                
+  2  1296   # modulatedSignalController.transferFunction2.x_scaled[1]
+  0       0                       0                       0                
+  3  1280   # modulatedSignalController.transferFunction2.der(x_scaled[1])
+ -1       0                       0                       0                
+  2  1296   # modulatedSignalController.transferFunction2.x_scaled[2]
+  0       0                       0                       0                
+  3  1280   # modulatedSignalController.transferFunction2.der(x_scaled[2])
+  0       1                       0                       0                
+  6   256   # modulatedSignalController.gain.k
+ -1    8680                       0                       0                
+  1   280   # modulatedSignalController.k
+ -1       1                       0                       0                
+  1   280   # modulatedSignalController.b1[1]
+ -1  8.5199999999999996E+00       0                       0                
+  1   280   # modulatedSignalController.b1[2]
+ -1       1                       0                       0                
+  1   280   # modulatedSignalController.a1[1]
+ -1       0                       0                       0                
+  1   280   # modulatedSignalController.a1[2]
+ -1  1.4212900000000000E+05       0                       0                
+  1   280   # modulatedSignalController.a1[3]
+ -1       1                       0                       0                
+  1   280   # modulatedSignalController.b2[1]
+ -1     966                       0                       0                
+  1   280   # modulatedSignalController.b2[2]
+ -1       1                       0                       0                
+  1   280   # modulatedSignalController.a2[1]
+ -1    5633                       0                       0                
+  1   280   # modulatedSignalController.a2[2]
+ -1       1                       0                       0                
+  1   280   # modulatedSignalController.b3[1]
+ -1       2                       0                       0                
+  1   280   # modulatedSignalController.b3[2]
+ -1       1                       0                       0                
+  1   280   # modulatedSignalController.a3[1]
+ -1  5.0000000000000003E-02       0                       0                
+  1   280   # modulatedSignalController.a3[2]
+ -1       1                       0                       0                
+  1   280   # modulatedSignalController.uMax
+ -1      -1                       0                       0                
+  1   280   # modulatedSignalController.uMin
+  0       1                       0                       0                
+  6   256   # const.k
+ -1    1000                       0                       0                
+  1   280   # sine.amplitude
+ -1      60                       0                       0                
+  1   280   # sine.freqHz
+ -1       0                       0                       0                
+  1   280   # sine.phase
+ -1       0                       0                       0                
+  1   280   # sine.offset
+ -1  7.0000000000000007E-02       0                       0                
+  1   280   # sine.startTime
+ -1  5.0000000000000001E-03       0                       0                
+  1   280   # plant.R
+ -1  6.8999999999999997E-04       0                       0                
+  1   280   # plant.L
+ -1  8.8000000000000003E-04       0                       0                
+  1   280   # plant.ron
+ -1  5.0000000000000001E-03       0                       0                
+  1   280   # plant.lambda
+ -1    1000                       0                       0                
+  1   280   # plant.Vd
+  0       0                       0                       0                
+  6   260   # dCAC_HalfBridgeAverage.switch1.pin_n.v
+  0       0                       0                       0                
+  6   260   # dCAC_HalfBridgeAverage.switch1.signalCurrent.n.v
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch1.signalCurrent.v
+ -1       2                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch1.gain2.k
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch1.gain2.y
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch1.gain2.der(y)
+ -1       1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch1.const.k
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch1.add.y
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch1.add.der(y)
+ -1       1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch1.add.k1
+ -1      -1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch1.add.k2
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch1.add1.y
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch1.add1.der(y)
+ -1       1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch1.add1.k1
+ -1       1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch1.add1.k2
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch1.division.y
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch1.division.der(y)
+ -1       2                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch1.const2.k
+ -1       1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch1.const1.k
+  0       1                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch1.resistor.R
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1   280   # dCAC_HalfBridgeAverage.switch1.resistor.T_ref
+ -1       0                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch1.resistor.alpha
+  0       0                       0                       0                
+  6   260   # dCAC_HalfBridgeAverage.switch1.resistor.n.v
+  0       0                       0                       0                
+  6   769   # dCAC_HalfBridgeAverage.switch1.resistor.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6   256   # dCAC_HalfBridgeAverage.switch1.resistor.T
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch1.resistor.LossPower
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch1.resistor.R_actual
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch1.Ron
+  0       0                       0                       0                
+  6   260   # dCAC_HalfBridgeAverage.switch4.pin.v
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch4.Ron
+  0       0                       0                       0                
+  6   260   # dCAC_HalfBridgeAverage.switch4.signalCurrent.p.v
+  0       0                       0                       0                
+  6   260   # dCAC_HalfBridgeAverage.switch4.signalCurrent.n.v
+ -1       2                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch4.gain2.k
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch4.gain2.y
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch4.gain2.der(y)
+ -1       1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch4.const.k
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch4.add.y
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch4.add.der(y)
+ -1       1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch4.add.k1
+ -1      -1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch4.add.k2
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch4.add1.y
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch4.add1.der(y)
+ -1      -1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch4.add1.k1
+ -1       1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch4.add1.k2
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch4.division.y
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch4.division.der(y)
+ -1       2                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch4.const2.k
+ -1       1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch4.const1.k
+  0       1                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch4.resistor.R
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1   280   # dCAC_HalfBridgeAverage.switch4.resistor.T_ref
+ -1       0                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.switch4.resistor.alpha
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch4.resistor.v
+  0       0                       0                       0                
+  6   769   # dCAC_HalfBridgeAverage.switch4.resistor.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6   256   # dCAC_HalfBridgeAverage.switch4.resistor.T
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch4.resistor.LossPower
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.switch4.resistor.R_actual
+  0       0                       0                       0                
+  6   260   # dCAC_HalfBridgeAverage.signalVoltage.n.v
+ -1  5.0000000000000001E-03       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.plant.R
+ -1  6.8999999999999997E-04       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.plant.L
+ -1  8.8000000000000003E-04       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.plant.ron
+ -1  5.0000000000000001E-03       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.plant.lambda
+ -1    1200                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.plant.Vd
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.product2.u1
+  0       1                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.const5.k
+  0       0                       0                       0                
+  6   256   # dCAC_HalfBridgeAverage.add.u1
+ -1       1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.add.k1
+ -1      -1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.add.k2
+ -1       2                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.gain2.k
+ -1       1                       0                       0                
+  1   280   # dCAC_HalfBridgeAverage.const.k
+  0       0                       0                       0                
+  6   260   # dCAC_HalfBridgeAverage.ground1.p.v
+  0       0                       0                       0                
+  6   388   # dCAC_HalfBridgeAverage.ground1.p.i
+
+
+# Matrix with 6 columns defining the initial value calculation
+# (columns 5 and 6 are not utilized for the calculation but are
+#  reported by dymosim via dymosim -i for user convenience):
+#
+# column 1: Type of initial value
+#           = -2: special case: for continuing simulation (column 2 = value)
+#           = -1: fixed value (column 2 = fixed value)
+#           =  0: free value, i.e., no restriction (column 2 = initial value)
+#           >  0: desired value (column 1 = weight for optimization
+#                                column 2 = desired value)
+#                 use weight=1, since automatic scaling usually
+#                 leads to equally weighted terms
+# column 2: fixed, free or desired value according to column 1.
+# column 3: Minimum value (ignored, if Minimum >= Maximum).
+# column 4: Maximum value (ignored, if Minimum >= Maximum).
+#           Minimum and maximum restrict the search range in initial
+#           value calculation. They might also be used for scaling.
+# column 5: Category of variable.
+#           = 1: parameter.
+#           = 2: state.
+#           = 3: state derivative.
+#           = 4: output.
+#           = 5: input.
+#           = 6: auxiliary variable.
+# column 6: Data type of variable and flags according to dsBaseType
+#  <value>&3= 0: real.
+#  <value>&3= 1: boolean.
+#  <value>&3= 2: integer.
+#
+# Initial values are calculated according to the following procedure:
+#
+# - If parameters, states and inputs are FIXED, and other variables
+#   are FREE, no special action takes place (default setting).
+#
+# - If there are only FIXED and FREE variables and the number of
+#   FREE parameters, states and inputs is IDENTICAL to the number of
+#   FIXED state derivatives, outputs and auxiliary variables, a non-linear
+#   equation is solved to determine a consistent set of initial conditions.
+#
+# - In all other cases the following optimization problem is solved:
+#      min( sum( weight(i)*( (value(i) - DESIRED(i))/scale(i) )^2 ) )
+#   under the constraint that the differential equation is fulfilled
+#   at the initial time. In most cases weight(i)=1 is sufficient, due
+#   to the automatic scaling (if DESIRED(i) is not close to zero,
+#   scale(i) = DESIRED(i). Otherwise, the scaling is based on the
+#   nominal value (and maybe minimum and maximum values given in 
+#   column 3 and 4). If these values are zero, scale(i)=1 is used).
+#
+char initialDescription(360,139)
+Value of constant voltage [V]
+Potential at the pin [V]
+Resistance at temperature T_ref [Ohm]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Potential at the pin [V]
+=true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Current flowing from pin p to pin n [A]
+der(Current flowing from pin p to pin n) [A/s]
+Inductance [H]
+Current flowing into the pin [A]
+Potential at the pin [V]
+Impedance [Ohm]
+Impedance [H]
+Fuel cell voltage [V]
+Value of constant voltage [V]
+Potential at the pin [V]
+Potential at the pin [V]
+Current flowing into the pin [A]
+Transistor closed resistance [Ohm]
+Transistor opened conductance [S]
+Transistor threshold voltage [V]
+Closed diode resistance [Ohm]
+Opened diode conductance [S]
+Diode forward threshold voltage [V]
+DC voltage side 1 [V]
+DC power side 1 [W]
+Potential at the pin [V]
+DC voltages side 2 [V]
+DC power side 2 [W]
+=true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Temperature of heatPort [K|degC]
+true = disabled boolean input, use constantEnable [:#(type=Boolean)]
+Constant enabling of firing signals [:#(type=Boolean)]
+Number of phases [:#(type=Integer)]
+true = disabled boolean input, use constantEnable [:#(type=Boolean)]
+Constant enabling of firing signals [:#(type=Boolean)]
+Number of phases [:#(type=Integer)]
+Constant output value [:#(type=Boolean)]
+Number of outputs [:#(type=Integer)]
+Connector of Boolean output signal [:#(type=Boolean)]
+Firing signal of positive potential transistor [:#(type=Boolean)]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Current flowing from pin p to pin n [A]
+Forward state-on differential resistance (closed resistance) [Ohm]
+Backward state-off conductance (opened conductance) [S]
+Forward threshold voltage [V]
+=true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Switching state [:#(type=Boolean)]
+Auxiliary variable for actual position on the ideal diode characteristic [1]
+[V]
+[A]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Forward state-on differential resistance (closed resistance) [Ohm]
+Backward state-off conductance (opened conductance) [S]
+Forward threshold voltage [V]
+=true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Switching state [:#(type=Boolean)]
+Auxiliary variable for actual position on the ideal diode characteristic [1]
+[V]
+[A]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Current flowing from pin p to pin n [A]
+der(Current flowing from pin p to pin n) [A/s]
+Potential at the pin [V]
+Inductance [H]
+Enables constant duty cycle [:#(type=Boolean)]
+Constant duty cycle
+Switching frequency [Hz]
+Start time [s]
+Firing PWM signal [:#(type=Boolean)]
+Constant output value
+Upper limits of input signals
+Lower limits of input signals
+= true, if strict limits with noEvent(..) [:#(type=Boolean)]
+Simplified model for homotopy-based initialization [:#(type=Modelica.Blocks.Types.LimiterHomotopy)]
+Has no longer an effect and is only kept for backwards compatibility (the implementation uses now the homotopy operator) [:#(type=Boolean)]
+Connector of Real output signal
+Connector of first Real input signal
+Connector of second Real input signal
+Sample period of component [s]
+First sample time instant [s]
+True, if sample time instant [:#(type=Boolean)]
+Rising edge signals first sample instant [:#(type=Boolean)]
+
+Amplitude of saw tooth
+Time for one period [s]
+Number of periods (< 0 means infinite number of periods) [:#(type=Integer)]
+Offset of output signal y
+Output y = offset for time < startTime [s]
+Start time of current period [s]
+Period count [:#(type=Integer)]
+Enables constant duty cycle [:#(type=Boolean)]
+Constant duty cycle
+Switching frequency [Hz]
+Start time [s]
+Firing PWM signal [:#(type=Boolean)]
+Firing PWM signal [:#(type=Boolean)]
+Upper limits of input signals
+Lower limits of input signals
+= true, if strict limits with noEvent(..) [:#(type=Boolean)]
+Simplified model for homotopy-based initialization [:#(type=Modelica.Blocks.Types.LimiterHomotopy)]
+Has no longer an effect and is only kept for backwards compatibility (the implementation uses now the homotopy operator) [:#(type=Boolean)]
+Connector of Real output signal
+Connector of first Real input signal
+Connector of second Real input signal
+Sample period of component [s]
+First sample time instant [s]
+True, if sample time instant [:#(type=Boolean)]
+Rising edge signals first sample instant [:#(type=Boolean)]
+
+Amplitude of saw tooth
+Time for one period [s]
+Number of periods (< 0 means infinite number of periods) [:#(type=Integer)]
+Offset of output signal y
+Output y = offset for time < startTime [s]
+Start time of current period [s]
+Period count [:#(type=Integer)]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Current flowing from pin p to pin n [A]
+der(Current flowing from pin p to pin n) [A/s]
+Potential at the pin [V]
+Inductance [H]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Current flowing from pin p to pin n [A]
+der(Current flowing from pin p to pin n) [A/s]
+Potential at the pin [V]
+Potential at the pin [V]
+Inductance [H]
+Effective resistance for hysteresis [Ohm]
+Resistance at temperature T_ref [Ohm]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Voltage drop of the two pins (= p.v - n.v) [V]
+=true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Effective resistance for transport  ac loss [Ohm]
+Reactance [H]
+Resistance at temperature T_ref [Ohm]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Current flowing from pin p to pin n [A]
+Potential at the pin [V]
+=true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Effective resistance for hysteresis ac loss [Ohm]
+Potential at the pin [V]
+= true, if support flange enabled, otherwise implicitly grounded [:#(type=Boolean)]
+Transformation coefficient [N.m/A]
+Current flowing from positive to negative pin [A]
+Angle of shaft flange with respect to support (= flange.phi - support.phi) [rad|deg]
+Potential at the pin [V]
+Fixed offset angle of housing [rad|deg]
+Transformation coefficient of back EMF [N.m/A]
+Absolute rotation angle of flange [rad|deg]
+Cut torque in the flange [N.m]
+Potential at the pin [V]
+Current flowing into the pin [A]
+Cut torque in the flange [N.m]
+Moment of inertia [kg.m2]
+Priority to use phi and w as states [:#(type=StateSelect)]
+Absolute rotation angle of component [rad|deg]
+der(Absolute rotation angle of component) [rad/s]
+Absolute angular velocity of component (= der(phi)) [rad/s]
+der(Absolute angular velocity of component (= der(phi))) [rad/s2]
+Moment of inertia of the fan blades [kg.m2]
+Fixed rotation of left flange with respect to right flange (= flange_b.phi - flange_a.phi) [rad|deg]
+Absolute rotation angle of component [rad|deg]
+Fixed rotation of left flange with respect to right flange [rad|deg]
+Upper limits of input signals
+Lower limits of input signals
+= true, if strict limits with noEvent(..) [:#(type=Boolean)]
+Simplified model for homotopy-based initialization [:#(type=Modelica.Blocks.Types.LimiterHomotopy)]
+Has no longer an effect and is only kept for backwards compatibility (the implementation uses now the homotopy operator) [:#(type=Boolean)]
+Connector of Real input signal
+der(Connector of Real input signal)
+Connector of Real output signal
+Gain of input signal 1
+Gain of input signal 2
+
+Connector of Real input signal 1
+der(Connector of Real input signal 1)
+
+
+Connector of Real input signal
+der(Connector of Real input signal)
+Connector of Real output signal
+der(Connector of Real output signal)
+Numerator coefficients of transfer function (e.g., 2*s+3 is specified as {2,3})
+Numerator coefficients of transfer function (e.g., 2*s+3 is specified as {2,3})
+Denominator coefficients of transfer function (e.g., 5*s+6 is specified as {5,6})
+Denominator coefficients of transfer function (e.g., 5*s+6 is specified as {5,6})
+Type of initialization (1: no init, 2: steady state, 3: initial state, 4: initial output) [:#(type=Modelica.Blocks.Types.Init)]
+Initial or guess values of states
+Initial value of output (derivatives of y are zero up to nx-1-th derivative)
+State of transfer function from controller canonical form
+Size of Denominator of transfer function. [:#(type=Integer)]
+Size of Numerator of transfer function. [:#(type=Integer)]
+[:#(type=Integer)]
+
+
+
+
+Scaled vector x
+der(Scaled vector x)
+Numerator coefficients of transfer function (e.g., 2*s+3 is specified as {2,3})
+Numerator coefficients of transfer function (e.g., 2*s+3 is specified as {2,3})
+Denominator coefficients of transfer function (e.g., 5*s+6 is specified as {5,6})
+Denominator coefficients of transfer function (e.g., 5*s+6 is specified as {5,6})
+Type of initialization (1: no init, 2: steady state, 3: initial state, 4: initial output) [:#(type=Modelica.Blocks.Types.Init)]
+Initial or guess values of states
+Initial value of output (derivatives of y are zero up to nx-1-th derivative)
+State of transfer function from controller canonical form
+Size of Denominator of transfer function. [:#(type=Integer)]
+Size of Numerator of transfer function. [:#(type=Integer)]
+[:#(type=Integer)]
+
+
+
+
+Scaled vector x
+der(Scaled vector x)
+Connector of Real input signal
+Numerator coefficients of transfer function (e.g., 2*s+3 is specified as {2,3})
+Numerator coefficients of transfer function (e.g., 2*s+3 is specified as {2,3})
+Denominator coefficients of transfer function (e.g., 5*s+6 is specified as {5,6})
+Denominator coefficients of transfer function (e.g., 5*s+6 is specified as {5,6})
+Denominator coefficients of transfer function (e.g., 5*s+6 is specified as {5,6})
+Type of initialization (1: no init, 2: steady state, 3: initial state, 4: initial output) [:#(type=Modelica.Blocks.Types.Init)]
+Initial or guess values of states
+Initial or guess values of states
+Initial value of output (derivatives of y are zero up to nx-1-th derivative)
+State of transfer function from controller canonical form
+State of transfer function from controller canonical form
+Size of Denominator of transfer function. [:#(type=Integer)]
+Size of Numerator of transfer function. [:#(type=Integer)]
+[:#(type=Integer)]
+
+
+
+
+
+Scaled vector x
+der(Scaled vector x)
+Scaled vector x
+der(Scaled vector x)
+Gain value multiplied with input signal [1]
+Reference gain for difference between reference signal and the actual signal [1]
+Transfer function numerator 1
+Transfer function numerator 1
+Transfer function denominator 1
+Transfer function denominator 1
+Transfer function denominator 1
+Transfer function numerator 2
+Transfer function numerator 2
+Transfer function denominator 2
+Transfer function denominator 2
+Transfer function numerator 3
+Transfer function numerator 3
+Transfer function numerator 3
+Transfer function numerator 3
+Upper limit of output signal y
+Lower limits of output signal y
+Constant output value
+Amplitude of sine wave
+Frequency of sine wave [Hz]
+Phase of sine wave [rad|deg]
+Offset of output signal y
+Output y = offset for time < startTime [s]
+Resistance of external network
+Inductance of external network
+Resistance of the switch ON state
+Closed-loop time constant
+DC side voltage of the converter
+Potential at the pin [V]
+Potential at the pin [V]
+Voltage drop between the two pins (= p.v - n.v) [V]
+Gain value multiplied with input signal [1]
+Output signal connector
+der(Output signal connector)
+Constant output value
+Connector of Real output signal
+der(Connector of Real output signal)
+Gain of input signal 1
+Gain of input signal 2
+Connector of Real output signal
+der(Connector of Real output signal)
+Gain of input signal 1
+Gain of input signal 2
+Connector of Real output signal [1]
+der(Connector of Real output signal) [s-1]
+Constant output value
+Constant output value
+Resistance at temperature T_ref [Ohm]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Potential at the pin [V]
+=true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Forward state-on differential resistance (closed resistance) [Ohm]
+Potential at the pin [V]
+Forward state-on differential resistance (closed resistance) [Ohm]
+Potential at the pin [V]
+Potential at the pin [V]
+Gain value multiplied with input signal [1]
+Output signal connector
+der(Output signal connector)
+Constant output value
+Connector of Real output signal
+der(Connector of Real output signal)
+Gain of input signal 1
+Gain of input signal 2
+Connector of Real output signal
+der(Connector of Real output signal)
+Gain of input signal 1
+Gain of input signal 2
+Connector of Real output signal [1]
+der(Connector of Real output signal) [s-1]
+Constant output value
+Constant output value
+Resistance at temperature T_ref [Ohm]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Voltage drop of the two pins (= p.v - n.v) [V]
+=true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Potential at the pin [V]
+Resistance of external network
+Inductance of external network
+Resistance of the switch ON state [Ohm]
+Closed-loop time constant
+DC side voltage of the converter
+Connector of Real input signal 1
+Constant output value
+Connector of Real input signal 1
+Gain of input signal 1
+Gain of input signal 2
+Gain value multiplied with input signal [1]
+Constant output value
+Potential at the pin [V]
+Current flowing into the pin [A]
+

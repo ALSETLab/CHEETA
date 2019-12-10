@@ -3,9 +3,9 @@ model Battery "Battery with SOC output"
   extends Modelon.Electrical.EnergyStorage.Interfaces.Base;
   extends Modelon.Thermal.HeatTransfer.Interfaces.ConditionalHeatPort;
 
-  replaceable 
+  replaceable
     Modelon.Electrical.EnergyStorage.Components.BatteryPackEMFModShepherd
-    stackVoltage(final SOC_start=SOC_start) constrainedby 
+    stackVoltage(final SOC_start=SOC_start) constrainedby
     Modelon.Electrical.EnergyStorage.Components.EMFInterface(SOC_start=SOC_start) annotation (choicesAllMatching=true, Placement(transformation(
         extent={{30,30},{-10,-10}},
         origin={30,-10})));
@@ -38,7 +38,7 @@ model Battery "Battery with SOC output"
     "Battery internal resistance, calculated from cell resistance and number of series/parallel cells";
 
   parameter Real SOC_start=0.6 "Initial SOC";
-equation 
+equation
   connect(internalResistance.p, stackVoltage.n)
                                       annotation (Line(
       points={{0,0},{20,0}},
