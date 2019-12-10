@@ -45,7 +45,7 @@ model SingleBranch_AveragedHalfBridge
     annotation (Placement(transformation(extent={{-56,-38},{-40,-22}})));
   Records.NotionalPowerSystem.Plant plant(Vd=1000)
     annotation (Placement(transformation(extent={{80,42},{100,62}})));
-  Aircraft.Electrical.PowerElectronics.Converters.DCAC_HalfBridgeAverage
+  Aircraft.Electrical.PowerElectronics.Converters.DCAC.DCAC_HalfBridgeAverage
     dCAC_HalfBridgeAverage
     annotation (Placement(transformation(extent={{26,-10},{46,10}})));
 equation

@@ -1,31 +1,5 @@
-within CHEETA.Aircraft.Electrical.Machines;
+within CHEETA.Aircraft.Electrical.Machines.Examples.Boeing747;
 model Boeing747_SG "Synchronous generator used in Boeing 747 electrical system"
-  parameter Records.Boeing747electricalModel.SM100kVA
-                                                Data(
-    SNominal=100000,
-    VsNominal=115,
-    fsNominal=400,
-    IeOpenCircuit=10,
-    x0=0.15,
-    xd=2,
-    xq=1.9,
-    xdTransient=0.245,
-    xdSubtransient=0.2,
-    xqSubtransient=0.2,
-    Ta=0.001,
-    Td0Transient=5,
-    Td0Subtransient=0.031,
-    Tq0Subtransient=0.061,
-    TsSpecification=333.15,
-    TsRef=298.15,
-    alpha20s=0,
-    TrSpecification=331.15,
-    TrRef=298.15,
-    alpha20r=0,
-    TeSpecification=333.15,
-    TeRef=298.15,
-    alpha20e=0)
-    annotation (Placement(transformation(extent={{60,22},{80,42}})));
   Modelica.Electrical.Machines.Sensors.RotorDisplacementAngle
     rotorDisplacementAngle(p=2) annotation (Placement(transformation(
         origin={26,-14},
@@ -54,7 +28,8 @@ model Boeing747_SG "Synchronous generator used in Boeing 747 electrical system"
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={-24,34})));
-  Controls.IEEEtype1AVR iEEEtype1AVR(
+  Controls.AVR.IEEEtype1AVR
+                        iEEEtype1AVR(
     T_R=2e-3,
     T_C=0.001,
     T_B=0.001,
@@ -67,18 +42,20 @@ model Boeing747_SG "Synchronous generator used in Boeing 747 electrical system"
     Vmax=7,
     Vmin=-2,
     Vref=1) annotation (Placement(transformation(
-        extent={{-9,-4},{9,4}},
+        extent={{-7,-4},{7,4}},
         rotation=0,
-        origin={-53,-14})));
+        origin={-61,-14})));
   Modelica.Blocks.Math.Gain PerUnitConversion(k=1/Data.VsNominal) annotation (
      Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={-58,34})));
   Modelica.Blocks.Interfaces.RealInput w_ref(unit="rad/s") annotation (
-      Placement(transformation(rotation=0, extent={{120,-24},{100,-4}})));
+      Placement(transformation(rotation=0, extent={{120,30},{100,50}}),
+        iconTransformation(extent={{120,30},{100,50}})));
   Modelica.Electrical.MultiPhase.Interfaces.PositivePlug plugSupply
-    annotation (Placement(transformation(rotation=0, extent={{-10,54},{10,74}})));
+    annotation (Placement(transformation(rotation=0, extent={{-110,28},{-90,48}}),
+        iconTransformation(extent={{-110,28},{-90,48}})));
   Modelica.Electrical.Analog.Sources.SignalVoltage signalVoltage annotation (
       Placement(transformation(
         extent={{-6,6},{6,-6}},
@@ -120,6 +97,13 @@ model Boeing747_SG "Synchronous generator used in Boeing 747 electrical system"
   Modelica.Electrical.Machines.Utilities.TerminalBox
                                  terminalBox(terminalConnection="Y")
     annotation (Placement(transformation(extent={{-10,-8},{10,12}})));
+  Modelica.Blocks.Math.Gain PerUnitConversion1(k=Data.VsNominal)  annotation (
+     Placement(transformation(
+        extent={{-4,-4},{4,4}},
+        rotation=0,
+        origin={-44,-14})));
+  parameter Records.Boeing747electricalModel.SynchronousMachine.SM300kVA Data
+    annotation (Placement(transformation(extent={{60,70},{80,90}})));
 equation
   connect(speed.flange,mechanicalPowerSensor. flange_b)
     annotation (Line(points={{70,-14},{64,-14}}, color={0,0,0}));
@@ -133,15 +117,15 @@ equation
   connect(PerUnitConversion.u,rms. y)
     annotation (Line(points={{-46,34},{-35,34}}, color={0,0,127}));
   connect(PerUnitConversion.y,iEEEtype1AVR. Vterm) annotation (Line(points={{-69,34},
-          {-74,34},{-74,-14},{-63.2,-14}},           color={0,0,127}));
+          {-76,34},{-76,-13.92},{-68.28,-13.92}},    color={0,0,127}));
   connect(w_ref,speed. w_ref)
-    annotation (Line(points={{110,-14},{92,-14}}, color={0,0,127}));
+    annotation (Line(points={{110,40},{102,40},{102,-14},{92,-14}},
+                                                  color={0,0,127}));
   connect(smee.flange, rotorDisplacementAngle.flange)
     annotation (Line(points={{10,-14},{16,-14}}, color={0,0,0}));
   connect(terminalBox.plugSupply, plugSupply)
-    annotation (Line(points={{0,-2},{0,64}}, color={0,0,255}));
-  connect(iEEEtype1AVR.Ifd, signalVoltage.v) annotation (Line(points={{-43.04,
-          -14},{-38,-14},{-38,-14},{-33.2,-14}}, color={0,0,127}));
+    annotation (Line(points={{0,-2},{0,38},{-100,38}},
+                                             color={0,0,255}));
   connect(smee.pin_en, signalVoltage.n) annotation (Line(points={{-10,-20},{-18,
           -20},{-18,-20},{-26,-20}}, color={0,0,255}));
   connect(smee.pin_ep, signalVoltage.p)
@@ -158,10 +142,44 @@ equation
     annotation (Line(points={{6,-4},{6,-4}}, color={0,0,255}));
   connect(mechanicalPowerSensor.flange_a, rotorDisplacementAngle.flange)
     annotation (Line(points={{44,-14},{30,-14},{30,-14},{16,-14}}, color={0,0,0}));
-  annotation (Diagram(coordinateSystem(extent={{-100,-40},{100,60}})),  Icon(
-        coordinateSystem(extent={{-100,-40},{100,60}}), graphics={Rectangle(
-            extent={{-100,60},{100,-40}}, lineColor={28,108,200}), Text(
-          extent={{-68,48},{74,-26}},
-          lineColor={28,108,200},
-          textString="AC Synchronous Generator")}));
+  connect(signalVoltage.v, PerUnitConversion1.y)
+    annotation (Line(points={{-33.2,-14},{-39.6,-14}}, color={0,0,127}));
+  connect(PerUnitConversion1.u, iEEEtype1AVR.Ifd)
+    annotation (Line(points={{-48.8,-14},{-50,-14},{-50,-13.88},{-53.1133,
+          -13.88}},                                       color={0,0,127}));
+  annotation (Diagram(coordinateSystem(extent={{-100,-80},{100,120}})), Icon(
+        coordinateSystem(extent={{-100,-80},{100,120}}), graphics={
+        Rectangle(
+          extent={{-52,102},{68,-18}},
+          fillPattern=FillPattern.HorizontalCylinder,
+          fillColor={0,128,255}),
+        Rectangle(
+          extent={{-52,102},{-72,-18}},
+          fillPattern=FillPattern.HorizontalCylinder,
+          fillColor={128,128,128}),
+        Rectangle(
+          extent={{-52,112},{28,92}},
+          lineColor={95,95,95},
+          fillColor={95,95,95},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{-62,-48},{-52,-48},{-22,22},{28,22},{58,-48},{68,-48},
+              {68,-58},{-62,-58},{-62,-48}},
+          fillPattern=FillPattern.Solid),
+        Text(
+          extent={{-162,-78},{138,-118}},
+          lineColor={0,0,255},
+          textString="%name"),
+        Text(
+          extent={{-102,158},{100,122}},
+          lineColor={0,0,0},
+          lineThickness=1,
+          textString="%name
+",        fontSize=16)}),
+    experiment(
+      StopTime=50,
+      Interval=0.0001,
+      Tolerance=1e-08,
+      __Dymola_fixedstepsize=1e-07,
+      __Dymola_Algorithm="Dassl"));
 end Boeing747_SG;

@@ -41,8 +41,8 @@ model SG_to_secondary_distribution
         rotation=0,
         origin={44,30})));
 
-  Aircraft.Electrical.Machines.Boeing747_SG SGandAVR annotation (Placement(
-        transformation(rotation=0, extent={{8,76},{-24,60}})));
+  Aircraft.Electrical.Machines.Examples.Boeing747.Boeing747_SG SGandAVR
+    annotation (Placement(transformation(rotation=0, extent={{8,76},{-24,60}})));
   Aircraft.Mechanical.Pumps.Boeing747_Pump_Load Pumped_Load
     "Pumped load for 12kVA induction motor of an AC hydraulic pump" annotation (
      Placement(transformation(
@@ -72,7 +72,7 @@ model SG_to_secondary_distribution
         origin={100,-14})));
 equation
   connect(SGandAVR.plugSupply, AC_Hydraulic_Pump.plug_sp)
-    annotation (Line(points={{-8,59.36},{-8,40},{38,40}},
+    annotation (Line(points={{8,66.56},{8,40},{38,40}},
                                              color={0,0,255}));
   connect(star.pin_n, ground1.p)
     annotation (Line(points={{74,20},{74,12}},   color={0,0,255}));
@@ -80,8 +80,8 @@ equation
     annotation (Line(points={{50,40},{74,40}},        color={0,0,255}));
   connect(Pumped_Load.flange, AC_Hydraulic_Pump.flange)
     annotation (Line(points={{33,8},{26,8},{26,30},{34,30}}, color={0,0,0}));
-  connect(SGandAVR.w_ref, RPMtoRPS.y) annotation (Line(points={{-25.6,71.84},{
-          -34,71.84},{-34,72},{-37,72}}, color={0,0,127}));
+  connect(SGandAVR.w_ref, RPMtoRPS.y) annotation (Line(points={{-25.6,66.4},{
+          -34,66.4},{-34,72},{-37,72}},  color={0,0,127}));
   connect(RPMtoRPS.u, timeTable.y)
     annotation (Line(points={{-60,72},{-69,72}}, color={0,0,127}));
   connect(Lamp.plug_p, AC_Hydraulic_Pump.plug_sp) annotation (Line(points={{28,

@@ -1,4 +1,4 @@
-within CHEETA.Aircraft.Electrical.PowerElectronics.Converters;
+within CHEETA.Aircraft.Electrical.PowerElectronics.Converters.DCAC;
 model DCAC_HalfBridgeAverage
   Modelica.Blocks.Interfaces.BooleanInput Q1gate
     annotation (Placement(transformation(extent={{-11,-11},{11,11}},
@@ -40,8 +40,6 @@ model DCAC_HalfBridgeAverage
         origin={-50,90})));
   Modelica.Electrical.Analog.Sources.SignalVoltage signalVoltage
     annotation (Placement(transformation(extent={{74,-10},{54,10}})));
-  HalfBridgeConverter.Records.Plant plant
-    annotation (Placement(transformation(extent={{56,60},{76,80}})));
   Modelica.Blocks.Math.Product product2
     annotation (Placement(transformation(extent={{4,-4},{-4,4}},
         rotation=90,
@@ -68,6 +66,8 @@ model DCAC_HalfBridgeAverage
         iconTransformation(extent={{-100,-70},{-80,-50}})));
   Modelica.Electrical.Analog.Basic.Ground ground1
     annotation (Placement(transformation(extent={{0,-24},{20,-4}})));
+  Records.NotionalPowerSystem.Plant plant
+    annotation (Placement(transformation(extent={{54,54},{74,74}})));
 equation
   connect(switch1.pin_n, signalVoltage.n)
     annotation (Line(points={{-48,13},{-48,0},{54,0}},   color={0,0,255}));

@@ -1,0 +1,128 @@
+within CHEETA.Examples.Boeing747ElectricalSystem;
+model DCMotorTest
+  Modelica.Electrical.Machines.BasicMachines.DCMachines.DC_ElectricalExcited
+    DC_Motor(
+    VaNominal=24,
+    IaNominal=300/24,
+    wNominal=20.943951023932,
+    TaNominal=298.15,
+    Ra=DataDCMotor.Ra,
+    alpha20a(displayUnit="1/K") = Modelica.Electrical.Machines.Thermal.Constants.alpha20Zero,
+    La=DataDCMotor.La,
+    Jr=DataDCMotor.J,
+    phiMechanical(start=0, fixed=false),
+    wMechanical(start=0, fixed=false),
+    ia(start=0, fixed=false),
+    Re=DataDCMotor.Rf,
+    alpha20e(displayUnit="1/K") = Modelica.Electrical.Machines.Thermal.Constants.alpha20Zero,
+    Le=DataDCMotor.Lf,
+    sigmae=DataDCMotor.Laf/DataDCMotor.Lf,
+    ie(start=0, fixed=false)) annotation (Placement(transformation(
+        extent={{-13,-13},{13,13}},
+        rotation=0,
+        origin={373,-27})));
+
+  Modelica.Mechanics.Rotational.Sources.LinearSpeedDependentTorque
+    FuelPumpLoad(
+    useSupport=false,
+    tau_nominal=-1.5/200,
+    w_nominal=1) annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={372,28})));
+  Modelica.Electrical.Analog.Basic.Inductor inductor(L=2e-3) annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={240,-4})));
+  Modelica.Electrical.Analog.Basic.Inductor inductor1(L=2e-3) annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={240,-24})));
+  Modelica.Electrical.Analog.Basic.Capacitor capacitor(C=1e-6) annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={276,-14})));
+  Modelica.Electrical.Analog.Basic.Ground ground annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={296,-14})));
+  Modelica.Electrical.MultiPhase.Sources.SineVoltage sineVoltage(V={240,240,
+        240},
+      freqHz={120,120,120}) annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={80,4})));
+  Modelica.Electrical.MultiPhase.Basic.Star star annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={80,-22})));
+  Modelica.Electrical.Analog.Basic.Ground ground1
+    annotation (Placement(transformation(extent={{70,-60},{90,-40}})));
+  AircraftPowerSystem.Records.DCMotor.FuelPump DataDCMotor
+    annotation (Placement(transformation(extent={{90,24},{110,44}})));
+  Aircraft.Electrical.Transformers.Ydd ydd
+    annotation (Placement(transformation(extent={{108,-10},{134,10}})));
+  Modelica.Electrical.Analog.Basic.Capacitor capacitor1(C=1e-6)
+                                                               annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={216,6})));
+  Aircraft.Electrical.PowerElectronics.Converters.ACDC.ThreePhaseRectifier
+    threePhaseRectifier
+    annotation (Placement(transformation(extent={{160,12},{176,28}})));
+  Aircraft.Electrical.PowerElectronics.Converters.ACDC.ThreePhaseRectifier
+    threePhaseRectifier1
+    annotation (Placement(transformation(extent={{160,-12},{176,-28}})));
+equation
+  connect(capacitor.p,inductor. n)
+    annotation (Line(points={{266,-14},{240,-14}}, color={0,0,255}));
+  connect(inductor1.p,inductor. n)
+    annotation (Line(points={{240,-14},{240,-14}}, color={0,0,255}));
+  connect(capacitor.p,inductor1. p)
+    annotation (Line(points={{266,-14},{240,-14}}, color={0,0,255}));
+  connect(capacitor.n,ground. p)
+    annotation (Line(points={{286,-14},{286,-14}}, color={0,0,255}));
+  connect(FuelPumpLoad.flange,DC_Motor. flange)
+    annotation (Line(points={{382,28},{386,28},{386,-27}},color={0,0,0}));
+  connect(star.plug_p, sineVoltage.plug_n)
+    annotation (Line(points={{80,-12},{80,-6}},  color={0,0,255}));
+  connect(star.pin_n, ground1.p)
+    annotation (Line(points={{80,-32},{80,-40}}, color={0,0,255}));
+  connect(DC_Motor.pin_ep, inductor.n) annotation (Line(points={{360,-19.2},{
+          254,-19.2},{254,-14},{240,-14}}, color={0,0,255}));
+  connect(ydd.Primary, sineVoltage.plug_p) annotation (Line(points={{107.8,0},{
+          94,0},{94,14},{80,14}},         color={0,0,255}));
+  connect(capacitor1.p, inductor.p) annotation (Line(points={{216,16},{216,
+          21},{240,21},{240,6}}, color={0,0,255}));
+  connect(ydd.Secondary1, threePhaseRectifier.plug_p1) annotation (Line(points=
+          {{134.4,6},{146,6},{146,20},{160,20}}, color={0,0,255}));
+  connect(threePhaseRectifier1.plug_p1, ydd.Secondary2) annotation (Line(points
+        ={{160,-20},{146,-20},{146,-6},{134.4,-6}}, color={0,0,255}));
+  connect(threePhaseRectifier.load_n, capacitor1.n)
+    annotation (Line(points={{168,11.6},{168,-4},{216,-4}}, color={0,0,255}));
+  connect(threePhaseRectifier1.load_n, capacitor1.n)
+    annotation (Line(points={{168,-11.6},{168,-4},{216,-4}}, color={0,0,255}));
+  connect(threePhaseRectifier.load_p, inductor.p) annotation (Line(points={{168,
+          28.4},{168,40},{216,40},{216,21},{240,21},{240,6}}, color={0,0,255}));
+  connect(threePhaseRectifier1.load_p, inductor1.n) annotation (Line(points={{
+          168,-28.4},{168,-40},{240,-40},{240,-34}}, color={0,0,255}));
+  connect(DC_Motor.pin_en, inductor1.n) annotation (Line(points={{360,-34.8},{
+          360,-40},{240,-40},{240,-34}}, color={0,0,255}));
+  connect(DC_Motor.pin_ap, inductor.n) annotation (Line(points={{380.8,-14},{
+          380.8,-8},{348,-8},{348,-19.2},{254,-19.2},{254,-14},{240,-14}},
+        color={0,0,255}));
+  connect(DC_Motor.pin_an, inductor1.n) annotation (Line(points={{365.2,-14},{
+          354,-14},{354,-40},{240,-40},{240,-34}}, color={0,0,255}));
+  annotation (Diagram(coordinateSystem(extent={{60,-60},{420,60}})),   Icon(
+        coordinateSystem(extent={{60,-60},{420,60}})),
+    experiment(
+      StopTime=10,
+      __Dymola_NumberOfIntervals=1000,
+      Tolerance=1e-08));
+end DCMotorTest;

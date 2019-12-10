@@ -1,4 +1,4 @@
-within CHEETA.Aircraft.Electrical.Controls;
+within CHEETA.Aircraft.Electrical.Controls.AVR;
 model IEEEtype1AVR
   parameter Real T_R "Rate Filter Time Constant";
   parameter Real T_C, T_B "TGR Time Constants";
