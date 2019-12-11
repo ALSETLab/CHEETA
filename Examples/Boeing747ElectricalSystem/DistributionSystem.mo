@@ -51,7 +51,7 @@ equation
   connect(timeTable.y,RPMtoRPS. u)
     annotation (Line(points={{67,60},{52,60}},     color={0,0,127}));
   connect(generation.w_ref, RPMtoRPS.y)
-    annotation (Line(points={{2,53},{18,53},{18,60},{29,60}},
+    annotation (Line(points={{2.6875,53},{18,53},{18,60},{29,60}},
                                                  color={0,0,127}));
   connect(IM.AC_in, generation.AC_out) annotation (Line(points={{-72,41.1111},{
           -42,41.1111},{-42,53.14},{-20.1375,53.14}},    color={0,0,255}));

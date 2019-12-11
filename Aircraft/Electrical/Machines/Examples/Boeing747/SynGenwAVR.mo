@@ -1,6 +1,6 @@
 within CHEETA.Aircraft.Electrical.Machines.Examples.Boeing747;
 model SynGenwAVR
-  extends AircraftPowerSystem.Components.Interfaces.Generation;
+  extends CHEETA.Aircraft.Electrical.Interfaces.Generation;
   replaceable Controls.AVR.AVR_TypeI                                       AVR(
     T_R=Data_AVR.T_R,
     T_C=Data_AVR.T_C,
@@ -146,7 +146,7 @@ equation
   connect(signalVoltage.n,smee. pin_en) annotation (Line(points={{-84,-24},{-62,
           -24},{-62,-16}},           color={0,0,255}));
   connect(speed.w_ref, w_ref) annotation (Line(points={{74,-1.9984e-15},{72,
-          -1.9984e-15},{72,0},{100,0}},
+          -1.9984e-15},{72,0},{110,0}},
                            color={0,0,127}));
   connect(PerUnitConversion.u, rms.y)
     annotation (Line(points={{-108,40},{-94,40},{-94,46},{-79,46}},

@@ -9,7 +9,7 @@ model DC_Load "DC load interface"
   parameter Real Lm = 12.631 "Magnetization Inductance";
   parameter Real N = 200/(22*sqrt(3)) "Transformer Turn Ratio";
   parameter Real C = 1e-6 "AC Side Shunt Capacitor";
-  extends AircraftPowerSystem.Components.Interfaces.Loads;
+  extends CHEETA.Aircraft.Electrical.Interfaces.Loads;
   AircraftPowerSystem.Components.Transformers.Yd yd
     annotation (Placement(transformation(extent={{-72,-10},{-46,10}})));
   PowerElectronics.Converters.ACDC.Simulink_Averaged_Rectifier simulink_Averaged_Rectifier(P_fixed=

@@ -1,6 +1,6 @@
 within CHEETA.Aircraft.Electrical.Controls.AVR;
 model AVR_TypeI
-  extends AircraftPowerSystem.Components.Interfaces.Controller;
+  extends CHEETA.Aircraft.Electrical.Interfaces.Controller;
     parameter Real T_R "Rate Filter Time Constant";
     parameter Real T_C, T_B "TGR Time Constants";
     parameter Real K_A "Regulator Gain";
