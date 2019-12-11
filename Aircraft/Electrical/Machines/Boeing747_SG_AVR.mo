@@ -1,29 +1,5 @@
 within CHEETA.Aircraft.Electrical.Machines;
 model Boeing747_SG_AVR
-  parameter Records.Boeing747electricalModel.SM100kVA Data(
-    SNominal=100000,
-    VsNominal=115,
-    fsNominal=400,
-    IeOpenCircuit=10,
-    x0=0.15,
-    xd=2,
-    xq=1.9,
-    xdTransient=0.245,
-    xdSubtransient=0.2,
-    xqSubtransient=0.2,
-    Ta=0.001,
-    Td0Transient=5,
-    Td0Subtransient=0.031,
-    Tq0Subtransient=0.061,
-    TsSpecification=333.15,
-    TsRef=298.15,
-    alpha20s=0,
-    TrSpecification=331.15,
-    TrRef=298.15,
-    alpha20r=0,
-    TeSpecification=333.15,
-    TeRef=298.15,
-    alpha20e=0) annotation (Placement(transformation(extent={{70,38},{90,58}})));
   Modelica.Electrical.Machines.BasicMachines.SynchronousInductionMachines.SM_ElectricalExcited
     smee(
     fsNominal=Data.fsNominal,
@@ -89,7 +65,8 @@ model Boeing747_SG_AVR
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={-24,36})));
-  Controls.IEEEtype1AVR iEEEtype1AVR(
+  Controls.AVR.IEEEtype1AVR
+                        iEEEtype1AVR(
     T_R=2e-3,
     T_C=0.001,
     T_B=0.001,
@@ -122,6 +99,8 @@ model Boeing747_SG_AVR
   Modelica.Electrical.MultiPhase.Interfaces.PositivePlug plugSupply1
           "To grid" annotation (Placement(transformation(extent={{-10,54},{10,
             74}}), iconTransformation(extent={{-10,54},{10,74}})));
+  parameter Records.Boeing747electricalModel.SynchronousMachine.SM100kVA Data
+    annotation (Placement(transformation(extent={{52,22},{72,44}})));
 equation
   connect(rotorDisplacementAngle.plug_n,smee. plug_sn) annotation (Line(
         points={{30,-4},{30,8},{-12,8},{-12,-4}},       color={0,0,255}));
@@ -149,13 +128,14 @@ equation
   connect(PerUnitConversion.u, rms.y)
     annotation (Line(points={{-44,36},{-35,36}}, color={0,0,127}));
   connect(PerUnitConversion.y, iEEEtype1AVR.Vterm) annotation (Line(points={{-67,36},
-          {-78,36},{-78,-14},{-71.6,-14}},           color={0,0,127}));
+          {-78,36},{-78,-13.92},{-70.48,-13.92}},    color={0,0,127}));
   connect(signalVoltage.p, smee.pin_ep) annotation (Line(points={{-26,-8},{-16,
           -8}},               color={0,0,255}));
   connect(signalVoltage.n, smee.pin_en) annotation (Line(points={{-26,-20},{-16,
           -20}},                     color={0,0,255}));
   connect(signalVoltage.v, iEEEtype1AVR.Ifd) annotation (Line(points={{-33.2,
-          -14},{-44.72,-14}},                   color={0,0,127}));
+          -14},{-38,-14},{-38,-13.88},{-44.48,-13.88}},
+                                                color={0,0,127}));
   connect(groundExcitation.p, smee.pin_en)
     annotation (Line(points={{-21,-26},{-21,-20},{-16,-20}}, color={0,0,255}));
   connect(speed.w_ref, w_ref1) annotation (Line(points={{92,-14},{100,-14},{100,

@@ -2,11 +2,11 @@ within CHEETA.Aircraft.Electrical.Machines;
 model Boeing747_BLDC_Motor_pump "Boeing 747 BLDC motor pump"
   Modelica.Electrical.MultiPhase.Interfaces.PositivePlug Bus
     annotation (Placement(transformation(extent={{-114,-10},{-94,10}})));
-  PowerElectronics.Converters.Snubber_Rectifier aCDC(
+  PowerElectronics.Converters.ACDC.Snubber_Rectifier aCDC(
     Rcond=1e-3,
     Vt=0.8,
     R1=1e3) annotation (Placement(transformation(extent={{-60,-40},{-38,-20}})));
-  PowerElectronics.Converters.Snubber_Rectifier aCDC1(
+  PowerElectronics.Converters.ACDC.Snubber_Rectifier aCDC1(
     Rcond=1e-3,
     Vt=0.8,
     R1=1e3) annotation (Placement(transformation(extent={{-60,20},{-38,40}})));
@@ -70,6 +70,8 @@ model Boeing747_BLDC_Motor_pump "Boeing 747 BLDC motor pump"
   parameter Real sigmae "Stray fraction of total excitation inductance";
   Mechanical.Pumps.Boeing747_Pump_Load boeing747_Pump_Load(k=1.5/200)
     annotation (Placement(transformation(extent={{122,-24},{102,-16}})));
+  parameter Records.Boeing747electricalModel.SynchronousMachine.SM100kVA Data
+    annotation (Placement(transformation(extent={{40,22},{60,42}})));
 equation
   connect(aCDC.positivePlug, Bus) annotation (Line(points={{-61.5714,-30},{-92,
           -30},{-92,0},{-104,0}}, color={0,0,255}));

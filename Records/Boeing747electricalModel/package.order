@@ -1,1 +1,6 @@
-SM100kVA
+SynchronousMachine
+DCMotor
+PMSM
+Controllers
+Base
+InductionMachine

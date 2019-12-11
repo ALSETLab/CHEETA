@@ -1,32 +1,6 @@
 within CHEETA.Aircraft.Electrical.Machines;
 model Boeing747_SG_disturbance_input
   "Synchronous generator used in Boeing 747 electrical system"
-  parameter Records.Boeing747electricalModel.SM100kVA
-                                                Data(
-    SNominal=100000,
-    VsNominal=115,
-    fsNominal=400,
-    IeOpenCircuit=10,
-    x0=0.15,
-    xd=2,
-    xq=1.9,
-    xdTransient=0.245,
-    xdSubtransient=0.2,
-    xqSubtransient=0.2,
-    Ta=0.001,
-    Td0Transient=5,
-    Td0Subtransient=0.031,
-    Tq0Subtransient=0.061,
-    TsSpecification=333.15,
-    TsRef=298.15,
-    alpha20s=0,
-    TrSpecification=331.15,
-    TrRef=298.15,
-    alpha20r=0,
-    TeSpecification=333.15,
-    TeRef=298.15,
-    alpha20e=0)
-    annotation (Placement(transformation(extent={{60,22},{80,42}})));
   Modelica.Electrical.Machines.BasicMachines.SynchronousInductionMachines.SM_ElectricalExcited
     smee(
     fsNominal=Data.fsNominal,
@@ -92,7 +66,8 @@ model Boeing747_SG_disturbance_input
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={-24,34})));
-  Controls.IEEEtype1AVR iEEEtype1AVR(
+  Controls.AVR.IEEEtype1AVR
+                        iEEEtype1AVR(
     T_R=2e-3,
     T_C=0.001,
     T_B=0.001,
@@ -130,6 +105,8 @@ model Boeing747_SG_disturbance_input
     annotation (Placement(transformation(extent={{-124,28},{-100,52}})));
   Modelica.Blocks.Interfaces.RealOutput y
     annotation (Placement(transformation(extent={{100,0},{120,20}})));
+  parameter Records.Boeing747electricalModel.SynchronousMachine.SM100kVA Data
+    annotation (Placement(transformation(extent={{60,28},{80,50}})));
 equation
   connect(rotorDisplacementAngle.plug_n,smee. plug_sn) annotation (Line(
         points={{32,-4},{32,4},{-6,4},{-6,-4}},         color={0,0,255}));
@@ -161,7 +138,7 @@ equation
   connect(signalVoltage.n,smee. pin_en) annotation (Line(points={{-26,-20},{-10,
           -20}},                     color={0,0,255}));
   connect(signalVoltage.v,iEEEtype1AVR. Ifd) annotation (Line(points={{-33.2,
-          -14},{-33.2,-14},{-43.04,-14}},       color={0,0,127}));
+          -14},{-33.2,-13.88},{-42.86,-13.88}}, color={0,0,127}));
   connect(groundExcitation.p,signalVoltage. n) annotation (Line(points={{-26,-26},
           {-26,-20}},                     color={0,0,255}));
   connect(w_ref,speed. w_ref)
@@ -170,7 +147,8 @@ equation
   connect(plugSupply,terminalBox. plugSupply) annotation (Line(points={{0,64},{
           0,-2}},                  color={0,0,255}));
   connect(add.y, iEEEtype1AVR.Vterm) annotation (Line(points={{-81,-0.7},{-81,
-          -14},{-63.2,-14}}, color={0,0,127}));
+          -13.92},{-62.36,-13.92}},
+                             color={0,0,127}));
   connect(PerUnitConversion.y, add.u1) annotation (Line(points={{-69,34},{-76.8,
           34},{-76.8,15.4}}, color={0,0,127}));
   connect(Vd, add.u2) annotation (Line(points={{-112,40},{-92,40},{-92,20},{

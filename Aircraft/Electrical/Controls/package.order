@@ -1,4 +1,3 @@
-IEEEtype1AVR
-SpeedController
-VectorController
+AVR
 ModulatedSignalController
+SpeedController
