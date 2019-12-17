@@ -11,17 +11,15 @@ model SingleBranch_SimpleMachine
   Modelica.Electrical.Analog.Basic.Inductor inductor(L=1e-6)
     annotation (Placement(transformation(extent={{-24,-4},{-4,16}})));
   Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm(
-      constantDutyCycle=0.5, f=10)
+      constantDutyCycle=0.5, f(displayUnit="kHz") = 100000)
     annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
   Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm1(
-      constantDutyCycle=0.5, f=10)
+      constantDutyCycle=0.5, f(displayUnit="kHz") = 100000)
     annotation (Placement(transformation(extent={{26,-42},{46,-22}})));
   Modelica.Electrical.Analog.Basic.Inductor inductor1(L=1e-6)
     annotation (Placement(transformation(extent={{-24,-16},{-4,4}})));
-  Aircraft.Electrical.Machines.SimpleMotor simpleMotor(X_s=1e-9, k=0.25)
-    annotation (Placement(transformation(extent={{58,-10},{78,10}})));
-  Aircraft.Mechanical.Loads.Fan fan(J=0.5)
-    annotation (Placement(transformation(extent={{88,-4},{96,4}})));
+  Aircraft.Electrical.Machines.SimpleMotor simpleMotor
+    annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=100, L=
         0.001) annotation (Placement(transformation(extent={{-86,-6},{-74,6}})));
 equation
@@ -36,13 +34,11 @@ equation
   connect(inductor1.n, inverter.dc_n)
     annotation (Line(points={{-4,-6},{26,-6}}, color={0,0,255}));
   connect(inverter.ac, simpleMotor.p1)
-    annotation (Line(points={{46,0},{57.6,0}}, color={0,0,255}));
+    annotation (Line(points={{46,0},{59.6,0}}, color={0,0,255}));
   connect(pwm1.fire, inverter.fire_p)
-    annotation (Line(points={{30,-21},{30,-21},{30,-12}}, color={255,0,255}));
+    annotation (Line(points={{30,-21},{30,-12}},          color={255,0,255}));
   connect(pwm1.notFire, inverter.fire_n)
     annotation (Line(points={{42,-21},{42,-12}}, color={255,0,255}));
-  connect(simpleMotor.flange1, fan.flange_a1)
-    annotation (Line(points={{78.4,0},{87,0}}, color={0,0,0}));
   connect(simplifiedFuelCell.pin_p, dcdc.dc_p1) annotation (Line(points={{-73,4},
           {-66,4},{-66,6},{-60,6}}, color={0,0,255}));
   connect(simplifiedFuelCell.pin_p1, dcdc.dc_n1) annotation (Line(points={{-73,
@@ -54,5 +50,5 @@ equation
 <p>The architecture of the CHEETA electrical system is shown below:</p>
 <p><br><img src=\"modelica://CHEETA/Images/Electrical/CHEETASystem.PNG\"/></p>
 </html>"),
-    experiment(StopTime=2000));
+    experiment(StopTime=0.5));
 end SingleBranch_SimpleMachine;
