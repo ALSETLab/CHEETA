@@ -44,7 +44,7 @@ model SingleBranch_AveragedHalfBridge
     startTime=0.07)
     annotation (Placement(transformation(extent={{-56,-38},{-40,-22}})));
   Records.NotionalPowerSystem.Plant plant(Vd=1000)
-    annotation (Placement(transformation(extent={{80,42},{100,62}})));
+    annotation (Placement(transformation(extent={{82,42},{102,62}})));
   Aircraft.Electrical.PowerElectronics.Converters.DCAC.DCAC_HalfBridgeAverage
     dCAC_HalfBridgeAverage
     annotation (Placement(transformation(extent={{26,-10},{46,10}})));
@@ -68,8 +68,6 @@ equation
     annotation (Line(points={{-27,-30},{-39.2,-30}}, color={0,0,127}));
   connect(dcdc.dc_p1, simplifiedFuelCell.pin_p) annotation (Line(points={{-92,6},
           {-104,6},{-104,4},{-115,4}}, color={0,0,255}));
-  connect(simplifiedFuelCell.n1, dcdc.dc_n1) annotation (Line(points={{-115,-4},
-          {-103.5,-4},{-103.5,-6},{-92,-6}}, color={0,0,255}));
   connect(modulatedSignalController.FeedbackSignal, currentSensor.i)
     annotation (Line(points={{-27,-38},{-34,-38},{-34,-78},{74,-78},{74,26},{64,
           26},{64,6.6}}, color={0,0,127}));
@@ -89,6 +87,8 @@ equation
         color={0,0,127}));
   connect(dCAC_HalfBridgeAverage.current, currentSensor.i) annotation (Line(
         points={{29.75,11.25},{29.75,32},{64,32},{64,6.6}}, color={0,0,127}));
+  connect(simplifiedFuelCell.pin_p1, dcdc.dc_n1) annotation (Line(points={{-115,
+          -4},{-104,-4},{-104,-6},{-92,-6}}, color={0,0,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{140,
             100}})),
@@ -98,5 +98,5 @@ equation
 <p>The architecture of the CHEETA electrical system is shown below:</p>
 <p><br><img src=\"modelica://CHEETA/Images/Electrical/CHEETASystem.PNG\"/></p>
 </html>"),
-    experiment(StopTime=20));
+    experiment(StopTime=100));
 end SingleBranch_AveragedHalfBridge;

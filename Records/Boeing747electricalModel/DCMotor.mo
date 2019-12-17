@@ -2,7 +2,7 @@ within CHEETA.Records.Boeing747electricalModel;
 package DCMotor
   package FuelPumps
     record FuelPump_1
-      extends AircraftPowerSystem.Records.Base.DC_Motor_Data(
+      extends CHEETA.Records.Boeing747electricalModel.Base.DC_Motor_Data(
         Ra=0.35,
         La=0.0001,
         Rf=240,
@@ -12,7 +12,7 @@ package DCMotor
     end FuelPump_1;
 
     record FuelPump_2
-      extends AircraftPowerSystem.Records.Base.DC_Motor_Data(
+      extends CHEETA.Records.Boeing747electricalModel.Base.DC_Motor_Data(
         Ra=0.35,
         La=0.0001,
         Rf=240,

@@ -14,7 +14,8 @@ package AVR
     parameter Real Vmin "Regulator Minimum Output";
     parameter Real Vref "Terminal Reference Voltage (pu)";
     Modelica.Blocks.Interfaces.RealInput Vterm
-      annotation (Placement(transformation(extent={{-226,-18},{-186,22}})));
+      annotation (Placement(transformation(extent={{-240,-20},{-200,20}}),
+        iconTransformation(extent={{-240,-20},{-200,20}})));
     Modelica.Blocks.Continuous.FirstOrder LPF(k=1, T=T_R,
       initType=Modelica.Blocks.Types.Init.SteadyState,
       y_start=0)                                          "Low Pass Filter"
@@ -41,7 +42,8 @@ package AVR
           rotation=0,
           origin={-162,50})));
     Modelica.Blocks.Interfaces.RealOutput Ifd
-      annotation (Placement(transformation(extent={{100,-16},{138,22}})));
+      annotation (Placement(transformation(extent={{100,-20},{138,18}}),
+        iconTransformation(extent={{100,-20},{138,18}})));
     Modelica.Blocks.Math.Gain gain(k=K_E) annotation (Placement(
           transformation(
           extent={{-10,-10},{10,10}},
@@ -58,7 +60,8 @@ package AVR
       annotation (Placement(transformation(extent={{74,-16},{94,4}})));
   equation
     connect(LPF.u, Vterm)
-      annotation (Line(points={{-174,2},{-206,2}}, color={0,0,127}));
+      annotation (Line(points={{-174,2},{-198,2},{-198,0},{-220,0}},
+                                                   color={0,0,127}));
     connect(Regulator.u, LeadLag.y)
       annotation (Line(points={{-70,2},{-81,2}}, color={0,0,127}));
     connect(limiter.u, Regulator.y)
@@ -87,8 +90,8 @@ package AVR
             {10,-28},{95,-28},{95,-6}}, color={0,0,127}));
     connect(TGR.u, integrator.y) annotation (Line(points={{-52,-68},{96,-68},
             {96,-44},{95,-44},{95,-6}}, color={0,0,127}));
-    connect(integrator.y, Ifd) annotation (Line(points={{95,-6},{98,-6},{98,3},
-            {119,3}}, color={0,0,127}));
+    connect(integrator.y, Ifd) annotation (Line(points={{95,-6},{98,-6},{98,-1},
+          {119,-1}},  color={0,0,127}));
       annotation (Placement(transformation(extent={{66,-20},{106,20}})),
                 Icon(coordinateSystem(preserveAspectRatio=false, extent={{-200,-100},
               {100,100}})), Diagram(coordinateSystem(preserveAspectRatio=false,

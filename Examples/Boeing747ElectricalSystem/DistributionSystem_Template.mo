@@ -12,16 +12,20 @@ model DistributionSystem_Template "Template for Boeing 747 electrical system"
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={62,68})));
-  replaceable AircraftPowerSystem.Components.Interfaces.Generation generation
+  replaceable Aircraft.Electrical.Interfaces.Generation            generation
+    constrainedby AircraftPowerSystem.Components.Interfaces.Generation
     annotation (Placement(transformation(
         extent={{-16,-10},{16,10}},
         rotation=0,
         origin={12,68})));
-  replaceable AircraftPowerSystem.Components.Interfaces.Loads DC_Load_1
+  replaceable Aircraft.Electrical.Interfaces.Loads            DC_Load_1
+    constrainedby AircraftPowerSystem.Components.Interfaces.Loads
     annotation (Placement(transformation(extent={{0,20},{20,40}})));
-  replaceable AircraftPowerSystem.Components.Interfaces.Loads DC_Load_2
+  replaceable Aircraft.Electrical.Interfaces.Loads            DC_Load_2
+    constrainedby AircraftPowerSystem.Components.Interfaces.Loads
     annotation (Placement(transformation(extent={{0,-20},{20,0}})));
-  replaceable AircraftPowerSystem.Components.Interfaces.Loads AC_Load
+  replaceable Aircraft.Electrical.Interfaces.Loads            AC_Load
+    constrainedby AircraftPowerSystem.Components.Interfaces.Loads
     annotation (Placement(transformation(
         extent={{-9,-8},{9,8}},
         rotation=180,
@@ -30,7 +34,7 @@ equation
   connect(timeTable.y,RPMtoRPS. u)
     annotation (Line(points={{83,68},{74,68}},     color={0,0,127}));
   connect(generation.w_ref, RPMtoRPS.y)
-    annotation (Line(points={{28,68},{51,68}},   color={0,0,127}));
+    annotation (Line(points={{29,68},{51,68}},   color={0,0,127}));
   connect(AC_Load.AC_in, generation.AC_out) annotation (Line(points={{-64,68},{
           -46,68},{-46,68.2},{-4.2,68.2}},     color={0,0,255}));
   connect(DC_Load_1.AC_in, generation.AC_out) annotation (Line(points={{0,30},{

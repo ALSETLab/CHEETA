@@ -1,6 +1,6 @@
 within CHEETA.Aircraft.Electrical.Loads.Boeing747;
 model Induction_Motor
-  extends AircraftPowerSystem.Components.Interfaces.Loads;
+  extends CHEETA.Aircraft.Electrical.Interfaces.Loads;
   parameter Real R_l "Aux AC Load Resistance";
   parameter Real L_l "Aux AC Load Inductance";
   Modelica.Electrical.Machines.BasicMachines.AsynchronousInductionMachines.AIM_SquirrelCage

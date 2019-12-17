@@ -70,7 +70,6 @@ equation
           preserveAspectRatio=false, extent={{-100,-80},{100,80}})),
     experiment(
       StopTime=10,
-      Interval=0.0001,
-      Tolerance=1e-08,
-      __Dymola_Algorithm="Dassl"));
+      Interval=0.001,
+      Tolerance=0.001));
 end DistributionSystem;
