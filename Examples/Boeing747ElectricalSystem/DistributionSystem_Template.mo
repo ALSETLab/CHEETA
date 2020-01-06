@@ -13,23 +13,27 @@ model DistributionSystem_Template "Template for Boeing 747 electrical system"
         rotation=180,
         origin={62,68})));
   replaceable Aircraft.Electrical.Interfaces.Generation            generation
-    constrainedby AircraftPowerSystem.Components.Interfaces.Generation
+    constrainedby CHEETA.Aircraft.Electrical.Interfaces.Generation
     annotation (Placement(transformation(
         extent={{-16,-10},{16,10}},
         rotation=0,
         origin={12,68})));
+
   replaceable Aircraft.Electrical.Interfaces.Loads            DC_Load_1
-    constrainedby AircraftPowerSystem.Components.Interfaces.Loads
+    constrainedby CHEETA.Aircraft.Electrical.Interfaces.Loads
     annotation (Placement(transformation(extent={{0,20},{20,40}})));
+
   replaceable Aircraft.Electrical.Interfaces.Loads            DC_Load_2
-    constrainedby AircraftPowerSystem.Components.Interfaces.Loads
+    constrainedby CHEETA.Aircraft.Electrical.Interfaces.Loads
     annotation (Placement(transformation(extent={{0,-20},{20,0}})));
+
   replaceable Aircraft.Electrical.Interfaces.Loads            AC_Load
-    constrainedby AircraftPowerSystem.Components.Interfaces.Loads
+    constrainedby CHEETA.Aircraft.Electrical.Interfaces.Loads
     annotation (Placement(transformation(
         extent={{-9,-8},{9,8}},
         rotation=180,
         origin={-73,68})));
+
 equation
   connect(timeTable.y,RPMtoRPS. u)
     annotation (Line(points={{83,68},{74,68}},     color={0,0,127}));
