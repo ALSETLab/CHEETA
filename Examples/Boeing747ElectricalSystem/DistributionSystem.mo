@@ -14,7 +14,7 @@ model DistributionSystem
         origin={40,60})));
   replaceable Aircraft.Electrical.Machines.Examples.Boeing747.SynGenwAVR generation(
       useDamperCage=false) constrainedby
-    AircraftPowerSystem.Components.Interfaces.Generation annotation (Placement(
+    CHEETA.Aircraft.Electrical.Interfaces.Generation annotation (Placement(
         transformation(
         extent={{-11,-7},{11,7}},
         rotation=0,
@@ -23,18 +23,17 @@ model DistributionSystem
     N=200/(sqrt(2)*28),
     V_rated=28,
     L=-1.5/200,
-    P_fixed=0.0001) constrainedby
-    AircraftPowerSystem.Components.Interfaces.Loads
+    P_fixed=0.0001) constrainedby CHEETA.Aircraft.Electrical.Interfaces.Loads
     annotation (Placement(transformation(extent={{-18,-2},{2,18}})));
   replaceable Aircraft.Electrical.Loads.Boeing747.PMSM PMSM(
     N=1,
     P_fixed=200,
-    V_rated=1) constrainedby AircraftPowerSystem.Components.Interfaces.Loads
+    V_rated=1) constrainedby CHEETA.Aircraft.Electrical.Interfaces.Loads
     annotation (Placement(transformation(extent={{40,-68},{60,-48}})));
   replaceable Aircraft.Electrical.Loads.Boeing747.Induction_Motor IM(
     R_l=100,
     L_l=0,
-    startTime=10) constrainedby AircraftPowerSystem.Components.Interfaces.Loads
+    startTime=10) constrainedby CHEETA.Aircraft.Electrical.Interfaces.Loads
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,

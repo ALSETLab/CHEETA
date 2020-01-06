@@ -387,10 +387,10 @@ equation
           179.231,48.5}}, color={0,0,255}));
   connect(angleSensor.flange, smpm.flange) annotation (Line(points={{292,-52},{
           254,-52},{254,-82},{272,-82}}, color={0,0,0}));
-  connect(currentSensor.i, speedController.iActual) annotation (Line(points={{
-          247,20},{306.708,20},{306.708,40.9091}}, color={0,0,127}));
-  connect(speedController.phi, angleSensor.phi) annotation (Line(points={{
-          319.208,40.9091},{319.208,-52},{313,-52}}, color={0,0,127}));
+  connect(currentSensor.i, speedController.iActual) annotation (Line(points={{247,20},
+          {306.708,20},{306.708,40.9091}},         color={0,0,127}));
+  connect(speedController.phi, angleSensor.phi) annotation (Line(points={{319.208,
+          40.9091},{319.208,-52},{313,-52}},         color={0,0,127}));
   connect(voltageSensor.v, speedController.Vdc1) annotation (Line(points={{134,
           93},{132,93},{132,104},{352,104},{352,34},{330.875,34},{330.875,
           40.9091}}, color={0,0,127}));
