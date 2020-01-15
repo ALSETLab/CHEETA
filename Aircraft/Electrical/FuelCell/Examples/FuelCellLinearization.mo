@@ -2,8 +2,6 @@ within CHEETA.Aircraft.Electrical.FuelCell.Examples;
 model FuelCellLinearization
   "Linearization of the fuel cell for model reduction"
   import FuelCell;
-  SOFCFullStack sOFCFullStack
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Electrical.Analog.Basic.Ground ground
     annotation (Placement(transformation(extent={{24,-32},{44,-12}})));
 equation

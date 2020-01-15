@@ -1,355 +1,330 @@
 within CHEETA.Aircraft.Electrical.FuelCell.Examples;
-model FuelCellSystem
+model FuelCellSystem "Cooled PEMFC stack test model"
   import FuelCell;
-    extends Modelon.Icons.Experiment;
 
-  replaceable package Medium_fuel =
-      FuelCell.Media.PreDefined.IdealGases.FastReformateLong;
-  replaceable package Medium_air =
-      FuelCell.Media.PreDefined.IdealGases.FastMoistAir;
-  replaceable package Medium_Steam =
-      FuelCell.Media.PreDefined.IdealGases.FastPureSteam;
-  replaceable package Medium_Water =
-      FuelCell.Media.PreDefined.TwoPhase.WaterIF97;
-  FuelCell.Sources.GasFlowBoundary flow_cathode(
-    redeclare package Medium = Medium_air,
-    m_flow=2e-2,
-    T=973.15) annotation (Placement(transformation(
-        extent={{10,10},{-10,-10}},
-        rotation=180,
-        origin={0,-60})));
+  package Medium_an =
+      FuelCell.Media.PreDefined.IdealGases.NASAReformateShort
+    "Medium at anode side";
+  package Medium_cath =
+    FuelCell.Media.PreDefined.IdealGases.NASAMoistAir
+    "Medium at cathode side";
+  package MediumWater = Modelon.Media.PreDefined.TwoPhase.WaterIF97
+    "Water medium";
+
+  parameter Integer[1] cath = Medium_cath.substanceIndexVector({"O2"})
+    "index of required substances on the cathode side"                                                                        annotation(Evaluate=true);
+
+  parameter Modelica.SIunits.MassFraction[Medium_an.nS] X_fuel= {0.04,0,0.41,0.17,0.3785,0.0015}
+    "Inlet fuel composition";
+
+  parameter Modelica.SIunits.MassFraction[Medium_cath.nS] X_air = {0,0,0.05,0.74,0.21}
+    "Inlet air composition";
+
+  parameter Modelica.SIunits.Temperature Tin_fuel = 323.15
+    "Inlet fuel temperature";
+  parameter Modelica.SIunits.Temperature Tin_air = 323.15
+    "Inlet air temperature";
+  parameter Modelica.SIunits.Temperature Tin_water = 330.15
+    "Inlet water temperature";
+
+  parameter Modelica.SIunits.Pressure pstart_an = 1.3e5
+    "Start pressure (anode side)";
+  parameter Modelica.SIunits.Pressure pstart_cath = 1.2e5
+    "Start pressure (cathode side)";
+  parameter Modelica.SIunits.Pressure pin_water = 2.06e5 "Inlet water pressure";
+
+  parameter Modelica.SIunits.MassFlowRate m_fuel= 0.0024 "Inlet fuel flow rate";
+  parameter Modelica.SIunits.MassFlowRate m_air = 0.007 "Inlet air flow rate";
+  parameter Modelica.SIunits.MassFlowRate m_water = 0.4 "Inlet water flow rate";
+  parameter Real cath_stoich = 1.7 "cathode stoichiometry";
+  parameter Real anode_stoich = 1.2 "anode stoichiometry";
+
+  parameter Modelica.SIunits.MassFlowRate m_out = m_air*X_air[cath[1]]*(1-1/cath_stoich)
+    "calculated mass flow rate of oxygen gas at cathode outlet, may be used for control of the inlet cathode flow rate";
+  FuelCell.Sources.GasFlowBoundary flowAnode(
+    redeclare package Medium = Medium_an,
+    m_flow=m_fuel,
+    X=X_fuel,
+    T=Tin_fuel,
+    use_flow_in=true,
+    use_Th_in=true) annotation (Placement(transformation(extent={{-100,20},{-80,
+            40}}, rotation=0)));
+
+  FuelCell.Sources.GasPressureBoundary sinkAnode(
+    X=X_fuel,
+    p=120000,
+    T=353.15,
+    redeclare package Medium = Medium_an) annotation (Placement(transformation(
+          extent={{100,20},{80,40}}, rotation=0)));
+
   Modelica.Electrical.Analog.Basic.Ground ground
-    annotation (Placement(transformation(extent={{78,82},{90,94}},     rotation=
+    annotation (Placement(transformation(extent={{-26,50},{-14,62}},   rotation=
            0)));
   Modelica.Electrical.Analog.Sources.RampCurrent current(
-    startTime=50,
-    offset=10,
-    I=90,
-    duration=200)
+    startTime=0,
+    I=0,
+    duration=1000,
+    offset=150)
     annotation (Placement(transformation(
-        origin={58,106},
-        extent={{-8,-8},{8,8}},
-        rotation=0)));
-  FuelCell.Stacks.SOFC.SOFCStack stack(
-    m_flow_nom_an=1e-3,
-    m_flow_nom_cath=2e-2,
-    p_start_out_anode=anode_volume.pstart,
-    p_start_out_cathode=cathode_volume.pstart,
-    N=4,
-    nbrSubStacks=2,
-    n_cell={10,30,10},
-    redeclare package Medium_an = Medium_fuel,
-    redeclare package Medium_cath = Medium_air,
-    p_start_in_anode=anode_volume.pstart + 1e3,
-    p_start_in_cathode=cathode_volume.pstart + 10e3,
-    m_flow_start_anode=1e-3,
-    m_flow_start_cathode=2e-2,
-    M_stack=15,
-    T_start_in_anode=1073.15,
-    T_start_out_anode=1073.15,
-    T_start_in_cathode=1073.15,
-    T_start_out_cathode=1073.15,
-    wallthickness(displayUnit="mm") = 0.01,
-    subStack(each positiveFlow_cathode=true),
-    feed_Cathode(positiveFlow=true),
-    drain_Cathode(positiveFlow=true))
-    annotation (Placement(transformation(extent={{34,38},{74,79}})));
-  FuelCell.SubComponents.ComponentSummaries.SystemSummary summary(
-    N=stack.summary.N,
-    fuel_nS=Medium_fuel.nS,
-    tAirStkIn=stack.summary.tAirStkIn,
-    tFuelStkIn=stack.summary.tFuelStkIn,
-    tFuelStkOut=stack.summary.tFuelStkOut,
-    tAirStkOut=stack.summary.tAirStkOut,
-    tStkOut=stack.summary.tStkOut,
-    tStkTopWall=stack.summary.tStkTopWall,
-    tStkBottomWall=stack.summary.tStkBottomWall,
-    PStkElec=stack.summary.PStkElec,
-    QStkHeat=stack.summary.QStkHeat,
-    dmAirStkIn=stack.summary.dmAirStkIn,
-    dmFuelStkIn=stack.summary.dmFuelStkIn,
-    VCstZone=stack.summary.VCstZone,
-    PStk=stack.summary.PStk,
-    facFuelStkUtil=stack.summary.facFuelStkUtil,
-    facFuelStkOutComp=stack.summary.facFuelStkOutComp,
-    hBmflow=heatBlock.summary.m_flow_outlet,
-    tSteamMix=heatBlock.summary.tSteamMix,
-    tGenSteam=heatBlock.summary.tGenSteam,
-    tSteamGenLiq=heatBlock.summary.tSteamGenLiq,
-    ATRtemp=heatBlock.reformer.T,
-    ATRutilCH4=heatBlock.reformer.utilization_CH4,
-    ATRutilO2=heatBlock.reformer.utilization_O2,
-    ATRthermEff=heatBlock.reformer.therm_eff,
-    ATRinletSteamCarb=heatBlock.reformer.steam_carb_ratio,
-    ATRinletOxCarb=heatBlock.reformer.oxygen_carb_ratio,
-    ATRoutCompMoleFrac=heatBlock.reformer.X_mole)
-    annotation (Placement(transformation(extent={{-120,100},{-100,120}})));
-  FuelCell.Sources.WaterFlowBoundary water_source(
-    redeclare package Medium = Medium_Water,
-    m_flow=3.248e-4,
-    T=323.15) annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=0,
-        origin={-120,20})));
-  FuelCell.Sources.GasFlowBoundary NG_source(
-    redeclare package Medium = Medium_fuel,
-    X=Medium_fuel.moleToMassFractions({0,0.98,0,0.02,0,0,0}, Medium_fuel.MMX),
-    m_flow=2.552e-4,
-    T=573.15) annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=0,
-        origin={-120,66})));
-
-  FuelCell.Sources.GasFlowBoundary ATR_air_source(
-    redeclare package Medium = Medium_air,
-    m_flow=4.55e-4,
-    T=373.15)
-    annotation (Placement(transformation(extent={{-130,-30},{-110,-10}})));
-  FuelCell.Sources.GasPressureBoundary exhaust_sink(
-    redeclare package Medium = Medium_air,
-    p=101300,
-    T=573.15) annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=0,
-        origin={-120,-60})));
-  FuelCell.Examples.SOFC.SubSystems.FuelPreProcessor heatBlock(
-    redeclare package Medium_Air = Medium_air,
-    redeclare package Medium_Fuel = Medium_fuel,
-    redeclare package Medium_Water = Medium_Water,
-    redeclare package Medium_Steam = Medium_Steam,
-    fuelLoss(dp0=100, m_flow0=5e-4),
-    steamGeneratorHX(
-      staticHXChannel(m_flow_nom=2.1e-2),
-      steamGenerator(kc=55),
-      T_start=1073.15),
-    gasMix(pstart=exhaust_volume.pstart + 1e3),
-    NGMix(V_tot=0.001, pstart=heatBlock.Initialization_Record.FuelHeat_pstart_sec),
-    NGLoss(m_flow0=2e-4),
-    Initialization_Record(
-      steamMix_m_flow_start=6e-4,
-      Tstart=Modelica.SIunits.Conversions.from_degC(800),
-      ATR_pstart=154500,
-      steamMix_pstart=155000,
-      steamGen_pstart=102400,
-      FuelHeat_pstart_prim=122000,
-      FuelHeat_pstart_sec=155500,
-      AirHeat_pstart_prim=150000,
-      AirHeat_pstart_sec=155000),
-    steamMix_TZ(Tstart=773.15),
-    reformer(Tstart=873.15),
-    Geometry_Record(
-      FuelHeat_Aheat=0.02,
-      AirHeat_Aheat=0.02,
-      FuelHeat_m_flow_nom_prim=20e-3,
-      Hotgas_m_flow_nom=10e-4,
-      FuelHeat_m_flow_nom_sec=2.5e-4,
-      ATR_scale_cat=5,
-      steamGen_dp_nom_gas=1000,
-      AirHeat_kc=55))
-    annotation (Placement(transformation(extent={{-66,38},{-26,78}})));
-
-  FuelCell.FlowResistances.TurbulentLoss anode_loss(
-    redeclare package Medium = Medium_fuel,
-    d0=1,
-    m_flow0=1e-3,
-    dp0=100) annotation (Placement(transformation(extent={{-10,51},{4,65}})));
-  FuelCell.FlowResistances.TurbulentLoss exhaust_loss(
-    d0=1,
-    redeclare package Medium = Medium_air,
-    m_flow0=10e-3,
-    dp0=100) annotation (Placement(transformation(
+        origin={1,69},
         extent={{-7,-7},{7,7}},
-        rotation=270,
-        origin={-60,-20})));
-  FuelCell.Volumes.GasVolume_pTX exhaust_volume(
-    N_feed=1,
-    N_drain=1,
-    V_tot=0.001,
-    redeclare package Medium = Medium_air,
-    pstart=exhaust_sink.p + exhaust_loss.dp0,
-    Tstart=773.15) annotation (Placement(transformation(
-        extent={{-7,-7},{7,7}},
-        rotation=270,
-        origin={-60,3})));
-  FuelCell.Volumes.GasVolume_pTX anode_volume(
-    redeclare package Medium = Medium_fuel,
-    N_feed=1,
-    V_tot=0.001,
-    initOpt=FuelCell.Internal.Choices.InitOptions.initialValues,
-    Xstart={0.5,0.4,0,0,0.1,0,0},
-    pstart=fuel_mix.pstart + 1e3,
-    Tstart=1073.15,
-    N_drain=1)
-    annotation (Placement(transformation(extent={{84,58},{96,70}})));
-  FuelCell.Volumes.GasVolume_pTX cathode_volume(
-    redeclare package Medium = Medium_air,
-    V_tot=0.001,
-    pstart=air_mix.pstart + 1e3,
-    Tstart=1073.15,
-    N_drain=1,
-    N_feed=1) annotation (Placement(transformation(
-        extent={{-6,-6},{6,6}},
-        rotation=0,
-        origin={106,50})));
-  FuelCell.HeatExchangers.GasGas.EpsNTU air_heater(
-    redeclare package PrimaryMedium = Medium_air,
-    redeclare package SecondaryMedium = Medium_air,
-    redeclare function epsFun =
-        Modelon.ThermoFluid.HeatExchangers.Functions.counterFlowEps,
-    L_prim=0.1,
-    Dhyd_prim=0.01,
-    A_prim=0.0001,
-    L_sec=0.1,
-    Dhyd_sec=0.01,
-    A_sec=0.0001,
-    A_heat_prim=0.02,
-    A_heat_sec=0.02,
-    A_heat=0.02,
-    redeclare record WallMaterial =
-        Modelon.ThermoFluid.Solids.ConstantProperties.SteelV2A,
-    redeclare model Friction_prim =
-        Modelon.ThermoFluid.FlowChannels.PipeResistances.SinglePhase.LinearOperatingPointLoss
-        (
-        d0=0.5,
-        dp0(displayUnit="kPa") = 100,
-        m_flow0=2e-2),
-    redeclare model Friction_sec =
-        Modelon.ThermoFluid.FlowChannels.PipeResistances.SinglePhase.LinearOperatingPointLoss
-        (
-        d0=0.5,
-        dp0(displayUnit="kPa") = 100,
-        m_flow0=2e-2)) annotation (Placement(transformation(
-        extent={{-9,9},{9,-9}},
-        rotation=90,
-        origin={25,-15})));
-  FuelCell.Burners.MetalBurner metal_burner(
-    redeclare package Medium_fuel = Medium_fuel,
-    redeclare package Medium = Medium_air,
-    V=0.003,
-    startBurning=true,
-    initOpt=FuelCell.Internal.Choices.InitOptions.initialValues,
-    M_w=0.5,
-    pstart=110000,
-    Tstart=573.15) annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        rotation=0,
-        origin={76,-88})));
-  FuelCell.Volumes.GasVolume_pTX fuel_mix(
-    redeclare package Medium = Medium_fuel,
-    N_feed=1,
-    N_drain=1,
-    initOpt=FuelCell.Internal.Choices.InitOptions.initialValues,
-    Xstart={0.5,0.4,0,0,0.1,0,0},
-    V_tot(displayUnit="l") = 0.001,
-    pstart=metal_burner.pstart + fuel_loss.dp0,
-    Tstart=1073.15)
-    annotation (Placement(transformation(extent={{28,8},{40,20}})));
-  FuelCell.FlowResistances.TurbulentLoss fuel_loss(
-    redeclare package Medium = Medium_fuel,
-    m_flow0=1e-3,
-    d0=1,
-    dp0=10000) annotation (Placement(transformation(extent={{56,7},{70,21}})));
-  FuelCell.Volumes.GasVolume_pTX air_mix(
-    redeclare package Medium = Medium_air,
-    N_feed=1,
-    N_drain=1,
-    V_tot=0.001,
-    pstart=metal_burner.pstart + air_loss.dp0,
-    Tstart=973.15) annotation (Placement(transformation(
-        extent={{-6,-6},{6,6}},
-        rotation=0,
-        origin={138,-28})));
-  FuelCell.FlowResistances.TurbulentLoss air_loss(
-    redeclare package Medium = Medium_air,
-    m_flow0=2e-2,
-    dp0(displayUnit="kPa") = 100,
-    d0=1) annotation (Placement(transformation(extent={{58,-35},{72,-21}})));
-  Modelica.Blocks.Sources.BooleanConstant booleanConstant(k=true) annotation (
-     Placement(transformation(
-        extent={{-7,7},{7,-7}},
+        rotation=180)));
+  FuelCell.Sources.GasFlowBoundary flowCathode(
+    redeclare package Medium = Medium_cath,
+    X=X_air,
+    m_flow=m_air,
+    T=Tin_air,
+    use_flow_in=true,
+    use_Th_in=true) annotation (Placement(transformation(extent={{-100,-30},{-80,
+            -10}}, rotation=0)));
+  FuelCell.Sources.GasPressureBoundary sinkCathode(
+    redeclare package Medium = Medium_cath,
+    p=102000,
+    T=333.15) annotation (Placement(transformation(extent={{100,-30},{80,-10}},
+          rotation=0)));
+  Templates.PEMFCStack             coolStack(
+    redeclare package Medium_an = Medium_an,
+    redeclare package Medium_cath = Medium_cath,
+    redeclare package Medium_cooling = MediumWater)
+    annotation (Placement(transformation(extent={{-20,0},{20,40}})));
+
+  FuelCell.Sources.WaterFlowBoundary sourceW(redeclare package Medium =
+        MediumWater, m_flow=0.1)
+    annotation (Placement(transformation(extent={{-58,-50},{-38,-30}})));
+  FuelCell.Sources.WaterPressureBoundary sinkP(redeclare package Medium =
+        MediumWater) annotation (Placement(transformation(
+        extent={{-10,10},{10,-10}},
         rotation=180,
-        origin={107,-60})));
-  Modelica.Blocks.Interaction.Show.RealValue realValue(use_numberPort=false,
-      number=stack.pin_p.v - stack.pin_n.v)
-    annotation (Placement(transformation(extent={{-26,104},{8,142}})));
+        origin={50,-40})));
+  Modelica.Blocks.Sources.Ramp mFlow_cathode(
+    duration=10,
+    startTime=0,
+    height=0,
+    offset=m_air)
+    annotation (Placement(transformation(extent={{-110,-10},{-100,0}})));
+  Modelica.Blocks.Sources.Ramp T_cathode(
+    duration=10,
+    startTime=0,
+    height=0,
+    offset=Tin_air) annotation (Placement(transformation(
+        extent={{5,5},{-5,-5}},
+        rotation=180,
+        origin={-105,11})));
+  Modelica.Blocks.Sources.Ramp mFlow_anode(
+    startTime=0,
+    duration=1,
+    height=0,
+    offset=m_fuel)
+    annotation (Placement(transformation(extent={{-110,40},{-100,50}})));
+  Modelica.Blocks.Sources.Ramp T_anode(
+    duration=10,
+    startTime=0,
+    height=0,
+    offset=Tin_fuel) annotation (Placement(transformation(
+        extent={{5,5},{-5,-5}},
+        rotation=180,
+        origin={-105,61})));
+  Modelon.Visualizers.RealValue display_I(number=current.p.v - current.n.v,
+      precision=3)
+    annotation (Placement(transformation(extent={{-90,-86},{-70,-66}})));
+  Modelon.Visualizers.RealValue display_P(number=current.p.i*(current.p.v -
+        current.n.v), precision=0)
+    annotation (Placement(transformation(extent={{-66,-86},{-46,-66}})));
+  Modelon.Visualizers.RealValue display_P1(number=current.p.i, precision=2)
+    annotation (Placement(transformation(extent={{-90,-102},{-70,-82}})));
+  Modelon.Visualizers.RealValue display_P2(number=coolStack.summary.j_external*
+        1e-4*1e3, precision=1)
+    annotation (Placement(transformation(extent={{-38,-86},{-18,-66}})));
+  Modelon.Visualizers.RealValue display_P3(number=sum(coolStack.coolingPipe.q.Q_flow),
+      precision=1)
+    annotation (Placement(transformation(extent={{-38,-102},{-18,-82}})));
+  Modelon.Visualizers.RealValue display_P7(precision=1, number=coolStack.subStack.cell.T_degC)
+    annotation (Placement(transformation(extent={{-66,-102},{-46,-82}})));
+  FuelCell.Sensors.WaterMultiDisplaySensor multiDisplaySensor4(redeclare
+      package Medium = MediumWater)
+    annotation (Placement(transformation(extent={{-36,-50},{-16,-30}})));
+  FuelCell.Sensors.MultiDisplay_phTmdot display_phTmdot4(displayUnits=true,
+      redeclare package Medium = MediumWater)
+    annotation (Placement(transformation(extent={{-36,-42},{-16,-22}})));
+  FuelCell.Sensors.MultiDisplay_phTmdot display_phTmdot1(displayUnits=true,
+      redeclare package Medium = MediumWater)
+    annotation (Placement(transformation(extent={{14,-42},{34,-22}})));
+  FuelCell.Sensors.WaterMultiDisplaySensor multiDisplaySensor1(redeclare
+      package Medium = MediumWater)
+    annotation (Placement(transformation(extent={{14,-50},{34,-30}})));
+  FuelCell.Sensors.GasMultiDisplaySensor gasSensor3(redeclare package Medium =
+        Medium_an)
+    annotation (Placement(transformation(extent={{-78,20},{-58,40}})));
+  FuelCell.Sensors.MultiDisplay_phTmdot display_phTmdot3(displayUnits=true,
+      redeclare package Medium = Medium_an)
+    annotation (Placement(transformation(extent={{-78,30},{-58,50}})));
+  FuelCell.Sensors.ReformateLongCompositionDisplay display_MoleFractions1(
+      redeclare package Medium = Medium_an)
+    annotation (Placement(transformation(extent={{-54,42},{-30,62}})));
+  FuelCell.Sensors.GasMultiDisplaySensor gasSensor2(redeclare package Medium =
+        Medium_an)
+    annotation (Placement(transformation(extent={{24,20},{44,40}})));
+  FuelCell.Sensors.ReformateLongCompositionDisplay display_MoleFractions4(
+      redeclare package Medium = Medium_an)
+    annotation (Placement(transformation(extent={{50,42},{74,62}})));
+  FuelCell.Sensors.MultiDisplay_phTmdot display_phTmdot6(displayUnits=true,
+      redeclare package Medium = Medium_an)
+    annotation (Placement(transformation(extent={{24,30},{44,50}})));
+  FuelCell.Sensors.MultiDisplay_phTmdot display_phTmdot2(displayUnits=true,
+      redeclare package Medium = Medium_cath)
+    annotation (Placement(transformation(extent={{-78,-20},{-58,0}})));
+  FuelCell.Sensors.AirCompositionDisplay display_MoleFractions3(redeclare
+      package Medium = Medium_cath)
+    annotation (Placement(transformation(extent={{-54,-14},{-32,4}})));
+  FuelCell.Sensors.GasMultiDisplaySensor gasSensor4(redeclare package Medium =
+        Medium_cath)
+    annotation (Placement(transformation(extent={{-78,-30},{-58,-10}})));
+  FuelCell.Sensors.MultiDisplay_phTmdot display_phTmdot5(displayUnits=true,
+      redeclare package Medium = Medium_cath)
+    annotation (Placement(transformation(extent={{26,-20},{46,0}})));
+  FuelCell.Sensors.GasMultiDisplaySensor gasSensor1(redeclare package Medium =
+        Medium_cath)
+    annotation (Placement(transformation(extent={{26,-30},{46,-10}})));
+  FuelCell.Sensors.AirCompositionDisplay display_MoleFractions2(redeclare
+      package Medium = Medium_cath)
+    annotation (Placement(transformation(extent={{50,-14},{72,4}})));
+initial equation
+    assert(cath[1]>0,"the cathode medium does not contain the required substances",level=AssertionLevel.error);
+
 equation
   connect(current.n,ground. p) annotation (Line(
-      points={{66,106},{84,106},{84,94}},
+      points={{-6,69},{-20,69},{-20,62}},
       color={0,0,255},
       smooth=Smooth.None));
-  connect(current.p,stack. pin_p) annotation (Line(
-      points={{50,106},{44,106},{44,75.72}},
+  connect(current.n, coolStack.pin_n) annotation (Line(
+      points={{-6,69},{-8,69},{-8,36.5}},
       color={0,0,255},
       smooth=Smooth.None));
-  connect(current.n,stack. pin_n) annotation (Line(
-      points={{66,106},{66,75.72},{64,75.72}},
+  connect(current.p, coolStack.pin_p) annotation (Line(
+      points={{8,69},{8,36.5}},
       color={0,0,255},
       smooth=Smooth.None));
-  connect(metal_burner.ignition, booleanConstant.y) annotation (Line(
-      points={{85,-82},{88,-82},{88,-60},{99.3,-60}},
-      color={255,0,255},
+  connect(mFlow_cathode.y, flowCathode.m_flow_in) annotation (Line(
+      points={{-99.5,-5},{-96,-5},{-96,-10}},
+      color={0,0,127},
       smooth=Smooth.None));
-  connect(heatBlock.drain_NGHeat, exhaust_volume.feed[1]) annotation (Line(
-      points={{-60,36},{-60,9.3}},
-      color={255,128,0},
+  connect(flowCathode.T_in, T_cathode.y) annotation (Line(
+      points={{-90,-10},{-90,11},{-99.5,11}},
+      color={0,0,127},
       smooth=Smooth.None));
-  connect(exhaust_volume.drain[1], exhaust_loss.feed) annotation (Line(
-      points={{-60,-3.3},{-60,-13.7}},
-      color={255,128,0},
+  connect(mFlow_anode.y, flowAnode.m_flow_in) annotation (Line(
+      points={{-99.5,45},{-96,45},{-96,40}},
+      color={0,0,127},
       smooth=Smooth.None));
-  connect(heatBlock.drain_Reformate, anode_loss.feed) annotation (Line(
-      points={{-26,58},{-9.3,58}},
-      color={255,128,0},
+  connect(T_anode.y, flowAnode.T_in) annotation (Line(
+      points={{-99.5,61},{-90,61},{-90,40}},
+      color={0,0,127},
       smooth=Smooth.None));
-  connect(stack.drain_an, anode_volume.feed[1]) annotation (Line(
-      points={{74,62.6},{74,64},{84.6,64}},
-      color={255,128,0},
-      smooth=Smooth.None));
-  connect(heatBlock.drain_ATRHeat, fuel_mix.feed[1]) annotation (Line(
-      points={{-40,36},{-40,14},{28.6,14}},
-      color={255,128,0},
-      smooth=Smooth.None));
-  connect(fuel_mix.drain[1], fuel_loss.feed) annotation (Line(
-      points={{39.4,14},{56.7,14}},
-      color={255,128,0},
-      smooth=Smooth.None));
-  connect(air_mix.drain[1], air_loss.feed) annotation (Line(
-      points={{143.4,-28},{58.7,-28}},
-      color={255,128,0},
-      smooth=Smooth.None));
-  connect(air_heater.drain_prim, air_mix.feed[1]) annotation (Line(
-      points={{30.4,-23.1},{31,-23.1},{31,-28},{132.6,-28}},
-      color={255,128,0},
-      smooth=Smooth.None));
-  connect(heatBlock.feed_NG, NG_source.fluidPort)
-    annotation (Line(points={{-68,66},{-111,66}}, color={255,128,0}));
-  connect(heatBlock.feed_Water, water_source.fluidPort) annotation (Line(
-        points={{-68,58},{-96,58},{-96,20},{-111,20}}, color={0,0,255}));
-  connect(ATR_air_source.fluidPort, heatBlock.feed_ATRAir) annotation (Line(
-        points={{-111,-20},{-86,-20},{-86,50},{-68,50}}, color={255,128,0}));
-  connect(exhaust_sink.fluidPort, exhaust_loss.drain) annotation (Line(points=
-         {{-111,-60},{-60,-60},{-60,-26.3}}, color={255,128,0}));
-  connect(stack.feed_an, anode_loss.drain) annotation (Line(points={{34,62.6},
-          {14,62.6},{14,58},{3.3,58}}, color={255,128,0}));
-  connect(heatBlock.feed_ATRHeat, anode_volume.drain[1]) annotation (Line(
-        points={{-32,36},{124,36},{124,64},{95.4,64}}, color={255,128,0}));
-  connect(air_heater.feed_prim, cathode_volume.drain[1]) annotation (Line(
-        points={{30.4,-6.9},{30.4,-2},{120,-2},{120,50},{111.4,50}}, color={
-          255,128,0}));
-  connect(air_heater.drain_sec, stack.feed_cath) annotation (Line(points={{
-          19.6,-6.9},{19.6,50.3},{34,50.3}}, color={255,128,0}));
-  connect(cathode_volume.feed[1], stack.drain_cath) annotation (Line(points={
-          {100.6,50},{84,50},{84,50.3},{74,50.3}}, color={255,128,0}));
-  connect(metal_burner.gas_out, heatBlock.feed_SteamHeat) annotation (Line(
-        points={{67,-88},{-49.2,-88},{-49.2,36}}, color={255,128,0}));
-  connect(air_loss.drain, metal_burner.air_in) annotation (Line(points={{71.3,
-          -28},{128,-28},{128,-88},{85,-88}}, color={255,128,0}));
-  connect(air_heater.feed_sec, flow_cathode.fluidPort) annotation (Line(
-        points={{19.6,-23.1},{19.6,-60},{9,-60}}, color={255,128,0}));
-  connect(fuel_loss.drain, metal_burner.fuel_in) annotation (Line(points={{
-          69.3,14},{80,14},{80,-79}}, color={255,128,0}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-150,-150},
-            {150,150}})), Diagram(coordinateSystem(preserveAspectRatio=false,
-          extent={{-150,-150},{150,150}})),
-    experiment(StopTime=4000));
+
+  connect(multiDisplaySensor4.u,display_phTmdot4. y) annotation (Line(points={{-25.95,
+          -39.95},{-25.95,-34.975},{-26,-34.975},{-26,-32}}, color={0,0,0}));
+  connect(multiDisplaySensor1.u,display_phTmdot1. y) annotation (Line(points={{24.05,
+          -39.95},{24.05,-35.975},{24,-35.975},{24,-32}}, color={0,0,0}));
+  connect(multiDisplaySensor4.portA, sourceW.fluidPort)
+    annotation (Line(points={{-32,-40},{-39,-40}}, color={0,0,255}));
+  connect(multiDisplaySensor4.portB, coolStack.feed_cooling)
+    annotation (Line(points={{-20,-40},{-8,-40},{-8,3.5}}, color={0,0,255}));
+  connect(multiDisplaySensor1.portB, sinkP.fluidPort)
+    annotation (Line(points={{30,-40},{41,-40}}, color={0,0,255}));
+  connect(multiDisplaySensor1.portA, coolStack.drain_cooling)
+    annotation (Line(points={{18,-40},{8,-40},{8,3.5}}, color={0,0,255}));
+  connect(display_phTmdot3.y,gasSensor3. u) annotation (Line(points={{-68,40},{
+          -68,30.05},{-67.95,30.05}},
+                                  color={0,0,0}));
+  connect(display_MoleFractions1.data,gasSensor3. u) annotation (Line(points={{-42,
+          37.2941},{-42,32},{-67.95,32},{-67.95,30.05}}, color={0,0,0}));
+  connect(gasSensor3.portA, flowAnode.fluidPort)
+    annotation (Line(points={{-74,30},{-81,30}}, color={255,128,0}));
+  connect(gasSensor3.portB, coolStack.feed_an)
+    annotation (Line(points={{-62,30},{-18,30}}, color={255,128,0}));
+  connect(gasSensor2.u,display_phTmdot6. y) annotation (Line(points={{34.05,
+          30.05},{34.05,35.025},{34,35.025},{34,40}},
+                                               color={0,0,0}));
+  connect(gasSensor2.u,display_MoleFractions4. data) annotation (Line(points={{34.05,
+          30.05},{34.05,32},{62,32},{62,37.2941}}, color={0,0,0}));
+  connect(gasSensor2.portA, coolStack.drain_an)
+    annotation (Line(points={{28,30},{18,30}}, color={255,128,0}));
+  connect(gasSensor2.portB, sinkAnode.fluidPort)
+    annotation (Line(points={{40,30},{81,30}}, color={255,128,0}));
+  connect(gasSensor4.u,display_phTmdot2. y) annotation (Line(points={{-67.95,
+          -19.95},{-67.95,-14.975},{-68,-14.975},{-68,-10}},
+                                                     color={0,0,0}));
+  connect(gasSensor4.u,display_MoleFractions3. data) annotation (Line(points={{-67.95,
+          -19.95},{-67.95,-17.975},{-43,-17.975},{-43,-14}}, color={0,0,0}));
+  connect(gasSensor4.portA, flowCathode.fluidPort)
+    annotation (Line(points={{-74,-20},{-81,-20}}, color={255,128,0}));
+  connect(gasSensor4.portB, coolStack.feed_cath) annotation (Line(points={{-62,
+          -20},{-18,-20},{-18,10}}, color={255,128,0}));
+  connect(gasSensor1.u,display_MoleFractions2. data) annotation (Line(points={{36.05,
+          -19.95},{36.05,-17.975},{61,-17.975},{61,-14}},    color={0,0,0}));
+  connect(sinkCathode.fluidPort, gasSensor1.portB)
+    annotation (Line(points={{81,-20},{42,-20}}, color={255,128,0}));
+  connect(gasSensor1.portA, coolStack.drain_cath)
+    annotation (Line(points={{30,-20},{18,-20},{18,10}}, color={255,128,0}));
+  connect(gasSensor1.u, display_phTmdot5.y) annotation (Line(points={{36.05,
+          -19.95},{36.05,-14.975},{36,-14.975},{36,-10}}, color={0,0,0}));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-120,
+            -100},{120,100}}), graphics={
+        Rectangle(
+          extent={{-96,-60},{0,-98}},
+          lineColor={215,215,215},
+          fillColor={215,215,215},
+          fillPattern=FillPattern.Solid,
+          radius=2),
+        Text(
+          extent={{-88,-66},{-70,-72}},
+          lineColor={0,0,0},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid,
+          textString="Voltage [V]"),
+        Text(
+          extent={{-66,-66},{-48,-72}},
+          lineColor={0,0,0},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid,
+          textString="Power [W]"),
+        Line(points={{-96,-66},{0,-66}},  color={0,0,0}),
+        Text(
+          extent={{-94,-66},{-68,-60}},
+          lineColor={0,0,0},
+          textStyle={TextStyle.Bold},
+          textString="Stack"),
+        Text(
+          extent={{-88,-82},{-70,-88}},
+          lineColor={0,0,0},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid,
+          textString="Current [A]"),
+        Text(
+          extent={{-46,-64},{-6,-74}},
+          lineColor={0,0,0},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid,
+          textString="Current density [mA/cm^2]"),
+        Text(
+          extent={{-38,-82},{-16,-88}},
+          lineColor={0,0,0},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid,
+          textString="Cooling [W]"),
+        Text(
+          extent={{-66,-82},{-44,-88}},
+          lineColor={0,0,0},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid,
+          textString="T cell [C]")}),
+    experiment(StopTime=1000),
+    __Dymola_experimentSetupOutput(equdistant=true),
+    Documentation(revisions="<html>
+<hr><p><font color=\"#E72614\"><b>Copyright &copy; 2004-2019, MODELON AB</b></font> <font color=\"#AFAFAF\"><br /><br /> The use of this software component is regulated by the licensing conditions for Modelon Libraries. <br /> This copyright notice must, unaltered, accompany all components that are derived from, copied from, <br /> or by other means have their origin from any Modelon Library. </font></p>
+</html>", info="<html>
+<h4>TestPEMFCCoolStack</h4>
+<p>Experiment with a proton exchange membrane fuel cell with cooling. All boundary conditions are constant, making the model converge to steady state heat production and temperature.</p>
+</html>"),
+    Icon(coordinateSystem(extent={{-120,-100},{120,100}})));
 end FuelCellSystem;

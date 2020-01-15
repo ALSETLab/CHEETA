@@ -3,3 +3,5 @@ SingleBranch_SimpleMachine
 SingleBranch_AveragedHalfBridge
 SingleBranch_ElectricallyExcited
 SingleBranch_ElectricallyExcited_HTS
+SingleBranch_HTS_Test
+SingleBranch_SimpleMachine_SOFC
