@@ -1,5 +1,5 @@
 within CHEETA.Aircraft.Electrical.FuelCell;
-model SOFCFullStack
+model SOFCStack
   "Full SOFC stack model with manifolds and endplates (no instulation)"
   import FuelCell;
   extends FuelCell.Stacks.Templates.FullStack(
@@ -37,11 +37,6 @@ model SOFCFullStack
           dp0(displayUnit="kPa") = 100)),
     redeclare model StackHeatLoss = FuelCell.HeatTransfer.SHLWithoutInsulation);
 
-  Modelica.Electrical.Analog.Basic.Ground ground
-    annotation (Placement(transformation(extent={{68,70},{88,90}})));
-equation
-  connect(pin_n, ground.p)
-    annotation (Line(points={{50,90},{78,90}}, color={0,0,255}));
   annotation (Documentation(revisions="<html>
 <hr><p><font color=\"#E72614\"><b>Copyright &copy; 2004-2019, MODELON AB</b></font> <font color=\"#AFAFAF\"><br /><br /> The use of this software component is regulated by the licensing conditions for Modelon Libraries. <br /> This copyright notice must, unaltered, accompany all components that are derived from, copied from, <br /> or by other means have their origin from any Modelon Library. </font></p>
 </html>", info="<html>
@@ -72,13 +67,13 @@ Some parameters are still left unparameterized and needs to be defined in the ex
 <p></p>
 </html>"),
      Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})),
+            -100},{100,100}}), graphics),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}}), graphics={Text(
-          extent={{-100,-86},{100,-98}},
+          extent={{-100,-82},{100,-94}},
           lineColor={0,0,0},
           lineThickness=0.5,
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid,
           textString="%name")}));
-end SOFCFullStack;
+end SOFCStack;
