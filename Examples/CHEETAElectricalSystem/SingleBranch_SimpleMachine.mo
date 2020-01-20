@@ -1,11 +1,14 @@
 within CHEETA.Examples.CHEETAElectricalSystem;
 model SingleBranch_SimpleMachine
-  Modelica.Electrical.PowerConverters.DCDC.ChopperStepUp dcdc annotation (
+  Modelica.Electrical.PowerConverters.DCDC.ChopperStepUp dcdc(VkneeTransistor=1,
+      VkneeDiode=0.7)                                         annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-50,0})));
   Modelica.Electrical.PowerConverters.DCAC.SinglePhase2Level inverter(
+    VkneeTransistor=1,
+    VkneeDiode=0.7,
       constantEnable=false)
     annotation (Placement(transformation(extent={{26,-10},{46,10}})));
   Modelica.Electrical.Analog.Basic.Inductor inductor(L=1e-6)

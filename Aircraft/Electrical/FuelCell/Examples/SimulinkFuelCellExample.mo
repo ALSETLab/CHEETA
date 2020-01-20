@@ -1,8 +1,7 @@
-within CHEETA.Examples.CHEETAElectricalSystem;
-model SingleBranch_AveragedHalfBridge
+within CHEETA.Aircraft.Electrical.FuelCell.Examples;
+model SimulinkFuelCellExample
   "Single branch model with averaged half bridge DCAC converter model"
-  Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=100,
-    L=0,
+  SimulinkFuelCell                                simulinkFuelCell(  R=100,
     V=500)   annotation (Placement(transformation(
         extent={{-6,-6},{6,6}},
         rotation=0,
@@ -44,10 +43,12 @@ model SingleBranch_AveragedHalfBridge
                                const1(k=650)
     annotation (Placement(transformation(extent={{-56,-38},{-40,-22}})));
   Records.NotionalPowerSystem.Plant plant(Vd=1000)
-    annotation (Placement(transformation(extent={{82,42},{102,62}})));
+    annotation (Placement(transformation(extent={{84,28},{104,48}})));
   Aircraft.Electrical.PowerElectronics.Converters.DCAC.DCAC_HalfBridgeAverage
     dCAC_HalfBridgeAverage
     annotation (Placement(transformation(extent={{26,-10},{46,10}})));
+  Modelica.Electrical.Analog.Basic.Ground ground
+    annotation (Placement(transformation(extent={{66,-34},{86,-14}})));
 equation
   connect(dcdc.dc_p2, inductor.p)
     annotation (Line(points={{-72,6},{-58,6}}, color={0,0,255}));
@@ -66,7 +67,7 @@ equation
           -16,-45.2},{-16,-53.3},{-17,-53.3}}, color={0,0,127}));
   connect(modulatedSignalController.Reference, const1.y)
     annotation (Line(points={{-27,-30},{-39.2,-30}}, color={0,0,127}));
-  connect(dcdc.dc_p1, simplifiedFuelCell.pin_p) annotation (Line(points={{-92,6},
+  connect(dcdc.dc_p1, simulinkFuelCell.pin_p) annotation (Line(points={{-92,6},
           {-104,6},{-104,4},{-115,4}}, color={0,0,255}));
   connect(modulatedSignalController.FeedbackSignal, currentSensor.i)
     annotation (Line(points={{-27,-38},{-34,-38},{-34,-78},{74,-78},{74,26},{64,
@@ -87,16 +88,17 @@ equation
         color={0,0,127}));
   connect(dCAC_HalfBridgeAverage.current, currentSensor.i) annotation (Line(
         points={{29.75,11.25},{29.75,32},{64,32},{64,6.6}}, color={0,0,127}));
-  connect(simplifiedFuelCell.pin_p1, dcdc.dc_n1) annotation (Line(points={{-115,
-          -4},{-104,-4},{-104,-6},{-92,-6}}, color={0,0,255}));
+  connect(simulinkFuelCell.pin_p1, dcdc.dc_n1) annotation (Line(points={{-115,-4},
+          {-104,-4},{-104,-6},{-92,-6}}, color={0,0,255}));
+  connect(ground.p, currentSensor.n)
+    annotation (Line(points={{76,-14},{76,0},{70,0}}, color={0,0,255}));
   annotation (
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{140,
-            100}})),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{
-            140,100}})),
+    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,-80},{140,60}})),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-140,-80},{140,
+            60}})),
     Documentation(info="<html>
 <p>The architecture of the CHEETA electrical system is shown below:</p>
 <p><br><img src=\"modelica://CHEETA/Images/Electrical/CHEETASystem.PNG\"/></p>
 </html>"),
     experiment(StopTime=100));
-end SingleBranch_AveragedHalfBridge;
+end SimulinkFuelCellExample;
