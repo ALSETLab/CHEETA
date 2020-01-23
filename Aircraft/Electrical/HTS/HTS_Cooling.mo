@@ -21,7 +21,7 @@ model HTS_Cooling "Simple cooling circuit"
     T0=TAmb,
     useVolumeFlowInput=true,
     constantVolumeFlow=1)
-    annotation (Placement(transformation(extent={{-8,24},{12,44}})));
+    annotation (Placement(transformation(extent={{-10,24},{10,44}})));
   Modelica.Thermal.FluidHeatFlow.Components.Pipe pipe(
     medium=medium,
     m=0.1,
@@ -71,9 +71,10 @@ model HTS_Cooling "Simple cooling circuit"
     annotation (Placement(transformation(extent={{110,-10},{90,10}})));
 equation
   connect(ambient1.flowPort, pump.flowPort_a)
-    annotation (Line(points={{-28,34},{-8,34}},color={255,0,0}));
+    annotation (Line(points={{-28,34},{-10,34}},
+                                               color={255,0,0}));
   connect(pump.flowPort_b, pipe.flowPort_a)
-    annotation (Line(points={{12,34},{32,34}},
+    annotation (Line(points={{10,34},{32,34}},
                                              color={255,0,0}));
   connect(pipe.flowPort_b, ambient2.flowPort)
     annotation (Line(points={{52,34},{68,34}},
@@ -86,7 +87,7 @@ equation
   connect(thermalConductance.y, convection.Gc)
                                annotation (Line(points={{11,8},{20,8}},    color={0,0,127}));
   connect(volumeFlow.y, pump.volumeFlow) annotation (Line(
-      points={{-7,54},{2,54},{2,44}},      color={0,0,127}));
+      points={{-7,54},{0,54},{0,44}},      color={0,0,127}));
   connect(prescribedHeatFlow.port, HTS_Cooler.port)
     annotation (Line(points={{18,-20},{38,-20}}, color={191,0,0}));
   connect(prescribedHeatFlow.Q_flow, trapezoid.y)

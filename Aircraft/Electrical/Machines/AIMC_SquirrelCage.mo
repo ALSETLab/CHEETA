@@ -6,8 +6,8 @@ model AIMC_SquirrelCage
 
   Modelica.Blocks.Interfaces.RealInput v1
     "Voltage between pin p and n (= p.v - n.v) as input signal" annotation (
-      Placement(transformation(extent={{-160,-30},{-120,10}}),
-        iconTransformation(extent={{-140,-10},{-120,10}})));
+      Placement(transformation(extent={{-114,-20},{-74,20}}),
+        iconTransformation(extent={{-94,0},{-74,20}})));
   parameter Real wref = 4000;
   Modelica.Electrical.Machines.BasicMachines.AsynchronousInductionMachines.AIM_SquirrelCage
     aimc(
@@ -21,8 +21,6 @@ model AIMC_SquirrelCage
     Jr=aimcData.Jr,
     Js=aimcData.Js,
     frictionParameters=aimcData.frictionParameters,
-    phiMechanical(fixed=true),
-    wMechanical(fixed=true),
     statorCoreParameters=aimcData.statorCoreParameters,
     strayLoadParameters=aimcData.strayLoadParameters,
     Lm=aimcData.Lm,
@@ -58,9 +56,9 @@ model AIMC_SquirrelCage
         rotation=180)));
   Modelica.Mechanics.Rotational.Interfaces.Flange_a flange1
                                                            "Shaft"
-    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+    annotation (Placement(transformation(extent={{82,-10},{102,10}})));
   Blocks.Routing.RealExtend realExtend
-    annotation (Placement(transformation(extent={{-78,-10},{-58,10}})));
+    annotation (Placement(transformation(extent={{-62,-10},{-42,10}})));
   parameter Records.NotionalPowerSystem.AIM_SquirrelCageData aimcData
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
 protected
@@ -79,13 +77,14 @@ equation
           42},{0,42},{0,50}}, color={0,0,255}));
   connect(star.pin_n, ground.p) annotation (Line(points={{1.83187e-15,70},{0,70},
           {0,76}}, color={0,0,255}));
-  connect(aimc.flange, flange1) annotation (Line(points={{10,-38},{26,-38},{26,0},
-          {100,0}}, color={0,0,0}));
+  connect(aimc.flange, flange1) annotation (Line(points={{10,-38},{26,-38},{26,
+          0},{92,0}},
+                    color={0,0,0}));
   connect(v1, realExtend.u)
-    annotation (Line(points={{-140,-10},{-110,-10},{-110,0},{-80,0}},
-                                                color={0,0,127}));
-  connect(realExtend.y, signalVoltage.v) annotation (Line(points={{-57,0},{-33.5,
-          0},{-33.5,32},{-12,32}}, color={0,0,127}));
+    annotation (Line(points={{-94,0},{-64,0}},  color={0,0,127}));
+  connect(realExtend.y, signalVoltage.v) annotation (Line(points={{-41,0},{
+          -33.5,0},{-33.5,32},{-12,32}},
+                                   color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-120,-100},
             {100,100}}), graphics={
         Rectangle(

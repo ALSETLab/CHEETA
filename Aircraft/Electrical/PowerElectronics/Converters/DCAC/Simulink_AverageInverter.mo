@@ -24,7 +24,7 @@ model Simulink_AverageInverter
   Modelica.Electrical.MultiPhase.Interfaces.PositivePlug positivePlug
     annotation (Placement(transformation(extent={{140,-74},{160,-54}}),
         iconTransformation(extent={{140,-74},{160,-54}})));
-  .AircraftPowerSystem.Interfaces.multiphtoabc multiphtoabc annotation (
+  Interfaces.multiphtoabc                      multiphtoabc annotation (
      Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
@@ -119,9 +119,8 @@ equation
           -57,50},{-58,50},{-58,39.8},{48,39.8}}, color={0,0,127}));
   connect(currentSensor.i, sourceGains.i) annotation (Line(points={{62,
           45},{60,45},{60,34},{48,34}}, color={0,0,127}));
-  connect(multiphtoabc.m, positivePlug) annotation (Line(points={{128.4,
-          -1.22125e-15},{127.8,-1.22125e-15},{127.8,-64},{150,-64}},
-                                                     color={0,0,255}));
+  connect(multiphtoabc.m, positivePlug) annotation (Line(points={{127.6,-0.6},{
+          127.8,-0.6},{127.8,-64},{150,-64}},        color={0,0,255}));
 
   connect(pin_p, Ipa.p)
     annotation (Line(points={{-130,18},{-82,18},{-82,68},{-32,68}},

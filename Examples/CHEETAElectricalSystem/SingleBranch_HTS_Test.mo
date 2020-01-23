@@ -17,13 +17,13 @@ model SingleBranch_HTS_Test
   Aircraft.Electrical.HTS.HTS_Cooling hTS_Cooling(l=1)
     annotation (Placement(transformation(extent={{-12,-4},{8,16}})));
   Aircraft.Electrical.HTS.HTS_Cooling hTS_Cooling1(l=1)
-    annotation (Placement(transformation(extent={{-12,-16},{8,4}})));
+    annotation (Placement(transformation(extent={{-14,-16},{6,4}})));
   Modelica.Electrical.Analog.Basic.Resistor resistor(R=100)
-    annotation (Placement(transformation(extent={{32,-4},{52,16}})));
+    annotation (Placement(transformation(extent={{30,-4},{50,16}})));
   Modelica.Electrical.Analog.Basic.Resistor resistor1(R=100)
-    annotation (Placement(transformation(extent={{32,-16},{52,4}})));
+    annotation (Placement(transformation(extent={{30,-16},{50,4}})));
   Modelica.Electrical.Analog.Basic.Ground ground
-    annotation (Placement(transformation(extent={{54,-34},{74,-14}})));
+    annotation (Placement(transformation(extent={{52,-34},{72,-14}})));
 equation
   connect(dcdc.fire_p, pwm.fire)
     annotation (Line(points={{-56,-12},{-56,-19}}, color={255,0,255}));
@@ -34,15 +34,15 @@ equation
   connect(dcdc.dc_p2, hTS_Cooling.p_in1)
     annotation (Line(points={{-40,6},{-12,6}}, color={0,0,255}));
   connect(dcdc.dc_n2, hTS_Cooling1.p_in1)
-    annotation (Line(points={{-40,-6},{-12,-6}}, color={0,0,255}));
+    annotation (Line(points={{-40,-6},{-14,-6}}, color={0,0,255}));
   connect(hTS_Cooling.p_out1, resistor.p)
-    annotation (Line(points={{8,6},{32,6}}, color={0,0,255}));
+    annotation (Line(points={{8,6},{30,6}}, color={0,0,255}));
   connect(hTS_Cooling1.p_out1, resistor1.p)
-    annotation (Line(points={{8,-6},{32,-6}}, color={0,0,255}));
+    annotation (Line(points={{6,-6},{30,-6}}, color={0,0,255}));
   connect(resistor1.n, ground.p)
-    annotation (Line(points={{52,-6},{64,-6},{64,-14}}, color={0,0,255}));
+    annotation (Line(points={{50,-6},{62,-6},{62,-14}}, color={0,0,255}));
   connect(resistor.n, ground.p)
-    annotation (Line(points={{52,6},{64,6},{64,-14}}, color={0,0,255}));
+    annotation (Line(points={{50,6},{62,6},{62,-14}}, color={0,0,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{140,
             60}})),

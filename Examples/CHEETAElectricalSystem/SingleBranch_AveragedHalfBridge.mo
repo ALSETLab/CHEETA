@@ -1,8 +1,8 @@
 within CHEETA.Examples.CHEETAElectricalSystem;
 model SingleBranch_AveragedHalfBridge
   "Single branch model with averaged half bridge DCAC converter model"
-  Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=100, L=
-        1e3,
+  Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=100,
+    L=0,
     V=500)   annotation (Placement(transformation(
         extent={{-6,-6},{6,6}},
         rotation=0,
@@ -12,23 +12,26 @@ model SingleBranch_AveragedHalfBridge
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-82,0})));
-  Modelica.Electrical.Analog.Basic.Inductor inductor(L=1e-6)
+  Modelica.Electrical.Analog.Basic.Inductor inductor(i(fixed=true, start=5000),
+                                                     L=1e-6)
     annotation (Placement(transformation(extent={{-58,-4},{-38,16}})));
   Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm(
       constantDutyCycle=0.5, f=10)
     annotation (Placement(transformation(extent={{-92,-40},{-72,-20}})));
   Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm1(
     useConstantDutyCycle=false,
-      constantDutyCycle=0.5, f=10)
+      constantDutyCycle=0.5,
+    f=100)
     annotation (Placement(transformation(extent={{26,-44},{46,-24}})));
-  Modelica.Electrical.Analog.Basic.Inductor inductor1(L=1e-6)
+  Modelica.Electrical.Analog.Basic.Inductor inductor1(i(fixed=true, start=5000),
+                                                      L=1e-6)
     annotation (Placement(transformation(extent={{-58,-16},{-38,4}})));
   Aircraft.Electrical.Machines.SimpleMotor simpleMotor
     annotation (Placement(transformation(extent={{84,-10},{104,10}})));
   Aircraft.Mechanical.Loads.Fan fan(J=0.5)
     annotation (Placement(transformation(extent={{114,-4},{122,4}})));
   Aircraft.Electrical.Controls.ModulatedSignalController
-    modulatedSignalController
+    modulatedSignalController(k=10000)
     annotation (Placement(transformation(extent={{-26,-44},{-6,-24}})));
   Modelica.Electrical.Analog.Sensors.CurrentSensor currentSensor
     annotation (Placement(transformation(extent={{58,6},{70,-6}})));
@@ -37,11 +40,8 @@ model SingleBranch_AveragedHalfBridge
         extent={{-7,-7},{7,7}},
         rotation=90,
         origin={-17,-61})));
-  Modelica.Blocks.Sources.Sine sine(
-    amplitude=1000,
-    freqHz=60,
-    phase=0,
-    startTime=0.07)
+  Modelica.Blocks.Sources.Constant
+                               const1(k=650)
     annotation (Placement(transformation(extent={{-56,-38},{-40,-22}})));
   Records.NotionalPowerSystem.Plant plant(Vd=1000)
     annotation (Placement(transformation(extent={{82,42},{102,62}})));
@@ -64,7 +64,7 @@ equation
     annotation (Line(points={{83.6,0},{70,0}}, color={0,0,255}));
   connect(modulatedSignalController.Vdc2, const.y) annotation (Line(points={{
           -16,-45.2},{-16,-53.3},{-17,-53.3}}, color={0,0,127}));
-  connect(modulatedSignalController.Reference, sine.y)
+  connect(modulatedSignalController.Reference, const1.y)
     annotation (Line(points={{-27,-30},{-39.2,-30}}, color={0,0,127}));
   connect(dcdc.dc_p1, simplifiedFuelCell.pin_p) annotation (Line(points={{-92,6},
           {-104,6},{-104,4},{-115,4}}, color={0,0,255}));

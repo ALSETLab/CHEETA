@@ -44,9 +44,11 @@ equation
   connect(inverter.ac, potentialSensor.p)
     annotation (Line(points={{46,0},{56,0}}, color={0,0,255}));
   connect(rectifierDrivenGenerator.v1, potentialSensor.phi) annotation (Line(
-        points={{85.0909,0},{77,0}},                color={0,0,127}));
+        points={{89.2727,0.8},{84,0.8},{84,0},{77,0}},
+                                                    color={0,0,127}));
   connect(rectifierDrivenGenerator.flange1, fan.flange_a1)
-    annotation (Line(points={{106,0},{119,0}}, color={0,0,0}));
+    annotation (Line(points={{105.273,0},{119,0}},
+                                               color={0,0,0}));
   connect(dcdc.dc_p2, hTS_Cooling.p_in1)
     annotation (Line(points={{-40,6},{-12,6}}, color={0,0,255}));
   connect(inverter.dc_p, hTS_Cooling.p_out1)
