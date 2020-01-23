@@ -42,7 +42,7 @@ equation
   connect(simplifiedFuelCell.pin_p1, dcdc.dc_n1) annotation (Line(points={{-73,
           -4},{-68,-4},{-68,-6},{-60,-6}}, color={0,0,255}));
   connect(inverter.dc_p, inductor.n)
-    annotation (Line(points={{26,6},{10,6},{10,6},{-4,6}}, color={0,0,255}));
+    annotation (Line(points={{26,6},{-4,6}},               color={0,0,255}));
   connect(inductor1.n, inverter.dc_n)
     annotation (Line(points={{-4,-6},{26,-6}}, color={0,0,255}));
   connect(inverter.fire_p, pwm1.fire)
@@ -52,9 +52,11 @@ equation
   connect(inverter.ac, potentialSensor.p)
     annotation (Line(points={{46,0},{56,0}}, color={0,0,255}));
   connect(rectifierDrivenGenerator.v1, potentialSensor.phi) annotation (Line(
-        points={{85.0909,0},{77,0}},                color={0,0,127}));
+        points={{89.2727,0.8},{84,0.8},{84,0},{77,0}},
+                                                    color={0,0,127}));
   connect(rectifierDrivenGenerator.flange1, fan.flange_a1)
-    annotation (Line(points={{106,0},{119,0}}, color={0,0,0}));
+    annotation (Line(points={{105.273,0},{119,0}},
+                                               color={0,0,0}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{140,
             60}})),

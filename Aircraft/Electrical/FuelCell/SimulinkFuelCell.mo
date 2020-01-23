@@ -4,16 +4,16 @@ model SimulinkFuelCell "Basic hydrogen fuel cell from MATLAB"
   import Modelica.Constants.k;
   import Modelica.Constants.h;
 
-  Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage(V=V)
+  Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage(V=V/2)
     annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=270,
-        origin={34,-22})),__Dymola_choicesAllMatching=true);
+        origin={0,2})),   __Dymola_choicesAllMatching=true);
   Modelica.Electrical.Analog.Basic.Resistor resistor(R=R) annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={34,2})));
+        origin={0,26})));
   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p annotation (Placement(
         transformation(extent={{60,30},{80,50}}), iconTransformation(extent={{60,30},
             {80,50}})));
@@ -31,20 +31,44 @@ model SimulinkFuelCell "Basic hydrogen fuel cell from MATLAB"
   Modelica.Electrical.Analog.Semiconductors.Diode diode annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={34,28})));
+        rotation=0,
+        origin={30,40})));
+  Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage1(V=V/2)
+    annotation (Placement(transformation(
+        extent={{-10,10},{10,-10}},
+        rotation=270,
+        origin={0,-22})), __Dymola_choicesAllMatching=true);
+  Modelica.Electrical.Analog.Basic.Resistor resistor1(R=R)
+                                                          annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={0,-46})));
+  Modelica.Electrical.Analog.Semiconductors.Diode diode1
+                                                        annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={34,-40})));
 equation
 
-  connect(constantVoltage.p, resistor.p)
-    annotation (Line(points={{34,-12},{34,-8}}, color={0,0,255}));
-  connect(pin_p1, constantVoltage.n)
-    annotation (Line(points={{64,-40},{34,-40},{34,-32}}, color={0,0,255}));
+  connect(constantVoltage.p, resistor.p) annotation (Line(points={{1.77636e-15,
+          12},{1.77636e-15,16},{-6.66134e-16,16}}, color={0,0,255}));
   connect(pin_p, pin_p) annotation (Line(points={{70,40},{68,40},{68,40},{70,40}},
         color={0,0,255}));
   connect(resistor.n, diode.p)
-    annotation (Line(points={{34,12},{34,18}}, color={0,0,255}));
+    annotation (Line(points={{4.44089e-16,36},{4.44089e-16,40},{20,40}},
+                                               color={0,0,255}));
   connect(diode.n, pin_p)
-    annotation (Line(points={{34,38},{34,40},{70,40}}, color={0,0,255}));
+    annotation (Line(points={{40,40},{70,40}},         color={0,0,255}));
+  connect(constantVoltage.n, constantVoltage1.p) annotation (Line(points={{
+          -1.77636e-15,-8},{0,-8},{0,-12},{1.83187e-15,-12}}, color={0,0,255}));
+  connect(constantVoltage1.n, resistor1.p) annotation (Line(points={{
+          -1.77636e-15,-32},{0,-32},{0,-36},{1.77636e-15,-36}}, color={0,0,255}));
+  connect(resistor1.n, diode1.p) annotation (Line(points={{-1.83187e-15,-56},{
+          12,-56},{12,-40},{24,-40}}, color={0,0,255}));
+  connect(pin_p1, diode1.n)
+    annotation (Line(points={{64,-40},{44,-40}}, color={0,0,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-60,-60},
             {60,60}}), graphics={Rectangle(extent={{-60,60},{60,-60}},
             lineColor={28,108,200}), Bitmap(
@@ -54,8 +78,9 @@ equation
                                        Diagram(coordinateSystem(
           preserveAspectRatio=false, extent={{-60,-60},{60,60}})),
     Documentation(revisions="<html>
+</html>", info="<html>
 <p>Basic hydrogen fuel cell based off of MATLAB [1].</p>
-<p><img src=\"modelica://CHEETA/Images/Fuel Cell/fcmodel_simplified.gif\"/></p>
-<p><br>[1] <a href=\"https://www.mathworks.com/help/physmod/sps/powersys/ref/fuelcellstack.html\">https://www.mathworks.com/help/physmod/sps/powersys/ref/fuelcellstack.html</a></p>
+<p><br><img src=\"modelica://CHEETA/Images/Fuel Cell/fcmodel_simplified.gif\"/></p><p><br>[1] https://www.mathworks.com/help/physmod/sps/powersys/ref/fuelcellstack.html</p>
+<p><br><span style=\"font-family: Arial,Helvetica,sans-serif; color: #404040; background-color: #ffffff;\">The simplified model represents a particular fuel cell stack operating at nominal conditions of temperature and pressure. The parameters of the equivalent circuit can be modified based on the polarization curve obtained from the manufacturer datasheet. You just have to input in the mask the value of the voltage at 0 and 1 A, the nominal and the maximum operating points, for the parameters to be calculated. A diode is used to prevent the flow of negative current into the stack.&nbsp;</span></p>
 </html>"));
 end SimulinkFuelCell;
