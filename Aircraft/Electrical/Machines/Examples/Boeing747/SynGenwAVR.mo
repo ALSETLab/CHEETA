@@ -24,7 +24,7 @@ model SynGenwAVR
         transformation(extent={{-204,-22},{-196,-14}})));
   parameter Modelica.SIunits.Inertia J=0.02 "Rotor's moment of inertia";
 
-  replaceable parameter AircraftPowerSystem.Records.SynchronousMachine.SM300kVA
+  replaceable parameter Records.Boeing747electricalModel.SynchronousMachine.SM300kVA
     SG_Data constrainedby AircraftPowerSystem.Records.Base.Synch
     annotation (Placement(transformation(extent={{56,24},{76,44}})));
 

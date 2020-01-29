@@ -28,7 +28,7 @@ model SingleBranch_AveragedHalfBridge
     annotation (Placement(transformation(extent={{-58,-16},{-38,4}})));
   Aircraft.Electrical.Machines.SimpleMotor simpleMotor
     annotation (Placement(transformation(extent={{84,-10},{104,10}})));
-  Aircraft.Mechanical.Loads.Fan fan(J=0.5)
+  Aircraft.Mechanical.Loads.Fan fan(J=10)
     annotation (Placement(transformation(extent={{114,-4},{122,4}})));
   Aircraft.Electrical.Controls.ModulatedSignalController
     modulatedSignalController(k=10000)

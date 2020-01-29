@@ -89,6 +89,49 @@ Passes a Real signal through without modification.  Enables signals to be read o
 </html>"));
   end RealExtendMultiple;
 
+  model VectorInput
+    "Duplicates a single input signal into multiple output signals"
+    extends Modelica.Blocks.Icons.Block;
+    parameter Integer n(min=1) = 1 "Number of output signals required";
+    Modelica.Blocks.Interfaces.RealInput u "Connector of Real input signal"
+                                       annotation(Placement(transformation(extent={{-140,-20},{-100,20}})));
+    Modelica.Blocks.Interfaces.RealVectorOutput y[n]
+      "Connector of Real output signals"
+                                        annotation(Placement(transformation(extent={{80,70},{120,-70}})));
+
+  equation
+    for i in 1:n loop
+      y[i] = u;
+    end for
+    annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
+          coordinateSystem(preserveAspectRatio=false)));
+    annotation (Icon(graphics={
+          Line(
+            points={{-100,0},{-20,2}},
+            color={217,67,180},
+            thickness=1),
+          Line(
+            points={{-98,-2},{-40,-2},{-54,2}},
+            color={238,46,47},
+            thickness=1),
+          Line(
+            points={{-98,0},{100,70}},
+            color={238,46,47},
+            thickness=1),
+          Rectangle(
+            extent={{-68,52},{38,-30}},
+            lineColor={238,46,47},
+            lineThickness=1),
+          Bitmap(extent={{-88,60},{64,-56}}, fileName=""),
+          Bitmap(extent={{-90,-72},{90,74}}, fileName=
+                "modelica://ArduinoProjects/multiinput.png"),
+          Text(
+            textString="Edit Here",
+            extent={{-50,82},{40,32}},
+            lineColor={238,46,47},
+            lineThickness=1)}));
+  end VectorInput;
+
 annotation (Icon(graphics={
         Rectangle(
           lineColor={200,200,200},

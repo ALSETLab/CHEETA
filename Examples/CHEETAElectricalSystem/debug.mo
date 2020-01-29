@@ -62,9 +62,8 @@ model debug "Resistive load connected to inverter"
         origin={-90,-72})));
   parameter Records.NotionalPowerSystem.SM_PermanentMagnetData smpmData1
     annotation (Placement(transformation(extent={{46,-84},{66,-64}})));
-  Aircraft.Electrical.Machines.SimpleMotor_noHysteresis
-    simpleMotor_noHysteresis(X_s=0.1, R_hyst(displayUnit="MOhm") = 149000000)
-    annotation (Placement(transformation(extent={{34,-50},{54,-30}})));
+  Aircraft.Electrical.Machines.SimpleMotor simpleMotor(R_hyst(displayUnit="Ohm")=
+         149) annotation (Placement(transformation(extent={{34,-50},{54,-30}})));
   Modelica.Electrical.PowerConverters.DCDC.ChopperStepUp dcdc annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -73,6 +72,10 @@ model debug "Resistive load connected to inverter"
   Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm(
       constantDutyCycle=0.5, f(displayUnit="kHz") = 100000)
     annotation (Placement(transformation(extent={{-32,-80},{-12,-60}})));
+  Modelica.Mechanics.Rotational.Components.Inertia
+                                J2(J=10, w(start=2400))
+                             annotation (Placement(transformation(extent={{62,-48},
+            {82,-28}})));
 equation
   connect(signalPWM.fire, inverter1.fire_p)
     annotation (Line(points={{8,15},{8,42}}, color={255,0,255}));
@@ -102,7 +105,7 @@ equation
           -90,-48},{-60,-48},{-60,-58}}, color={0,0,255}));
   connect(signalPWM1.notFire, inverter2.fire_n)
     annotation (Line(points={{18,-79},{18,-52}}, color={255,0,255}));
-  connect(inverter2.ac, simpleMotor_noHysteresis.p1)
+  connect(inverter2.ac, simpleMotor.p1)
     annotation (Line(points={{22,-40},{33.6,-40}}, color={0,0,255}));
   connect(pwm.fire, dcdc.fire_p)
     annotation (Line(points={{-28,-59},{-28,-52}}, color={255,0,255}));
@@ -114,6 +117,8 @@ equation
           {-60,-6},{-40,-6},{-40,-34},{-32,-34}}, color={0,0,255}));
   connect(dcdc.dc_n1, constantVoltage_n1.n) annotation (Line(points={{-32,-46},
           {-40,-46},{-40,-50},{-42,-50},{-42,-78},{-60,-78}}, color={0,0,255}));
+  connect(simpleMotor.flange1, J2.flange_a) annotation (Line(points={{54.4,-40},
+          {58,-40},{58,-38},{62,-38}}, color={0,0,0}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false)),
     Diagram(coordinateSystem(preserveAspectRatio=false)),
@@ -121,5 +126,8 @@ equation
 <p>The architecture of the CHEETA electrical system is shown below:</p>
 <p><br><img src=\"modelica://CHEETA/Images/Electrical/CHEETASystem.PNG\"/></p>
 </html>"),
-    experiment(StopTime=0.05, Tolerance=0.001));
+    experiment(
+      StopTime=10,
+      __Dymola_NumberOfIntervals=5000,
+      Tolerance=0.001));
 end debug;
