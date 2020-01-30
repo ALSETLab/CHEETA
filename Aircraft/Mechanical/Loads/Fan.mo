@@ -7,15 +7,11 @@ model Fan "Simple fan model"
           extent={{-60,-10},{-40,10}}), iconTransformation(extent={{-60,-10},{
             -40,10}})));
   parameter Modelica.SIunits.Inertia J=1 "Moment of inertia of the fan blades";
-  Modelica.Mechanics.Rotational.Components.Disc disc(deltaPhi=deltaPhi)
-    annotation (Placement(transformation(extent={{-24,-10},{-4,10}})));
   parameter Modelica.SIunits.Angle deltaPhi=0
     "Fixed rotation of left flange with respect to right flange";
 equation
-  connect(inertia.flange_a, disc.flange_b)
-    annotation (Line(points={{18,0},{-4,0}}, color={0,0,0}));
-  connect(flange_a1, disc.flange_a)
-    annotation (Line(points={{-50,0},{-24,0}}, color={0,0,0}));
+  connect(flange_a1, inertia.flange_a)
+    annotation (Line(points={{-50,0},{18,0}}, color={0,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-40,-40},
             {40,40}}), graphics={
         Rectangle(extent={{-40,40},{40,-40}}, lineColor={28,108,200}),

@@ -1,28 +1,32 @@
 within CHEETA.Aircraft.Electrical;
 package HTS "Models for the high temperature superconductor"
 
- replaceable model HTS
+ model HTS
 
-    Modelica.Electrical.Analog.Interfaces.Pin
-                                         p_in
-     annotation (Placement(transformation(extent={{-122,-18},{-82,22}}),
-        iconTransformation(extent={{-108,-16},{-80,12}})));
-    Modelica.Electrical.Analog.Interfaces.NegativePin
-                                          p_out
-     annotation (Placement(transformation(extent={{90,-10},{110,10}}),
-        iconTransformation(extent={{80,-16},{108,12}})));
+    Modelica.Blocks.Interfaces.RealInput temperature
+     annotation (Placement(transformation(extent={{-58,-94},{-18,-54}}),
+         iconTransformation(
+         extent={{-20,-20},{20,20}},
+         rotation=90,
+         origin={0,-60})));
+   parameter Real l "Length of wire";
+   Real p_loss "Power loss";
+   Real p_out "Output power";
+   Real v_loss "Loss voltage";
 
-    Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a
-                                         temperature
-     annotation (Placement(transformation(extent={{-22,-116},{18,-76}}),
-        iconTransformation(extent={{-16,-70},{14,-40}})));
-   parameter Real l= 1 "Length of wire";
-   Real p_loss = 0 "Power loss";
+   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p annotation (Placement(
+         transformation(extent={{-100,-10},{-80,10}}),iconTransformation(extent={{-100,
+             -10},{-80,10}})));
+   Modelica.Electrical.Analog.Interfaces.NegativePin pin_n annotation (Placement(
+         transformation(extent={{80,-10},{100,10}}),iconTransformation(extent={{80,-10},
+             {100,10}})));
 
  equation
-   p_loss = 0.001 + (0.0009*(temperature.T - 67)) * l * (p_in.i *p_in.i);
-   p_out.v = ((p_in.v *p_in.i)  - p_loss)/p_in.i;
-   p_out.i = p_in.i;
+   p_loss = 0.001 + (0.0009*(temperature - 67)) * l * (pin_p.i * pin_p.i);
+   p_out = (pin_p.v * pin_p.i) - p_loss;
+   v_loss = p_loss/pin_p.i;
+   pin_n.i = pin_p.i;
+   pin_n.v = pin_p.v;
 
     annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-80,
             -40},{80,40}}), graphics={

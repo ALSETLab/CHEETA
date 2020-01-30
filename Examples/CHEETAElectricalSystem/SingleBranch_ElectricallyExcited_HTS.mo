@@ -10,8 +10,8 @@ model SingleBranch_ElectricallyExcited_HTS
   Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm(
       constantDutyCycle=0.5, f(displayUnit="kHz") = 100000)
     annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
-  Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=100, L=
-        0.001) annotation (Placement(transformation(extent={{-86,-6},{-74,6}})));
+  Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=0, L=0)
+               annotation (Placement(transformation(extent={{-86,-6},{-74,6}})));
   parameter Records.NotionalPowerSystem.SM_PermanentMagnetData smpmData
     annotation (Placement(transformation(extent={{42,20},{62,40}})));
   Modelica.Electrical.PowerConverters.DCAC.SinglePhase2Level inverter(
@@ -26,10 +26,12 @@ model SingleBranch_ElectricallyExcited_HTS
     annotation (Placement(transformation(extent={{56,-10},{76,10}})));
   Aircraft.Mechanical.Loads.Fan fan
     annotation (Placement(transformation(extent={{120,-4},{128,4}})));
-  Aircraft.Electrical.HTS.HTS_Cooling hTS_Cooling(l=1)
-    annotation (Placement(transformation(extent={{-12,-4},{8,16}})));
-  Aircraft.Electrical.HTS.HTS_Cooling hTS_Cooling1(l=1)
-    annotation (Placement(transformation(extent={{-12,-16},{8,4}})));
+  Aircraft.Electrical.HTS.HTS         hTS_Cooling(l=1)
+    annotation (Placement(transformation(extent={{-14,2},{8,10}})));
+  Aircraft.Electrical.HTS.HTS         hTS_Cooling1(l=1)
+    annotation (Placement(transformation(extent={{-14,-14},{8,-6}})));
+  Modelica.Blocks.Sources.Constant const(k=20)
+    annotation (Placement(transformation(extent={{-38,-54},{-18,-34}})));
 equation
   connect(dcdc.fire_p, pwm.fire)
     annotation (Line(points={{-56,-12},{-56,-19}}, color={255,0,255}));
@@ -49,14 +51,18 @@ equation
   connect(rectifierDrivenGenerator.flange1, fan.flange_a1)
     annotation (Line(points={{105.273,0},{119,0}},
                                                color={0,0,0}));
-  connect(dcdc.dc_p2, hTS_Cooling.p_in1)
-    annotation (Line(points={{-40,6},{-12,6}}, color={0,0,255}));
-  connect(inverter.dc_p, hTS_Cooling.p_out1)
-    annotation (Line(points={{26,6},{8,6}}, color={0,0,255}));
-  connect(dcdc.dc_n2, hTS_Cooling1.p_in1)
-    annotation (Line(points={{-40,-6},{-12,-6}}, color={0,0,255}));
-  connect(inverter.dc_n, hTS_Cooling1.p_out1)
-    annotation (Line(points={{26,-6},{8,-6}}, color={0,0,255}));
+  connect(dcdc.dc_p2, hTS_Cooling.pin_p)
+    annotation (Line(points={{-40,6},{-15.375,6}}, color={0,0,255}));
+  connect(inverter.dc_p, hTS_Cooling.pin_n)
+    annotation (Line(points={{26,6},{9.375,6}}, color={0,0,255}));
+  connect(dcdc.dc_n2, hTS_Cooling1.pin_p) annotation (Line(points={{-40,-6},{
+          -28,-6},{-28,-10},{-15.375,-10}}, color={0,0,255}));
+  connect(inverter.dc_n, hTS_Cooling1.pin_n) annotation (Line(points={{26,-6},{
+          18,-6},{18,-10},{9.375,-10}}, color={0,0,255}));
+  connect(hTS_Cooling.temperature, const.y) annotation (Line(points={{-3,0},{
+          -10,0},{-10,-44},{-17,-44}}, color={0,0,127}));
+  connect(hTS_Cooling1.temperature, const.y) annotation (Line(points={{-3,-16},
+          {-3,-28},{-10,-28},{-10,-44},{-17,-44}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{140,
             60}})),
