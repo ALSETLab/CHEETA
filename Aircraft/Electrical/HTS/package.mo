@@ -12,21 +12,19 @@ package HTS "Models for the high temperature superconductor"
    parameter Real l "Length of wire";
    Real p_loss "Power loss";
    Real p_out "Output power";
-   Real v_loss "Loss voltage";
 
-   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p annotation (Placement(
+   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p             annotation (Placement(
          transformation(extent={{-100,-10},{-80,10}}),iconTransformation(extent={{-100,
              -10},{-80,10}})));
    Modelica.Electrical.Analog.Interfaces.NegativePin pin_n annotation (Placement(
          transformation(extent={{80,-10},{100,10}}),iconTransformation(extent={{80,-10},
              {100,10}})));
-
  equation
    p_loss = 0.001 + (0.0009*(temperature - 67)) * l * (pin_p.i * pin_p.i);
    p_out = (pin_p.v * pin_p.i) - p_loss;
-   v_loss = p_loss/pin_p.i;
+
    pin_n.i = pin_p.i;
-   pin_n.v = pin_p.v;
+   pin_n.v = pin_p.v - p_loss/(pin_p.i+1e-9);
 
     annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-80,
             -40},{80,40}}), graphics={

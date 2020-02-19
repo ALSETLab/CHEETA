@@ -94,8 +94,8 @@ equation
     annotation (Line(points={{-2,-20},{-19,-20}}, color={0,0,127}));
   connect(LINE.p_in, p_in1) annotation (Line(points={{-11.925,-61.25},{-100,
           -61.25},{-100,0}}, color={0,0,255}));
-  connect(LINE.temperature, temperature1) annotation (Line(points={{0.8625,
-          -67.875},{0.8625,-100},{0,-100}}, color={191,0,0}));
+  connect(LINE.temperature, temperature1) annotation (Line(points={{1,-68.5},{1,
+          -100},{0,-100}},                  color={191,0,0}));
   connect(LINE.p_out, p_out1) annotation (Line(points={{13.925,-61.25},{100,
           -61.25},{100,0}}, color={0,0,255}));
 annotation (Documentation(info="<html>

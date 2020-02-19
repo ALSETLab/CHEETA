@@ -11,7 +11,7 @@ model SingleBranch_SimpleMachine
     f=10,
     startTime=80)                      annotation (Placement(
         transformation(
-        extent={{-10,-10},{10,10}},
+        extent={{10,-10},{-10,10}},
         origin={18,-34})));
   Modelica.Electrical.PowerConverters.DCDC.ChopperStepUp dcdc annotation (
       Placement(transformation(
@@ -27,11 +27,8 @@ model SingleBranch_SimpleMachine
   Aircraft.Mechanical.Loads.Pinwheel
                                 pinwheel
     annotation (Placement(transformation(extent={{80,-4},{88,4}})));
-  Modelica.Blocks.Sources.Step step(
-    height=-1,
-    offset=1,
-    startTime=80)
-    annotation (Placement(transformation(extent={{-20,-44},{0,-24}})));
+  Aircraft.Electrical.Controls.VariableSpeedDrive variableSpeedDrive(wref=4000,
+      T=10) annotation (Placement(transformation(extent={{64,-44},{44,-24}})));
 equation
   connect(dcdc.fire_p, signalPWM2.fire)
     annotation (Line(points={{-44,-12},{-44,-23}}, color={255,0,255}));
@@ -47,12 +44,14 @@ equation
     annotation (Line(points={{8,-6},{-28,-6}}, color={0,0,255}));
   connect(pinwheel.flange_a1, simpleMotor1.flange1)
     annotation (Line(points={{80,0},{70,0},{70,0},{58.4,0}}, color={0,0,0}));
-  connect(signalPWM1.fire, inverter2.fire_p)
+  connect(variableSpeedDrive.y1, signalPWM1.dutyCycle) annotation (Line(points={{43,-34},
+          {30,-34}},                           color={0,0,127}));
+  connect(variableSpeedDrive.flange1, simpleMotor1.flange1) annotation (Line(
+        points={{64.2,-34},{72,-34},{72,0},{58.4,0}}, color={0,0,0}));
+  connect(signalPWM1.notFire, inverter2.fire_p)
     annotation (Line(points={{12,-23},{12,-12}}, color={255,0,255}));
-  connect(inverter2.fire_n, signalPWM1.notFire)
-    annotation (Line(points={{24,-12},{24,-23}}, color={255,0,255}));
-  connect(signalPWM1.dutyCycle, step.y)
-    annotation (Line(points={{6,-34},{1,-34}}, color={0,0,127}));
+  connect(signalPWM1.fire, inverter2.fire_n)
+    annotation (Line(points={{24,-23},{24,-12}}, color={255,0,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false)),
     Diagram(coordinateSystem(preserveAspectRatio=false)),
@@ -60,5 +59,5 @@ equation
 <p>The architecture of the CHEETA electrical system is shown below:</p>
 <p><br><img src=\"modelica://CHEETA/Images/Electrical/CHEETASystem.PNG\"/></p>
 </html>"),
-    experiment(StopTime=92));
+    experiment(StopTime=500, __Dymola_NumberOfIntervals=5000));
 end SingleBranch_SimpleMachine;

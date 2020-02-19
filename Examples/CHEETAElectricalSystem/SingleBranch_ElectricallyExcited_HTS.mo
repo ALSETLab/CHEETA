@@ -18,6 +18,7 @@ model SingleBranch_ElectricallyExcited_HTS
       constantEnable=false)
     annotation (Placement(transformation(extent={{26,-10},{46,10}})));
   Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm1(
+    useConstantDutyCycle=false,
       constantDutyCycle=0.5, f(displayUnit="kHz") = 100000)
     annotation (Placement(transformation(extent={{26,-42},{46,-22}})));
   Aircraft.Electrical.Machines.AIMC_SquirrelCage rectifierDrivenGenerator
@@ -30,8 +31,8 @@ model SingleBranch_ElectricallyExcited_HTS
     annotation (Placement(transformation(extent={{-14,2},{8,10}})));
   Aircraft.Electrical.HTS.HTS         hTS_Cooling1(l=1)
     annotation (Placement(transformation(extent={{-14,-14},{8,-6}})));
-  Modelica.Blocks.Sources.Constant const(k=20)
-    annotation (Placement(transformation(extent={{-38,-54},{-18,-34}})));
+  Aircraft.Electrical.Controls.VariableSpeedDrive variableSpeedDrive
+    annotation (Placement(transformation(extent={{46,-74},{26,-54}})));
 equation
   connect(dcdc.fire_p, pwm.fire)
     annotation (Line(points={{-56,-12},{-56,-19}}, color={255,0,255}));
@@ -59,10 +60,10 @@ equation
           -28,-6},{-28,-10},{-15.375,-10}}, color={0,0,255}));
   connect(inverter.dc_n, hTS_Cooling1.pin_n) annotation (Line(points={{26,-6},{
           18,-6},{18,-10},{9.375,-10}}, color={0,0,255}));
-  connect(hTS_Cooling.temperature, const.y) annotation (Line(points={{-3,0},{
-          -10,0},{-10,-44},{-17,-44}}, color={0,0,127}));
-  connect(hTS_Cooling1.temperature, const.y) annotation (Line(points={{-3,-16},
-          {-3,-28},{-10,-28},{-10,-44},{-17,-44}}, color={0,0,127}));
+  connect(variableSpeedDrive.y1, pwm1.dutyCycle) annotation (Line(points={{25,
+          -64},{16,-64},{16,-32},{24,-32}}, color={0,0,127}));
+  connect(variableSpeedDrive.flange1, fan.flange_a1) annotation (Line(points={{
+          46.2,-64},{112,-64},{112,0},{119,0}}, color={0,0,0}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{140,
             60}})),

@@ -2,8 +2,8 @@ within CHEETA.Examples.CHEETAElectricalSystem;
 model SingleBranch_HTS_Test
   parameter Real pi = Modelica.Constants.pi;
   parameter Integer m = 3 "Number of phases";
-  Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=0, L=0)
-               annotation (Placement(transformation(extent={{-86,-6},{-74,6}})));
+  Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=1, L=0)
+               annotation (Placement(transformation(extent={{-86,-8},{-74,4}})));
   parameter Records.NotionalPowerSystem.SM_PermanentMagnetData smpmData
     annotation (Placement(transformation(extent={{42,20},{62,40}})));
   Aircraft.Electrical.HTS.HTS hTS(l=1)
@@ -25,17 +25,17 @@ model SingleBranch_HTS_Test
         transformation(
         extent={{-10,-10},{10,10}},
         origin={30,-34})));
-  Aircraft.Electrical.Machines.SimpleMotor simpleMotor(R_hyst(displayUnit="Ohm")
-       = 149) annotation (Placement(transformation(extent={{66,-10},{86,10}})));
+  Aircraft.Electrical.Machines.SimpleMotor simpleMotor(R_hyst(displayUnit="Ohm")=
+         149) annotation (Placement(transformation(extent={{66,-10},{86,10}})));
 equation
   connect(ramp.y, hTS1.temperature) annotation (Line(points={{-23,-54},{-16,-54},
           {-16,-52},{-2,-52},{-2,-18}}, color={0,0,127}));
   connect(hTS.temperature, hTS1.temperature) annotation (Line(points={{-2,4},{
           -16,4},{-16,-52},{-2,-52},{-2,-18}}, color={0,0,127}));
-  connect(simplifiedFuelCell.pin_p, hTS.pin_p) annotation (Line(points={{-73,4},
-          {-42,4},{-42,10},{-11,10}}, color={0,0,255}));
-  connect(simplifiedFuelCell.pin_p1, hTS1.pin_p) annotation (Line(points={{-73,
-          -4},{-42,-4},{-42,-12},{-11,-12}}, color={0,0,255}));
+  connect(simplifiedFuelCell.pin_p, hTS.pin_p) annotation (Line(points={{-73,2},
+          {-42,2},{-42,10},{-11,10}}, color={0,0,255}));
+  connect(simplifiedFuelCell.pin_p1, hTS1.pin_p) annotation (Line(points={{-73,-6},
+          {-42,-6},{-42,-12},{-11,-12}},     color={0,0,255}));
   connect(signalPWM1.fire,inverter2. fire_p)
     annotation (Line(points={{24,-23},{24,-12}},
                                                color={255,0,255}));
