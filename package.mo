@@ -109,7 +109,9 @@ annotation (uses(Modelica(version="3.2.3"),
     ElectricPower(version="2.6"),
     FuelCell(version="1.9"),
     Modelica_LinearSystems2(version="2.3.5"),
-    OpenIPSL(version="2.0.0-dev")),
+    OpenIPSL(version="2.0.0-dev"),
+    VeSyMA(version="2019.1"),
+    Electrification(version="1.1")),
   version="1",
   conversion(noneFromVersion=""));
 end CHEETA;

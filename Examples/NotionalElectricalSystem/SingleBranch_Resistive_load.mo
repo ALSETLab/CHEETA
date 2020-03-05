@@ -1,4 +1,4 @@
-within CHEETA.Examples.CHEETAElectricalSystem;
+within CHEETA.Examples.NotionalElectricalSystem;
 model SingleBranch_Resistive_load "Resistive load connected to inverter"
   Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=0, L=
         0.0001)

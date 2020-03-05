@@ -1,4 +1,4 @@
-within CHEETA.Examples.CHEETAElectricalSystem;
+within CHEETA.Examples.NotionalElectricalSystem;
 model debug "Resistive load connected to inverter"
   Modelica.Electrical.PowerConverters.DCAC.SinglePhase2Level inverter1(
       useHeatPort=false)

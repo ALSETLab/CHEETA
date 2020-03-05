@@ -1,4 +1,4 @@
-within CHEETA.Examples.CHEETAElectricalSystem;
+within CHEETA.Examples.NotionalElectricalSystem;
 model SingleBranch_AveragedHalfBridge
   "Single branch model with averaged half bridge DCAC converter model"
   Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=100,

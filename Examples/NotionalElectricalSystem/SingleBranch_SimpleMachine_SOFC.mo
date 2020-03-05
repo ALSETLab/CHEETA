@@ -1,4 +1,4 @@
-within CHEETA.Examples.CHEETAElectricalSystem;
+within CHEETA.Examples.NotionalElectricalSystem;
 model SingleBranch_SimpleMachine_SOFC
   Modelica.Electrical.PowerConverters.DCDC.ChopperStepUp dcdc annotation (
       Placement(transformation(

@@ -1,4 +1,4 @@
-within CHEETA.Examples.CHEETAElectricalSystem;
+within CHEETA.Examples.NotionalElectricalSystem;
 model SingleBranch_HTS_Test
   parameter Real pi = Modelica.Constants.pi;
   parameter Integer m = 3 "Number of phases";
