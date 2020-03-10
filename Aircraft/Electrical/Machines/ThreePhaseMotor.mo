@@ -1,5 +1,5 @@
 within CHEETA.Aircraft.Electrical.Machines;
-model AIMC_SquirrelCage
+model ThreePhaseMotor
   import SI = Modelica.SIunits;
   import Modelica.SIunits.Conversions.*;
   parameter Integer m= 3 "Number of phases";
@@ -30,63 +30,25 @@ model AIMC_SquirrelCage
   Modelica.Electrical.Machines.Utilities.TerminalBox
                                  terminalBox(terminalConnection="Y")
     annotation (Placement(transformation(extent={{-10,-32},{10,-12}})));
-  Modelica.Electrical.Machines.Sensors.CurrentQuasiRMSSensor
-                                         currentQuasiRMSSensor
-    annotation (Placement(transformation(
-        extent={{-10,10},{10,-10}},
-        rotation=270,
-        origin={0,0})));
-  Modelica.Electrical.MultiPhase.Sources.SignalVoltage signalVoltage(final m=m)
-                 annotation (Placement(transformation(
-        origin={0,32},
-        extent={{10,10},{-10,-10}},
-        rotation=270)));
-  Modelica.Electrical.MultiPhase.Basic.Star star(final m=m) annotation (
-      Placement(transformation(extent={{10,-10},{-10,10}},
-        rotation=270,
-        origin={0,60})));
-  Modelica.Electrical.Analog.Basic.Ground ground annotation (Placement(
-        transformation(
-        origin={0,86},
-        extent={{-10,-10},{10,10}},
-        rotation=180)));
   Modelica.Mechanics.Rotational.Interfaces.Flange_a flange1
                                                            "Shaft"
-    annotation (Placement(transformation(extent={{82,-10},{102,10}})));
-  Blocks.Routing.RealExtend realExtend
-    annotation (Placement(transformation(extent={{-44,22},{-24,42}})));
+    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   parameter Records.NotionalPowerSystem.AIM_SquirrelCageData aimcData
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
-  Modelica.Electrical.Analog.Sensors.PotentialSensor potentialSensor
-    annotation (Placement(transformation(extent={{-82,-10},{-62,10}})));
-  Modelica.Electrical.Analog.Interfaces.PositivePin p1
-                           "pin to be measured"
+  Modelica.Electrical.MultiPhase.Interfaces.PositivePlug plug_p1
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
 protected
   parameter Real rpm=from_rpm(wref) "Reference speed of the generator";
 equation
-  connect(signalVoltage.plug_p, currentQuasiRMSSensor.plug_p) annotation (Line(
-        points={{-1.77636e-15,22},{0,22},{0,10},{1.77636e-15,10}}, color={0,0,255}));
   connect(terminalBox.plug_sn, aimc.plug_sn)
     annotation (Line(points={{-6,-28},{-6,-28}}, color={0,0,255}));
   connect(terminalBox.plug_sp, aimc.plug_sp)
     annotation (Line(points={{6,-28},{6,-28}}, color={0,0,255}));
-  connect(currentQuasiRMSSensor.plug_n, terminalBox.plugSupply) annotation (
-      Line(points={{-1.77636e-15,-10},{-1.77636e-15,-18},{0,-18},{0,-26}},
-        color={0,0,255}));
-  connect(signalVoltage.plug_n, star.plug_p) annotation (Line(points={{1.77636e-15,
-          42},{0,42},{0,50}}, color={0,0,255}));
-  connect(star.pin_n, ground.p) annotation (Line(points={{1.83187e-15,70},{0,70},
-          {0,76}}, color={0,0,255}));
   connect(aimc.flange, flange1) annotation (Line(points={{10,-38},{26,-38},{26,
-          0},{92,0}},
+          0},{100,0}},
                     color={0,0,0}));
-  connect(realExtend.y, signalVoltage.v) annotation (Line(points={{-23,32},{-12,
-          32}},                    color={0,0,127}));
-  connect(realExtend.u, potentialSensor.phi) annotation (Line(points={{-46,32},
-          {-54,32},{-54,0},{-61,0}}, color={0,0,127}));
-  connect(potentialSensor.p, p1)
-    annotation (Line(points={{-82,0},{-100,0}}, color={0,0,255}));
+  connect(terminalBox.plugSupply, plug_p1)
+    annotation (Line(points={{0,-26},{0,0},{-100,0}}, color={0,0,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-120,-100},
             {100,100}}), graphics={
         Rectangle(
@@ -112,4 +74,4 @@ equation
           fillPattern=FillPattern.Solid)}),
                           Diagram(coordinateSystem(preserveAspectRatio=false,
           extent={{-100,-100},{100,100}})));
-end AIMC_SquirrelCage;
+end ThreePhaseMotor;

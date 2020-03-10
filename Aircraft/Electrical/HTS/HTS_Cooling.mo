@@ -62,11 +62,9 @@ model HTS_Cooling "Simple cooling circuit"
     nperiod=1)
     annotation (Placement(transformation(extent={{-40,-30},{-20,-10}})));
   parameter Real l "Length of wire";
-  HTS LINE annotation (Placement(transformation(extent={{-10,-66},{12,-56}})));
+  HTS LINE annotation (Placement(transformation(extent={{-10,-56},{12,-66}})));
   Modelica.Electrical.Analog.Interfaces.Pin p_in1
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a temperature1
-    annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
   Modelica.Electrical.Analog.Interfaces.NegativePin p_out1
     annotation (Placement(transformation(extent={{110,-10},{90,10}})));
 equation
@@ -94,10 +92,10 @@ equation
     annotation (Line(points={{-2,-20},{-19,-20}}, color={0,0,127}));
   connect(LINE.p_in, p_in1) annotation (Line(points={{-11.925,-61.25},{-100,
           -61.25},{-100,0}}, color={0,0,255}));
-  connect(LINE.temperature, temperature1) annotation (Line(points={{1,-68.5},{1,
-          -100},{0,-100}},                  color={191,0,0}));
   connect(LINE.p_out, p_out1) annotation (Line(points={{13.925,-61.25},{100,
           -61.25},{100,0}}, color={0,0,255}));
+  connect(LINE.temperature, HTS_Cooler.port) annotation (Line(points={{1,-56},{
+          1,-34},{26,-34},{26,-20},{38,-20}}, color={191,0,0}));
 annotation (Documentation(info="<html>
 <p>
 1st test example: SimpleCooling
