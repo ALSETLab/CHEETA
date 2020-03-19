@@ -75,8 +75,6 @@ model SingleBranch_3Phase
     annotation (Placement(transformation(extent={{34,-46},{54,-38}})));
   Aircraft.Electrical.CB.CircuitBreaker circuitBreaker7(k=200000)
     annotation (Placement(transformation(extent={{34,-58},{54,-50}})));
-  Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell1(R=0, L=0)
-              annotation (Placement(transformation(extent={{-82,-120},{-70,-108}})));
   Modelica.Electrical.PowerConverters.DCAC.MultiPhase2Level  inverter3(
       useHeatPort=false)
     annotation (Placement(transformation(extent={{64,-124},{84,-104}})));
@@ -116,6 +114,18 @@ model SingleBranch_3Phase
     temperature=100,
     l=1,
     R=100) annotation (Placement(transformation(extent={{2,-124},{18,-116}})));
+  Aircraft.Electrical.CB.CircuitBreaker circuitBreaker1(k=200000)
+    annotation (Placement(transformation(extent={{-30,-110},{-10,-102}})));
+  Aircraft.Electrical.CB.CircuitBreaker circuitBreaker2(k=200000)
+    annotation (Placement(transformation(extent={{-30,-122},{-10,-114}})));
+  Aircraft.Electrical.CB.CircuitBreaker circuitBreaker3(k=200000)
+    annotation (Placement(transformation(extent={{32,-122},{52,-114}})));
+  Aircraft.Electrical.CB.CircuitBreaker circuitBreaker8(k=200000)
+    annotation (Placement(transformation(extent={{32,-110},{52,-102}})));
+  Aircraft.Electrical.FuelCell.PEMFC pEMFC annotation (Placement(transformation(
+        extent={{12,-8},{-12,8}},
+        rotation=270,
+        origin={-76,-114})));
 equation
   connect(dcdc.fire_p,signalPWM2. fire)
     annotation (Line(points={{-56,18},{-56,11}},   color={255,0,255}));
@@ -174,10 +184,6 @@ equation
     annotation (Line(points={{64,-56},{53.8,-56}}, color={0,0,255}));
   connect(dcdc2.fire_p, signalPWM4.fire)
     annotation (Line(points={{-58,-126},{-58,-133}}, color={255,0,255}));
-  connect(simplifiedFuelCell1.pin_p, dcdc2.dc_p1) annotation (Line(points={{-69,
-          -110},{-66,-110},{-66,-108},{-62,-108}}, color={0,0,255}));
-  connect(simplifiedFuelCell1.pin_p1, dcdc2.dc_n1) annotation (Line(points={{
-          -69,-118},{-66,-118},{-66,-120},{-62,-120}}, color={0,0,255}));
   connect(inverter3.ac, threePhaseMotor2.plug_p1)
     annotation (Line(points={{84,-114},{98,-114}}, color={0,0,255}));
   connect(threePhaseMotor2.flange1, fan2.flange_a1)
@@ -198,18 +204,30 @@ equation
           -16,18},{8,18}}, color={0,0,255}));
   connect(inverter2.dc_n, resistor1.n) annotation (Line(points={{66,24},{48,24},
           {48,18},{28,18}}, color={0,0,255}));
-  connect(dcdc2.dc_p2, hTS_exploss.pin_p)
-    annotation (Line(points={{-42,-108},{1,-108}}, color={0,0,255}));
-  connect(inverter3.dc_p, hTS_exploss.pin_n)
-    annotation (Line(points={{64,-108},{19,-108}}, color={0,0,255}));
-  connect(dcdc2.dc_n2, hTS_exploss1.pin_p)
-    annotation (Line(points={{-42,-120},{1,-120}}, color={0,0,255}));
-  connect(inverter3.dc_n, hTS_exploss1.pin_n)
-    annotation (Line(points={{64,-120},{19,-120}}, color={0,0,255}));
+  connect(dcdc2.dc_p2, circuitBreaker1.p1)
+    annotation (Line(points={{-42,-108},{-30,-108}}, color={0,0,255}));
+  connect(hTS_exploss.pin_p, circuitBreaker1.n1)
+    annotation (Line(points={{1,-108},{-10.2,-108}}, color={0,0,255}));
+  connect(circuitBreaker2.p1, dcdc2.dc_n2)
+    annotation (Line(points={{-30,-120},{-42,-120}}, color={0,0,255}));
+  connect(hTS_exploss1.pin_p, circuitBreaker2.n1)
+    annotation (Line(points={{1,-120},{-10.2,-120}}, color={0,0,255}));
+  connect(circuitBreaker8.p1, hTS_exploss.pin_n)
+    annotation (Line(points={{32,-108},{19,-108}}, color={0,0,255}));
+  connect(inverter3.dc_p, circuitBreaker8.n1)
+    annotation (Line(points={{64,-108},{51.8,-108}}, color={0,0,255}));
+  connect(hTS_exploss1.pin_n, circuitBreaker3.p1)
+    annotation (Line(points={{19,-120},{32,-120}}, color={0,0,255}));
+  connect(inverter3.dc_n, circuitBreaker3.n1)
+    annotation (Line(points={{64,-120},{51.8,-120}}, color={0,0,255}));
+  connect(pEMFC.pin_p1, dcdc2.dc_p1) annotation (Line(points={{-69,-108},{-64,
+          -108},{-64,-108},{-62,-108}}, color={0,0,255}));
+  connect(pEMFC.pin_n1, dcdc2.dc_n1)
+    annotation (Line(points={{-69,-120},{-62,-120}}, color={0,0,255}));
   annotation (
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-160},{140,
+    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},{140,
             60}})),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-160},{
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},{
             140,60}})),
     Documentation(info="<html>
 <p>The architecture of the CHEETA electrical system is shown below:</p>

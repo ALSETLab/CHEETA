@@ -110,8 +110,8 @@ annotation (uses(Modelica(version="3.2.3"),
     AircraftDynamics(version="1.2"),
     Modelon(version="3.4"),
     ElectricPower(version="2.7"),
-    FuelCell(version="1.10"),
-    Electrification(version="1.3")),
+    Electrification(version="1.1"),
+    FuelCell(version="1.9")),
   version="2",
   conversion(noneFromVersion=""));
 end CHEETA;
