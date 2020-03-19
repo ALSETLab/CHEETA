@@ -3,12 +3,6 @@ package HTS "Models for the high temperature superconductor"
 
  model HTS
 
-    Modelica.Blocks.Interfaces.RealInput temperature
-     annotation (Placement(transformation(extent={{-58,-94},{-18,-54}}),
-         iconTransformation(
-         extent={{-20,-20},{20,20}},
-         rotation=90,
-         origin={0,-60})));
    parameter Real l "Length of wire";
    Real p_loss "Power loss";
    Real p_out "Output power";
@@ -19,6 +13,8 @@ package HTS "Models for the high temperature superconductor"
    Modelica.Electrical.Analog.Interfaces.NegativePin pin_n annotation (Placement(
          transformation(extent={{80,-10},{100,10}}),iconTransformation(extent={{80,-10},
              {100,10}})));
+   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a temperature
+    annotation (Placement(transformation(extent={{-10,-50},{10,-30}})));
  equation
    p_loss = 0.001 + (0.0009*(temperature - 67)) * l * (pin_p.i * pin_p.i);
    p_out = (pin_p.v * pin_p.i) - p_loss;

@@ -4,10 +4,6 @@ model AIMC_SquirrelCage
   import Modelica.SIunits.Conversions.*;
   parameter Integer m= 3 "Number of phases";
 
-  Modelica.Blocks.Interfaces.RealInput v1
-    "Voltage between pin p and n (= p.v - n.v) as input signal" annotation (
-      Placement(transformation(extent={{-114,-20},{-74,20}}),
-        iconTransformation(extent={{-94,0},{-74,20}})));
   parameter Real wref = 4000;
   Modelica.Electrical.Machines.BasicMachines.AsynchronousInductionMachines.AIM_SquirrelCage
     aimc(
@@ -58,9 +54,14 @@ model AIMC_SquirrelCage
                                                            "Shaft"
     annotation (Placement(transformation(extent={{82,-10},{102,10}})));
   Blocks.Routing.RealExtend realExtend
-    annotation (Placement(transformation(extent={{-62,-10},{-42,10}})));
+    annotation (Placement(transformation(extent={{-44,22},{-24,42}})));
   parameter Records.NotionalPowerSystem.AIM_SquirrelCageData aimcData
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
+  Modelica.Electrical.Analog.Sensors.PotentialSensor potentialSensor
+    annotation (Placement(transformation(extent={{-82,-10},{-62,10}})));
+  Modelica.Electrical.Analog.Interfaces.PositivePin p1
+                           "pin to be measured"
+    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
 protected
   parameter Real rpm=from_rpm(wref) "Reference speed of the generator";
 equation
@@ -80,11 +81,12 @@ equation
   connect(aimc.flange, flange1) annotation (Line(points={{10,-38},{26,-38},{26,
           0},{92,0}},
                     color={0,0,0}));
-  connect(v1, realExtend.u)
-    annotation (Line(points={{-94,0},{-64,0}},  color={0,0,127}));
-  connect(realExtend.y, signalVoltage.v) annotation (Line(points={{-41,0},{
-          -33.5,0},{-33.5,32},{-12,32}},
-                                   color={0,0,127}));
+  connect(realExtend.y, signalVoltage.v) annotation (Line(points={{-23,32},{-12,
+          32}},                    color={0,0,127}));
+  connect(realExtend.u, potentialSensor.phi) annotation (Line(points={{-46,32},
+          {-54,32},{-54,0},{-61,0}}, color={0,0,127}));
+  connect(potentialSensor.p, p1)
+    annotation (Line(points={{-82,0},{-100,0}}, color={0,0,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-120,-100},
             {100,100}}), graphics={
         Rectangle(

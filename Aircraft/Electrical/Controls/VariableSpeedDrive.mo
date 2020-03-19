@@ -14,8 +14,7 @@ model VariableSpeedDrive
   Modelica.Mechanics.Rotational.Interfaces.Flange_a flange1
     "Flange of shaft from which sensor information shall be measured"
     annotation (Placement(transformation(extent={{-112,-10},{-92,10}})));
-  Modelica.Blocks.Interfaces.RealOutput y1
-               "Connector of Real output signal"
+  Modelica.Blocks.Interfaces.RealOutput y1 "Connector of Real output signal"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Modelica.Blocks.Sources.Constant const(k=wref)
     annotation (Placement(transformation(extent={{-60,20},{-40,40}})));

@@ -77,6 +77,9 @@ model SOFC
   Modelica.Electrical.Analog.Interfaces.NegativePin pin_n1 annotation (
       Placement(transformation(extent={{28,70},{48,90}}), iconTransformation(
           extent={{28,70},{48,90}})));
+  Modelica.Electrical.Analog.Basic.Ground ground
+    annotation (Placement(transformation(extent={{28,48},{48,68}})));
+  parameter Modelica.SIunits.Resistance R "Resistance at temperature T_ref";
 equation
 
   connect(flowAnode.fluidPort, stack.feed_an) annotation (Line(points={{-71,20},
@@ -87,10 +90,12 @@ equation
           -8},{-40,-8},{-40,-20},{-71,-20}}, color={255,128,0}));
   connect(stack.drain_cath, sinkCathode.fluidPort) annotation (Line(points={{20,
           -8},{40,-8},{40,-20},{71,-20}}, color={255,128,0}));
-  connect(stack.pin_p, pin_p1)
-    annotation (Line(points={{-10,16.8},{-10,80},{-40,80}}, color={0,0,255}));
   connect(stack.pin_n, pin_n1)
     annotation (Line(points={{10,16.8},{10,80},{38,80}}, color={0,0,255}));
+  connect(pin_n1, ground.p)
+    annotation (Line(points={{38,80},{38,68}}, color={0,0,255}));
+  connect(pin_p1, stack.pin_p)
+    annotation (Line(points={{-40,80},{-10,80},{-10,16.8}}, color={0,0,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),
     experiment(StopTime=6000,Tolerance=1e-6),
