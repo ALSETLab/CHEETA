@@ -29,9 +29,9 @@ model SingleBranch_HTS_Test
          149) annotation (Placement(transformation(extent={{66,-10},{86,10}})));
 equation
   connect(ramp.y, hTS1.temperature) annotation (Line(points={{-23,-54},{-16,-54},
-          {-16,-52},{-2,-52},{-2,-18}}, color={0,0,127}));
-  connect(hTS.temperature, hTS1.temperature) annotation (Line(points={{-2,4},{
-          -16,4},{-16,-52},{-2,-52},{-2,-18}}, color={0,0,127}));
+          {-16,-52},{-2,-52},{-2,-16}}, color={0,0,127}));
+  connect(hTS.temperature, hTS1.temperature) annotation (Line(points={{-2,6},{
+          -16,6},{-16,-52},{-2,-52},{-2,-16}}, color={0,0,127}));
   connect(simplifiedFuelCell.pin_p, hTS.pin_p) annotation (Line(points={{-73,2},
           {-42,2},{-42,10},{-11,10}}, color={0,0,255}));
   connect(simplifiedFuelCell.pin_p1, hTS1.pin_p) annotation (Line(points={{-73,-6},

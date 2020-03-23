@@ -1,57 +1,97 @@
 within CHEETA.Examples.CHEETAElectricalSystem;
 model HTS_test "Test for HTS transmission"
-  Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=100, L=0)
-    annotation (Placement(transformation(extent={{-92,14},{-80,26}})));
-  Modelica.Electrical.PowerConverters.DCDC.ChopperStepUp dcdc1
-                                                              annotation (
-      Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=0,
-        origin={-54,20})));
-  Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm2(
-      constantDutyCycle=0.5, f(displayUnit="kHz") = 100000)
-    annotation (Placement(transformation(extent={{-64,-22},{-44,-2}})));
+  Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=0,   L=0)
+    annotation (Placement(transformation(extent={{-108,6},{-96,18}})));
+  Aircraft.Electrical.HTS.Stekly      stekly(                      l=1)
+    annotation (Placement(transformation(extent={{-20,14},{-4,22}})));
+  Aircraft.Electrical.HTS.Stekly      stekly1(                      l=1)
+    annotation (Placement(transformation(extent={{-20,2},{-4,10}})));
+  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T(
+        displayUnit="K") = 115)
+    annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor
+                                           thermalConductor(G=0.1)
+                                                        annotation (Placement(
+        transformation(extent={{-26,-60},{-46,-40}})));
+  Aircraft.Electrical.CB.CircuitBreaker circuitBreaker4(k=200000)
+    annotation (Placement(transformation(extent={{-54,16},{-34,24}})));
+  Aircraft.Electrical.CB.CircuitBreaker circuitBreaker5(k=200000)
+    annotation (Placement(transformation(extent={{-54,4},{-34,12}})));
+  Aircraft.Electrical.CB.CircuitBreaker circuitBreaker6(k=200000)
+    annotation (Placement(transformation(extent={{8,16},{28,24}})));
+  Aircraft.Electrical.CB.CircuitBreaker circuitBreaker7(k=200000)
+    annotation (Placement(transformation(extent={{8,4},{28,12}})));
   Modelica.Electrical.PowerConverters.DCAC.SinglePhase2Level inverter1(
       constantEnable=false)
-    annotation (Placement(transformation(extent={{2,10},{22,30}})));
+    annotation (Placement(transformation(extent={{46,2},{66,22}})));
   Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm3(
     useConstantDutyCycle=false,
     constantDutyCycle=0.5,
     f(displayUnit="kHz") = 100000)
-    annotation (Placement(transformation(extent={{22,-22},{2,-2}})));
+    annotation (Placement(transformation(extent={{66,-30},{46,-10}})));
   Aircraft.Electrical.Machines.SimpleMotor simpleMotor2
-    annotation (Placement(transformation(extent={{36,10},{56,30}})));
-  Aircraft.Electrical.Controls.VariableSpeedDrive variableSpeedDrive1(wref=4000,
-      T=10) annotation (Placement(transformation(extent={{56,-22},{36,-2}})));
-  Aircraft.Electrical.HTS.HTS_exploss hTS_exploss(temperature=115, l=1)
-    annotation (Placement(transformation(extent={{-30,22},{-14,30}})));
-  Aircraft.Electrical.HTS.HTS_exploss hTS_exploss1(temperature=115, l=1)
-    annotation (Placement(transformation(extent={{-30,10},{-14,18}})));
+    annotation (Placement(transformation(extent={{80,2},{100,22}})));
+  Aircraft.Electrical.Controls.VariableSpeedDrive variableSpeedDrive1(wref=
+        41000,
+      T=10) annotation (Placement(transformation(extent={{100,-30},{80,-10}})));
+  Aircraft.Mechanical.Loads.Fan      fan
+    annotation (Placement(transformation(extent={{126,2},{146,22}})));
+  Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm(
+      constantDutyCycle=0.5, f(displayUnit="kHz") = 100000)
+    annotation (Placement(transformation(extent={{-84,-30},{-64,-10}})));
+  Aircraft.Electrical.PowerElectronics.Converters.DCDC.BoostConverter
+                                                         dcdc(
+    L=0.001,
+    i=0,
+    C=0.001,
+    v(start=1000) = 1000)                                     annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={-74,12})));
 equation
-  connect(variableSpeedDrive1.flange1, simpleMotor2.flange1) annotation (Line(
-        points={{56.2,-12},{70,-12},{70,20},{56.4,20}},   color={0,0,0}));
-  connect(simpleMotor2.p1, inverter1.ac)
-    annotation (Line(points={{35.6,20},{22,20}},   color={0,0,255}));
-  connect(inverter1.fire_p, pwm3.notFire)
-    annotation (Line(points={{6,8},{6,-1}},      color={255,0,255}));
-  connect(inverter1.fire_n, pwm3.fire)
-    annotation (Line(points={{18,8},{18,-1}},    color={255,0,255}));
+  connect(fixedTemperature.port,thermalConductor. port_b)
+    annotation (Line(points={{-60,-50},{-46,-50}},
+                                                 color={191,0,0}));
+  connect(stekly.port_a, stekly1.port_a)
+    annotation (Line(points={{-12,14},{-12,2}},  color={191,0,0}));
+  connect(stekly1.port_a, thermalConductor.port_a)
+    annotation (Line(points={{-12,2},{-12,-50},{-26,-50}}, color={191,0,0}));
+  connect(circuitBreaker4.n1, stekly.pin_p)
+    annotation (Line(points={{-34.2,18},{-21,18}}, color={0,0,255}));
+  connect(circuitBreaker6.p1, stekly.pin_n)
+    annotation (Line(points={{8,18},{-3,18}}, color={0,0,255}));
+  connect(circuitBreaker5.n1, stekly1.pin_p)
+    annotation (Line(points={{-34.2,6},{-21,6}}, color={0,0,255}));
+  connect(circuitBreaker7.p1, stekly1.pin_n)
+    annotation (Line(points={{8,6},{-3,6}}, color={0,0,255}));
+  connect(variableSpeedDrive1.flange1,simpleMotor2. flange1) annotation (Line(
+        points={{100.2,-20},{114,-20},{114,12},{100.4,12}},
+                                                          color={0,0,0}));
+  connect(simpleMotor2.p1,inverter1. ac)
+    annotation (Line(points={{79.6,12},{66,12}},   color={0,0,255}));
+  connect(inverter1.fire_p,pwm3. notFire)
+    annotation (Line(points={{50,0},{50,-9}},    color={255,0,255}));
+  connect(inverter1.fire_n,pwm3. fire)
+    annotation (Line(points={{62,0},{62,-9}},    color={255,0,255}));
+  connect(fan.flange_a1, simpleMotor2.flange1)
+    annotation (Line(points={{123.5,12},{100.4,12}}, color={0,0,0}));
+  connect(inverter1.dc_p, circuitBreaker6.n1)
+    annotation (Line(points={{46,18},{27.8,18}}, color={0,0,255}));
+  connect(inverter1.dc_n, circuitBreaker7.n1)
+    annotation (Line(points={{46,6},{27.8,6}}, color={0,0,255}));
   connect(variableSpeedDrive1.y1, pwm3.dutyCycle)
-    annotation (Line(points={{35,-12},{24,-12}}, color={0,0,127}));
-  connect(simplifiedFuelCell.pin_p, dcdc1.dc_p1)
-    annotation (Line(points={{-79,24},{-64,24},{-64,26}},    color={0,0,255}));
-  connect(dcdc1.dc_n1, simplifiedFuelCell.pin_p1) annotation (Line(points={{-64,14},
-          {-72,14},{-72,16},{-79,16}},         color={0,0,255}));
-  connect(pwm2.fire, dcdc1.fire_p) annotation (Line(points={{-60,-1},{-60,8}},
-                      color={255,0,255}));
-  connect(dcdc1.dc_p2, hTS_exploss.pin_p)
-    annotation (Line(points={{-44,26},{-31,26}}, color={0,0,255}));
-  connect(inverter1.dc_p, hTS_exploss.pin_n)
-    annotation (Line(points={{2,26},{-13,26}}, color={0,0,255}));
-  connect(dcdc1.dc_n2, hTS_exploss1.pin_p)
-    annotation (Line(points={{-44,14},{-31,14}}, color={0,0,255}));
-  connect(inverter1.dc_n, hTS_exploss1.pin_n)
-    annotation (Line(points={{2,14},{-13,14}}, color={0,0,255}));
+    annotation (Line(points={{79,-20},{68,-20}}, color={0,0,127}));
+  connect(dcdc.fire_p,pwm. fire)
+    annotation (Line(points={{-80,0},{-80,-9}},    color={255,0,255}));
+  connect(dcdc.dc_p2, circuitBreaker4.p1)
+    annotation (Line(points={{-64,18},{-54,18}}, color={0,0,255}));
+  connect(circuitBreaker5.p1, dcdc.dc_n2)
+    annotation (Line(points={{-54,6},{-64,6}}, color={0,0,255}));
+  connect(dcdc.dc_p1, simplifiedFuelCell.pin_p) annotation (Line(points={{-84,
+          18},{-90,18},{-90,16},{-95,16}}, color={0,0,255}));
+  connect(simplifiedFuelCell.pin_p1, dcdc.dc_n1) annotation (Line(points={{-95,
+          8},{-90,8},{-90,6},{-84,6}}, color={0,0,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false)),
     Diagram(coordinateSystem(preserveAspectRatio=false)),

@@ -21,7 +21,7 @@ model SingleBranch_ElectricallyExcited_HTS
     useConstantDutyCycle=false,
       constantDutyCycle=0.5, f(displayUnit="kHz") = 100000)
     annotation (Placement(transformation(extent={{26,-42},{46,-22}})));
-  Aircraft.Electrical.Machines.AIMC_SquirrelCage rectifierDrivenGenerator
+  Aircraft.Electrical.Machines.SimpleMotor       rectifierDrivenGenerator
     annotation (Placement(transformation(extent={{70,-8},{90,8}})));
   Aircraft.Mechanical.Loads.Fan fan
     annotation (Placement(transformation(extent={{120,-4},{128,4}})));
@@ -39,8 +39,7 @@ equation
   connect(inverter.fire_n, pwm1.notFire)
     annotation (Line(points={{42,-12},{42,-21}}, color={255,0,255}));
   connect(rectifierDrivenGenerator.flange1, fan.flange_a1)
-    annotation (Line(points={{89.2727,0},{119,0}},
-                                               color={0,0,0}));
+    annotation (Line(points={{90.4,0},{119,0}},color={0,0,0}));
   connect(variableSpeedDrive.y1, pwm1.dutyCycle) annotation (Line(points={{25,
           -64},{16,-64},{16,-32},{24,-32}}, color={0,0,127}));
   connect(variableSpeedDrive.flange1, fan.flange_a1) annotation (Line(points={{
@@ -50,7 +49,7 @@ equation
   connect(dcdc.dc_n2, inverter.dc_n)
     annotation (Line(points={{-40,-6},{26,-6}}, color={0,0,255}));
   connect(rectifierDrivenGenerator.p1, inverter.ac)
-    annotation (Line(points={{71.8182,0},{46,0}}, color={0,0,255}));
+    annotation (Line(points={{69.6,0},{46,0}},    color={0,0,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{140,
             60}})),

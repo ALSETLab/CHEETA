@@ -36,5 +36,5 @@ equation
     annotation (Line(points={{0,52},{0,80},{-6,80}}, color={191,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
-    experiment(StopTime=10));
+    experiment(StopTime=10, __Dymola_Algorithm="Rkfix2"));
 end HTSTest;
