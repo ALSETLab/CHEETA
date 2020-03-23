@@ -2,7 +2,7 @@ within CHEETA.Aircraft.Electrical.HTS;
 model Stekly "HTS line using Stekly equations"
   parameter Modelica.SIunits.Length l "Length of wire";
   parameter Modelica.SIunits.ElectricFieldStrength E_0 = 1e-4 "Reference electric field";
-  parameter Real n = 1 "Intrinstic value of the superconductor";
+  parameter Real n = 2 "Intrinstic value of the superconductor";
   parameter Real I_c0 = 1 "Reference corner current";
   parameter Real dT = 2 "Change in temperature";
   parameter Modelica.SIunits.Area A = 1 "Area";
@@ -19,6 +19,7 @@ model Stekly "HTS line using Stekly equations"
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-10,-50},{10,-30}})));
 
+initial equation
 
 equation
   port_a.Q_flow = (0.6953+0.001079*dT^4)*A;
