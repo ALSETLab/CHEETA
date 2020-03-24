@@ -1,4 +1,4 @@
-within CHEETA.Aircraft.Electrical.HTS;
+within CHEETA.Aircraft.Electrical.HTS.Stekly;
 model Stekly "HTS line using Stekly equations"
   parameter Modelica.SIunits.Length l "Length of wire";
   parameter Modelica.SIunits.ElectricFieldStrength E_0 = 1e-4 "Reference electric field";

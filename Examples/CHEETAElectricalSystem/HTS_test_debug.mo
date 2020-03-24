@@ -1,9 +1,12 @@
 within CHEETA.Examples.CHEETAElectricalSystem;
 model HTS_test_debug "Test for HTS transmission"
-  Aircraft.Electrical.HTS.Stekly      stekly(                      l=1)
+  Aircraft.Electrical.HTS.Stekly.Stekly_CopperLosses stekly_ACLosses(l=1, P(
+        displayUnit="mm"))
     annotation (Placement(transformation(extent={{-20,14},{-4,22}})));
-  Aircraft.Electrical.HTS.Stekly      stekly1(                      l=1)
-    annotation (Placement(transformation(extent={{-20,2},{-4,10}})));
+  Aircraft.Electrical.HTS.Stekly.Stekly_CopperLosses stekly_ACLosses1(
+    l=1,
+    P(displayUnit="mm"),
+    rho=2.1) annotation (Placement(transformation(extent={{-20,2},{-4,10}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T(
         displayUnit="K") = 115)
     annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
@@ -21,7 +24,9 @@ model HTS_test_debug "Test for HTS transmission"
                                                          dcdc(
     VkneeDiode=1,
     L(displayUnit="uH") = 1e-6,
-    i=0.0001)                                                 annotation (
+    i=0.0001,
+    C=0.1,
+    v=1000)                                                   annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
@@ -37,14 +42,14 @@ equation
   connect(fixedTemperature.port,thermalConductor. port_b)
     annotation (Line(points={{-60,-50},{-46,-50}},
                                                  color={191,0,0}));
-  connect(stekly.port_a, stekly1.port_a)
-    annotation (Line(points={{-12,14},{-12,2}},  color={191,0,0}));
-  connect(stekly1.port_a, thermalConductor.port_a)
+  connect(stekly_ACLosses.port_a, stekly_ACLosses1.port_a)
+    annotation (Line(points={{-12,14},{-12,2}}, color={191,0,0}));
+  connect(stekly_ACLosses1.port_a, thermalConductor.port_a)
     annotation (Line(points={{-12,2},{-12,-50},{-26,-50}}, color={191,0,0}));
-  connect(stekly.pin_n, resistor.p)
+  connect(stekly_ACLosses.pin_n, resistor.p)
     annotation (Line(points={{-3,18},{30,18}}, color={0,0,255}));
-  connect(stekly1.pin_n, resistor1.p) annotation (Line(points={{-3,6},{14,6},{
-          14,-10},{30,-10}}, color={0,0,255}));
+  connect(stekly_ACLosses1.pin_n, resistor1.p) annotation (Line(points={{-3,6},
+          {14,6},{14,-10},{30,-10}}, color={0,0,255}));
   connect(resistor.n, ground.p)
     annotation (Line(points={{50,18},{66,18},{66,-18}}, color={0,0,255}));
   connect(resistor1.n, ground.p)
@@ -56,9 +61,9 @@ equation
                                     color={0,0,255}));
   connect(simplifiedFuelCell.pin_p1,dcdc. dc_n1) annotation (Line(points={{-101,8},
           {-96,8},{-96,6},{-88,6}},        color={0,0,255}));
-  connect(stekly.pin_p, dcdc.dc_p2)
+  connect(stekly_ACLosses.pin_p, dcdc.dc_p2)
     annotation (Line(points={{-21,18},{-68,18}}, color={0,0,255}));
-  connect(dcdc.dc_n2, stekly1.pin_p)
+  connect(dcdc.dc_n2, stekly_ACLosses1.pin_p)
     annotation (Line(points={{-68,6},{-21,6}}, color={0,0,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false)),
