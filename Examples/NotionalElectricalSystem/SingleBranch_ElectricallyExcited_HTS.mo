@@ -23,7 +23,8 @@ model SingleBranch_ElectricallyExcited_HTS
     annotation (Placement(transformation(extent={{26,-42},{46,-22}})));
   Aircraft.Electrical.Machines.SimpleMotor       rectifierDrivenGenerator
     annotation (Placement(transformation(extent={{70,-8},{90,8}})));
-  Aircraft.Mechanical.Loads.Fan fan
+  Aircraft.Mechanical.Loads.Pinwheel
+                                pinwheel
     annotation (Placement(transformation(extent={{120,-4},{128,4}})));
   Aircraft.Electrical.Controls.VariableSpeedDrive variableSpeedDrive(T=1)
     annotation (Placement(transformation(extent={{46,-74},{26,-54}})));
@@ -38,12 +39,12 @@ equation
     annotation (Line(points={{30,-12},{30,-21}}, color={255,0,255}));
   connect(inverter.fire_n, pwm1.notFire)
     annotation (Line(points={{42,-12},{42,-21}}, color={255,0,255}));
-  connect(rectifierDrivenGenerator.flange1, fan.flange_a1)
-    annotation (Line(points={{90.4,0},{119,0}},color={0,0,0}));
+  connect(rectifierDrivenGenerator.flange1, pinwheel.flange_a1)
+    annotation (Line(points={{90.4,0},{120,0}}, color={0,0,0}));
   connect(variableSpeedDrive.y1, pwm1.dutyCycle) annotation (Line(points={{25,
           -64},{16,-64},{16,-32},{24,-32}}, color={0,0,127}));
-  connect(variableSpeedDrive.flange1, fan.flange_a1) annotation (Line(points={{
-          46.2,-64},{112,-64},{112,0},{119,0}}, color={0,0,0}));
+  connect(variableSpeedDrive.flange1, pinwheel.flange_a1) annotation (Line(
+        points={{46.2,-64},{112,-64},{112,0},{120,0}}, color={0,0,0}));
   connect(inverter.dc_p, dcdc.dc_p2)
     annotation (Line(points={{26,6},{-40,6}}, color={0,0,255}));
   connect(dcdc.dc_n2, inverter.dc_n)
