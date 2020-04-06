@@ -18,7 +18,7 @@ model SingleBranch_SimpleMachine_SOFC
     annotation (Placement(transformation(extent={{26,-42},{46,-22}})));
   Modelica.Electrical.Analog.Basic.Inductor inductor1(L=1e-6)
     annotation (Placement(transformation(extent={{-24,-16},{-4,4}})));
-  Aircraft.Electrical.Machines.SimpleMotor simpleMotor
+  Aircraft.Electrical.Machines.Motors.SimpleMotor simpleMotor
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   Aircraft.Electrical.FuelCell.SOFC sOFC
     annotation (Placement(transformation(extent={{-94,-40},{-74,-20}})));

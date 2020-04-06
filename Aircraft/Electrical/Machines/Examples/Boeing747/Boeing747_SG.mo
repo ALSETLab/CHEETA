@@ -117,7 +117,7 @@ equation
   connect(PerUnitConversion.u,rms. y)
     annotation (Line(points={{-46,34},{-35,34}}, color={0,0,127}));
   connect(PerUnitConversion.y,iEEEtype1AVR. Vterm) annotation (Line(points={{-69,34},
-          {-76,34},{-76,-13.92},{-68.28,-13.92}},    color={0,0,127}));
+          {-76,34},{-76,-14},{-68.9333,-14}},        color={0,0,127}));
   connect(w_ref,speed. w_ref)
     annotation (Line(points={{110,40},{102,40},{102,-14},{92,-14}},
                                                   color={0,0,127}));
@@ -145,8 +145,8 @@ equation
   connect(signalVoltage.v, PerUnitConversion1.y)
     annotation (Line(points={{-33.2,-14},{-39.6,-14}}, color={0,0,127}));
   connect(PerUnitConversion1.u, iEEEtype1AVR.Ifd)
-    annotation (Line(points={{-48.8,-14},{-50,-14},{-50,-13.88},{-53.1133,
-          -13.88}},                                       color={0,0,127}));
+    annotation (Line(points={{-48.8,-14},{-50,-14},{-50,-14.04},{-53.1133,-14.04}},
+                                                          color={0,0,127}));
   annotation (Diagram(coordinateSystem(extent={{-100,-80},{100,120}})), Icon(
         coordinateSystem(extent={{-100,-80},{100,120}}), graphics={
         Rectangle(

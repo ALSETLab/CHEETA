@@ -21,7 +21,7 @@ model SingleBranch_ElectricallyExcited_HTS
     useConstantDutyCycle=false,
       constantDutyCycle=0.5, f(displayUnit="kHz") = 100000)
     annotation (Placement(transformation(extent={{26,-42},{46,-22}})));
-  Aircraft.Electrical.Machines.SimpleMotor       rectifierDrivenGenerator
+  Aircraft.Electrical.Machines.Motors.SimpleMotor rectifierDrivenGenerator
     annotation (Placement(transformation(extent={{70,-8},{90,8}})));
   Aircraft.Mechanical.Loads.Pinwheel
                                 pinwheel

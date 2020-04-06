@@ -22,7 +22,7 @@ model SingleBranch_SimpleMachine
       constantDutyCycle=0.6, f=100)
                                   annotation (Placement(transformation(
           extent={{-48,-44},{-28,-24}})));
-  Aircraft.Electrical.Machines.SimpleMotor simpleMotor1
+  Aircraft.Electrical.Machines.Motors.SimpleMotor simpleMotor1
     annotation (Placement(transformation(extent={{38,-10},{58,10}})));
   Aircraft.Mechanical.Loads.Pinwheel
                                 pinwheel

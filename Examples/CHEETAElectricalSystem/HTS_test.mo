@@ -2,9 +2,11 @@ within CHEETA.Examples.CHEETAElectricalSystem;
 model HTS_test "Test for HTS transmission"
   Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=0,   L=0)
     annotation (Placement(transformation(extent={{-108,6},{-96,18}})));
-  Aircraft.Electrical.HTS.Stekly      stekly(                      l=1)
+  Aircraft.Electrical.HTS.Stekly.Stekly
+                                      stekly(                      l=1)
     annotation (Placement(transformation(extent={{-20,14},{-4,22}})));
-  Aircraft.Electrical.HTS.Stekly      stekly1(                      l=1)
+  Aircraft.Electrical.HTS.Stekly.Stekly
+                                      stekly1(                      l=1)
     annotation (Placement(transformation(extent={{-20,2},{-4,10}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T(
         displayUnit="K") = 115)
@@ -29,7 +31,7 @@ model HTS_test "Test for HTS transmission"
     constantDutyCycle=0.5,
     f(displayUnit="kHz") = 100000)
     annotation (Placement(transformation(extent={{66,-30},{46,-10}})));
-  Aircraft.Electrical.Machines.SimpleMotor simpleMotor2
+  Aircraft.Electrical.Machines.Motors.SimpleMotor simpleMotor2
     annotation (Placement(transformation(extent={{80,2},{100,22}})));
   Aircraft.Electrical.Controls.VariableSpeedDrive variableSpeedDrive1(wref=
         41000,

@@ -1,4 +1,6 @@
 System
 SingleBranch_3Phase
 HTS_test
-HTS_test_debug
+DriveTrainPowerSystem_FuelCell
+DriveTrainPowerSystem_Battery
+Battery_system

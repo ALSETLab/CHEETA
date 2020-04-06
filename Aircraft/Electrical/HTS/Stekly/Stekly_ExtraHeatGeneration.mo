@@ -8,6 +8,7 @@ model Stekly_ExtraHeatGeneration "HTS line using Stekly equations"
   parameter Modelica.SIunits.Area A = 1 "Area";
   parameter Modelica.SIunits.Length P = 0.1035 "Perimeter of cable";
   parameter Modelica.SIunits.Resistivity rho = 2.1e-9 "Resitivity of copper";
+  parameter Modelica.SIunits.Power G_d "Extra heat generation";
   Modelica.SIunits.Current I_c "corner current";
   Modelica.SIunits.ElectricFieldStrength E "Electric field";
   Modelica.SIunits.Power G;
@@ -29,7 +30,7 @@ equation
   E = E_0 *(pin_p.i/I_c)^n;
   pin_n.i = pin_p.i;
   pin_n.v = pin_p.v - E*l;
-  G = rho * I_c^2 * 10^3 / P;
+  G = (rho * I_c^2 * 10^3 / P) + G_d;
 
    annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-80,
            -40},{80,40}}), graphics={

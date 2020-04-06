@@ -25,8 +25,9 @@ model SingleBranch_HTS_Test
         transformation(
         extent={{-10,-10},{10,10}},
         origin={30,-34})));
-  Aircraft.Electrical.Machines.SimpleMotor simpleMotor(R_hyst(displayUnit="Ohm")=
-         149) annotation (Placement(transformation(extent={{66,-10},{86,10}})));
+  Aircraft.Electrical.Machines.Motors.SimpleMotor simpleMotor(R_hyst(
+        displayUnit="Ohm") = 149)
+    annotation (Placement(transformation(extent={{66,-10},{86,10}})));
 equation
   connect(ramp.y, hTS1.temperature) annotation (Line(points={{-23,-54},{-16,-54},
           {-16,-52},{-2,-52},{-2,-16}}, color={0,0,127}));

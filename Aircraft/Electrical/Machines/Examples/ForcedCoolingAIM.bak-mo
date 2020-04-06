@@ -1,0 +1,132 @@
+within CHEETA.Aircraft.Electrical.Machines.Examples;
+model ForcedCoolingAIM
+  "AIM with forced cooling modeled in a simple thermal model"
+  import ElectrifiedPowertrains;
+  import Modelica;
+
+  extends DymolaModels.Icons.Basic.Example;
+
+  Modelica.Blocks.Sources.Constant
+                               tauRef(k=41000)
+               annotation (Placement(transformation(extent={{-120,10},{-100,30}})));
+  ElectrifiedPowertrains.ElectricDrives.Common.Blocks.EnergyAnalyser driveEfficiencyComputation(useBusConnector=true)
+    annotation (Placement(transformation(extent={{30,-40},{50,-20}})));
+  ElectrifiedPowertrains.ElectricMachines.Common.Blocks.ElectricQuantities machineVariables(terminalConnection=electricDrive.machine.data.terminalConnection)
+    annotation (Placement(transformation(extent={{60,-40},{80,-20}})));
+  Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor annotation (Placement(transformation(extent={{84,-6},{96,6}})));
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive(
+    redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
+      controller(redeclare
+        ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Data.Speed.MSL_18p5kW
+        data),
+    redeclare
+      ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
+      modulationMethod,
+    redeclare ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage machine(redeclare
+        ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.Records.Data.Linear.MSL_18p5kW data),
+    redeclare ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency inverter(redeclare
+        ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
+        data),
+    useThermalPort=true)
+                    annotation (Placement(transformation(extent={{-10,-10},{10,
+            10}})));
+  replaceable Modelica.Thermal.FluidHeatFlow.Media.Air_30degC coolingMedium constrainedby
+    Modelica.Thermal.FluidHeatFlow.Media.Air_30degC
+                                                annotation (Placement(transformation(extent={{182,82},{194,94}})));
+  ElectrifiedPowertrains.ElectricMachines.AIM.Thermal.ThreeMassTEFC machineThermal(redeclare
+      ElectrifiedPowertrains.ElectricMachines.AIM.Thermal.Records.Data.ForcedCoolingThreeMassEstimation2.MSL_18p5kW data(
+        coolingMedium=coolingMedium))
+                        annotation (Placement(transformation(extent={{30,40},{50,60}})));
+  Modelica.Thermal.FluidHeatFlow.Sources.Ambient coolingMediaSource(
+    medium=coolingMedium,
+    constantAmbientPressure=100000,
+    constantAmbientTemperature=313.15) annotation (Placement(transformation(extent={{6,64},{-6,76}})));
+  Modelica.Thermal.FluidHeatFlow.Sources.Ambient coolingMediaSink(
+    medium=coolingMedium,
+    constantAmbientPressure=100000,
+    constantAmbientTemperature=313.15) annotation (Placement(transformation(extent={{104,64},{116,76}})));
+  Modelica.Thermal.FluidHeatFlow.Sensors.TemperatureSensor outletTemperature(
+    medium=coolingMedium)
+    annotation (Placement(transformation(
+        extent={{-4,-4},{4,4}},
+        rotation=270,
+        origin={92,62})));
+  Modelica.Thermal.FluidHeatFlow.Sensors.TemperatureSensor inletTemperature(
+    medium=coolingMedium)
+    annotation (Placement(transformation(
+        extent={{4,-4},{-4,4}},
+        rotation=270,
+        origin={20,84})));
+  Modelica.Thermal.FluidHeatFlow.Sensors.VolumeFlowSensor volumeFlowSensor(medium=coolingMedium)
+    annotation (Placement(transformation(extent={{84,66},{76,74}})));
+  ElectrifiedPowertrains.PowerElectronics.Inverters.Generic.Thermal.FourElements inverterThermal(redeclare
+      ElectrifiedPowertrains.PowerElectronics.Inverters.Generic.Thermal.Records.Data.FourElements.FF150R17KE4 data)
+    annotation (Placement(transformation(extent={{-50,40},{-30,60}})));
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature inverterAmbientTemperature
+    annotation (Placement(transformation(
+        extent={{-6,-6},{6,6}},
+        rotation=270,
+        origin={-40,80})));
+  Modelica.Thermal.FluidHeatFlow.Sources.IdealPump linearFan1(
+    medium=coolingMedium,
+    dp0(displayUnit="Pa") = 1000,
+    wNominal=electricDrive.machine.data.w_nom,
+    V_flow0=10/60)            annotation (Placement(transformation(extent={{54,64},{66,76}})));
+  Mechanical.Loads.Fan fan
+    annotation (Placement(transformation(extent={{146,-4},{154,4}})));
+  FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=0, L=0)
+    annotation (Placement(transformation(extent={{-46,-6},{-34,6}})));
+equation
+  connect(driveEfficiencyComputation.electricDriveBus, electricDrive.electricDriveBus)
+    annotation (Line(
+      points={{40,-40},{40,-50},{0,-50},{0,-10}},
+      color={0,86,166},
+      thickness=0.5));
+  connect(machineVariables.electricDriveBus, driveEfficiencyComputation.electricDriveBus)
+    annotation (Line(
+      points={{70,-40},{70,-50},{40,-50},{40,-40}},
+      color={0,86,166},
+      thickness=0.5));
+  connect(electricDrive.flange, multiSensor.flange_a) annotation (Line(points={{10,0},{
+          84,0}},                                                                                     color={0,0,0}));
+  connect(outletTemperature.flowPort,coolingMediaSink. flowPort)
+    annotation (Line(points={{92,66},{92,70},{104,70}},color={255,0,0}));
+  connect(machineThermal.flange, electricDrive.flange)
+    annotation (Line(points={{50,50},{60,50},{60,0},{10,0}},     color={0,0,0}));
+  connect(inverterAmbientTemperature.port,inverterThermal. heatPort_heatSink)
+    annotation (Line(points={{-40,74},{-40,68},{-40,60}}, color={191,0,0}));
+  connect(inletTemperature.flowPort,coolingMediaSource. flowPort)
+    annotation (Line(points={{20,80},{20,70},{6,70}},  color={255,0,0}));
+  connect(coolingMediaSource.flowPort,machineThermal. flowPort_a)
+    annotation (Line(points={{6,70},{32,70},{32,60}},  color={255,0,0}));
+  connect(volumeFlowSensor.flowPort_a,coolingMediaSink. flowPort) annotation (Line(points={{84,70},{84,70},{88,70},{104,70}},
+                                                                                                              color={255,0,0}));
+  connect(inverterThermal.thermalPortInverter, electricDrive.thermalPortInverter)
+    annotation (Line(points={{-40,40},{-40,30},{-6,30},{-6,10}}, color={199,0,0}));
+  connect(electricDrive.thermalPortMachine, machineThermal.thermalPort)
+    annotation (Line(points={{6,10},{6,30},{40,30},{40,40}},        color={191,0,0}));
+  connect(inverterAmbientTemperature.T, inletTemperature.y)
+    annotation (Line(points={{-40,87.2},{-40,94},{20,94},{20,88.4}}, color={0,0,127}));
+  connect(linearFan1.flowPort_b, volumeFlowSensor.flowPort_b)
+    annotation (Line(points={{66,70},{76,70},{76,70}}, color={255,0,0}));
+  connect(linearFan1.flange_a, machineThermal.flange)
+    annotation (Line(points={{60,64},{60,64},{60,50},{50,50}},         color={0,0,0}));
+  connect(machineThermal.flowPort_b, linearFan1.flowPort_a) annotation (Line(points={{48,60},{48,70},{54,70}}, color={255,0,0}));
+  connect(multiSensor.flange_b, fan.flange_a1)
+    annotation (Line(points={{96,0},{145,0}}, color={0,0,0}));
+  connect(electricDrive.pin_p, simplifiedFuelCell.pin_p) annotation (Line(
+        points={{-10,6},{-22,6},{-22,4},{-33,4}}, color={0,0,255}));
+  connect(electricDrive.pin_n, simplifiedFuelCell.pin_p1) annotation (Line(
+        points={{-10,-6},{-22,-6},{-22,-4},{-33,-4}}, color={0,0,255}));
+  connect(electricDrive.desiredSpeed, tauRef.y)
+    annotation (Line(points={{0,12},{0,20},{-99,20}}, color={0,0,127}));
+  annotation (
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-120,-100},{200,100}})),
+    Icon(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=false), graphics),
+    experiment(StopTime=100, Interval=0.1),
+    __Dymola_experimentSetupOutput,
+    Documentation(info="<html>
+<p>The example shows an induction machine with a forced air-based cooling system driven by an external fan.</p>
+</html>"),
+    __Dymola_Commands(file="modelica://ElectrifiedPowertrains/Resources/Scripts/plot/Example_ForcedCoolingAIM.mos" "plot"));
+end ForcedCoolingAIM;

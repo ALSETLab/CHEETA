@@ -26,7 +26,7 @@ model SingleBranch_AveragedHalfBridge
   Modelica.Electrical.Analog.Basic.Inductor inductor1(i(fixed=true, start=5000),
                                                       L=1e-6)
     annotation (Placement(transformation(extent={{-58,-16},{-38,4}})));
-  Aircraft.Electrical.Machines.SimpleMotor simpleMotor
+  Aircraft.Electrical.Machines.Motors.SimpleMotor simpleMotor
     annotation (Placement(transformation(extent={{84,-10},{104,10}})));
   Aircraft.Mechanical.Loads.Fan fan(J=10)
     annotation (Placement(transformation(extent={{114,-4},{122,4}})));
