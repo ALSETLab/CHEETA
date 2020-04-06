@@ -8,9 +8,11 @@ model Stekly_CopperLosses "HTS line using Stekly equations"
   parameter Modelica.SIunits.Area A = 1 "Area";
   parameter Modelica.SIunits.Length P = 0.1035 "Perimeter of cable";
   parameter Modelica.SIunits.Resistivity rho = 2.1e-9 "Resitivity of copper";
+  parameter Modelica.SIunits.Current I_crit "Critical current";
   Modelica.SIunits.Current I_c "corner current";
   Modelica.SIunits.ElectricFieldStrength E "Electric field";
   Modelica.SIunits.Power G;
+  Modelica.SIunits.Voltage x;
   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p             annotation (Placement(
         transformation(extent={{-100,-10},{-80,10}}),iconTransformation(extent={{-100,
             -10},{-80,10}})));
@@ -28,9 +30,14 @@ equation
   I_c = I_c0 *port_a.T;
   E = E_0 *(pin_p.i/I_c)^n;
   pin_n.i = pin_p.i;
-  pin_n.v = pin_p.v - E*l;
   G = rho * I_c^2 * 10^3 / P;
+  if I_c > I_crit then
+     x = 0;
+  else
+     x = pin_p.v;
+  end if;
 
+   pin_n.v = x - E*l;
    annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-80,
            -40},{80,40}}), graphics={
                   Rectangle(

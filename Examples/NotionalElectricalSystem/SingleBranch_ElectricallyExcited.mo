@@ -20,7 +20,8 @@ model SingleBranch_ElectricallyExcited
   Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm1(
       constantDutyCycle=0.5, f(displayUnit="kHz") = 100000)
     annotation (Placement(transformation(extent={{26,-42},{46,-22}})));
-  Aircraft.Electrical.Machines.AIMC_SquirrelCage rectifierDrivenGenerator
+  Aircraft.Electrical.Machines.Motors.AIMC_SquirrelCage
+    rectifierDrivenGenerator
     annotation (Placement(transformation(extent={{88,-8},{108,8}})));
   Modelica.Electrical.Analog.Sensors.PotentialSensor potentialSensor
     annotation (Placement(transformation(extent={{56,-10},{76,10}})));

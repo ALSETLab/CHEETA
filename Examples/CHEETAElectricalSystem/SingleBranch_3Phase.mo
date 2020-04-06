@@ -2,33 +2,6 @@ within CHEETA.Examples.CHEETAElectricalSystem;
 model SingleBranch_3Phase
   parameter Real pi = Modelica.Constants.pi;
   parameter Integer m = 3 "Number of phases";
-  Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=0, L=0)
-              annotation (Placement(transformation(extent={{-80,24},{-68,36}})));
-  Modelica.Electrical.PowerConverters.DCAC.MultiPhase2Level  inverter2(
-      useHeatPort=false)
-    annotation (Placement(transformation(extent={{66,20},{86,40}})));
-  Modelica.Electrical.PowerConverters.DCDC.ChopperStepUp dcdc annotation (
-      Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=0,
-        origin={-50,30})));
-  Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM signalPWM2(
-      constantDutyCycle=0.6, f=100)
-                                  annotation (Placement(transformation(
-          extent={{-60,-10},{-40,10}})));
-  Aircraft.Electrical.Machines.ThreePhaseMotor threePhaseMotor
-    annotation (Placement(transformation(extent={{98,20},{120,40}})));
-  Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM signalPWM[
-    m](each useConstantDutyCycle=false, each f(displayUnit="kHz") = 100000)
-                                                  annotation (Placement(
-        transformation(
-        extent={{10,-10},{-10,10}},
-        origin={76,0})));
-  Aircraft.Electrical.Controls.VariableSpeedDrive_ThreePhase
-    variableSpeedDrive_ThreePhase(wref=41000, T=1)
-    annotation (Placement(transformation(extent={{120,-10},{100,10}})));
-  Aircraft.Mechanical.Loads.Fan fan
-    annotation (Placement(transformation(extent={{130,26},{138,34}})));
   Modelica.Electrical.PowerConverters.DCAC.MultiPhase2Level  inverter1(
       useHeatPort=false)
     annotation (Placement(transformation(extent={{64,-60},{84,-40}})));
@@ -42,7 +15,7 @@ model SingleBranch_3Phase
       constantDutyCycle=0.6, f=100)
                                   annotation (Placement(transformation(
           extent={{-60,-90},{-40,-70}})));
-  Aircraft.Electrical.Machines.ThreePhaseMotor threePhaseMotor1
+  Aircraft.Electrical.Machines.Motors.ThreePhaseMotor threePhaseMotor1
     annotation (Placement(transformation(extent={{96,-60},{118,-40}})));
   Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM signalPWM3
                                                                       [
@@ -88,7 +61,7 @@ model SingleBranch_3Phase
       constantDutyCycle=0.6, f=100)
                                   annotation (Placement(transformation(
           extent={{-62,-154},{-42,-134}})));
-  Aircraft.Electrical.Machines.ThreePhaseMotor threePhaseMotor2
+  Aircraft.Electrical.Machines.Motors.ThreePhaseMotor threePhaseMotor2
     annotation (Placement(transformation(extent={{96,-124},{118,-104}})));
   Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM signalPWM5
                                                                       [
@@ -102,10 +75,6 @@ model SingleBranch_3Phase
     annotation (Placement(transformation(extent={{118,-154},{98,-134}})));
   Aircraft.Mechanical.Loads.Fan fan2
     annotation (Placement(transformation(extent={{128,-118},{136,-110}})));
-  Modelica.Electrical.Analog.Basic.Resistor resistor(R=10)
-    annotation (Placement(transformation(extent={{8,26},{28,46}})));
-  Modelica.Electrical.Analog.Basic.Resistor resistor1(R=10)
-    annotation (Placement(transformation(extent={{8,8},{28,28}})));
   Aircraft.Electrical.HTS.HTS_exploss hTS_exploss(
     temperature=100,
     l=1,
@@ -127,25 +96,6 @@ model SingleBranch_3Phase
         rotation=270,
         origin={-76,-114})));
 equation
-  connect(dcdc.fire_p,signalPWM2. fire)
-    annotation (Line(points={{-56,18},{-56,11}},   color={255,0,255}));
-  connect(simplifiedFuelCell.pin_p,dcdc. dc_p1) annotation (Line(points={{-67,34},
-          {-64,34},{-64,36},{-60,36}},
-                                    color={0,0,255}));
-  connect(simplifiedFuelCell.pin_p1,dcdc. dc_n1) annotation (Line(points={{-67,26},
-          {-64,26},{-64,24},{-60,24}},     color={0,0,255}));
-  connect(inverter2.ac, threePhaseMotor.plug_p1)
-    annotation (Line(points={{86,30},{100,30}}, color={0,0,255}));
-  connect(threePhaseMotor.flange1, fan.flange_a1)
-    annotation (Line(points={{120,30},{129,30}}, color={0,0,0}));
-  connect(variableSpeedDrive_ThreePhase.flange1, fan.flange_a1) annotation (
-      Line(points={{120.2,0},{126,0},{126,30},{129,30}}, color={0,0,0}));
-  connect(inverter2.fire_p, signalPWM.notFire)
-    annotation (Line(points={{70,18},{70,11}}, color={255,0,255}));
-  connect(inverter2.fire_n, signalPWM.fire)
-    annotation (Line(points={{82,18},{82,11}}, color={255,0,255}));
-  connect(variableSpeedDrive_ThreePhase.y1, signalPWM.dutyCycle)
-    annotation (Line(points={{99,0},{88,0}}, color={0,0,127}));
   connect(dcdc1.fire_p, signalPWM1.fire)
     annotation (Line(points={{-56,-62},{-56,-69}}, color={255,0,255}));
   connect(inverter1.ac, threePhaseMotor1.plug_p1)
@@ -196,14 +146,6 @@ equation
     annotation (Line(points={{80,-126},{80,-133}}, color={255,0,255}));
   connect(variableSpeedDrive_ThreePhase2.y1, signalPWM5.dutyCycle)
     annotation (Line(points={{97,-144},{86,-144}}, color={0,0,127}));
-  connect(dcdc.dc_p2, resistor.p)
-    annotation (Line(points={{-40,36},{8,36}}, color={0,0,255}));
-  connect(inverter2.dc_p, resistor.n)
-    annotation (Line(points={{66,36},{28,36}}, color={0,0,255}));
-  connect(dcdc.dc_n2, resistor1.p) annotation (Line(points={{-40,24},{-16,24},{
-          -16,18},{8,18}}, color={0,0,255}));
-  connect(inverter2.dc_n, resistor1.n) annotation (Line(points={{66,24},{48,24},
-          {48,18},{28,18}}, color={0,0,255}));
   connect(dcdc2.dc_p2, circuitBreaker1.p1)
     annotation (Line(points={{-42,-108},{-30,-108}}, color={0,0,255}));
   connect(hTS_exploss.pin_p, circuitBreaker1.n1)

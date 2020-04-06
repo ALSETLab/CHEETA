@@ -3,9 +3,10 @@ model CopperLine_StabilityTest
   Stekly.Stekly_CopperLosses stekly_CopperLosses(
     l=1,
     n=15.2,
-    I_c0=10.68) annotation (Placement(transformation(extent={{-8,4},{8,-4}})));
-  Modelica.Electrical.Analog.Sources.RampVoltage rampVoltage(V=0.002, duration=
-        5) annotation (Placement(transformation(
+    I_c0=10.68,
+    I_crit=1038) annotation (Placement(transformation(extent={{-8,4},{8,-4}})));
+  Modelica.Electrical.Analog.Sources.RampVoltage rampVoltage(V=0.5, duration=5)
+    annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-20,-22})));

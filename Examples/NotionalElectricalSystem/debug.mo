@@ -26,7 +26,8 @@ model debug "Resistive load connected to inverter"
         extent={{-8,-8},{8,8}},
         rotation=0,
         origin={-88,24})));
-  Aircraft.Electrical.Machines.AIMC_SquirrelCage rectifierDrivenGenerator
+  Aircraft.Electrical.Machines.Motors.AIMC_SquirrelCage
+    rectifierDrivenGenerator
     annotation (Placement(transformation(extent={{60,46},{80,62}})));
   Modelica.Electrical.Analog.Sensors.PotentialSensor potentialSensor
     annotation (Placement(transformation(extent={{30,44},{50,64}})));
@@ -62,8 +63,9 @@ model debug "Resistive load connected to inverter"
         origin={-90,-72})));
   parameter Records.NotionalPowerSystem.SM_PermanentMagnetData smpmData1
     annotation (Placement(transformation(extent={{46,-84},{66,-64}})));
-  Aircraft.Electrical.Machines.SimpleMotor simpleMotor(R_hyst(displayUnit="Ohm")=
-         149) annotation (Placement(transformation(extent={{34,-50},{54,-30}})));
+  Aircraft.Electrical.Machines.Motors.SimpleMotor simpleMotor(R_hyst(
+        displayUnit="Ohm") = 149)
+    annotation (Placement(transformation(extent={{34,-50},{54,-30}})));
   Modelica.Electrical.PowerConverters.DCDC.ChopperStepUp dcdc annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},

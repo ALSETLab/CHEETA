@@ -1,23 +1,33 @@
 within CHEETA.Aircraft.Electrical.Machines.Examples;
 package Boeing747
 
-
-annotation (Icon(graphics={
-        Rectangle(
-          lineColor={200,200,200},
-          fillColor={248,248,248},
-          fillPattern=FillPattern.HorizontalCylinder,
-          extent={{-100.0,-100.0},{100.0,100.0}},
-          radius=25.0),
-        Rectangle(
-          lineColor={128,128,128},
-          extent={{-100.0,-100.0},{100.0,100.0}},
-          radius=25.0),
-        Polygon(
-          origin={8.0,14.0},
-          lineColor={78,138,73},
-          fillColor={78,138,73},
-          pattern=LinePattern.None,
-          fillPattern=FillPattern.Solid,
-          points={{-58.0,46.0},{42.0,-14.0},{-58.0,-74.0},{-58.0,46.0}})}));
+extends Modelica.Icons.ExamplesPackage;
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.TorqueFOC electricDrive(
+    redeclare
+      ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
+      modulationMethod(k3=1/6),
+    redeclare
+      ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
+      machine(redeclare
+        ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.Records.Data.Linear.MSL_18p5kW
+        data),
+    redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Torque
+      controller(redeclare
+        ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Torque
+        data(
+        redeclare
+          ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.Records.Data.Linear.MSL_18p5kW
+          machineData,
+        torqueTuningWithMO=true,
+        fluxTuningWithMO=true,
+        i_s_max=50,
+        T_x=0.02,
+        T_y=0.02)),
+    redeclare
+      ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
+      inverter(redeclare
+        ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
+        data),
+    useThermalPort=true)
+                    annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 end Boeing747;
