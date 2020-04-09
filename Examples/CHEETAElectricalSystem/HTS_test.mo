@@ -33,9 +33,9 @@ model HTS_test "Test for HTS transmission"
     annotation (Placement(transformation(extent={{66,-30},{46,-10}})));
   Aircraft.Electrical.Machines.Motors.SimpleMotor simpleMotor2
     annotation (Placement(transformation(extent={{80,2},{100,22}})));
-  Aircraft.Electrical.Controls.VariableSpeedDrive variableSpeedDrive1(wref=
-        41000,
-      T=10) annotation (Placement(transformation(extent={{100,-30},{80,-10}})));
+  Aircraft.Electrical.Controls.SpeedDriveController variableSpeedDrive1(wref=
+        41000, T=10)
+    annotation (Placement(transformation(extent={{100,-30},{80,-10}})));
   Aircraft.Mechanical.Loads.Fan      fan
     annotation (Placement(transformation(extent={{126,2},{146,22}})));
   Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm(

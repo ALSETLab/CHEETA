@@ -1,5 +1,7 @@
 AVR
 ModulatedSignalController
 SpeedController
-VariableSpeedDrive
+SpeedDriveController
+SpeedDrive_ThreePhase
+VariableSpeedDriveController
 VariableSpeedDrive_ThreePhase

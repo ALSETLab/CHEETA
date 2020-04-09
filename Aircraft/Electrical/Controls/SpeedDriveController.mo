@@ -1,5 +1,5 @@
 within CHEETA.Aircraft.Electrical.Controls;
-model VariableSpeedDrive
+model SpeedDriveController
   Modelica.Mechanics.Rotational.Sensors.SpeedSensor speedSensor annotation (
       Placement(transformation(
         extent={{10,-10},{-10,10}},
@@ -37,4 +37,4 @@ equation
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(extent={{-100,100},{100,-100}}, lineColor={28,108,200})}),
       Diagram(coordinateSystem(preserveAspectRatio=false)));
-end VariableSpeedDrive;
+end SpeedDriveController;

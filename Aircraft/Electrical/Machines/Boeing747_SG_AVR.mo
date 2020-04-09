@@ -128,13 +128,13 @@ equation
   connect(PerUnitConversion.u, rms.y)
     annotation (Line(points={{-44,36},{-35,36}}, color={0,0,127}));
   connect(PerUnitConversion.y, iEEEtype1AVR.Vterm) annotation (Line(points={{-67,36},
-          {-78,36},{-78,-13.92},{-70.48,-13.92}},    color={0,0,127}));
+          {-78,36},{-78,-14},{-71.6,-14}},           color={0,0,127}));
   connect(signalVoltage.p, smee.pin_ep) annotation (Line(points={{-26,-8},{-16,
           -8}},               color={0,0,255}));
   connect(signalVoltage.n, smee.pin_en) annotation (Line(points={{-26,-20},{-16,
           -20}},                     color={0,0,255}));
   connect(signalVoltage.v, iEEEtype1AVR.Ifd) annotation (Line(points={{-33.2,
-          -14},{-38,-14},{-38,-13.88},{-44.48,-13.88}},
+          -14},{-38,-14},{-38,-14.04},{-44.48,-14.04}},
                                                 color={0,0,127}));
   connect(groundExcitation.p, smee.pin_en)
     annotation (Line(points={{-21,-26},{-21,-20},{-16,-20}}, color={0,0,255}));

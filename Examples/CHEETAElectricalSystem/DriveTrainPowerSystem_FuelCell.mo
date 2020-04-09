@@ -141,9 +141,9 @@ model DriveTrainPowerSystem_FuelCell
     h_cAn=0.001,
     w_cCat=0.001,
     h_cCat=0.001) annotation (Placement(transformation(extent={{-10,-10},{10,10}},
-
         rotation=90,
         origin={-58,22})));
+
   inner Hydrogen.Common.SystemSettings hydrogenSettings(initType=Hydrogen.Common.Types.InitType.FixedInitial)
     annotation (Placement(transformation(extent={{180,40},{200,60}})));
   Modelica.Electrical.Analog.Basic.Ground ground

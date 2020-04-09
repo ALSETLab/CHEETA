@@ -26,7 +26,7 @@ model SingleBranch_ElectricallyExcited_HTS
   Aircraft.Mechanical.Loads.Pinwheel
                                 pinwheel
     annotation (Placement(transformation(extent={{120,-4},{128,4}})));
-  Aircraft.Electrical.Controls.VariableSpeedDrive variableSpeedDrive(T=1)
+  Aircraft.Electrical.Controls.SpeedDriveController variableSpeedDrive(T=1)
     annotation (Placement(transformation(extent={{46,-74},{26,-54}})));
 equation
   connect(dcdc.fire_p, pwm.fire)

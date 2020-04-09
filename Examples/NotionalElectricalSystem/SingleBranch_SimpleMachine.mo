@@ -27,8 +27,9 @@ model SingleBranch_SimpleMachine
   Aircraft.Mechanical.Loads.Pinwheel
                                 pinwheel
     annotation (Placement(transformation(extent={{80,-4},{88,4}})));
-  Aircraft.Electrical.Controls.VariableSpeedDrive variableSpeedDrive(wref=4000,
-      T=10) annotation (Placement(transformation(extent={{64,-44},{44,-24}})));
+  Aircraft.Electrical.Controls.SpeedDriveController variableSpeedDrive(wref=
+        4000, T=10)
+    annotation (Placement(transformation(extent={{64,-44},{44,-24}})));
 equation
   connect(dcdc.fire_p, signalPWM2.fire)
     annotation (Line(points={{-44,-12},{-44,-23}}, color={255,0,255}));
