@@ -43,12 +43,8 @@ model Battery_system1
             38}})));
   Aircraft.Electrical.FuelCell.SimplifiedFuelCell simplifiedFuelCell(R=0, L=0)
     annotation (Placement(transformation(extent={{-34,24},{-22,36}})));
-  Aircraft.Electrical.PowerElectronics.Converters.DCDC.BoostConverter
-                                                         dcdc1(
-    L=0.0001,
-    i=0.1,
-    C=0.1,
-    v=1000)                                                   annotation (
+  Modelica.Electrical.PowerConverters.DCDC.ChopperStepUp dcdc1
+                                                              annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
@@ -56,19 +52,10 @@ model Battery_system1
   Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm2(
       constantDutyCycle=0.5, f(displayUnit="Hz") = 100)
     annotation (Placement(transformation(extent={{2,-12},{22,8}})));
-  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T(
-        displayUnit="K") = 115)
-    annotation (Placement(transformation(extent={{-26,72},{-6,92}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalConductor
-                                           thermalConductor(G=0.1)
-                                                        annotation (Placement(
-        transformation(extent={{40,72},{20,92}})));
-  Aircraft.Electrical.HTS.Stekly.Stekly
-                                      stekly2(l=1)
-    annotation (Placement(transformation(extent={{46,38},{62,30}})));
-  Aircraft.Electrical.HTS.Stekly.Stekly
-                                      stekly3(l=1)
-    annotation (Placement(transformation(extent={{46,26},{62,18}})));
+  Aircraft.Electrical.HTS.SimpleLine simpleLine(i=0.1)
+    annotation (Placement(transformation(extent={{48,30},{68,38}})));
+  Aircraft.Electrical.HTS.SimpleLine simpleLine1(i=0.1)
+    annotation (Placement(transformation(extent={{48,18},{68,26}})));
 equation
   connect(machineVariables.electricDriveBus,driveEfficiencyComputation. electricDriveBus)
     annotation (Line(
@@ -90,20 +77,14 @@ equation
     annotation (Line(points={{2,22},{0,22},{0,26},{-21,26}}, color={0,0,255}));
   connect(dcdc1.fire_p, pwm2.fire)
     annotation (Line(points={{6,16},{6,9}}, color={255,0,255}));
-  connect(fixedTemperature.port, thermalConductor.port_b)
-    annotation (Line(points={{-6,82},{20,82}}, color={191,0,0}));
-  connect(thermalConductor.port_a, stekly2.port_a)
-    annotation (Line(points={{40,82},{54,82},{54,38}}, color={191,0,0}));
-  connect(stekly2.pin_p, dcdc1.dc_p2)
-    annotation (Line(points={{45,34},{22,34}}, color={0,0,255}));
-  connect(dcdc1.dc_n2, stekly3.pin_p)
-    annotation (Line(points={{22,22},{45,22}}, color={0,0,255}));
-  connect(stekly2.pin_n, electricDrive.pin_p)
-    annotation (Line(points={{63,34},{86,34}}, color={0,0,255}));
-  connect(electricDrive.pin_n, stekly3.pin_n)
-    annotation (Line(points={{86,22},{63,22}}, color={0,0,255}));
-  connect(stekly2.port_a, stekly3.port_a)
-    annotation (Line(points={{54,38},{54,26}}, color={191,0,0}));
+  connect(dcdc1.dc_p2, simpleLine.p1)
+    annotation (Line(points={{22,34},{49,34}}, color={0,0,255}));
+  connect(electricDrive.pin_p, simpleLine.n1)
+    annotation (Line(points={{86,34},{67,34}}, color={0,0,255}));
+  connect(dcdc1.dc_n2, simpleLine1.p1)
+    annotation (Line(points={{22,22},{49,22}}, color={0,0,255}));
+  connect(electricDrive.pin_n, simpleLine1.n1)
+    annotation (Line(points={{86,22},{67,22}}, color={0,0,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-60,-60},{180,
             100}})),

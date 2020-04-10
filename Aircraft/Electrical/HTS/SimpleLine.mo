@@ -1,6 +1,7 @@
 within CHEETA.Aircraft.Electrical.HTS;
 model SimpleLine
-  Modelica.Electrical.Analog.Basic.Inductor inductor(L=L)
+  Modelica.Electrical.Analog.Basic.Inductor inductor(i(start=i),
+                                                     L=L)
     annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
   Modelica.Electrical.Analog.Interfaces.PositivePin p1
                 "Positive electrical pin"
@@ -15,6 +16,8 @@ model SimpleLine
         iconTransformation(extent={{80,-10},{100,10}})));
   parameter Modelica.SIunits.Resistance R=0
     "Line resistance at temperature T_ref";
+  parameter Modelica.SIunits.Current i=i(start=0)
+    "Current flowing from pin p to pin n";
 equation
   connect(inductor.p, p1)
     annotation (Line(points={{-40,0},{-66,0},{-66,0},{-90,0}},
