@@ -4,4 +4,6 @@ HTS_test
 DriveTrainPowerSystem_FuelCell
 DriveTrainPowerSystem_Battery
 Battery_system
-Battery_system1
+debug
+AveragedConverters_Battery
+AveragedConverters_Battery_EPL

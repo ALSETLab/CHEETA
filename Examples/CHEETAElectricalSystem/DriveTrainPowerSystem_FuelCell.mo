@@ -30,7 +30,7 @@ model DriveTrainPowerSystem_FuelCell
         data),
     useThermalPort=true)
                     annotation (Placement(transformation(extent={{46,12},{66,32}})));
-  replaceable Atmospheres.CoolingMedium.Air_30degC            coolingMedium constrainedby
+  replaceable Atmospheres.CoolingMedium.LH2                   coolingMedium constrainedby
     Modelica.Thermal.FluidHeatFlow.Media.Air_30degC
                                                 annotation (Placement(transformation(extent={{182,82},{194,94}})));
   Aircraft.Mechanical.Loads.Fan fan
@@ -142,12 +142,12 @@ model DriveTrainPowerSystem_FuelCell
     w_cCat=0.001,
     h_cCat=0.001) annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={-58,22})));
+        origin={-80,24})));
 
   inner Hydrogen.Common.SystemSettings hydrogenSettings(initType=Hydrogen.Common.Types.InitType.FixedInitial)
     annotation (Placement(transformation(extent={{180,40},{200,60}})));
   Modelica.Electrical.Analog.Basic.Ground ground
-    annotation (Placement(transformation(extent={{-58,-16},{-38,4}})));
+    annotation (Placement(transformation(extent={{-62,-4},{-42,16}})));
 equation
   connect(driveEfficiencyComputation.electricDriveBus, electricDrive.electricDriveBus)
     annotation (Line(
@@ -209,17 +209,17 @@ equation
   connect(inverterThermal.thermalPortInverter, electricDrive.thermalPortInverter)
     annotation (Line(points={{6,46},{6,36},{50,36},{50,32}}, color={199,0,0}));
   connect(stack.cathodePort_b, airSink.port[1])
-    annotation (Line(points={{-54,32},{-54,72},{-100,72}}, color={0,178,169}));
-  connect(stack.pin_p, dcdc.dc_p1) annotation (Line(points={{-60,32},{-60,42},{
-          -44,42},{-44,26},{-38,26},{-38,28}}, color={0,0,255}));
-  connect(dcdc.dc_n1, stack.pin_n) annotation (Line(points={{-38,16},{-46,16},{
-          -46,4},{-60,4},{-60,11.8}}, color={0,0,255}));
-  connect(stack.cathodePort_a, airSource.port[1]) annotation (Line(points={{-54,
-          12},{-54,-10},{-100,-10}}, color={0,178,169}));
-  connect(stack.anodePort_a, fuelSource.port[1]) annotation (Line(points={{
-          -62.8,12},{-62.8,-2},{-90,-2},{-90,30},{-100,30}}, color={0,178,169}));
-  connect(dcdc.dc_n1, ground.p) annotation (Line(points={{-38,16},{-46,16},{-46,
-          4},{-48,4}}, color={0,0,255}));
+    annotation (Line(points={{-76,34},{-76,72},{-100,72}}, color={0,178,169}));
+  connect(stack.pin_p, dcdc.dc_p1) annotation (Line(points={{-82,34},{-82,42},{
+          -60,42},{-60,26},{-38,26},{-38,28}}, color={0,0,255}));
+  connect(stack.cathodePort_a, airSource.port[1]) annotation (Line(points={{-76,14},
+          {-76,-10},{-100,-10}},     color={0,178,169}));
+  connect(stack.anodePort_a, fuelSource.port[1]) annotation (Line(points={{-84.8,
+          14},{-84.8,2},{-98,2},{-98,30},{-100,30}},         color={0,178,169}));
+  connect(dcdc.dc_n1, ground.p) annotation (Line(points={{-38,16},{-52,16}},
+                       color={0,0,255}));
+  connect(stack.pin_n, ground.p) annotation (Line(points={{-82,13.8},{-82,6},{
+          -60,6},{-60,16},{-52,16}}, color={0,0,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-140,-80},{200,
             100}})),

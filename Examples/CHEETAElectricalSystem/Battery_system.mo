@@ -76,7 +76,7 @@ model Battery_system
             38}})));
   Modelica.Blocks.Sources.Constant
                                tauRef(k=733.038285)
-               annotation (Placement(transformation(extent={{72,48},{92,68}})));
+               annotation (Placement(transformation(extent={{72,50},{92,70}})));
   Aircraft.Electrical.PowerElectronics.Converters.DCDC.BoostConverter
                                                          dcdc1(
     L=0.001,
@@ -151,7 +151,7 @@ equation
   connect(electricDrive.pin_n, circuitBreaker2.n1)
     annotation (Line(points={{84,22},{73.8,22}}, color={0,0,255}));
   connect(electricDrive.desiredSpeed, tauRef.y)
-    annotation (Line(points={{94,40},{94,58},{93,58}},   color={0,0,127}));
+    annotation (Line(points={{94,40},{94,60},{93,60}},   color={0,0,127}));
   connect(pwm2.fire,dcdc1. fire_p) annotation (Line(points={{-12,-109},{-12,-100}},
                       color={255,0,255}));
   connect(dcdc1.dc_n2,stekly3. pin_p)
