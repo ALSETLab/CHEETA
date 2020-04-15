@@ -74,11 +74,24 @@ model AveragedConverters_Battery_EPL
         extent={{-9,-9},{9,9}},
         rotation=0,
         origin={-71,-1})));
-  Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage(V=1000)
+  Modelica.Electrical.Analog.Basic.Ground ground1
+                                                 annotation (Placement(
+        transformation(
+        extent={{-9,-9},{9,9}},
+        rotation=0,
+        origin={-17,7})));
+  Aircraft.Electrical.Battery.DC_Battery dC_Battery1
+                                                    annotation (Placement(
+        transformation(
+        extent={{-12,-11},{12,11}},
+        rotation=270,
+        origin={-75,20})));
+  ElectrifiedPowertrains.SupplySystem.Batteries.Blocks.EnergyAnalysis energyAnalysis1(
+      useBusConnector=true)
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
-        rotation=270,
-        origin={-80,18})));
+        rotation=0,
+        origin={-86,46})));
 equation
   connect(multiSensor.flange_b, fan.flange_a1)
     annotation (Line(points={{152,22},{187,22}},
@@ -109,12 +122,18 @@ equation
     annotation (Line(points={{45,56},{90,56},{90,36}}, color={0,0,127}));
   connect(multiSensor.flange_a, electricDrive.flange) annotation (Line(points={
           {140,22},{120,22},{120,24},{100,24}}, color={0,0,0}));
-  connect(constantVoltage.p, converterVoltageInput.p1) annotation (Line(points=
-          {{-80,28},{-80,38},{-40,38},{-40,28}}, color={0,0,255}));
-  connect(converterVoltageInput.n1, constantVoltage.n) annotation (Line(points=
-          {{-40,16},{-60,16},{-60,8},{-80,8}}, color={0,0,255}));
   connect(converterVoltageInput.n1, ground.p) annotation (Line(points={{-40,16},
           {-60,16},{-60,8},{-71,8}}, color={0,0,255}));
+  connect(stekly_ExtraHeatGeneration1.pin_p, ground1.p)
+    annotation (Line(points={{-13,16},{-17,16}}, color={0,0,255}));
+  connect(converterVoltageInput.n1, dC_Battery1.n1)
+    annotation (Line(points={{-40,16},{-64,16},{-64,14.24}}, color={0,0,255}));
+  connect(dC_Battery1.p1, converterVoltageInput.p1) annotation (Line(points={{
+          -64,26.24},{-52,26.24},{-52,28},{-40,28}}, color={0,0,255}));
+  connect(dC_Battery1.batteryBus1, energyAnalysis1.batteryBus) annotation (Line(
+      points={{-86,25.04},{-86,36}},
+      color={0,255,0},
+      thickness=0.5));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-80},{200,
             100}})),
