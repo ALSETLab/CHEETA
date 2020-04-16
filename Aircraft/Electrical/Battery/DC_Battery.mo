@@ -1,67 +1,63 @@
 within CHEETA.Aircraft.Electrical.Battery;
 model DC_Battery
-  replaceable
-  ElectrifiedPowertrains.SupplySystem.Batteries.Packs.RC1 packRC1(startSOC=
-        startSOC, redeclare
-      ElectrifiedPowertrains.SupplySystem.Batteries.Packs.Records.Data.RC1.EIG20Ah_96s2p
-      data) constrainedby
-    ElectrifiedPowertrains.SupplySystem.Batteries.Packs.DC(startSOC=startSOC)
-            annotation (Placement(transformation(extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={-44,30})), __Dymola_choicesAllMatching=true);
-  replaceable ElectrifiedPowertrains.SupplySystem.Batteries.Packs.RC1 packRC2(
-      startSOC=startSOC, redeclare
-      ElectrifiedPowertrains.SupplySystem.Batteries.Packs.Records.Data.RC1.EIG20Ah_96s2p
-      data) constrainedby
-    ElectrifiedPowertrains.SupplySystem.Batteries.Packs.DC(startSOC=startSOC)
-    annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={26,30})));
   Modelica.Electrical.Analog.Basic.Ground ground annotation (Placement(
         transformation(
         extent={{-9,-9},{9,9}},
         rotation=0,
         origin={-11,27})));
   Modelica.Electrical.Analog.Interfaces.PositivePin p1 annotation (Placement(
-        transformation(extent={{38,92},{58,112}}), iconTransformation(extent={{
-            38,92},{58,112}})));
+        transformation(extent={{-62,90},{-42,110}}),
+                                                   iconTransformation(extent={{-62,90},
+            {-42,110}})));
   Modelica.Electrical.Analog.Interfaces.NegativePin n1 annotation (Placement(
-        transformation(extent={{-62,92},{-42,112}}), iconTransformation(extent=
-            {{-62,92},{-42,112}})));
-  ElectrifiedPowertrains.SupplySystem.Batteries.Interfaces.Bus batteryBus1
-    annotation (Placement(transformation(extent={{-46,-80},{-26,-60}}),
-        iconTransformation(extent={{-46,-80},{-26,-60}})));
-  ElectrifiedPowertrains.SupplySystem.Batteries.Interfaces.Bus batteryBus2
-    annotation (Placement(transformation(extent={{30,-80},{50,-60}}),
-        iconTransformation(extent={{30,-80},{50,-60}})));
+        transformation(extent={{38,90},{58,110}}),   iconTransformation(extent={{38,90},
+            {58,110}})));
   parameter DymolaModels.Types.StateOfCharge startSOC=1
     "State of Charge at initialization of the simulation";
+  ElectrifiedPowertrains.SupplySystem.Batteries.Packs.DC batteryPack(redeclare
+      ElectrifiedPowertrains.SupplySystem.Batteries.Packs.Records.Data.DC.Enerdel15Ah_96s5p
+      data, startSOC = 1.0)
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={-40,34})));
+  ElectrifiedPowertrains.SupplySystem.Batteries.Interfaces.Bus batteryBus1
+    annotation (Placement(transformation(extent={{-52,-90},{-32,-70}})));
+  ElectrifiedPowertrains.SupplySystem.Batteries.Packs.DC batteryPack1(
+      redeclare
+      ElectrifiedPowertrains.SupplySystem.Batteries.Packs.Records.Data.DC.Enerdel15Ah_96s5p
+      data, startSOC = 1.0)
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={42,34})));
+  ElectrifiedPowertrains.SupplySystem.Batteries.Interfaces.Bus batteryBus2
+    annotation (Placement(transformation(extent={{30,-90},{50,-70}})));
 equation
-  connect(packRC1.n, packRC2.p)
-    annotation (Line(points={{-38,40},{20,40}}, color={0,0,255}));
-  connect(packRC1.n, ground.p)
-    annotation (Line(points={{-38,40},{-11,40},{-11,36}}, color={0,0,255}));
-  connect(packRC1.batteryBus, batteryBus1) annotation (Line(
-      points={{-34,30},{-24,30},{-24,-50},{-36,-50},{-36,-70}},
+  connect(batteryPack.p, p1) annotation (Line(points={{-46,44},{-50,44},{-50,100},
+          {-52,100}}, color={0,0,255}));
+  connect(batteryPack.n, ground.p)
+    annotation (Line(points={{-34,44},{-11,44},{-11,36}}, color={0,0,255}));
+  connect(batteryPack.batteryBus, batteryBus1) annotation (Line(
+      points={{-30,34},{-28,34},{-28,-80},{-42,-80}},
       color={0,255,0},
       thickness=0.5), Text(
       string="%second",
       index=1,
-      extent={{-6,3},{-6,3}},
-      horizontalAlignment=TextAlignment.Right));
-  connect(packRC2.batteryBus, batteryBus2) annotation (Line(
-      points={{36,30},{44,30},{44,-70},{40,-70}},
+      extent={{6,3},{6,3}},
+      horizontalAlignment=TextAlignment.Left));
+  connect(batteryPack1.n, n1)
+    annotation (Line(points={{48,44},{48,100}}, color={0,0,255}));
+  connect(batteryPack1.p, ground.p)
+    annotation (Line(points={{36,44},{-11,44},{-11,36}}, color={0,0,255}));
+  connect(batteryPack1.batteryBus, batteryBus2) annotation (Line(
+      points={{52,34},{60,34},{60,-80},{40,-80}},
       color={0,255,0},
       thickness=0.5), Text(
       string="%second",
       index=1,
-      extent={{-6,3},{-6,3}},
-      horizontalAlignment=TextAlignment.Right));
-  connect(packRC1.p, p1) annotation (Line(points={{-50,40},{-46,40},{-46,84},{
-          48,84},{48,102}}, color={0,0,255}));
-  connect(packRC2.n, n1) annotation (Line(points={{32,40},{32,92},{-52,92},{-52,
-          102}}, color={0,0,255}));
+      extent={{6,3},{6,3}},
+      horizontalAlignment=TextAlignment.Left));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -80},{100,100}}), graphics={
         Rectangle(
@@ -78,11 +74,11 @@ equation
           color={95,95,95},
           smooth=Smooth.None),
         Text(
-          extent={{88,70},{48,110}},
+          extent={{-52,64},{-92,104}},
           lineColor={95,95,95},
           textString="+"),
         Text(
-          extent={{-52,70},{-92,110}},
+          extent={{90,66},{50,106}},
           lineColor={95,95,95},
           textString="-"),
         Line(

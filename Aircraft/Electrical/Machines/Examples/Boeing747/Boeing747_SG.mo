@@ -1,5 +1,6 @@
 within CHEETA.Aircraft.Electrical.Machines.Examples.Boeing747;
 model Boeing747_SG "Synchronous generator used in Boeing 747 electrical system"
+  import CHEETA;
   Modelica.Electrical.Machines.Sensors.RotorDisplacementAngle
     rotorDisplacementAngle(p=2) annotation (Placement(transformation(
         origin={26,-14},
@@ -28,8 +29,7 @@ model Boeing747_SG "Synchronous generator used in Boeing 747 electrical system"
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={-24,34})));
-  Controls.AVR.IEEEtype1AVR
-                        iEEEtype1AVR(
+  CHEETA.Aircraft.Controls.AVR.IEEEtype1AVR iEEEtype1AVR(
     T_R=2e-3,
     T_C=0.001,
     T_B=0.001,
@@ -102,7 +102,8 @@ model Boeing747_SG "Synchronous generator used in Boeing 747 electrical system"
         extent={{-4,-4},{4,4}},
         rotation=0,
         origin={-44,-14})));
-  parameter Records.Boeing747electricalModel.SynchronousMachine.SM300kVA Data
+  parameter CHEETA.Records.Boeing747electricalModel.SynchronousMachine.SM300kVA
+                                                                         Data
     annotation (Placement(transformation(extent={{60,70},{80,90}})));
 equation
   connect(speed.flange,mechanicalPowerSensor. flange_b)
@@ -145,8 +146,8 @@ equation
   connect(signalVoltage.v, PerUnitConversion1.y)
     annotation (Line(points={{-33.2,-14},{-39.6,-14}}, color={0,0,127}));
   connect(PerUnitConversion1.u, iEEEtype1AVR.Ifd)
-    annotation (Line(points={{-48.8,-14},{-50,-14},{-50,-14.04},{-53.1133,-14.04}},
-                                                          color={0,0,127}));
+    annotation (Line(points={{-48.8,-14},{-50,-14},{-50,-14.04},{-53.1133,
+          -14.04}},                                       color={0,0,127}));
   annotation (Diagram(coordinateSystem(extent={{-100,-80},{100,120}})), Icon(
         coordinateSystem(extent={{-100,-80},{100,120}}), graphics={
         Rectangle(

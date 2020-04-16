@@ -1,5 +1,6 @@
 within CHEETA.Aircraft.Electrical.Machines.Examples.CHEETA;
 model CooledMotor
+  import CHEETA;
   parameter Real pi = Modelica.Constants.pi;
   parameter Integer m = 3 "Number of phases";
   PowerElectronics.Converters.DCDC.BoostConverter        dcdc2(
@@ -17,8 +18,8 @@ model CooledMotor
           extent={{-70,-42},{-50,-22}})));
   Motors.ThreePhaseMotor_Cooled threePhaseMotor_Cooled
     annotation (Placement(transformation(extent={{88,-12},{110,8}})));
-  Aircraft.Electrical.Controls.VariableSpeedDrive_ThreePhase
-    variableSpeedDrive_ThreePhase2(wref=41000, T=1)
+  CHEETA.Aircraft.Controls.SpeedDrives.SpeedDrive_ThreePhase
+                                 variableSpeedDrive_ThreePhase2(wref=41000, T=1)
     annotation (Placement(transformation(extent={{110,-42},{90,-22}})));
   Aircraft.Mechanical.Loads.Fan fan2
     annotation (Placement(transformation(extent={{120,-6},{128,2}})));

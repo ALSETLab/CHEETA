@@ -24,7 +24,7 @@ model SingleBranch_3Phase
         transformation(
         extent={{10,-10},{-10,10}},
         origin={74,-80})));
-  Aircraft.Electrical.Controls.VariableSpeedDrive_ThreePhase
+  Aircraft.Controls.SpeedDrives.SpeedDriveController
     variableSpeedDrive_ThreePhase1(wref=41000, T=1)
     annotation (Placement(transformation(extent={{118,-90},{98,-70}})));
   Aircraft.Mechanical.Loads.Fan fan1
@@ -70,7 +70,7 @@ model SingleBranch_3Phase
         transformation(
         extent={{10,-10},{-10,10}},
         origin={74,-144})));
-  Aircraft.Electrical.Controls.VariableSpeedDrive_ThreePhase
+  Aircraft.Controls.SpeedDrives.SpeedDriveController
     variableSpeedDrive_ThreePhase2(wref=41000, T=1)
     annotation (Placement(transformation(extent={{118,-154},{98,-134}})));
   Aircraft.Mechanical.Loads.Fan fan2

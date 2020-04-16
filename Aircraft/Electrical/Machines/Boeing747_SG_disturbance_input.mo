@@ -66,8 +66,7 @@ model Boeing747_SG_disturbance_input
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={-24,34})));
-  Controls.AVR.IEEEtype1AVR
-                        iEEEtype1AVR(
+  CHEETA.Aircraft.Controls.AVR.IEEEtype1AVR iEEEtype1AVR(
     T_R=2e-3,
     T_C=0.001,
     T_B=0.001,
@@ -105,7 +104,8 @@ model Boeing747_SG_disturbance_input
     annotation (Placement(transformation(extent={{-124,28},{-100,52}})));
   Modelica.Blocks.Interfaces.RealOutput y
     annotation (Placement(transformation(extent={{100,0},{120,20}})));
-  parameter Records.Boeing747electricalModel.SynchronousMachine.SM100kVA Data
+  parameter CHEETA.Records.Boeing747electricalModel.SynchronousMachine.SM100kVA
+                                                                         Data
     annotation (Placement(transformation(extent={{60,28},{80,50}})));
 equation
   connect(rotorDisplacementAngle.plug_n,smee. plug_sn) annotation (Line(
@@ -138,7 +138,7 @@ equation
   connect(signalVoltage.n,smee. pin_en) annotation (Line(points={{-26,-20},{-10,
           -20}},                     color={0,0,255}));
   connect(signalVoltage.v,iEEEtype1AVR. Ifd) annotation (Line(points={{-33.2,
-          -14},{-33.2,-13.88},{-42.86,-13.88}}, color={0,0,127}));
+          -14},{-33.2,-14.04},{-42.86,-14.04}}, color={0,0,127}));
   connect(groundExcitation.p,signalVoltage. n) annotation (Line(points={{-26,-26},
           {-26,-20}},                     color={0,0,255}));
   connect(w_ref,speed. w_ref)
@@ -147,8 +147,7 @@ equation
   connect(plugSupply,terminalBox. plugSupply) annotation (Line(points={{0,64},{
           0,-2}},                  color={0,0,255}));
   connect(add.y, iEEEtype1AVR.Vterm) annotation (Line(points={{-81,-0.7},{-81,
-          -13.92},{-62.36,-13.92}},
-                             color={0,0,127}));
+          -14},{-63.2,-14}}, color={0,0,127}));
   connect(PerUnitConversion.y, add.u1) annotation (Line(points={{-69,34},{-76.8,
           34},{-76.8,15.4}}, color={0,0,127}));
   connect(Vd, add.u2) annotation (Line(points={{-112,40},{-92,40},{-92,20},{

@@ -1,7 +1,8 @@
 within CHEETA.Aircraft.Electrical.Machines.Examples.Boeing747;
 model SynGenwAVR
+  import CHEETA;
   extends CHEETA.Aircraft.Electrical.Interfaces.Generation;
-  replaceable Controls.AVR.AVR_TypeI                                       AVR(
+  replaceable CHEETA.Aircraft.Controls.AVR.AVR_TypeI AVR(
     T_R=Data_AVR.T_R,
     T_C=Data_AVR.T_C,
     T_B=Data_AVR.T_B,
@@ -15,7 +16,7 @@ model SynGenwAVR
     Vmin=Data_AVR.Vmin) constrainedby
     AircraftPowerSystem.Components.Interfaces.Controller
     annotation (Placement(transformation(extent={{-184,-4},{-146,-24}})));
-  replaceable Records.Boeing747electricalModel.Controllers.TypeI_AVR
+  replaceable CHEETA.Records.Boeing747electricalModel.Controllers.TypeI_AVR
                                                                 Data_AVR
     constrainedby AircraftPowerSystem.Records.Base.AVR
     annotation (Placement(transformation(extent={{18,24},{38,44}})));
@@ -24,7 +25,7 @@ model SynGenwAVR
         transformation(extent={{-204,-22},{-196,-14}})));
   parameter Modelica.SIunits.Inertia J=0.02 "Rotor's moment of inertia";
 
-  replaceable parameter Records.Boeing747electricalModel.SynchronousMachine.SM300kVA
+  replaceable parameter CHEETA.Records.Boeing747electricalModel.SynchronousMachine.SM300kVA
     SG_Data constrainedby AircraftPowerSystem.Records.Base.Synch
     annotation (Placement(transformation(extent={{56,24},{76,44}})));
 

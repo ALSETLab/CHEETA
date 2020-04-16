@@ -120,6 +120,8 @@ model DriveTrainPowerSystem_Battery
       data) annotation (Placement(transformation(extent={{-66,12},{-46,32}})));
   Modelica.Electrical.Analog.Basic.Ground ground
     annotation (Placement(transformation(extent={{-54,-18},{-34,2}})));
+  Aircraft.Controls.SupervisoryControl supervisoryControl
+    annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
 equation
   connect(driveEfficiencyComputation.electricDriveBus, electricDrive.electricDriveBus)
     annotation (Line(
@@ -191,9 +193,9 @@ equation
   connect(dcdc.dc_n1, ground.p)
     annotation (Line(points={{-38,16},{-44,16},{-44,2}}, color={0,0,255}));
   annotation (
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-60,-60},{200,
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-80},{200,
             100}})),
-    Icon(coordinateSystem(extent={{-60,-60},{200,100}},   preserveAspectRatio=false), graphics),
+    Icon(coordinateSystem(extent={{-100,-80},{200,100}},  preserveAspectRatio=false), graphics),
     experiment(Interval=0.1, __Dymola_Algorithm="Dassl"),
     __Dymola_experimentSetupOutput,
     Documentation(info="<html>

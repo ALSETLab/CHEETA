@@ -186,7 +186,7 @@ model SmallSignalModel
   Aircraft.Electrical.PowerElectronics.Converters.DCAC.Simulink_AverageInverter
                                                              simulink_AverageInverter
     annotation (Placement(transformation(extent={{180,32},{200,52}})));
-  Aircraft.Electrical.Controls.SpeedController
+  Aircraft.Controls.SpeedDrives.SpeedController
                                 speedController(
     K_ref=1,
     p=smpm.p,

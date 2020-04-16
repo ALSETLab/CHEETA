@@ -31,7 +31,7 @@ model ForcedCoolingAIM
     useThermalPort=true)
                     annotation (Placement(transformation(extent={{52,-10},{72,
             10}})));
-  replaceable Atmospheres.CoolingMedium.Air_30degC            coolingMedium constrainedby
+  replaceable Atmospheres.CoolingMedium.LH2                   coolingMedium constrainedby
     Modelica.Thermal.FluidHeatFlow.Media.Air_30degC
                                                 annotation (Placement(transformation(extent={{182,82},{194,94}})));
   ElectrifiedPowertrains.ElectricMachines.AIM.Thermal.ThreeMassTEFC machineThermal(redeclare
