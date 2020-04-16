@@ -120,6 +120,8 @@ model DriveTrainPowerSystem_Battery
       data) annotation (Placement(transformation(extent={{-66,12},{-46,32}})));
   Modelica.Electrical.Analog.Basic.Ground ground
     annotation (Placement(transformation(extent={{-54,-18},{-34,2}})));
+  Aircraft.Controls.SupervisoryControl supervisoryControl
+    annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
 equation
   connect(driveEfficiencyComputation.electricDriveBus, electricDrive.electricDriveBus)
     annotation (Line(

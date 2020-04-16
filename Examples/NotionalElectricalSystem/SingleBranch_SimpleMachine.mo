@@ -27,7 +27,8 @@ model SingleBranch_SimpleMachine
   Aircraft.Mechanical.Loads.Pinwheel
                                 pinwheel
     annotation (Placement(transformation(extent={{80,-4},{88,4}})));
-  Aircraft.Electrical.Controls.SpeedDriveController variableSpeedDrive(wref=733,
+  Aircraft.Controls.SpeedDrives.SpeedDriveController variableSpeedDrive(
+                                                                       wref=733,
               T=10)
     annotation (Placement(transformation(extent={{64,-44},{44,-24}})));
 equation

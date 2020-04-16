@@ -65,8 +65,7 @@ model Boeing747_SG_AVR
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={-24,36})));
-  Controls.AVR.IEEEtype1AVR
-                        iEEEtype1AVR(
+  CHEETA.Aircraft.Controls.AVR.IEEEtype1AVR iEEEtype1AVR(
     T_R=2e-3,
     T_C=0.001,
     T_B=0.001,
@@ -99,7 +98,8 @@ model Boeing747_SG_AVR
   Modelica.Electrical.MultiPhase.Interfaces.PositivePlug plugSupply1
           "To grid" annotation (Placement(transformation(extent={{-10,54},{10,
             74}}), iconTransformation(extent={{-10,54},{10,74}})));
-  parameter Records.Boeing747electricalModel.SynchronousMachine.SM100kVA Data
+  parameter CHEETA.Records.Boeing747electricalModel.SynchronousMachine.SM100kVA
+                                                                         Data
     annotation (Placement(transformation(extent={{52,22},{72,44}})));
 equation
   connect(rotorDisplacementAngle.plug_n,smee. plug_sn) annotation (Line(

@@ -28,7 +28,8 @@ model System "CHEETA Electrical System"
     annotation (Placement(transformation(extent={{-78,40},{-98,60}})));
   Aircraft.Electrical.Machines.Motors.SimpleMotor simpleMotor1
     annotation (Placement(transformation(extent={{40,40},{60,60}})));
-  Aircraft.Electrical.Controls.SpeedDriveController variableSpeedDrive(wref=
+  Aircraft.Controls.SpeedDrives.SpeedDriveController variableSpeedDrive(
+                                                                       wref=
         4000, T=10)
     annotation (Placement(transformation(extent={{60,8},{40,28}})));
   Aircraft.Mechanical.Loads.Fan      fan
@@ -58,7 +59,8 @@ model System "CHEETA Electrical System"
     annotation (Placement(transformation(extent={{28,-72},{8,-52}})));
   Aircraft.Electrical.Machines.Motors.SimpleMotor simpleMotor2
     annotation (Placement(transformation(extent={{42,-40},{62,-20}})));
-  Aircraft.Electrical.Controls.SpeedDriveController variableSpeedDrive1(wref=
+  Aircraft.Controls.SpeedDrives.SpeedDriveController variableSpeedDrive1(
+                                                                        wref=
         4000, T=10)
     annotation (Placement(transformation(extent={{62,-72},{42,-52}})));
   Aircraft.Mechanical.Loads.Fan      fan1

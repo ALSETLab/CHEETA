@@ -15,7 +15,8 @@ model SimpleSpeedDrive_Variable
     R_hyst=R_hyst,
     k=EMF_k)
     annotation (Placement(transformation(extent={{8,6},{28,26}})));
-  Controls.VariableSpeedDriveController variableSpeedDrive(T=T, k=k)
+  CHEETA.Aircraft.Controls.SpeedDrives.VariableSpeedDriveController
+                                        variableSpeedDrive(T=T, k=k)
     annotation (Placement(transformation(extent={{28,-20},{8,-40}})));
   Modelica.Mechanics.Rotational.Interfaces.Flange_b flange1
                                                            "Flange"

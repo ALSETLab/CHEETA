@@ -30,7 +30,7 @@ model SingleBranch_AveragedHalfBridge
     annotation (Placement(transformation(extent={{84,-10},{104,10}})));
   Aircraft.Mechanical.Loads.Fan fan(J=10)
     annotation (Placement(transformation(extent={{114,-4},{122,4}})));
-  Aircraft.Electrical.Controls.ModulatedSignalController
+  Aircraft.Controls.ModulatedSignalController
     modulatedSignalController(k=10000)
     annotation (Placement(transformation(extent={{-26,-44},{-6,-24}})));
   Modelica.Electrical.Analog.Sensors.CurrentSensor currentSensor

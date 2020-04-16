@@ -66,8 +66,7 @@ model Boeing747_SG_disturbance_input
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={-24,34})));
-  Controls.AVR.IEEEtype1AVR
-                        iEEEtype1AVR(
+  CHEETA.Aircraft.Controls.AVR.IEEEtype1AVR iEEEtype1AVR(
     T_R=2e-3,
     T_C=0.001,
     T_B=0.001,
@@ -105,7 +104,8 @@ model Boeing747_SG_disturbance_input
     annotation (Placement(transformation(extent={{-124,28},{-100,52}})));
   Modelica.Blocks.Interfaces.RealOutput y
     annotation (Placement(transformation(extent={{100,0},{120,20}})));
-  parameter Records.Boeing747electricalModel.SynchronousMachine.SM100kVA Data
+  parameter CHEETA.Records.Boeing747electricalModel.SynchronousMachine.SM100kVA
+                                                                         Data
     annotation (Placement(transformation(extent={{60,28},{80,50}})));
 equation
   connect(rotorDisplacementAngle.plug_n,smee. plug_sn) annotation (Line(

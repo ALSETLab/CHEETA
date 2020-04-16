@@ -66,7 +66,8 @@ model Induction_Motor
     "Time instant of Motor Connection";
     parameter Real L = -28/500
     "Mechanical Linear Load Slope";
-  replaceable parameter AircraftPowerSystem.Records.InductionMachine.IM_30KVA Data
+  replaceable parameter Records.Boeing747electricalModel.InductionMachine.IM_30KVA
+                                                                              Data
     constrainedby AircraftPowerSystem.Records.Base.IM
     annotation (Placement(transformation(extent={{-52,-76},{-32,-56}})));
 equation

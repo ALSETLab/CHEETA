@@ -15,7 +15,8 @@ model SimpleSpeedDrive
     R_hyst=R_hyst,
     k=EMF_k)
     annotation (Placement(transformation(extent={{8,6},{28,26}})));
-  Controls.SpeedDriveController variableSpeedDrive(
+  CHEETA.Aircraft.Controls.SpeedDrives.SpeedDriveController
+                                variableSpeedDrive(
     wref=wref,
     T=T,
     k=k) annotation (Placement(transformation(extent={{28,-40},{8,-20}})));

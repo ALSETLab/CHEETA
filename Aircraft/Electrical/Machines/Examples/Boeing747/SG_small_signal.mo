@@ -1,5 +1,6 @@
 within CHEETA.Aircraft.Electrical.Machines.Examples.Boeing747;
 model SG_small_signal
+  import CHEETA;
   Modelica.Electrical.Machines.BasicMachines.SynchronousInductionMachines.SM_ElectricalExcited
     smee(
     fsNominal=Data.fsNominal,
@@ -68,7 +69,7 @@ model SG_small_signal
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={-24,36})));
-  Controls.AVR.IEEEtype1AVR iEEEtype1AVR(
+  CHEETA.Aircraft.Controls.AVR.IEEEtype1AVR iEEEtype1AVR(
     T_R=2e-3,
     T_C=0.001,
     T_B=0.001,
@@ -106,7 +107,8 @@ model SG_small_signal
         rotation=0,
         origin={-60,-14})));
 
-  parameter Records.Boeing747electricalModel.SynchronousMachine.SM300kVA Data
+  parameter CHEETA.Records.Boeing747electricalModel.SynchronousMachine.SM300kVA
+                                                                         Data
     annotation (Placement(transformation(extent={{26,-64},{46,-44}})));
   Modelica.Blocks.Interfaces.RealOutput dV annotation (Placement(
         transformation(
