@@ -92,11 +92,13 @@ model Battery_system
     annotation (Placement(transformation(extent={{-16,-130},{4,-110}})));
   Aircraft.Mechanical.Loads.Fan      fan2(J=10)
     annotation (Placement(transformation(extent={{124,-98},{144,-78}})));
-  Aircraft.Electrical.HTS.Stekly.Stekly
-                                      stekly2(l=1)
+  Aircraft.Electrical.HTS.Stekly.Stekly_ExtraHeatGeneration
+                                      stekly_ExtraHeatGeneration2(
+                                              l=1, G_d=100)
     annotation (Placement(transformation(extent={{20,-78},{36,-86}})));
-  Aircraft.Electrical.HTS.Stekly.Stekly
-                                      stekly3(l=1)
+  Aircraft.Electrical.HTS.Stekly.Stekly_ExtraHeatGeneration
+                                      stekly_ExtraHeatGeneration3(
+                                              l=1, G_d=100)
     annotation (Placement(transformation(extent={{20,-90},{36,-98}})));
   Aircraft.Electrical.Machines.ElectricDrives.SimpleSpeedDrive simpleSpeedDrive(
       wref=733.038285)
@@ -154,19 +156,20 @@ equation
     annotation (Line(points={{94,40},{94,60},{93,60}},   color={0,0,127}));
   connect(pwm2.fire,dcdc1. fire_p) annotation (Line(points={{-12,-109},{-12,-100}},
                       color={255,0,255}));
-  connect(dcdc1.dc_n2,stekly3. pin_p)
-    annotation (Line(points={{4,-94},{19,-94}},    color={0,0,255}));
-  connect(stekly2.pin_p, dcdc1.dc_p2)
+  connect(dcdc1.dc_n2, stekly_ExtraHeatGeneration3.pin_p)
+    annotation (Line(points={{4,-94},{19,-94}}, color={0,0,255}));
+  connect(stekly_ExtraHeatGeneration2.pin_p, dcdc1.dc_p2)
     annotation (Line(points={{19,-82},{4,-82},{4,-82}}, color={0,0,255}));
-  connect(stekly2.port_a, thermalConductor.port_a)
+  connect(stekly_ExtraHeatGeneration2.port_a, thermalConductor.port_a)
     annotation (Line(points={{28,-78},{28,-36},{16,-36}}, color={191,0,0}));
-  connect(stekly3.port_a, thermalConductor.port_a)
+  connect(stekly_ExtraHeatGeneration3.port_a, thermalConductor.port_a)
     annotation (Line(points={{28,-90},{28,-36},{16,-36}}, color={191,0,0}));
   connect(fan2.flange_a1, simpleSpeedDrive.flange1) annotation (Line(points={{121.5,
           -88},{106,-88},{106,-89.6},{89,-89.6}}, color={0,0,0}));
-  connect(simpleSpeedDrive.dc_p1, stekly2.pin_n) annotation (Line(points={{71.6,
-          -85.8},{53.8,-85.8},{53.8,-82},{37,-82}}, color={0,0,255}));
-  connect(simpleSpeedDrive.dc_n1, stekly3.pin_n)
+  connect(simpleSpeedDrive.dc_p1, stekly_ExtraHeatGeneration2.pin_n)
+    annotation (Line(points={{71.6,-85.8},{53.8,-85.8},{53.8,-82},{37,-82}},
+        color={0,0,255}));
+  connect(simpleSpeedDrive.dc_n1, stekly_ExtraHeatGeneration3.pin_n)
     annotation (Line(points={{71.6,-94},{37,-94}}, color={0,0,255}));
   connect(energyAnalysis1.batteryBus, dC_Battery1.batteryBus1) annotation (Line(
       points={{-56,-74},{-56,-82.96},{-46,-82.96}},

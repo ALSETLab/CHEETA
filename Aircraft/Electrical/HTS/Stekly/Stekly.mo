@@ -8,7 +8,6 @@ model Stekly "HTS line using Stekly equations"
   parameter Modelica.SIunits.Area A = 1 "Area";
   Modelica.SIunits.Current I_c "corner current";
   Modelica.SIunits.ElectricFieldStrength E "Electric field";
-
   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p             annotation (Placement(
         transformation(extent={{-100,-10},{-80,10}}),iconTransformation(extent={{-100,
             -10},{-80,10}})));
@@ -19,7 +18,6 @@ model Stekly "HTS line using Stekly equations"
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-10,-50},{10,-30}})));
 
-initial equation
 
 equation
   port_a.Q_flow = (0.6953+0.001079*dT^4)*A;
