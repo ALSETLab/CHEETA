@@ -21,14 +21,18 @@ model AveragedConverters_Battery_EPL
     annotation (Placement(transformation(extent={{18,26},{38,34}})));
   Aircraft.Electrical.CB.CircuitBreaker circuitBreaker2(k=200000)
     annotation (Placement(transformation(extent={{18,14},{38,22}})));
-  Aircraft.Electrical.HTS.Stekly.Stekly_ExtraHeatGeneration
-                                        stekly_ExtraHeatGeneration(
-                                               l=1, G_d=100)
-    annotation (Placement(transformation(extent={{-12,24},{4,32}})));
-  Aircraft.Electrical.HTS.Stekly.Stekly_ExtraHeatGeneration
-                                        stekly_ExtraHeatGeneration1(
-                                                l=1, G_d=100)
-    annotation (Placement(transformation(extent={{-12,12},{4,20}})));
+  Aircraft.Electrical.HTS.HTS_Piline    hTS_Piline(
+                                               l=1,
+    R_L=100,
+    UIC=false,
+    IC=1)
+    annotation (Placement(transformation(extent={{-6,24},{10,32}})));
+  Aircraft.Electrical.HTS.HTS_Piline    hTS_Piline1(
+                                                l=1,
+    R_L=100,
+    UIC=false,
+    IC=0.1)
+    annotation (Placement(transformation(extent={{-6,12},{10,20}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor
                                            thermalConductor(G=0.1)
                                                         annotation (Placement(
@@ -59,7 +63,7 @@ model AveragedConverters_Battery_EPL
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
       machine(redeclare
-        ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.Records.Data.Linear.MSL_18p5kW
+        CHEETA.Aircraft.Electrical.Machines.Records.Sample_AIM_Machine_10kW
         data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
@@ -96,22 +100,16 @@ equation
   connect(multiSensor.flange_b, fan.flange_a1)
     annotation (Line(points={{152,22},{187,22}},
                                               color={0,0,0}));
-  connect(circuitBreaker1.p1, stekly_ExtraHeatGeneration.pin_n)
-    annotation (Line(points={{18,28},{5,28}}, color={0,0,255}));
-  connect(circuitBreaker2.p1, stekly_ExtraHeatGeneration1.pin_n)
-    annotation (Line(points={{18,16},{5,16}}, color={0,0,255}));
-  connect(stekly_ExtraHeatGeneration.port_a, thermalConductor.port_a)
-    annotation (Line(points={{-4,24},{-4,-50},{-8,-50}}, color={191,0,0}));
-  connect(stekly_ExtraHeatGeneration1.port_a, thermalConductor.port_a)
-    annotation (Line(points={{-4,12},{-4,-50},{-8,-50}}, color={191,0,0}));
+  connect(circuitBreaker1.p1, hTS_Piline.pin_n)
+    annotation (Line(points={{18,28},{11,28}}, color={0,0,255}));
+  connect(circuitBreaker2.p1, hTS_Piline1.pin_n)
+    annotation (Line(points={{18,16},{11,16}}, color={0,0,255}));
   connect(thermalConductor.port_b, fixedTemperature.port)
     annotation (Line(points={{-28,-50},{-40,-50}}, color={191,0,0}));
-  connect(converterVoltageInput.p2, stekly_ExtraHeatGeneration.pin_p)
-    annotation (Line(points={{-20,28},{-16,28},{-16,28},{-13,28}}, color={0,0,
-          255}));
-  connect(stekly_ExtraHeatGeneration1.pin_p, converterVoltageInput.n2)
-    annotation (Line(points={{-13,16},{-16,16},{-16,16},{-20,16}}, color={0,0,
-          255}));
+  connect(converterVoltageInput.p2, hTS_Piline.pin_p)
+    annotation (Line(points={{-20,28},{-7,28}}, color={0,0,255}));
+  connect(hTS_Piline1.pin_p, converterVoltageInput.n2)
+    annotation (Line(points={{-7,16},{-20,16}}, color={0,0,255}));
   connect(converterVoltageInput.v, voltage_ce.y)
     annotation (Line(points={{-22,10},{-22,-10},{-33,-10}}, color={0,0,127}));
   connect(electricDrive.pin_p, circuitBreaker1.n1) annotation (Line(points={{80,
@@ -124,8 +122,8 @@ equation
           {140,22},{120,22},{120,24},{100,24}}, color={0,0,0}));
   connect(converterVoltageInput.n1, ground.p) annotation (Line(points={{-40,16},
           {-60,16},{-60,8},{-71,8}}, color={0,0,255}));
-  connect(stekly_ExtraHeatGeneration1.pin_p, ground1.p)
-    annotation (Line(points={{-13,16},{-17,16}}, color={0,0,255}));
+  connect(hTS_Piline1.pin_p, ground1.p)
+    annotation (Line(points={{-7,16},{-17,16}}, color={0,0,255}));
   connect(converterVoltageInput.n1, dC_Battery1.n1)
     annotation (Line(points={{-40,16},{-64,16},{-64,14.24}}, color={0,0,255}));
   connect(dC_Battery1.p1, converterVoltageInput.p1) annotation (Line(points={{
@@ -134,6 +132,10 @@ equation
       points={{-86,25.04},{-86,36}},
       color={0,255,0},
       thickness=0.5));
+  connect(hTS_Piline1.port_a, thermalConductor.port_a)
+    annotation (Line(points={{2,12},{-8,12},{-8,-50}}, color={191,0,0}));
+  connect(hTS_Piline.port_a, thermalConductor.port_a)
+    annotation (Line(points={{2,24},{-8,24},{-8,-50}}, color={191,0,0}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-80},{200,
             100}})),

@@ -34,7 +34,7 @@ E = E_0 *(pin_p.i/I_c)^n;
 pin_n.i = pin_p.i;
 G = rho * I_c^2 * 10^3 / P;
 x = noEvent(if pin_p.i > I_crit then 0 else pin_p.v);
-pin_n.v = pin_p.v - E*l;
+pin_n.v =x- E*l;
  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-80,
          -40},{80,40}}), graphics={
                 Rectangle(
