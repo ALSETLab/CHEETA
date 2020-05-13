@@ -3,3 +3,4 @@ DCAC_HalfBridgeAverage
 Simulink_AverageInverter
 SourceGains
 SwitchingInverter
+Simulink_AvgInverter_grounded

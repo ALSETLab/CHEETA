@@ -9,8 +9,9 @@ model Stekly_ExtraHeatGeneration "HTS line using Stekly equations"
   parameter Modelica.SIunits.Length P = 0.1035 "Perimeter of cable";
   parameter Modelica.SIunits.Resistivity rho = 2.1e-9 "Resitivity of copper";
   parameter Modelica.SIunits.Power G_d "Extra heat generation";
-  parameter Modelica.SIunits.Resistance R "Line resistance";
   parameter Modelica.SIunits.Current I_crit "Critical current";
+
+  Modelica.SIunits.Thickness h "Heat transfer coefficient of surfaces";
   Modelica.SIunits.Current I_c "corner current";
   Modelica.SIunits.ElectricFieldStrength E "Electric field";
   Modelica.SIunits.Power G;
@@ -28,7 +29,8 @@ model Stekly_ExtraHeatGeneration "HTS line using Stekly equations"
 initial equation
 
 equation
-  port_a.Q_flow = (0.6953+0.001079*dT^4)*A;
+  h = (0.6953+0.001079*dT^4)*A;
+  port_a.Q_flow = h*dT;
   I_c = I_c0 *port_a.T;
   E = E_0 *((pin_p.i/I_c))^n;
   if noEvent(pin_p.i>I_crit) then

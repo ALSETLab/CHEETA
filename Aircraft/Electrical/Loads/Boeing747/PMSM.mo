@@ -16,7 +16,8 @@ model PMSM
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-38,-22})));
-  PowerElectronics.Converters.DCAC.Simulink_AverageInverter  avgInverter
+  PowerElectronics.Converters.DCAC.Simulink_AvgInverter_grounded
+                                                             avgInverter
     annotation (Placement(transformation(extent={{196,-44},{222,-12}})));
   Modelica.Mechanics.Rotational.Sensors.AngleSensor angleSensor
     annotation (Placement(transformation(
@@ -92,7 +93,7 @@ model PMSM
     annotation (Placement(transformation(extent={{370,-44},{350,-24}})));
   replaceable parameter Records.Boeing747electricalModel.PMSM.PMSM_2kVA
                                                                    smpmData
-    constrainedby AircraftPowerSystem.Records.PMSM.PSM
+    constrainedby CHEETA.Records.Boeing747electricalModel.PMSM.PSM
     annotation (Placement(transformation(extent={{252,78},{272,98}})));
   Modelica.Blocks.Interfaces.RealInput Ref annotation (Placement(transformation(
         origin={-100,120},
@@ -123,17 +124,17 @@ equation
       points={{258,10},{258,20},{302,20},{302,-22}},
       color={0,0,255}));
   connect(speedController.a,avgInverter. ma) annotation (Line(points={{112.958,
-          110.8},{112.958,110.454},{200.4,110.454},{200.4,-9.06667}},
-                                                                  color={0,0,127}));
+          110.8},{112.958,110.454},{200,110.454},{200,-6.76364}}, color={0,0,127}));
   connect(speedController.b,avgInverter. mb) annotation (Line(points={{112.958,
-          102},{112.958,102.273},{210,102.273},{210,-9.06667}}, color={0,0,127}));
+          102},{112.958,102.273},{209.2,102.273},{209.2,-6.76364}},
+                                                                color={0,0,127}));
   connect(speedController.c,avgInverter. mc) annotation (Line(points={{112.958,
-          91},{112.958,91.273},{220,91.273},{220,-9.06667}},      color={0,0,127}));
+          91},{112.958,91.273},{218,91.273},{218,-6.76364}},      color={0,0,127}));
   connect(currentSensor.i,speedController. iActual) annotation (Line(points={{247,
           2.22045e-15},{77.6917,2.22045e-15},{77.6917,92}},
                                                      color={0,0,127}));
   connect(currentSensor.plug_p,avgInverter. positivePlug) annotation (Line(
-        points={{258,-10},{258,-28.5333},{223,-28.5333}},       color={0,0,
+        points={{258,-10},{258,-24.2182},{223,-24.2182}},       color={0,0,
           255}));
   connect(speedSensor.w,speedController. Speed) annotation (Line(points={{47,102},
           {67.9167,102}},                                color={0,0,127}));
@@ -148,15 +149,17 @@ equation
   connect(voltageSensor.n, simulink_Averaged_Rectifier.v_ref) annotation (Line(points={{58,14},
           {58,0},{-9,0}},                   color={0,0,255}));
   connect(avgInverter.pin_p, simulink_Averaged_Rectifier.DC_p) annotation (Line(points={{195,
-          -17.6},{44,-17.6},{44,6},{-9,6}},   color={0,0,255}));
+          -14.6182},{44,-14.6182},{44,6},{-9,6}},
+                                              color={0,0,255}));
   connect(speedController.Ref, Ref) annotation (Line(points={{67.9167,109.2},{
           55.0415,109.2},{55.0415,120},{-100,120}}, color={0,0,127}));
   connect(voltageSensor.v, speedController.Vdc1) annotation (Line(points={{69,
           24},{99.925,24},{99.925,92}}, color={0,0,127}));
   connect(speedController.phi, speedController.Vdc1) annotation (Line(points={{89.1917,
           92},{89.1917,24},{99.925,24},{99.925,92}},         color={0,0,127}));
-  connect(avgInverter.pin_n, simulink_Averaged_Rectifier.DC_n) annotation (Line(
-        points={{195,-36},{94,-36},{94,-6},{-9,-6}}, color={0,0,255}));
+  connect(avgInverter.pin_n1, simulink_Averaged_Rectifier.DC_n) annotation (
+      Line(points={{195,-40.5091},{93.5,-40.5091},{93.5,-6},{-9,-6}}, color={0,
+          0,255}));
   annotation (Diagram(coordinateSystem(extent={{-100,-100},{380,140}})), Icon(
         coordinateSystem(extent={{-100,-100},{380,140}})),
     Documentation(info="<html>
