@@ -34,8 +34,8 @@ model Fuel_Pump
         origin={158,12})));
   parameter Modelica.SIunits.Torque L=-L
     "Nominal torque (if negative, torque is acting as load)";
-  replaceable AircraftPowerSystem.Records.DCMotor.FuelPumps.FuelPump_2 Data
-    constrainedby AircraftPowerSystem.Records.Base.DC_Motor_Data
+  replaceable CHEETA.Records.Boeing747electricalModel.DCMotor.FuelPumps.FuelPump_2 Data
+    constrainedby CHEETA.Records.Boeing747electricalModel.Base.DC_Motor_Data
     annotation (Placement(transformation(extent={{94,-80},{114,-60}})));
 
   parameter Modelica.SIunits.Resistance R = 0.5

@@ -68,7 +68,7 @@ model Induction_Motor
     "Mechanical Linear Load Slope";
   replaceable parameter Records.Boeing747electricalModel.InductionMachine.IM_30KVA
                                                                               Data
-    constrainedby AircraftPowerSystem.Records.Base.IM
+    constrainedby CHEETA.Records.Boeing747electricalModel.Base.IM
     annotation (Placement(transformation(extent={{-52,-76},{-32,-56}})));
 equation
   connect(star.pin_n,ground1. p)

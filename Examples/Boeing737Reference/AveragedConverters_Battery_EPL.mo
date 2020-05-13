@@ -1,122 +1,103 @@
-within CHEETA.Examples.CHEETAElectricalSystem;
-model Battery_system
+within CHEETA.Examples.Boeing737Reference;
+model AveragedConverters_Battery_EPL
   "AIM with forced cooling modeled in a simple thermal model"
   import ElectrifiedPowertrains;
   import Modelica;
 
   extends Modelica.Icons.Example;
 
+  Modelica.Blocks.Sources.Constant
+                               tauRef(k=733.038285)
+               annotation (Placement(transformation(extent={{-40,60},{-20,80}})));
+  Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor annotation (Placement(transformation(extent={{140,16},
+            {152,28}})));
   replaceable Modelica.Thermal.FluidHeatFlow.Media.Water_10degC
                                                               coolingMedium constrainedby
     Modelica.Thermal.FluidHeatFlow.Media.Air_30degC
-                                                annotation (Placement(transformation(extent={{44,64},
-            {56,76}})));
+                                                annotation (Placement(transformation(extent={{182,82},{194,94}})));
+  Aircraft.Mechanical.Loads.Fan fan
+    annotation (Placement(transformation(extent={{188,18},{196,26}})));
   Aircraft.Electrical.CB.CircuitBreaker circuitBreaker1(k=200000)
-    annotation (Placement(transformation(extent={{54,32},{74,40}})));
+    annotation (Placement(transformation(extent={{18,26},{38,34}})));
   Aircraft.Electrical.CB.CircuitBreaker circuitBreaker2(k=200000)
-    annotation (Placement(transformation(extent={{54,20},{74,28}})));
-  Aircraft.Electrical.HTS.Stekly.Stekly_ExtraHeatGeneration
-                                        stekly_ExtraHeatGeneration(
-                                               l=1, G_d=100,
-    I_crit=2000)
-    annotation (Placement(transformation(extent={{22,30},{38,38}})));
-  Aircraft.Electrical.HTS.Stekly.Stekly_ExtraHeatGeneration
-                                        stekly_ExtraHeatGeneration1(
-                                                l=1, G_d=100,
-    I_crit=2000)
-    annotation (Placement(transformation(extent={{22,18},{38,26}})));
+    annotation (Placement(transformation(extent={{18,14},{38,22}})));
+  Aircraft.Electrical.HTS.HTS_Piline    hTS_Piline(
+                                               l=1,
+    R_L=100,
+    UIC=false,
+    IC=1)
+    annotation (Placement(transformation(extent={{-6,24},{10,32}})));
+  Aircraft.Electrical.HTS.HTS_Piline    hTS_Piline1(
+                                                l=1,
+    R_L=100,
+    UIC=false,
+    IC=0.1)
+    annotation (Placement(transformation(extent={{-6,12},{10,20}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor
                                            thermalConductor(G=0.1)
                                                         annotation (Placement(
-        transformation(extent={{16,-46},{-4,-26}})));
+        transformation(extent={{-8,-60},{-28,-40}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T(
-        displayUnit="K") = 20)
-    annotation (Placement(transformation(extent={{-50,-46},{-30,-26}})));
-  Aircraft.Electrical.PowerElectronics.Converters.DCDC.BoostConverter
-                                                         dcdc(
-    L=0.001,
-    i=0.1,
-    C=0.001,
-    v(start=1000) = 1000)                                     annotation (
+        displayUnit="K") = 115)
+    annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
+  ElectrifiedPowertrains.PowerElectronics.Converters.Averaged.VoltageInputConstantEfficiency
+                                                         converterVoltageInput(
+      redeclare
+      ElectrifiedPowertrains.PowerElectronics.Converters.Averaged.Records.Data.ConstantEfficiency.Constant100percent
+      data)                                                   annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
-        origin={6,28})));
-  Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm(
-      constantDutyCycle=0.5, f(displayUnit="Hz") = 100)
-    annotation (Placement(transformation(extent={{-4,-14},{16,6}})));
-  ElectrifiedPowertrains.SupplySystem.Batteries.Blocks.EnergyAnalysis energyAnalysis(
-      useBusConnector=true)
-    annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=0,
-        origin={-42,74})));
-  Aircraft.Mechanical.Loads.Fan      fan1(J=1)
-    annotation (Placement(transformation(extent={{120,24},{130,34}})));
-  Aircraft.Electrical.Battery.DC_Battery dC_Battery annotation (Placement(
-        transformation(
-        extent={{-12,-11},{12,11}},
-        rotation=270,
-        origin={-25,28})));
+        origin={-30,22})));
+  Modelica.Blocks.Sources.Constant voltage_ce(k=1000)
+                                                    annotation (Placement(transformation(extent={{-54,-20},
+            {-34,0}})));
   ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
-        ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Data.Speed.MSL_18p5kW
-        data),
+        ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
+        data(redeclare CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_1MW
+          machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
-      Aircraft.Electrical.PowerElectronics.Converters.DCAC.SwitchingInverter
-      inverter,
-    useThermalPort=false,
-    redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare
-        ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.Records.Data.Linear.MSL_18p5kW
-        data))      annotation (Placement(transformation(extent={{84,18},{104,
-            38}})));
-  Modelica.Blocks.Sources.Constant
-                               tauRef(k=733.038285)
-               annotation (Placement(transformation(extent={{72,50},{92,70}})));
-  Aircraft.Electrical.PowerElectronics.Converters.DCDC.BoostConverter
-                                                         dcdc1(
-    L=0.001,
-    i=0.1,
-    C=0.1,
-    v=0)                                                      annotation (
-      Placement(transformation(
-        extent={{-10,-10},{10,10}},
+      machine(redeclare CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data),
+    redeclare
+      ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
+      inverter(redeclare
+        ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
+        data),
+    useThermalPort=false)
+                    annotation (Placement(transformation(extent={{80,14},{100,
+            34}})));
+  Modelica.Electrical.Analog.Basic.Ground ground annotation (Placement(
+        transformation(
+        extent={{-9,-9},{9,9}},
         rotation=0,
-        origin={-6,-88})));
-  Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm2(
-      constantDutyCycle=0.5, f(displayUnit="kHz") = 100000)
-    annotation (Placement(transformation(extent={{-16,-130},{4,-110}})));
-  Aircraft.Mechanical.Loads.Fan      fan2(J=10)
-    annotation (Placement(transformation(extent={{124,-98},{144,-78}})));
-  Aircraft.Electrical.Machines.ElectricDrives.SimpleSpeedDrive_Variable
-                                                               simpleSpeedDrive_Variable
-    annotation (Placement(transformation(extent={{70,-100},{90,-80}})));
-  ElectrifiedPowertrains.SupplySystem.Batteries.Blocks.EnergyAnalysis energyAnalysis1(
-      useBusConnector=true)
-    annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
+        origin={-71,-1})));
+  Modelica.Electrical.Analog.Basic.Ground ground1
+                                                 annotation (Placement(
+        transformation(
+        extent={{-9,-9},{9,9}},
         rotation=0,
-        origin={-56,-64})));
+        origin={-17,7})));
   Aircraft.Electrical.Battery.DC_Battery dC_Battery1
                                                     annotation (Placement(
         transformation(
         extent={{-12,-11},{12,11}},
         rotation=270,
-        origin={-35,-88})));
-  ElectrifiedPowertrains.ElectricDrives.Common.Blocks.EnergyAnalyser driveEfficiencyComputation(
+        origin={-75,20})));
+  ElectrifiedPowertrains.SupplySystem.Batteries.Blocks.EnergyAnalysis energyAnalysis1(
       useBusConnector=true)
-    annotation (Placement(transformation(extent={{110,-8},{130,12}})));
-  ElectrifiedPowertrains.ElectricMachines.Common.Blocks.ElectricQuantities machineVariables(
-      terminalConnection=electricDrive.machine.data.terminalConnection)
-    annotation (Placement(transformation(extent={{140,-8},{160,12}})));
-  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(tableOnFile=false,
-      table=[0.5,733.038285837618; 1,733.038285837618; 1.5,733.038285837618; 2,
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={-86,46})));
+  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(table=[0.5,
+        733.038285837618; 1,733.038285837618; 1.5,733.038285837618; 2,
         733.038285837618; 2.5,733.038285837618; 3,733.038285837618; 3.5,
         733.038285837618; 4,733.038285837618; 4.5,733.038285837618; 5,
         733.038285837618; 5.5,733.038285837618; 6,733.038285837618; 6.5,
@@ -2643,76 +2624,55 @@ model Battery_system
         543.635742644674; 30544.8,543.635742644674; 30549.8,543.635742644674;
         30554.8,543.635742644674; 30559.8,543.635742644674; 30564.8,
         543.635742644674; 30569.8,543.635742644674; 30574.8,543.635742644674])
-    annotation (Placement(transformation(extent={{58,-60},{78,-40}})));
+    annotation (Placement(transformation(extent={{40,60},{60,80}})));
 equation
-  connect(circuitBreaker1.p1, stekly_ExtraHeatGeneration.pin_n)
-    annotation (Line(points={{54,34},{39,34}},color={0,0,255}));
-  connect(circuitBreaker2.p1, stekly_ExtraHeatGeneration1.pin_n)
-    annotation (Line(points={{54,22},{39,22}},color={0,0,255}));
-  connect(stekly_ExtraHeatGeneration.port_a, thermalConductor.port_a)
-    annotation (Line(points={{30,30},{30,-36},{16,-36}}, color={191,0,0}));
-  connect(stekly_ExtraHeatGeneration1.port_a, thermalConductor.port_a)
-    annotation (Line(points={{30,18},{30,-36},{16,-36}}, color={191,0,0}));
+  connect(multiSensor.flange_b, fan.flange_a1)
+    annotation (Line(points={{152,22},{187,22}},
+                                              color={0,0,0}));
+  connect(circuitBreaker1.p1, hTS_Piline.pin_n)
+    annotation (Line(points={{18,28},{11,28}}, color={0,0,255}));
+  connect(circuitBreaker2.p1, hTS_Piline1.pin_n)
+    annotation (Line(points={{18,16},{11,16}}, color={0,0,255}));
   connect(thermalConductor.port_b, fixedTemperature.port)
-    annotation (Line(points={{-4,-36},{-30,-36}},  color={191,0,0}));
-  connect(dcdc.fire_p,pwm. fire)
-    annotation (Line(points={{0,16},{0,7}},        color={255,0,255}));
-  connect(dcdc.dc_p2, stekly_ExtraHeatGeneration.pin_p)
-    annotation (Line(points={{16,34},{21,34}},   color={0,0,255}));
-  connect(stekly_ExtraHeatGeneration1.pin_p, dcdc.dc_n2)
-    annotation (Line(points={{21,22},{16,22}},   color={0,0,255}));
-  connect(dcdc.dc_p1, dC_Battery.p1) annotation (Line(points={{-4,34},{-12,34},
-          {-12,34.24},{-14,34.24}},      color={0,0,255}));
-  connect(dcdc.dc_n1, dC_Battery.n1) annotation (Line(points={{-4,22},{-12,22},
-          {-12,22.24},{-14,22.24}},      color={0,0,255}));
-  connect(energyAnalysis.batteryBus, dC_Battery.batteryBus1) annotation (Line(
-      points={{-42,64},{-42,33.04},{-36,33.04}},
+    annotation (Line(points={{-28,-50},{-40,-50}}, color={191,0,0}));
+  connect(converterVoltageInput.p2, hTS_Piline.pin_p)
+    annotation (Line(points={{-20,28},{-7,28}}, color={0,0,255}));
+  connect(hTS_Piline1.pin_p, converterVoltageInput.n2)
+    annotation (Line(points={{-7,16},{-20,16}}, color={0,0,255}));
+  connect(converterVoltageInput.v, voltage_ce.y)
+    annotation (Line(points={{-22,10},{-22,-10},{-33,-10}}, color={0,0,127}));
+  connect(electricDrive.pin_p, circuitBreaker1.n1) annotation (Line(points={{80,
+          30},{60,30},{60,28},{37.8,28}}, color={0,0,255}));
+  connect(circuitBreaker2.n1, electricDrive.pin_n)
+    annotation (Line(points={{37.8,16},{80,16},{80,18}}, color={0,0,255}));
+  connect(multiSensor.flange_a, electricDrive.flange) annotation (Line(points={
+          {140,22},{120,22},{120,24},{100,24}}, color={0,0,0}));
+  connect(converterVoltageInput.n1, ground.p) annotation (Line(points={{-40,16},
+          {-60,16},{-60,8},{-71,8}}, color={0,0,255}));
+  connect(hTS_Piline1.pin_p, ground1.p)
+    annotation (Line(points={{-7,16},{-17,16}}, color={0,0,255}));
+  connect(converterVoltageInput.n1, dC_Battery1.n1)
+    annotation (Line(points={{-40,16},{-64,16},{-64,14.24}}, color={0,0,255}));
+  connect(dC_Battery1.p1, converterVoltageInput.p1) annotation (Line(points={{
+          -64,26.24},{-52,26.24},{-52,28},{-40,28}}, color={0,0,255}));
+  connect(dC_Battery1.batteryBus1, energyAnalysis1.batteryBus) annotation (Line(
+      points={{-86,25.04},{-86,36}},
       color={0,255,0},
       thickness=0.5));
-  connect(fan1.flange_a1, electricDrive.flange) annotation (Line(points={{118.75,
-          29},{112,29},{112,28},{104,28}},        color={0,0,0}));
-  connect(electricDrive.pin_p, circuitBreaker1.n1)
-    annotation (Line(points={{84,34},{73.8,34}}, color={0,0,255}));
-  connect(electricDrive.pin_n, circuitBreaker2.n1)
-    annotation (Line(points={{84,22},{73.8,22}}, color={0,0,255}));
-  connect(electricDrive.desiredSpeed, tauRef.y)
-    annotation (Line(points={{94,40},{94,60},{93,60}},   color={0,0,127}));
-  connect(pwm2.fire,dcdc1. fire_p) annotation (Line(points={{-12,-109},{-12,-100}},
-                      color={255,0,255}));
-  connect(fan2.flange_a1, simpleSpeedDrive_Variable.flange1) annotation (Line(
-        points={{121.5,-88},{106,-88},{106,-89.6},{89,-89.6}}, color={0,0,0}));
-  connect(energyAnalysis1.batteryBus, dC_Battery1.batteryBus1) annotation (Line(
-      points={{-56,-74},{-56,-82.96},{-46,-82.96}},
-      color={0,255,0},
-      thickness=0.5));
-  connect(dC_Battery1.p1, dcdc1.dc_p1) annotation (Line(points={{-24,-81.76},{-21,
-          -81.76},{-21,-82},{-16,-82}}, color={0,0,255}));
-  connect(dcdc1.dc_n1, dC_Battery1.n1) annotation (Line(points={{-16,-94},{-20,-94},
-          {-20,-93.76},{-24,-93.76}}, color={0,0,255}));
-  connect(driveEfficiencyComputation.electricDriveBus, electricDrive.electricDriveBus)
-    annotation (Line(
-      points={{120,-8},{120,-18},{94,-18},{94,18}},
-      color={0,86,166},
-      thickness=0.5));
-  connect(machineVariables.electricDriveBus,driveEfficiencyComputation. electricDriveBus)
-    annotation (Line(
-      points={{150,-8},{150,-18},{120,-18},{120,-8}},
-      color={0,86,166},
-      thickness=0.5));
-  connect(dcdc1.dc_p2, simpleSpeedDrive_Variable.dc_p1) annotation (Line(points
-        ={{4,-82},{38,-82},{38,-85.8},{71.6,-85.8}}, color={0,0,255}));
-  connect(simpleSpeedDrive_Variable.dc_n1, dcdc1.dc_n2)
-    annotation (Line(points={{71.6,-94},{4,-94}}, color={0,0,255}));
-  connect(combiTimeTable.y[1], simpleSpeedDrive_Variable.wref) annotation (Line(
-        points={{79,-50},{82,-50},{82,-80.6},{80,-80.6}}, color={0,0,127}));
+  connect(hTS_Piline1.port_a, thermalConductor.port_a)
+    annotation (Line(points={{2,12},{-8,12},{-8,-50}}, color={191,0,0}));
+  connect(hTS_Piline.port_a, thermalConductor.port_a)
+    annotation (Line(points={{2,24},{-8,24},{-8,-50}}, color={191,0,0}));
+  connect(combiTimeTable.y[1], electricDrive.desiredSpeed)
+    annotation (Line(points={{61,70},{90,70},{90,36}}, color={0,0,127}));
   annotation (
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-60,-140},{180,
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-80},{200,
             100}})),
-    Icon(coordinateSystem(extent={{-60,-140},{180,100}},  preserveAspectRatio=false), graphics),
+    Icon(coordinateSystem(extent={{-100,-80},{200,100}},  preserveAspectRatio=false), graphics),
     experiment(Interval=0.1, __Dymola_Algorithm="Dassl"),
     __Dymola_experimentSetupOutput,
     Documentation(info="<html>
 <p>The example shows an induction machine with a forced air-based cooling system driven by an external fan.</p>
 </html>"),
     __Dymola_Commands(file="modelica://ElectrifiedPowertrains/Resources/Scripts/plot/Example_ForcedCoolingAIM.mos" "plot"));
-end Battery_system;
+end AveragedConverters_Battery_EPL;

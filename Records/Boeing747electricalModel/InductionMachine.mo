@@ -1,7 +1,7 @@
 within CHEETA.Records.Boeing747electricalModel;
 package InductionMachine
 record IM_30KVA "30 KVA Induction Motor"
-  extends Base.IM(p = 8,
+  extends CHEETA.Records.Boeing747electricalModel.Base.IM(p = 8,
                   fsNominal = 400,
                   J = 0.01,
                   Rs = 0.2761,

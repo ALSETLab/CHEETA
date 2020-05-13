@@ -21,17 +21,17 @@ model AveragedConverters_Battery
     annotation (Placement(transformation(extent={{18,26},{38,34}})));
   Aircraft.Electrical.CB.CircuitBreaker circuitBreaker2(k=200000)
     annotation (Placement(transformation(extent={{18,14},{38,22}})));
-  Aircraft.Electrical.HTS.HTS_Piline    hTS_Piline(
+  Aircraft.Electrical.HTS.HTS_Piline3   hTS_Piline3_1(
                                                l=1,
+    I_crit=1100,
     R_L=10,
-    UIC=true,
-    IC=0.01)
+    G_d=0)
     annotation (Placement(transformation(extent={{-14,24},{2,32}})));
-  Aircraft.Electrical.HTS.HTS_Piline    hTS_Piline1(
+  Aircraft.Electrical.HTS.HTS_Piline3   hTS_Piline3_2(
                                                 l=1,
+    I_crit=1100,
     R_L=10,
-    UIC=true,
-    IC=0.01)
+    G_d=0)
     annotation (Placement(transformation(extent={{-14,12},{2,20}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor
                                            thermalConductor(G=1)
@@ -71,19 +71,19 @@ equation
   connect(multiSensor.flange_b, fan.flange_a1)
     annotation (Line(points={{152,22},{187,22}},
                                               color={0,0,0}));
-  connect(circuitBreaker1.p1, hTS_Piline.pin_n)
+  connect(circuitBreaker1.p1, hTS_Piline3_1.pin_n)
     annotation (Line(points={{18,28},{3,28}}, color={0,0,255}));
-  connect(circuitBreaker2.p1, hTS_Piline1.pin_n)
+  connect(circuitBreaker2.p1, hTS_Piline3_2.pin_n)
     annotation (Line(points={{18,16},{3,16}}, color={0,0,255}));
-  connect(hTS_Piline.port_a, thermalConductor.port_a)
+  connect(hTS_Piline3_1.port_a, thermalConductor.port_a)
     annotation (Line(points={{-6,24},{-6,-50},{-8,-50}}, color={191,0,0}));
-  connect(hTS_Piline1.port_a, thermalConductor.port_a)
+  connect(hTS_Piline3_2.port_a, thermalConductor.port_a)
     annotation (Line(points={{-6,12},{-6,-50},{-8,-50}}, color={191,0,0}));
   connect(thermalConductor.port_b, fixedTemperature.port)
     annotation (Line(points={{-28,-50},{-40,-50}}, color={191,0,0}));
-  connect(converterVoltageInput.p2, hTS_Piline.pin_p)
+  connect(converterVoltageInput.p2, hTS_Piline3_1.pin_p)
     annotation (Line(points={{-20,28},{-15,28}}, color={0,0,255}));
-  connect(hTS_Piline1.pin_p, converterVoltageInput.n2)
+  connect(hTS_Piline3_2.pin_p, converterVoltageInput.n2)
     annotation (Line(points={{-15,16},{-20,16}}, color={0,0,255}));
   connect(converterVoltageInput.v, voltage_ce.y)
     annotation (Line(points={{-22,10},{-22,-10},{-33,-10}}, color={0,0,127}));
