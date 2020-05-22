@@ -10,10 +10,18 @@ protected
         rotation=0)));
 public
   Modelica.Blocks.Sources.CombiTimeTable ReferenceSpeed
-    annotation (Placement(transformation(extent={{-82,-84},{-62,-64}})));
+    annotation (Placement(transformation(extent={{-90,62},{-70,82}})));
+  Modelica.Blocks.Interfaces.RealInput DCDC_voltage
+    annotation (Placement(transformation(extent={{-140,22},{-100,62}})));
+  Modelica.Blocks.Interfaces.RealInput DCDC_inverter
+    annotation (Placement(transformation(extent={{-140,-8},{-100,32}})));
+  Modelica.Blocks.Interfaces.RealInput inverter_voltage
+    annotation (Placement(transformation(extent={{-140,-40},{-100,0}})));
+  Modelica.Blocks.Interfaces.RealInput inverter_current
+    annotation (Placement(transformation(extent={{-140,-72},{-100,-32}})));
 equation
-  connect(ReferenceSpeed.y[1], controlBus.realSignal1) annotation (Line(points={
-          {-61,-74},{0,-74},{0,-102},{0.1,-102},{0.1,-100.1}}, color={0,0,127}),
+  connect(ReferenceSpeed.y[1], controlBus.realSignal1) annotation (Line(points={{-69,72},
+          {0,72},{0,-102},{0.1,-102},{0.1,-100.1}},            color={0,0,127}),
       Text(
       string="%second",
       index=1,
