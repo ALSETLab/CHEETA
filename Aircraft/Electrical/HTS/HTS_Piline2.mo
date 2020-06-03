@@ -59,8 +59,8 @@ model HTS_Piline2 "HTS line using Stekly equations"
   Modelica.Electrical.Analog.Basic.VariableInductor
                                             inductor(
     Lmin=0,
-    IC=IC,
-    UIC=UIC)
+    IC=0,
+    UIC=false)
     annotation (Placement(transformation(extent={{-46,10},{-34,22}})));
   Modelica.Electrical.Analog.Basic.VariableResistor
                                             resistor2
@@ -68,8 +68,8 @@ model HTS_Piline2 "HTS line using Stekly equations"
   Modelica.Electrical.Analog.Basic.VariableInductor
                                             inductor1(
     Lmin=0,
-    IC=IC,
-    UIC=UIC)
+    IC=0,
+    UIC=false)
     annotation (Placement(transformation(extent={{-6,10},{6,22}})));
   Modelica.Electrical.Analog.Basic.VariableResistor
                                             resistor3
@@ -77,8 +77,8 @@ model HTS_Piline2 "HTS line using Stekly equations"
   Modelica.Electrical.Analog.Basic.VariableCapacitor
                                              capacitor(
     Cmin=0,
-    IC=IC,
-    UIC=UIC)                                           annotation (Placement(
+    IC=0,
+    UIC=false)                                         annotation (Placement(
         transformation(
         extent={{-6,6},{6,-6}},
         rotation=270,
@@ -91,21 +91,22 @@ model HTS_Piline2 "HTS line using Stekly equations"
     annotation (Placement(transformation(extent={{-38,-18},{-28,-10}})));
   Modelica.Blocks.Sources.RealExpression realExpression2(y=L_pi)
     annotation (Placement(transformation(extent={{-54,30},{-44,38}})));
-  parameter Boolean UIC=false "Use starting condition";
-  parameter Modelica.SIunits.Voltage IC=0 "Initial Value of capacitor";
+
 initial equation
   R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
 equation
   mu = mu_0*mu_r;
   epsilon = epsilon_0*epsilon_r;
 
-  I_c =I_c0 *(port_a.T); //I_c0 *(1-port_a.T)/T_c;
+  I_c =I_c0 *(1-port_a.T/T_c);
   E = E_0 *(pin_p.i/I_c)^n;
   rho = DymolaModels.Functions.Math.divNoZero(E,(I_c/A));
   Q = l*(mu_0 * h * I_c^2)/ (3*pi*b) * (I_c0/I_c)^3;
   x = DymolaModels.Functions.Math.divNoZero(port_a.T*(rho *I_c^2/(P*A_cu) + G_d),(2*h));
-  if (port_a.T*(rho *I_c^2/(P*A_cu) + G_d)/(2*h))>2 then
-    dT = 2;
+  if x>200 then
+    dT = 1;
+  elseif x < -2 then
+    dT = -2;
   else
     dT = x;
   end if;
@@ -115,7 +116,7 @@ equation
     G = 0;
   end if;
 
-  h = (0.2+1.3301*dT^2)*A;//(0.6953+0.001079*dT^4)*A;
+  h = (0.02+1.3301*dT^2)*A;//(0.6953+0.001079*dT^4)*A;
   port_a.Q_flow = h*dT;
 
   R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
