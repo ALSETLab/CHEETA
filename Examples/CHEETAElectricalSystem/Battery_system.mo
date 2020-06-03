@@ -15,6 +15,23 @@ model Battery_system
     annotation (Placement(transformation(extent={{54,32},{74,40}})));
   Aircraft.Electrical.CB.CircuitBreaker circuitBreaker2(k=200000)
     annotation (Placement(transformation(extent={{54,20},{74,28}})));
+  Aircraft.Electrical.HTS.Stekly.Stekly_ExtraHeatGeneration
+                                        stekly_ExtraHeatGeneration(
+                                               l=1, G_d=100,
+    I_crit=2000)
+    annotation (Placement(transformation(extent={{22,30},{38,38}})));
+  Aircraft.Electrical.HTS.Stekly.Stekly_ExtraHeatGeneration
+                                        stekly_ExtraHeatGeneration1(
+                                                l=1, G_d=100,
+    I_crit=2000)
+    annotation (Placement(transformation(extent={{22,18},{38,26}})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor
+                                           thermalConductor(G=0.1)
+                                                        annotation (Placement(
+        transformation(extent={{16,-46},{-4,-26}})));
+  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T(
+        displayUnit="K") = 20)
+    annotation (Placement(transformation(extent={{-50,-46},{-30,-26}})));
   Aircraft.Electrical.PowerElectronics.Converters.DCDC.BoostConverter
                                                          dcdc(
     L=0.001,
@@ -2628,8 +2645,22 @@ model Battery_system
         543.635742644674; 30569.8,543.635742644674; 30574.8,543.635742644674])
     annotation (Placement(transformation(extent={{58,-60},{78,-40}})));
 equation
+  connect(circuitBreaker1.p1, stekly_ExtraHeatGeneration.pin_n)
+    annotation (Line(points={{54,34},{39,34}},color={0,0,255}));
+  connect(circuitBreaker2.p1, stekly_ExtraHeatGeneration1.pin_n)
+    annotation (Line(points={{54,22},{39,22}},color={0,0,255}));
+  connect(stekly_ExtraHeatGeneration.port_a, thermalConductor.port_a)
+    annotation (Line(points={{30,30},{30,-36},{16,-36}}, color={191,0,0}));
+  connect(stekly_ExtraHeatGeneration1.port_a, thermalConductor.port_a)
+    annotation (Line(points={{30,18},{30,-36},{16,-36}}, color={191,0,0}));
+  connect(thermalConductor.port_b, fixedTemperature.port)
+    annotation (Line(points={{-4,-36},{-30,-36}},  color={191,0,0}));
   connect(dcdc.fire_p,pwm. fire)
     annotation (Line(points={{0,16},{0,7}},        color={255,0,255}));
+  connect(dcdc.dc_p2, stekly_ExtraHeatGeneration.pin_p)
+    annotation (Line(points={{16,34},{21,34}},   color={0,0,255}));
+  connect(stekly_ExtraHeatGeneration1.pin_p, dcdc.dc_n2)
+    annotation (Line(points={{21,22},{16,22}},   color={0,0,255}));
   connect(dcdc.dc_p1, dC_Battery.p1) annotation (Line(points={{-4,34},{-12,34},
           {-12,34.24},{-14,34.24}},      color={0,0,255}));
   connect(dcdc.dc_n1, dC_Battery.n1) annotation (Line(points={{-4,22},{-12,22},
@@ -2668,16 +2699,12 @@ equation
       points={{150,-8},{150,-18},{120,-18},{120,-8}},
       color={0,86,166},
       thickness=0.5));
-  connect(dcdc1.dc_p2, simpleSpeedDrive_Variable.dc_p1) annotation (Line(points=
-         {{4,-82},{38,-82},{38,-85.8},{71.6,-85.8}}, color={0,0,255}));
+  connect(dcdc1.dc_p2, simpleSpeedDrive_Variable.dc_p1) annotation (Line(points
+        ={{4,-82},{38,-82},{38,-85.8},{71.6,-85.8}}, color={0,0,255}));
   connect(simpleSpeedDrive_Variable.dc_n1, dcdc1.dc_n2)
     annotation (Line(points={{71.6,-94},{4,-94}}, color={0,0,255}));
   connect(combiTimeTable.y[1], simpleSpeedDrive_Variable.wref) annotation (Line(
         points={{79,-50},{82,-50},{82,-80.6},{80,-80.6}}, color={0,0,127}));
-  connect(circuitBreaker1.p1, dcdc.dc_p2)
-    annotation (Line(points={{54,34},{16,34}}, color={0,0,255}));
-  connect(dcdc.dc_n2, circuitBreaker2.p1)
-    annotation (Line(points={{16,22},{54,22}}, color={0,0,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-60,-140},{180,
             100}})),

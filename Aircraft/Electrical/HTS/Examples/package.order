@@ -1,7 +1,3 @@
 HTSTest
 CopperLine_StabilityTest
-RampCurrent
-RampVoltage
-RampVI_R_load
 StabilityTest_withLoad
-SineVI_R_load

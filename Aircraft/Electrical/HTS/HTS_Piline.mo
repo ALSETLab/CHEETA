@@ -58,14 +58,18 @@ model HTS_Piline "HTS line using Stekly equations"
     annotation (Placement(transformation(extent={{60,-6},{72,6}})));
   Modelica.Electrical.Analog.Basic.VariableInductor
                                             inductor1(
-    Lmin=0, UIC=false)
+    Lmin=0,
+    IC=IC,
+    UIC=UIC)
     annotation (Placement(transformation(extent={{-6,10},{6,22}})));
   Modelica.Electrical.Analog.Basic.VariableResistor
                                             resistor3
     annotation (Placement(transformation(extent={{-6,6},{6,-6}})));
   Modelica.Electrical.Analog.Basic.VariableCapacitor
                                              capacitor(
-    Cmin=0, UIC=false)                                 annotation (Placement(
+    Cmin=0,
+    IC=IC,
+    UIC=UIC)                                           annotation (Placement(
         transformation(
         extent={{-6,6},{6,-6}},
         rotation=270,
@@ -78,10 +82,13 @@ model HTS_Piline "HTS line using Stekly equations"
     annotation (Placement(transformation(extent={{-38,-18},{-28,-10}})));
   Modelica.Blocks.Sources.RealExpression realExpression2(y=L_pi)
     annotation (Placement(transformation(extent={{-54,30},{-44,38}})));
-
+  parameter Boolean UIC=false "Use starting condition";
+  parameter Modelica.SIunits.Voltage IC=0 "Initial Value of capacitor";
   Modelica.Electrical.Analog.Basic.VariableCapacitor
                                              capacitor1(
-    Cmin=0, UIC=false)                                 annotation (Placement(
+    Cmin=0,
+    IC=IC,
+    UIC=UIC)                                           annotation (Placement(
         transformation(
         extent={{-6,6},{6,-6}},
         rotation=270,
@@ -92,14 +99,18 @@ model HTS_Piline "HTS line using Stekly equations"
     annotation (Placement(transformation(extent={{4,-18},{14,-10}})));
   Modelica.Electrical.Analog.Basic.VariableInductor
                                             inductor2(
-    Lmin=0, UIC=false)
+    Lmin=0,
+    IC=IC,
+    UIC=UIC)
     annotation (Placement(transformation(extent={{-44,10},{-32,22}})));
   Modelica.Electrical.Analog.Basic.VariableResistor
                                             resistor2
     annotation (Placement(transformation(extent={{-44,6},{-32,-6}})));
   Modelica.Electrical.Analog.Basic.VariableInductor
                                             inductor3(
-    Lmin=0, UIC=false)
+    Lmin=0,
+    IC=IC,
+    UIC=UIC)
     annotation (Placement(transformation(extent={{34,10},{46,22}})));
   Modelica.Electrical.Analog.Basic.VariableResistor
                                             resistor4
@@ -110,13 +121,13 @@ equation
   mu = mu_0*mu_r;
   epsilon = epsilon_0*epsilon_r;
 
-  I_c = I_c0 *(1-(port_a.T/T_c));
+  I_c =I_c0 *(port_a.T); //I_c0 *(1-port_a.T)/T_c;
   E = E_0 *(pin_p.i/I_c)^n;
   rho = DymolaModels.Functions.Math.divNoZero(E,(I_c/A));
   Q = l*(mu_0 * h * I_c^2)/ (3*pi*b) * (I_c0/I_c)^3;
   x = DymolaModels.Functions.Math.divNoZero(port_a.T*(rho *I_c^2/(P*A_cu) + G_d),(2*h));
-  if x>2 then
-    dT = 200;
+  if (port_a.T*(rho *I_c^2/(P*A_cu) + G_d)/(2*h))>2 then
+    dT = 2;
   else
     dT = x;
   end if;
@@ -126,10 +137,10 @@ equation
     G = 0;
   end if;
 
-  h = (0.002+1.3301*dT^2)*A;//(0.6953+0.001079*dT^4)*A;
+  h = (0.6953+0.001079*dT^4)*A;
   port_a.Q_flow = h*dT;
 
-  R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
+  R_pi = 1e-3;//l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
   L_pi = l*mu/(2*pi) * log(b/a);
   C_pi = l*2*pi*epsilon / (log(b/a));
 
