@@ -39,34 +39,6 @@ model DriveTrainPowerSystem_FuelCell
     annotation (Placement(transformation(extent={{18,26},{38,34}})));
   Aircraft.Electrical.CB.CircuitBreaker circuitBreaker2(k=200000)
     annotation (Placement(transformation(extent={{18,14},{38,22}})));
-  Aircraft.Electrical.HTS.Stekly.Stekly_ExtraHeatGeneration
-                                        stekly_ExtraHeatGeneration(
-                                               l=1, G_d=100)
-    annotation (Placement(transformation(extent={{-12,24},{4,32}})));
-  Aircraft.Electrical.HTS.Stekly.Stekly_ExtraHeatGeneration
-                                        stekly_ExtraHeatGeneration1(
-                                                l=1, G_d=100)
-    annotation (Placement(transformation(extent={{-12,12},{4,20}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalConductor
-                                           thermalConductor(G=0.1)
-                                                        annotation (Placement(
-        transformation(extent={{-8,-60},{-28,-40}})));
-  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature(T(
-        displayUnit="K") = 115)
-    annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
-  Aircraft.Electrical.PowerElectronics.Converters.DCDC.BoostConverter
-                                                         dcdc(
-    L=0.001,
-    i=0.1,
-    C=0.001,
-    v(start=1000) = 1000)                                     annotation (
-      Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=0,
-        origin={-28,22})));
-  Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm(
-      constantDutyCycle=0.5, f(displayUnit="Hz") = 100)
-    annotation (Placement(transformation(extent={{-38,-20},{-18,0}})));
   ElectrifiedPowertrains.ElectricMachines.AIM.Thermal.ThreeMassTEFC machineThermal(
       redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.Thermal.Records.Data.ForcedCoolingThreeMassEstimation2.MSL_18p5kW
@@ -147,7 +119,7 @@ model DriveTrainPowerSystem_FuelCell
   inner Hydrogen.Common.SystemSettings hydrogenSettings(initType=Hydrogen.Common.Types.InitType.FixedInitial)
     annotation (Placement(transformation(extent={{180,40},{200,60}})));
   Modelica.Electrical.Analog.Basic.Ground ground
-    annotation (Placement(transformation(extent={{-62,-4},{-42,16}})));
+    annotation (Placement(transformation(extent={{-92,-34},{-72,-14}})));
 equation
   connect(driveEfficiencyComputation.electricDriveBus, electricDrive.electricDriveBus)
     annotation (Line(
@@ -170,22 +142,6 @@ equation
     annotation (Line(points={{37.8,28},{46,28}}, color={0,0,255}));
   connect(electricDrive.pin_n, circuitBreaker2.n1)
     annotation (Line(points={{46,16},{37.8,16}}, color={0,0,255}));
-  connect(circuitBreaker1.p1, stekly_ExtraHeatGeneration.pin_n)
-    annotation (Line(points={{18,28},{5,28}}, color={0,0,255}));
-  connect(circuitBreaker2.p1, stekly_ExtraHeatGeneration1.pin_n)
-    annotation (Line(points={{18,16},{5,16}}, color={0,0,255}));
-  connect(stekly_ExtraHeatGeneration.port_a, thermalConductor.port_a)
-    annotation (Line(points={{-4,24},{-4,-50},{-8,-50}}, color={191,0,0}));
-  connect(stekly_ExtraHeatGeneration1.port_a, thermalConductor.port_a)
-    annotation (Line(points={{-4,12},{-4,-50},{-8,-50}}, color={191,0,0}));
-  connect(thermalConductor.port_b, fixedTemperature.port)
-    annotation (Line(points={{-28,-50},{-40,-50}}, color={191,0,0}));
-  connect(dcdc.fire_p,pwm. fire)
-    annotation (Line(points={{-34,10},{-34,1}},    color={255,0,255}));
-  connect(dcdc.dc_p2, stekly_ExtraHeatGeneration.pin_p)
-    annotation (Line(points={{-18,28},{-13,28}}, color={0,0,255}));
-  connect(stekly_ExtraHeatGeneration1.pin_p, dcdc.dc_n2)
-    annotation (Line(points={{-13,16},{-18,16}}, color={0,0,255}));
   connect(machineThermal.flange, electricDrive.flange)
     annotation (Line(points={{96,56},{106,56},{106,22},{66,22}}, color={0,0,0}));
   connect(inverterAmbientTemperature.port,inverterThermal. heatPort_heatSink)
@@ -210,16 +166,16 @@ equation
     annotation (Line(points={{6,46},{6,36},{50,36},{50,32}}, color={199,0,0}));
   connect(stack.cathodePort_b, airSink.port[1])
     annotation (Line(points={{-76,34},{-76,72},{-100,72}}, color={0,178,169}));
-  connect(stack.pin_p, dcdc.dc_p1) annotation (Line(points={{-82,34},{-82,42},{
-          -60,42},{-60,26},{-38,26},{-38,28}}, color={0,0,255}));
   connect(stack.cathodePort_a, airSource.port[1]) annotation (Line(points={{-76,14},
           {-76,-10},{-100,-10}},     color={0,178,169}));
   connect(stack.anodePort_a, fuelSource.port[1]) annotation (Line(points={{-84.8,
           14},{-84.8,2},{-98,2},{-98,30},{-100,30}},         color={0,178,169}));
-  connect(dcdc.dc_n1, ground.p) annotation (Line(points={{-38,16},{-52,16}},
-                       color={0,0,255}));
-  connect(stack.pin_n, ground.p) annotation (Line(points={{-82,13.8},{-82,6},{
-          -60,6},{-60,16},{-52,16}}, color={0,0,255}));
+  connect(stack.pin_n, ground.p) annotation (Line(points={{-82,13.8},{-82,-14}},
+                                     color={0,0,255}));
+  connect(stack.pin_p, circuitBreaker1.p1) annotation (Line(points={{-82,34},{
+          -82,42},{-32,42},{-32,28},{18,28}}, color={0,0,255}));
+  connect(circuitBreaker2.p1, ground.p) annotation (Line(points={{18,16},{10,16},
+          {10,6},{-82,6},{-82,-14}}, color={0,0,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-140,-80},{200,
             100}})),

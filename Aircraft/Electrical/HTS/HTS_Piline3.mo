@@ -41,7 +41,8 @@ model HTS_Piline3 "HTS line using Stekly equations"
   Modelica.SIunits.Capacitance C_pi;
   Modelica.SIunits.Resistivity rho;
 
-  Real x;
+  //Real x;
+  Real y;
   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p             annotation (Placement(
         transformation(extent={{-100,-10},{-80,10}}),iconTransformation(extent={{-100,
             -10},{-80,10}})));
@@ -87,33 +88,33 @@ model HTS_Piline3 "HTS line using Stekly equations"
     annotation (Placement(transformation(extent={{-54,30},{-44,38}})));
 
 initial equation
-  //R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
+  R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
 equation
   mu = mu_0*mu_r;
   epsilon = epsilon_0*epsilon_r;
 
-  I_c = I_c0 *(1-port_a.T)/T_c;
+  I_c = I_c0 *(1-(port_a.T/T_c));
   E = E_0 *(pin_p.i/I_c)^n;
   rho = DymolaModels.Functions.Math.divNoZero(E,(I_c/A));
   Q = l*(mu_0 * h * I_c^2)/ (3*pi*b) * (I_c0/I_c)^3;
-  x = DymolaModels.Functions.Math.divNoZero(port_a.T*(rho *I_c^2/(P*A_cu) + G_d),(2*h));
-  if x>2 then
-    dT = 2;
+  dT = DymolaModels.Functions.Math.divNoZero(port_a.T*(rho *I_c^2/(P*A_cu) + G_d),(2*h));
+  if dT>2 then
+    h = 200;
   else
-    dT = x;
+    h = noEvent(1000*(0.002+1.3301*dT^2)*A);
   end if;
   if noEvent(pin_p.i>I_crit) then
     G = (rho * I_c^2 * 10^3 / A_cu*P) + G_d*A_cu;
   else
     G = 0;
   end if;
-
-  h = (0.002+1.3301*dT^2)*A;//(0.6953+0.001079*dT^4)*A;
+//(0.6953+0.001079*dT^4)*A;
   port_a.Q_flow = h*dT;
 
   R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
-  L_pi = 0;//l*mu/(2*pi) * log(b/a);
-  C_pi = 0;//l*2*pi*epsilon / (log(b/a));
+  L_pi = l*mu/(2*pi) * log(b/a);
+  C_pi = l*2*pi*epsilon / (log(b/a));
+  y = pin_p.v - pin_n.v;
   connect(pin_p, resistor.p)
     annotation (Line(points={{-90,0},{-70,0}}, color={0,0,255}));
   connect(resistor.n, inductor.p) annotation (Line(points={{-58,0},{-50,0},{-50,
