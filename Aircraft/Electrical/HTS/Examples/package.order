@@ -1,3 +1,10 @@
 HTSTest
 CopperLine_StabilityTest
+RampCurrent
+RampVoltage
+RampVI_R_load
 StabilityTest_withLoad
+SineVI_R_load
+RampCurrent_RLoad_ThermalLimit
+RampCurrent_RLoad_ThermalLimit2
+RampCurrent_RLoad_ThermalLimit3
