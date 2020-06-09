@@ -56,7 +56,7 @@ model Distributed_FuelCell_local_battery
   Modelica.Electrical.Analog.Basic.Ground ground9
     annotation (Placement(transformation(extent={{-64,-68},{-44,-48}})));
   Aircraft.Electrical.BusExt busExt(nn=1, np=2)
-    annotation (Placement(transformation(extent={{46,-70},{42,26}})));
+    annotation (Placement(transformation(extent={{-4,-68},{-8,28}})));
 equation
   connect(multiSensor.flange_b, fan.flange_a1)
     annotation (Line(points={{152,10},{185,10}},
@@ -68,15 +68,18 @@ equation
   connect(electricDrive.pin_n, ground1.p)
     annotation (Line(points={{80,4},{72,4},{72,-6}}, color={0,0,255}));
   connect(battery_FC_Charging.n1, ground9.p)
-    annotation (Line(points={{-61,-20},{-54,-20},{-54,-48}}, color={0,0,255}));
-  connect(battery_FC_Charging.n1, cosineVoltage.n) annotation (Line(points={{
-          -61,-20},{-42,-20},{-42,-30},{-40,-30}}, color={0,0,255}));
+    annotation (Line(points={{-61,-17.8235},{-54,-17.8235},{-54,-48}},
+                                                             color={0,0,255}));
+  connect(battery_FC_Charging.n1, cosineVoltage.n) annotation (Line(points={{-61,
+          -17.8235},{-42,-17.8235},{-42,-30},{-40,-30}},
+                                                   color={0,0,255}));
   connect(cosineVoltage.p, busExt.p[1]) annotation (Line(points={{-28,-30},{-24,
-          -30},{-24,-36.4},{42,-36.4}}, color={0,0,255}));
+          -30},{-24,-34.4},{-8,-34.4}}, color={0,0,255}));
   connect(battery_FC_Charging.p1, busExt.p[2]) annotation (Line(points={{-61,
-          -10},{-38,-10},{-38,-7.6},{42,-7.6}}, color={0,0,255}));
-  connect(busExt.n[1], electricDrive.pin_p) annotation (Line(points={{46,-22},{
-          62,-22},{62,16},{80,16}}, color={0,0,255}));
+          -10.7647},{-38,-10.7647},{-38,-5.6},{-8,-5.6}},
+                                                color={0,0,255}));
+  connect(busExt.n[1], electricDrive.pin_p) annotation (Line(points={{-4,-20},{
+          62,-20},{62,16},{80,16}}, color={0,0,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{
             200,60}})),

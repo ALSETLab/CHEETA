@@ -20,13 +20,15 @@ model HTS_Piline2 "HTS line using Stekly equations"
   parameter Modelica.SIunits.Permeability mu_r = 1;
   parameter Modelica.SIunits.Permittivity epsilon_r = 1;
   parameter Modelica.SIunits.Length P = 0.1035 "Perimeter of line";
-
+  parameter Modelica.SIunits.Frequency f = 60 "Frequency of AC system";
   //Constants
   Real pi= Modelica.Constants.pi;
   Modelica.SIunits.PermeabilityOfVacuum mu_0 = 4*pi*10e-7;
   Modelica.SIunits.PermittivityOfVacuum epsilon_0 = 8.854e-12;
   Modelica.SIunits.Permeability mu;
   Modelica.SIunits.Permittivity epsilon;
+  Modelica.SIunits.Resistivity omega = f*2*pi;
+  Modelica.SIunits.Resistivity delta = f*2*pi;
 
   //Line heat transfer characeteristics
   Real h "Heat transfer coefficient of surfaces";
@@ -37,9 +39,13 @@ model HTS_Piline2 "HTS line using Stekly equations"
   Modelica.SIunits.Power G;
   //Resistances, inductances, and currents
   Modelica.SIunits.Resistance R_pi;
+  Modelica.SIunits.Resistance R_ac;
   Modelica.SIunits.Inductance L_pi;
   Modelica.SIunits.Capacitance C_pi;
+
+
   Modelica.SIunits.Resistivity rho;
+
 
   Real x;
   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p             annotation (Placement(
@@ -92,6 +98,13 @@ model HTS_Piline2 "HTS line using Stekly equations"
   Modelica.Blocks.Sources.RealExpression realExpression2(y=L_pi)
     annotation (Placement(transformation(extent={{-54,30},{-44,38}})));
 
+  Modelica.Electrical.Analog.Basic.VariableResistor
+                                            resistor4
+    annotation (Placement(transformation(extent={{6,6},{-6,-6}},
+        rotation=90,
+        origin={-10,-14})));
+  Modelica.Blocks.Sources.RealExpression realExpression3(y=R_ac)
+    annotation (Placement(transformation(extent={{30,-18},{18,-10}})));
 initial equation
   R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
 equation
@@ -122,6 +135,7 @@ equation
   R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
   L_pi = l*mu/(2*pi) * log(b/a);
   C_pi = l*2*pi*epsilon / (log(b/a));
+  R_ac = DymolaModels.Functions.Math.divNoZero(tan(delta),omega)*C_pi;
   connect(pin_p, resistor.p)
     annotation (Line(points={{-90,0},{-70,0}}, color={0,0,255}));
   connect(resistor.n, inductor.p) annotation (Line(points={{-58,0},{-50,0},{-50,
@@ -160,6 +174,12 @@ equation
     annotation (Line(points={{72,0},{90,0}}, color={0,0,255}));
   connect(resistor1.p, resistor3.n)
     annotation (Line(points={{60,0},{6,0}}, color={0,0,255}));
+  connect(realExpression3.y,resistor4. R)
+    annotation (Line(points={{17.4,-14},{-2.8,-14}}, color={0,0,127}));
+  connect(resistor4.p, inductor1.p) annotation (Line(points={{-10,-8},{-10,-4},{
+          -18,-4},{-18,16},{-6,16}}, color={0,0,255}));
+  connect(resistor4.n, ground.p)
+    annotation (Line(points={{-10,-20},{-10,-22},{-18,-22}}, color={0,0,255}));
    annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-80,-40},
             {80,40}}),     graphics={
                   Rectangle(

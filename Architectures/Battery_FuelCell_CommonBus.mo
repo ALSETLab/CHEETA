@@ -352,10 +352,12 @@ equation
           -48,-118},{-48,-98}}, color={0,0,255}));
   connect(constantVoltage.p, busExt.p[1]) annotation (Line(points={{-48,-78},{
           -48,-64},{-16,-64},{-16,-82}}, color={0,0,255}));
-  connect(battery_FC_Charging.n1, constantVoltage.n) annotation (Line(points={{
-          -65,-50},{-62,-50},{-62,-102},{-48,-102},{-48,-98}}, color={0,0,255}));
+  connect(battery_FC_Charging.n1, constantVoltage.n) annotation (Line(points={{-65,
+          -47.8235},{-62,-47.8235},{-62,-102},{-48,-102},{-48,-98}},
+                                                               color={0,0,255}));
   connect(battery_FC_Charging.p1, constantVoltage.p)
-    annotation (Line(points={{-65,-40},{-48,-40},{-48,-78}}, color={0,0,255}));
+    annotation (Line(points={{-65,-40.7647},{-48,-40.7647},{-48,-78}},
+                                                             color={0,0,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,-480},{
             200,60}})),

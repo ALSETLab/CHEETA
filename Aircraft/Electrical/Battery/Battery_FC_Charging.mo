@@ -98,7 +98,7 @@ equation
   connect(bms.u, u1) annotation (Line(points={{-9.8,16},{10,16},{10,20},{140,20}},
         color={255,0,255}));
   annotation (
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,-100},{120,
+    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,-100},{180,
             120}}), graphics={
         Rectangle(
           extent={{-80,72},{80,-68}},
@@ -150,6 +150,6 @@ equation
           color={95,95,95},
           smooth=Smooth.None)}),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-160,-100},{
-            120,120}})),
+            180,120}})),
     experiment(StopTime=10800, __Dymola_Algorithm="Dassl"));
 end Battery_FC_Charging;

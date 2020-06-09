@@ -1,6 +1,6 @@
 within CHEETA.Aircraft.Electrical.HTS.Examples;
 model RampVI_R_load
-  HTS_Piline3                            hTS_Piline3_2(
+  HTS_Piline4                            hTS_Piline4_1(
     l=4,
     n=2,
     I_c0=1000,
@@ -12,7 +12,7 @@ model RampVI_R_load
     G_d=0,
     a=0.1,
     b=0.5,
-    P=0.1)       annotation (Placement(transformation(extent={{-58,64},{-42,56}})));
+    P=0.1)       annotation (Placement(transformation(extent={{-58,66},{-42,58}})));
   Modelica.Electrical.Analog.Sources.RampCurrent rampCurrent(
     I=250,
     duration=5,
@@ -21,7 +21,7 @@ model RampVI_R_load
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-80,30})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalConductor1(G=0.1)
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalConductor1(G=1)
            annotation (Placement(transformation(extent={{0,70},{-20,90}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature fixedTemperature1(T(
         displayUnit="K") = 77)
@@ -118,15 +118,15 @@ model RampVI_R_load
 equation
   connect(thermalConductor1.port_a,fixedTemperature1. port)
     annotation (Line(points={{0,80},{24,80}},    color={191,0,0}));
-  connect(thermalConductor1.port_b,hTS_Piline3_2. port_a)
-    annotation (Line(points={{-20,80},{-50,80},{-50,64}},
+  connect(thermalConductor1.port_b,hTS_Piline4_1. port_a)
+    annotation (Line(points={{-20,80},{-49.8,80},{-49.8,66}},
                                                       color={191,0,0}));
-  connect(rampCurrent.n,hTS_Piline3_2. pin_p)
-    annotation (Line(points={{-80,40},{-80,60},{-59,60}}, color={0,0,255}));
+  connect(rampCurrent.n,hTS_Piline4_1. pin_p)
+    annotation (Line(points={{-80,40},{-80,62},{-59,62}}, color={0,0,255}));
   connect(rampCurrent.p,ground2. p) annotation (Line(points={{-80,20},{-80,0},{
           -34,0}},         color={0,0,255}));
-  connect(hTS_Piline3_2.pin_n, resistor1.p)
-    annotation (Line(points={{-41,60},{-20,60},{-20,40}}, color={0,0,255}));
+  connect(hTS_Piline4_1.pin_n, resistor1.p)
+    annotation (Line(points={{-41,62},{-20,62},{-20,40}}, color={0,0,255}));
   connect(resistor1.n, ground2.p)
     annotation (Line(points={{-20,20},{-20,0},{-34,0}}, color={0,0,255}));
   connect(thermalConductor2.port_a,fixedTemperature2. port)

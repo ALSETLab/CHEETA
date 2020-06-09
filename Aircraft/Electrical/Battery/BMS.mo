@@ -46,6 +46,10 @@ public
     annotation (Placement(transformation(extent={{120,-10},{140,10}})));
   Modelica.Blocks.Interfaces.BooleanInput u
     annotation (Placement(transformation(extent={{-162,40},{-122,80}})));
+  Battery.Packs.Adapters.FromBus.MinVoltage minVoltage
+    annotation (Placement(transformation(extent={{22,70},{42,90}})));
+  Battery.Packs.Adapters.FromBus.MaxVoltage maxVoltage
+    annotation (Placement(transformation(extent={{22,92},{42,112}})));
 equation
   if SOC.y <= minSOC then
     i = maxChargeCurrent.y;
@@ -84,6 +88,14 @@ equation
     annotation (Line(points={{-120,0},{-100,0},{-100,-10}}, color={0,0,255}));
   connect(resistor.n, ground.p)
     annotation (Line(points={{-100,-30},{-100,-40}}, color={0,0,255}));
+  connect(minVoltage.packBus, exampleBMS.packBus) annotation (Line(
+      points={{22,80},{1.77636e-15,80},{1.77636e-15,30}},
+      color={83,189,255},
+      thickness=0.5));
+  connect(exampleBMS.packBus, maxVoltage.packBus) annotation (Line(
+      points={{0,30},{0,102},{22,102}},
+      color={83,189,255},
+      thickness=0.5));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-120,-100},{120,120}})),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-120,-100},{120,
