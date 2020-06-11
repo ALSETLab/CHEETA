@@ -2699,8 +2699,8 @@ equation
       points={{150,-8},{150,-18},{120,-18},{120,-8}},
       color={0,86,166},
       thickness=0.5));
-  connect(dcdc1.dc_p2, simpleSpeedDrive_Variable.dc_p1) annotation (Line(points
-        ={{4,-82},{38,-82},{38,-85.8},{71.6,-85.8}}, color={0,0,255}));
+  connect(dcdc1.dc_p2, simpleSpeedDrive_Variable.dc_p1) annotation (Line(points=
+         {{4,-82},{38,-82},{38,-85.8},{71.6,-85.8}}, color={0,0,255}));
   connect(simpleSpeedDrive_Variable.dc_n1, dcdc1.dc_n2)
     annotation (Line(points={{71.6,-94},{4,-94}}, color={0,0,255}));
   connect(combiTimeTable.y[1], simpleSpeedDrive_Variable.wref) annotation (Line(

@@ -2709,8 +2709,8 @@ equation
           84,-64},{64,-64},{64,-66},{41.8,-66}}, color={0,0,255}));
   connect(circuitBreaker4.n1, electricDrive1.pin_n)
     annotation (Line(points={{41.8,-78},{84,-78},{84,-76}}, color={0,0,255}));
-  connect(multiSensor1.flange_a, electricDrive1.flange) annotation (Line(points
-        ={{144,-72},{124,-72},{124,-70},{104,-70}}, color={0,0,0}));
+  connect(multiSensor1.flange_a, electricDrive1.flange) annotation (Line(points=
+         {{144,-72},{124,-72},{124,-70},{104,-70}}, color={0,0,0}));
   connect(converterVoltageInput1.n1, ground2.p) annotation (Line(points={{-36,
           -78},{-56,-78},{-56,-86},{-67,-86}}, color={0,0,255}));
   connect(converterVoltageInput1.n1, dC_Battery2.n1) annotation (Line(points={{
