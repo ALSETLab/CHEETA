@@ -59,8 +59,8 @@ equation
     annotation (Line(points={{136,26},{159,26}}, color={0,0,127}));
   connect(thermalConductor.port_a, hTS_Piline4_1.port_a)
     annotation (Line(points={{72,26},{-39.8,26},{-39.8,12}}, color={191,0,0}));
-  connect(temperatureSensor.port, hTS_Piline4_1.port_a) annotation (Line(points
-        ={{44,40},{44,26},{-39.8,26},{-39.8,12}}, color={191,0,0}));
+  connect(temperatureSensor.port, hTS_Piline4_1.port_a) annotation (Line(points=
+         {{44,40},{44,26},{-39.8,26},{-39.8,12}}, color={191,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
 end RampCurrent_RLoad_ThermalLimit3;
