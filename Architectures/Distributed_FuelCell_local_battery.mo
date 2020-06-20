@@ -37,7 +37,7 @@ model Distributed_FuelCell_local_battery
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{80,0},{100,20}})));
+                    annotation (Placement(transformation(extent={{78,0},{98,20}})));
   Modelica.Electrical.Analog.Basic.Ground ground1
     annotation (Placement(transformation(extent={{62,-26},{82,-6}})));
   Modelica.Electrical.Analog.Sources.CosineVoltage   cosineVoltage(
@@ -47,39 +47,43 @@ model Distributed_FuelCell_local_battery
     annotation (Placement(transformation(
         extent={{-6,-6},{6,6}},
         rotation=180,
-        origin={-34,-30})));
+        origin={-34,2})));
   Aircraft.Electrical.Battery.Battery_FC_Charging battery_FC_Charging
     annotation (Placement(transformation(
-        extent={{-12,-11},{12,11}},
+        extent={{-16.5,-11.5},{16.5,11.5}},
         rotation=270,
-        origin={-70,-15})));
+        origin={-64.5,25.5})));
   Modelica.Electrical.Analog.Basic.Ground ground9
-    annotation (Placement(transformation(extent={{-64,-68},{-44,-48}})));
+    annotation (Placement(transformation(extent={{-62,-4},{-42,16}})));
   Aircraft.Electrical.BusExt busExt(nn=1, np=2)
-    annotation (Placement(transformation(extent={{-4,-68},{-8,28}})));
+    annotation (Placement(transformation(extent={{2,-26},{0,50}})));
+  Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
+    annotation (Placement(transformation(extent={{-90,-10},{-70,10}})));
 equation
   connect(multiSensor.flange_b, fan.flange_a1)
     annotation (Line(points={{152,10},{185,10}},
                                               color={0,0,0}));
   connect(tauRef.y, electricDrive.desiredSpeed)
-    annotation (Line(points={{49,40},{90,40},{90,22}}, color={0,0,127}));
+    annotation (Line(points={{49,40},{88,40},{88,22}}, color={0,0,127}));
   connect(multiSensor.flange_a, electricDrive.flange) annotation (Line(points={{140,10},
-          {100,10}},                            color={0,0,0}));
+          {98,10}},                             color={0,0,0}));
   connect(electricDrive.pin_n, ground1.p)
-    annotation (Line(points={{80,4},{72,4},{72,-6}}, color={0,0,255}));
+    annotation (Line(points={{78,4},{72,4},{72,-6}}, color={0,0,255}));
   connect(battery_FC_Charging.n1, ground9.p)
-    annotation (Line(points={{-61,-17.8235},{-54,-17.8235},{-54,-48}},
+    annotation (Line(points={{-55.0909,21.6176},{-52,21.6176},{-52,16}},
                                                              color={0,0,255}));
-  connect(battery_FC_Charging.n1, cosineVoltage.n) annotation (Line(points={{-61,
-          -17.8235},{-42,-17.8235},{-42,-30},{-40,-30}},
+  connect(battery_FC_Charging.n1, cosineVoltage.n) annotation (Line(points={{
+          -55.0909,21.6176},{-42,21.6176},{-42,2},{-40,2}},
                                                    color={0,0,255}));
-  connect(cosineVoltage.p, busExt.p[1]) annotation (Line(points={{-28,-30},{-24,
-          -30},{-24,-34.4},{-8,-34.4}}, color={0,0,255}));
-  connect(battery_FC_Charging.p1, busExt.p[2]) annotation (Line(points={{-61,
-          -10.7647},{-38,-10.7647},{-38,-5.6},{-8,-5.6}},
+  connect(cosineVoltage.p, busExt.p[1]) annotation (Line(points={{-28,2},{-24,2},
+          {-24,0.6},{-2.22045e-16,0.6}},color={0,0,255}));
+  connect(battery_FC_Charging.p1, busExt.p[2]) annotation (Line(points={{
+          -55.0909,31.3235},{-38,31.3235},{-38,23.4},{-2.22045e-16,23.4}},
                                                 color={0,0,255}));
-  connect(busExt.n[1], electricDrive.pin_p) annotation (Line(points={{-4,-20},{
-          62,-20},{62,16},{80,16}}, color={0,0,255}));
+  connect(busExt.n[1], electricDrive.pin_p) annotation (Line(points={{2,12},{40,
+          12},{40,16},{78,16}},     color={0,0,255}));
+  connect(booleanExpression.y, battery_FC_Charging.u1) annotation (Line(points={{-69,0},
+          {-63.4545,0},{-63.4545,12.8824}},          color={255,0,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{
             200,60}})),

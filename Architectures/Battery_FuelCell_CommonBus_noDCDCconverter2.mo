@@ -1,5 +1,5 @@
 within CHEETA.Architectures;
-model Battery_FuelCell_CommonBus_noDCDCconverter
+model Battery_FuelCell_CommonBus_noDCDCconverter2
   "ii. Centralized architecture in i., but without DC/DC converter"
   import ElectrifiedPowertrains;
   import Modelica;
@@ -8,12 +8,11 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
 
   Modelica.Blocks.Sources.Constant
                                tauRef(k=733.038285)
-               annotation (Placement(transformation(extent={{48,20},{68,40}})));
-  Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor annotation (Placement(transformation(extent={{150,-8},
-            {162,4}})));
-  Aircraft.Mechanical.Loads.Pinwheel
-                                pinwheel(J=10)
-    annotation (Placement(transformation(extent={{176,-6},{184,2}})));
+               annotation (Placement(transformation(extent={{36,24},{56,44}})));
+  Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor annotation (Placement(transformation(extent={{138,-4},
+            {150,8}})));
+  Aircraft.Mechanical.Loads.Fan fan(J=10)
+    annotation (Placement(transformation(extent={{164,-2},{172,6}})));
   ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
@@ -32,33 +31,35 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{88,-12},{108,
-            8}})));
+                    annotation (Placement(transformation(extent={{76,-8},{96,12}})));
   Modelica.Electrical.Analog.Basic.Ground ground1
-    annotation (Placement(transformation(extent={{72,-38},{92,-18}})));
-  Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage(V=1000)
+    annotation (Placement(transformation(extent={{60,-34},{80,-14}})));
+  Modelica.Electrical.Analog.Sources.CosineVoltage   cosineVoltage(
+    V=450,
+    freqHz=0.1,
+    offset=550)
     annotation (Placement(transformation(
         extent={{-6,-6},{6,6}},
         rotation=180,
-        origin={-50,-10})));
+        origin={-62,-6})));
   Aircraft.Electrical.Battery.Battery_FC_Charging battery_FC_Charging
     annotation (Placement(transformation(
         extent={{-16.5,-11.5},{16.5,11.5}},
         rotation=270,
-        origin={-80.5,13.5})));
+        origin={-92.5,17.5})));
   Modelica.Electrical.Analog.Basic.Ground ground9
-    annotation (Placement(transformation(extent={{-78,-16},{-58,4}})));
+    annotation (Placement(transformation(extent={{-90,-12},{-70,8}})));
   Aircraft.Electrical.BusExt busExt(np=2, nn=2)
-    annotation (Placement(transformation(extent={{-14,-74},{-16,38}})));
+    annotation (Placement(transformation(extent={{-26,-70},{-28,42}})));
   Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
-    annotation (Placement(transformation(extent={{-106,-22},{-86,-2}})));
+    annotation (Placement(transformation(extent={{-118,-18},{-98,2}})));
   Aircraft.Electrical.BusExt busExt1(nn=4, np=1)
-    annotation (Placement(transformation(extent={{38,38},{36,-38}})));
+    annotation (Placement(transformation(extent={{26,42},{24,-34}})));
   Aircraft.Electrical.BusExt busExt2(np=1, nn=4)
-    annotation (Placement(transformation(extent={{38,-328},{36,-404}})));
+    annotation (Placement(transformation(extent={{26,-324},{24,-400}})));
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor1
-                                                                annotation (Placement(transformation(extent={{152,-76},
-            {164,-64}})));
+                                                                annotation (Placement(transformation(extent={{140,-72},
+            {152,-60}})));
   ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive1(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
@@ -77,18 +78,17 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{94,-80},{114,
-            -60}})));
-  Aircraft.Mechanical.Loads.Pinwheel
-                                pinwheel1
-    annotation (Placement(transformation(extent={{178,-74},{186,-66}})));
+                    annotation (Placement(transformation(extent={{82,-76},{102,
+            -56}})));
+  Aircraft.Mechanical.Loads.Fan fan1
+    annotation (Placement(transformation(extent={{166,-70},{174,-62}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=tauRef.y)
-    annotation (Placement(transformation(extent={{74,-56},{94,-36}})));
+    annotation (Placement(transformation(extent={{62,-52},{82,-32}})));
   Modelica.Electrical.Analog.Basic.Ground ground2
-    annotation (Placement(transformation(extent={{74,-100},{94,-80}})));
+    annotation (Placement(transformation(extent={{62,-96},{82,-76}})));
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor2
-                                                                annotation (Placement(transformation(extent={{150,
-            -142},{162,-130}})));
+                                                                annotation (Placement(transformation(extent={{138,
+            -138},{150,-126}})));
   ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive2(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
@@ -107,18 +107,17 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{92,-146},{112,
-            -126}})));
-  Aircraft.Mechanical.Loads.Pinwheel
-                                pinwheel3
-    annotation (Placement(transformation(extent={{176,-140},{184,-132}})));
+                    annotation (Placement(transformation(extent={{80,-142},{100,
+            -122}})));
+  Aircraft.Mechanical.Loads.Fan fan2
+    annotation (Placement(transformation(extent={{164,-136},{172,-128}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=tauRef.y)
-    annotation (Placement(transformation(extent={{72,-122},{92,-102}})));
+    annotation (Placement(transformation(extent={{60,-118},{80,-98}})));
   Modelica.Electrical.Analog.Basic.Ground ground3
-    annotation (Placement(transformation(extent={{72,-166},{92,-146}})));
+    annotation (Placement(transformation(extent={{60,-162},{80,-142}})));
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor3
-                                                                annotation (Placement(transformation(extent={{150,
-            -208},{162,-196}})));
+                                                                annotation (Placement(transformation(extent={{138,
+            -204},{150,-192}})));
   ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive3(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
@@ -137,18 +136,17 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{92,-212},{112,
-            -192}})));
-  Aircraft.Mechanical.Loads.Pinwheel
-                                pinwheel4
-    annotation (Placement(transformation(extent={{176,-206},{184,-198}})));
+                    annotation (Placement(transformation(extent={{80,-208},{100,
+            -188}})));
+  Aircraft.Mechanical.Loads.Fan fan3
+    annotation (Placement(transformation(extent={{164,-202},{172,-194}})));
   Modelica.Blocks.Sources.RealExpression realExpression2(y=tauRef.y)
-    annotation (Placement(transformation(extent={{72,-188},{92,-168}})));
+    annotation (Placement(transformation(extent={{60,-184},{80,-164}})));
   Modelica.Electrical.Analog.Basic.Ground ground4
-    annotation (Placement(transformation(extent={{72,-232},{92,-212}})));
+    annotation (Placement(transformation(extent={{60,-228},{80,-208}})));
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor4
-                                                                annotation (Placement(transformation(extent={{150,
-            -280},{162,-268}})));
+                                                                annotation (Placement(transformation(extent={{138,
+            -276},{150,-264}})));
   ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive4(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
@@ -167,18 +165,17 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{92,-284},{112,
-            -264}})));
-  Aircraft.Mechanical.Loads.Pinwheel
-                                pinwheel5
-    annotation (Placement(transformation(extent={{176,-278},{184,-270}})));
+                    annotation (Placement(transformation(extent={{80,-280},{100,
+            -260}})));
+  Aircraft.Mechanical.Loads.Fan fan4
+    annotation (Placement(transformation(extent={{164,-274},{172,-266}})));
   Modelica.Blocks.Sources.RealExpression realExpression3(y=tauRef.y)
-    annotation (Placement(transformation(extent={{72,-260},{92,-240}})));
+    annotation (Placement(transformation(extent={{60,-256},{80,-236}})));
   Modelica.Electrical.Analog.Basic.Ground ground5
-    annotation (Placement(transformation(extent={{72,-304},{92,-284}})));
+    annotation (Placement(transformation(extent={{60,-300},{80,-280}})));
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor5
-                                                                annotation (Placement(transformation(extent={{150,
-            -348},{162,-336}})));
+                                                                annotation (Placement(transformation(extent={{138,
+            -344},{150,-332}})));
   ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive5(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
@@ -197,18 +194,17 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{92,-352},{112,
-            -332}})));
-  Aircraft.Mechanical.Loads.Pinwheel
-                                pinwheel6
-    annotation (Placement(transformation(extent={{176,-346},{184,-338}})));
+                    annotation (Placement(transformation(extent={{80,-348},{100,
+            -328}})));
+  Aircraft.Mechanical.Loads.Fan fan5
+    annotation (Placement(transformation(extent={{164,-342},{172,-334}})));
   Modelica.Blocks.Sources.RealExpression realExpression4(y=tauRef.y)
-    annotation (Placement(transformation(extent={{72,-328},{92,-308}})));
+    annotation (Placement(transformation(extent={{60,-324},{80,-304}})));
   Modelica.Electrical.Analog.Basic.Ground ground6
-    annotation (Placement(transformation(extent={{72,-372},{92,-352}})));
+    annotation (Placement(transformation(extent={{60,-368},{80,-348}})));
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor6
-                                                                annotation (Placement(transformation(extent={{150,
-            -412},{162,-400}})));
+                                                                annotation (Placement(transformation(extent={{138,
+            -408},{150,-396}})));
   ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive6(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
@@ -227,18 +223,17 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{92,-416},{112,
-            -396}})));
-  Aircraft.Mechanical.Loads.Pinwheel
-                                pinwheel7
-    annotation (Placement(transformation(extent={{176,-410},{184,-402}})));
+                    annotation (Placement(transformation(extent={{80,-412},{100,
+            -392}})));
+  Aircraft.Mechanical.Loads.Fan fan6
+    annotation (Placement(transformation(extent={{164,-406},{172,-398}})));
   Modelica.Blocks.Sources.RealExpression realExpression5(y=tauRef.y)
-    annotation (Placement(transformation(extent={{72,-392},{92,-372}})));
+    annotation (Placement(transformation(extent={{60,-388},{80,-368}})));
   Modelica.Electrical.Analog.Basic.Ground ground7
-    annotation (Placement(transformation(extent={{72,-436},{92,-416}})));
+    annotation (Placement(transformation(extent={{60,-432},{80,-412}})));
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor7
-                                                                annotation (Placement(transformation(extent={{152,
-            -484},{164,-472}})));
+                                                                annotation (Placement(transformation(extent={{140,
+            -480},{152,-468}})));
   ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive7(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
@@ -257,128 +252,135 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{94,-488},{114,
-            -468}})));
-  Aircraft.Mechanical.Loads.Pinwheel
-                                pinwheel2
-    annotation (Placement(transformation(extent={{180,-482},{188,-474}})));
+                    annotation (Placement(transformation(extent={{82,-484},{102,
+            -464}})));
+  Aircraft.Mechanical.Loads.Fan fan7
+    annotation (Placement(transformation(extent={{168,-478},{176,-470}})));
   Modelica.Blocks.Sources.RealExpression realExpression6(y=tauRef.y)
-    annotation (Placement(transformation(extent={{74,-464},{94,-444}})));
-  Modelica.Electrical.Analog.Basic.Ground ground10
-    annotation (Placement(transformation(extent={{108,-516},{128,-496}})));
+    annotation (Placement(transformation(extent={{62,-460},{82,-440}})));
+  Modelica.Electrical.Analog.Basic.Ground ground8
+    annotation (Placement(transformation(extent={{62,-504},{82,-484}})));
 equation
-  connect(multiSensor.flange_b, pinwheel.flange_a1)
-    annotation (Line(points={{162,-2},{176,-2}}, color={0,0,0}));
+  connect(multiSensor.flange_b,fan. flange_a1)
+    annotation (Line(points={{150,2},{163,2}},color={0,0,0}));
   connect(tauRef.y,electricDrive. desiredSpeed)
-    annotation (Line(points={{69,30},{98,30},{98,10}}, color={0,0,127}));
-  connect(multiSensor.flange_a,electricDrive. flange) annotation (Line(points={{150,-2},
-          {108,-2}},                            color={0,0,0}));
+    annotation (Line(points={{57,34},{86,34},{86,14}}, color={0,0,127}));
+  connect(multiSensor.flange_a,electricDrive. flange) annotation (Line(points={{138,2},
+          {96,2}},                              color={0,0,0}));
   connect(electricDrive.pin_n,ground1. p)
-    annotation (Line(points={{88,-8},{82,-8},{82,-18}},
+    annotation (Line(points={{76,-4},{70,-4},{70,-14}},
                                                      color={0,0,255}));
   connect(battery_FC_Charging.n1,ground9. p)
-    annotation (Line(points={{-71.0909,9.61765},{-68,9.61765},{-68,4}},
+    annotation (Line(points={{-83.0909,13.6176},{-80,13.6176},{-80,8}},
                                                              color={0,0,255}));
-  connect(battery_FC_Charging.n1, constantVoltage.n) annotation (Line(points={{
-          -71.0909,9.61765},{-58,9.61765},{-58,-10},{-56,-10}}, color={0,0,255}));
-  connect(constantVoltage.p, busExt.p[1]) annotation (Line(points={{-44,-10},{
-          -40,-10},{-40,-34.8},{-16,-34.8}}, color={0,0,255}));
-  connect(battery_FC_Charging.p1,busExt. p[1]) annotation (Line(points={{
-          -71.0909,19.3235},{-30,19.3235},{-30,-34.8},{-16,-34.8}},
+  connect(battery_FC_Charging.n1,cosineVoltage. n) annotation (Line(points={{
+          -83.0909,13.6176},{-70,13.6176},{-70,-6},{-68,-6}},
+                                                   color={0,0,255}));
+  connect(cosineVoltage.p,busExt. p[1]) annotation (Line(points={{-56,-6},{-52,
+          -6},{-52,-30.8},{-28,-30.8}}, color={0,0,255}));
+  connect(battery_FC_Charging.p1,busExt. p[2]) annotation (Line(points={{
+          -83.0909,23.3235},{-66,23.3235},{-66,2.8},{-28,2.8}},
                                                 color={0,0,255}));
-  connect(booleanExpression.y,battery_FC_Charging. u1) annotation (Line(points={{-85,-12},
-          {-79.4545,-12},{-79.4545,0.88235}},        color={255,0,255}));
-  connect(busExt1.n[1], electricDrive.pin_p) annotation (Line(points={{38,17.1},
-          {64,17.1},{64,4},{88,4}}, color={0,0,255}));
+  connect(booleanExpression.y,battery_FC_Charging. u1) annotation (Line(points={{-97,-8},
+          {-91.4545,-8},{-91.4545,4.88235}},         color={255,0,255}));
+  connect(busExt1.n[1], electricDrive.pin_p) annotation (Line(points={{26,21.1},
+          {52,21.1},{52,8},{76,8}}, color={0,0,255}));
   connect(multiSensor1.flange_a,electricDrive1. flange)
-    annotation (Line(points={{152,-70},{114,-70}}, color={0,0,0}));
-  connect(multiSensor1.flange_b, pinwheel1.flange_a1)
-    annotation (Line(points={{164,-70},{178,-70}}, color={0,0,0}));
+    annotation (Line(points={{140,-66},{102,-66}}, color={0,0,0}));
+  connect(multiSensor1.flange_b,fan1. flange_a1)
+    annotation (Line(points={{152,-66},{165,-66}}, color={0,0,0}));
   connect(electricDrive1.desiredSpeed,realExpression. y)
-    annotation (Line(points={{104,-58},{104,-46},{95,-46}}, color={0,0,127}));
+    annotation (Line(points={{92,-54},{92,-42},{83,-42}},   color={0,0,127}));
   connect(electricDrive1.pin_n,ground2. p)
-    annotation (Line(points={{94,-76},{84,-76},{84,-80}}, color={0,0,255}));
-  connect(electricDrive1.pin_p, busExt1.n[1]) annotation (Line(points={{94,-64},
-          {78,-64},{78,-58},{60,-58},{60,17.1},{38,17.1}}, color={0,0,255}));
+    annotation (Line(points={{82,-72},{72,-72},{72,-76}}, color={0,0,255}));
+  connect(electricDrive1.pin_p, busExt1.n[2]) annotation (Line(points={{82,-60},
+          {66,-60},{66,-54},{48,-54},{48,9.7},{26,9.7}}, color={0,0,255}));
   connect(multiSensor2.flange_a,electricDrive2. flange)
-    annotation (Line(points={{150,-136},{112,-136}},
+    annotation (Line(points={{138,-132},{100,-132}},
                                                    color={0,0,0}));
-  connect(multiSensor2.flange_b, pinwheel3.flange_a1)
-    annotation (Line(points={{162,-136},{176,-136}}, color={0,0,0}));
-  connect(electricDrive2.desiredSpeed, realExpression1.y) annotation (Line(
-        points={{102,-124},{102,-112},{93,-112}}, color={0,0,127}));
+  connect(multiSensor2.flange_b,fan2. flange_a1)
+    annotation (Line(points={{150,-132},{163,-132}},
+                                                   color={0,0,0}));
+  connect(electricDrive2.desiredSpeed, realExpression1.y)
+    annotation (Line(points={{90,-120},{90,-108},{81,-108}}, color={0,0,127}));
   connect(electricDrive2.pin_n,ground3. p)
-    annotation (Line(points={{92,-142},{82,-142},{82,-146}},
+    annotation (Line(points={{80,-138},{70,-138},{70,-142}},
                                                           color={0,0,255}));
-  connect(busExt1.p[1], busExt.n[1]) annotation (Line(points={{36,0},{10,0},{10,
-          -34.8},{-14,-34.8}}, color={0,0,255}));
-  connect(busExt2.p[1], busExt.n[1]) annotation (Line(points={{36,-366},{24,
-          -366},{24,-20},{-14,-20},{-14,-34.8}}, color={0,0,255}));
+  connect(busExt1.p[1], busExt.n[1]) annotation (Line(points={{24,4},{-2,4},{-2,
+          -30.8},{-26,-30.8}}, color={0,0,255}));
+  connect(busExt2.p[1], busExt.n[2]) annotation (Line(points={{24,-362},{12,
+          -362},{12,-16},{-26,-16},{-26,2.8}}, color={0,0,255}));
   connect(multiSensor3.flange_a,electricDrive3. flange)
-    annotation (Line(points={{150,-202},{112,-202}},
+    annotation (Line(points={{138,-198},{100,-198}},
                                                    color={0,0,0}));
-  connect(multiSensor3.flange_b, pinwheel4.flange_a1)
-    annotation (Line(points={{162,-202},{176,-202}}, color={0,0,0}));
-  connect(electricDrive3.desiredSpeed, realExpression2.y) annotation (Line(
-        points={{102,-190},{102,-178},{93,-178}}, color={0,0,127}));
+  connect(multiSensor3.flange_b,fan3. flange_a1)
+    annotation (Line(points={{150,-198},{163,-198}},
+                                                   color={0,0,0}));
+  connect(electricDrive3.desiredSpeed, realExpression2.y)
+    annotation (Line(points={{90,-186},{90,-174},{81,-174}}, color={0,0,127}));
   connect(electricDrive3.pin_n,ground4. p)
-    annotation (Line(points={{92,-208},{82,-208},{82,-212}},
+    annotation (Line(points={{80,-204},{70,-204},{70,-208}},
                                                           color={0,0,255}));
   connect(multiSensor4.flange_a,electricDrive4. flange)
-    annotation (Line(points={{150,-274},{112,-274}},
+    annotation (Line(points={{138,-270},{100,-270}},
                                                    color={0,0,0}));
-  connect(multiSensor4.flange_b, pinwheel5.flange_a1)
-    annotation (Line(points={{162,-274},{176,-274}}, color={0,0,0}));
-  connect(electricDrive4.desiredSpeed, realExpression3.y) annotation (Line(
-        points={{102,-262},{102,-250},{93,-250}}, color={0,0,127}));
+  connect(multiSensor4.flange_b,fan4. flange_a1)
+    annotation (Line(points={{150,-270},{163,-270}},
+                                                   color={0,0,0}));
+  connect(electricDrive4.desiredSpeed, realExpression3.y)
+    annotation (Line(points={{90,-258},{90,-246},{81,-246}}, color={0,0,127}));
   connect(electricDrive4.pin_n,ground5. p)
-    annotation (Line(points={{92,-280},{82,-280},{82,-284}},
+    annotation (Line(points={{80,-276},{70,-276},{70,-280}},
                                                           color={0,0,255}));
-  connect(electricDrive2.pin_p, busExt1.n[2]) annotation (Line(points={{92,-130},
-          {62,-130},{62,-88},{52,-88},{52,5.7},{38,5.7}}, color={0,0,255}));
-  connect(electricDrive3.pin_p, busExt1.n[2]) annotation (Line(points={{92,-196},
-          {64,-196},{64,-160},{46,-160},{46,5.7},{38,5.7}}, color={0,0,255}));
+  connect(electricDrive2.pin_p, busExt1.n[3]) annotation (Line(points={{80,-126},
+          {50,-126},{50,-84},{40,-84},{40,-1.7},{26,-1.7}}, color={0,0,255}));
+  connect(electricDrive3.pin_p, busExt1.n[4]) annotation (Line(points={{80,-192},
+          {52,-192},{52,-156},{34,-156},{34,-13.1},{26,-13.1}}, color={0,0,255}));
   connect(multiSensor5.flange_a,electricDrive5. flange)
-    annotation (Line(points={{150,-342},{112,-342}},
+    annotation (Line(points={{138,-338},{100,-338}},
                                                    color={0,0,0}));
-  connect(multiSensor5.flange_b, pinwheel6.flange_a1)
-    annotation (Line(points={{162,-342},{176,-342}}, color={0,0,0}));
-  connect(electricDrive5.desiredSpeed, realExpression4.y) annotation (Line(
-        points={{102,-330},{102,-318},{93,-318}}, color={0,0,127}));
+  connect(multiSensor5.flange_b,fan5. flange_a1)
+    annotation (Line(points={{150,-338},{163,-338}},
+                                                   color={0,0,0}));
+  connect(electricDrive5.desiredSpeed, realExpression4.y)
+    annotation (Line(points={{90,-326},{90,-314},{81,-314}}, color={0,0,127}));
   connect(electricDrive5.pin_n,ground6. p)
-    annotation (Line(points={{92,-348},{82,-348},{82,-352}},
+    annotation (Line(points={{80,-344},{70,-344},{70,-348}},
                                                           color={0,0,255}));
   connect(multiSensor6.flange_a,electricDrive6. flange)
-    annotation (Line(points={{150,-406},{112,-406}},
+    annotation (Line(points={{138,-402},{100,-402}},
                                                    color={0,0,0}));
-  connect(multiSensor6.flange_b, pinwheel7.flange_a1)
-    annotation (Line(points={{162,-406},{176,-406}}, color={0,0,0}));
-  connect(electricDrive6.desiredSpeed, realExpression5.y) annotation (Line(
-        points={{102,-394},{102,-382},{93,-382}}, color={0,0,127}));
+  connect(multiSensor6.flange_b,fan6. flange_a1)
+    annotation (Line(points={{150,-402},{163,-402}},
+                                                   color={0,0,0}));
+  connect(electricDrive6.desiredSpeed, realExpression5.y)
+    annotation (Line(points={{90,-390},{90,-378},{81,-378}}, color={0,0,127}));
   connect(electricDrive6.pin_n,ground7. p)
-    annotation (Line(points={{92,-412},{82,-412},{82,-416}},
+    annotation (Line(points={{80,-408},{70,-408},{70,-412}},
                                                           color={0,0,255}));
   connect(multiSensor7.flange_a,electricDrive7. flange)
-    annotation (Line(points={{152,-478},{114,-478}},
+    annotation (Line(points={{140,-474},{102,-474}},
                                                    color={0,0,0}));
-  connect(multiSensor7.flange_b, pinwheel2.flange_a1)
-    annotation (Line(points={{164,-478},{180,-478}}, color={0,0,0}));
-  connect(electricDrive7.desiredSpeed, realExpression6.y) annotation (Line(
-        points={{104,-466},{104,-454},{95,-454}}, color={0,0,127}));
-  connect(electricDrive7.pin_n, ground10.p) annotation (Line(points={{94,-484},
-          {118,-484},{118,-496}}, color={0,0,255}));
-  connect(electricDrive4.pin_p, busExt2.n[1]) annotation (Line(points={{92,-268},
-          {66,-268},{66,-348.9},{38,-348.9}}, color={0,0,255}));
-  connect(electricDrive5.pin_p, busExt2.n[1]) annotation (Line(points={{92,-336},
-          {70,-336},{70,-348.9},{38,-348.9}}, color={0,0,255}));
-  connect(electricDrive6.pin_p, busExt2.n[2]) annotation (Line(points={{92,-400},
-          {62,-400},{62,-360.3},{38,-360.3}}, color={0,0,255}));
-  connect(electricDrive7.pin_p, busExt2.n[2]) annotation (Line(points={{94,-472},
-          {54,-472},{54,-360.3},{38,-360.3}}, color={0,0,255}));
+  connect(multiSensor7.flange_b,fan7. flange_a1)
+    annotation (Line(points={{152,-474},{167,-474}},
+                                                   color={0,0,0}));
+  connect(electricDrive7.desiredSpeed, realExpression6.y)
+    annotation (Line(points={{92,-462},{92,-450},{83,-450}}, color={0,0,127}));
+  connect(electricDrive7.pin_n,ground8. p)
+    annotation (Line(points={{82,-480},{72,-480},{72,-484}},
+                                                          color={0,0,255}));
+  connect(electricDrive4.pin_p, busExt2.n[1]) annotation (Line(points={{80,-264},
+          {54,-264},{54,-344.9},{26,-344.9}}, color={0,0,255}));
+  connect(electricDrive5.pin_p, busExt2.n[2]) annotation (Line(points={{80,-332},
+          {58,-332},{58,-356.3},{26,-356.3}}, color={0,0,255}));
+  connect(electricDrive6.pin_p, busExt2.n[3]) annotation (Line(points={{80,-396},
+          {50,-396},{50,-367.7},{26,-367.7}}, color={0,0,255}));
+  connect(electricDrive7.pin_p, busExt2.n[4]) annotation (Line(points={{82,-468},
+          {42,-468},{42,-379.1},{26,-379.1}}, color={0,0,255}));
   annotation (
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-120,-520},{
-            220,60}})),
-    Icon(coordinateSystem(extent={{-120,-520},{220,60}},  preserveAspectRatio=false), graphics),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-120,-500},{
+            180,60}})),
+    Icon(coordinateSystem(extent={{-120,-500},{180,60}},  preserveAspectRatio=false), graphics),
     experiment(
       StopTime=100,
       Interval=0.1,
@@ -388,4 +390,4 @@ equation
 <p>The example shows an induction machine with a forced air-based cooling system driven by an external fan.</p>
 </html>"),
     __Dymola_Commands(file="modelica://ElectrifiedPowertrains/Resources/Scripts/plot/Example_ForcedCoolingAIM.mos" "plot"));
-end Battery_FuelCell_CommonBus_noDCDCconverter;
+end Battery_FuelCell_CommonBus_noDCDCconverter2;
