@@ -12,19 +12,19 @@ model Battery_FC_Charging
     N_parallelCells=5,
     redeclare Battery.Packs.Scaled.Housings.IdealHousingCylindric housing,
     T_init=300.15)
-    annotation (Placement(transformation(extent={{4,50},{28,74}})));
+    annotation (Placement(transformation(extent={{6,48},{30,72}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature     [batteryPack.N_x, batteryPack.N_y]
     packBottomTemperatureBoundary(T=298.15)
                                   "Fixed housing temperature boundary"
-    annotation (Placement(transformation(extent={{108,-8},{88,12}})));
+    annotation (Placement(transformation(extent={{112,30},{92,50}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature[batteryPack.N_x, batteryPack.N_y]
     packTopTemperatureBoundary(each T(displayUnit="degC") = 298.15)
     "Fixed housing temperature boundary on the top"
-    annotation (Placement(transformation(extent={{108,32},{88,52}})));
+    annotation (Placement(transformation(extent={{110,60},{90,80}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature[batteryPack.N_y, batteryPack.N_z]
     packLeftRightTemperatureBoundary(each T(displayUnit="degC") = 298.15)
     "Fixed housing temperature boundary left and right"
-    annotation (Placement(transformation(extent={{108,-48},{88,-28}})));
+    annotation (Placement(transformation(extent={{112,-6},{92,14}})));
 public
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature[batteryPack.N_y, batteryPack.N_z]
     packFrontBackTemperatureBoundary(each T(displayUnit="degC") = 298.15)
@@ -47,7 +47,7 @@ public
     annotation (Placement(transformation(extent={{40,90},{60,110}}),
         iconTransformation(extent={{40,90},{60,110}})));
   BMS bms(N_parallelCells=5, N_cells=batteryPack.N_x*batteryPack.N_y)
-    annotation (Placement(transformation(extent={{-12,0},{-36,22}})));
+    annotation (Placement(transformation(extent={{-12,4},{-36,26}})));
   Modelica.Blocks.Interfaces.BooleanInput u1 annotation (Placement(
         transformation(
         extent={{-20,-20},{20,20}},
@@ -62,40 +62,42 @@ protected
             {90,92}})));
 equation
   connect(packTopTemperatureBoundary.port,housingHeatPort. top)
-    annotation (Line(points={{88,42},{60.0625,42},{60.0625,82.05}},        color={191,0,0}));
+    annotation (Line(points={{90,70},{60.0625,70},{60.0625,82.05}},        color={191,0,0}));
   connect(batteryPack.housingHeatPort,housingHeatPort)
-    annotation (Line(points={{16,74},{16,82},{60,82}},         color={255,0,0}));
+    annotation (Line(points={{18,72},{18,82},{60,82}},         color={255,0,0}));
   connect(packBottomTemperatureBoundary.port,housingHeatPort. bottom)
-    annotation (Line(points={{88,2},{60.0625,2},{60.0625,82.05}},                            color={191,0,0}));
+    annotation (Line(points={{92,40},{60.0625,40},{60.0625,82.05}},                          color={191,0,0}));
   connect(packLeftRightTemperatureBoundary.port,housingHeatPort. left)
-    annotation (Line(points={{88,-38},{60.0625,-38},{60.0625,82.05}},                  color={191,0,0}));
+    annotation (Line(points={{92,4},{60.0625,4},{60.0625,82.05}},                      color={191,0,0}));
   connect(packLeftRightTemperatureBoundary.port,housingHeatPort. right)
-    annotation (Line(points={{88,-38},{60.0625,-38},{60.0625,82.05}},        color={191,0,0}));
+    annotation (Line(points={{92,4},{60.0625,4},{60.0625,82.05}},            color={191,0,0}));
   connect(packFrontBackTemperatureBoundary.port,housingHeatPort. front)
     annotation (Line(points={{88,-78},{60.0625,-78},{60.0625,82.05}},        color={191,0,0}));
   connect(packFrontBackTemperatureBoundary.port,housingHeatPort. back)
     annotation (Line(points={{88,-78},{60.0625,-78},{60.0625,82.05}},                                   color={191,0,0}));
-  connect(batteryPack.n, ground.p) annotation (Line(points={{28,62},{38,62},{38,
+  connect(batteryPack.n, ground.p) annotation (Line(points={{30,60},{38,60},{38,
           -14}},                         color={0,0,255}));
   connect(converterVoltageInput1.p2, batteryPack.p)
-    annotation (Line(points={{-58,84},{-28,84},{-28,62},{4,62}},
+    annotation (Line(points={{-58,84},{0,84},{0,60},{6,60}},
                                                  color={0,0,255}));
   connect(converterVoltageInput1.n2, ground.p) annotation (Line(points={{-58,72},
           {-8,72},{-8,44},{38,44},{38,-14}},                         color={0,0,
           255}));
-  connect(converterVoltageInput1.p1, p1) annotation (Line(points={{-78,84},{
-          -106,84},{-106,100},{-50,100}}, color={0,0,255}));
-  connect(converterVoltageInput1.n1, n1) annotation (Line(points={{-78,72},{-92,
-          72},{-92,100},{50,100}}, color={0,0,255}));
+  connect(converterVoltageInput1.p1, p1) annotation (Line(points={{-78,84},{-88,
+          84},{-88,100},{-50,100}},       color={0,0,255}));
+  connect(converterVoltageInput1.n1, n1) annotation (Line(points={{-78,72},{-8,
+          72},{-8,100},{50,100}},  color={0,0,255}));
   connect(batteryPack.packBus, bms.packBus1) annotation (Line(
-      points={{16,50},{16,40},{-24,40},{-24,22}},
+      points={{18,48},{18,40},{-24,40},{-24,26}},
       color={83,189,255},
       thickness=0.5));
   connect(bms.i, converterVoltageInput1.i)
-    annotation (Line(points={{-37,10},{-60,10},{-60,66}}, color={0,0,127}));
-  connect(bms.pin, p1) annotation (Line(points={{-12,10},{16,10},{16,-10},{-120,
-          -10},{-120,100},{-50,100}}, color={0,0,255}));
-  connect(bms.u, u1) annotation (Line(points={{-9.8,16},{10,16},{10,20},{140,20}},
+    annotation (Line(points={{-37.2,15},{-60,15},{-60,66}},
+                                                          color={0,0,127}));
+  connect(bms.pin, p1) annotation (Line(points={{-12.24,15},{0,15},{0,0},{-88,0},
+          {-88,100},{-50,100}},       color={0,0,255}));
+  connect(bms.u, u1) annotation (Line(points={{-9.6,21.6},{66,21.6},{66,20},{
+          140,20}},
         color={255,0,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,-100},{180,
