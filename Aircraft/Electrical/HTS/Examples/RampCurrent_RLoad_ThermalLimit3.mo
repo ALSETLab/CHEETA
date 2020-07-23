@@ -1,6 +1,6 @@
 within CHEETA.Aircraft.Electrical.HTS.Examples;
 model RampCurrent_RLoad_ThermalLimit3
-  HTS_Piline6                            hTS_Piline6_1(
+  LiquidCooled.HTS_Piline hTS_Piline6_1(
     l=4,
     n=15.8,
     I_c0=5000,
@@ -12,7 +12,7 @@ model RampCurrent_RLoad_ThermalLimit3
     G_d=0,
     a=0.1,
     b=0.5,
-    P=0.1)       annotation (Placement(transformation(extent={{-48,12},{-32,4}})));
+    P=0.1) annotation (Placement(transformation(extent={{-48,12},{-32,4}})));
   Modelica.Electrical.Analog.Sources.RampCurrent rampCurrent(
     I=1000,
     duration=5,
@@ -31,18 +31,18 @@ model RampCurrent_RLoad_ThermalLimit3
   Modelica.Thermal.HeatTransfer.Celsius.TemperatureSensor
                                          temperatureSensor annotation (Placement(
         transformation(
-        origin={44,50},
+        origin={-18,46},
         extent={{-10,-10},{10,10}},
         rotation=90)));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor
                                            thermalConductor(G=1)
                                                         annotation (Placement(
-        transformation(extent={{72,16},{92,36}})));
+        transformation(extent={{10,12},{30,32}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature
-    annotation (Placement(transformation(extent={{134,16},{114,36}})));
+    annotation (Placement(transformation(extent={{62,12},{42,32}})));
   Modelica.Blocks.Sources.Constant const(k=77)
-    annotation (Placement(transformation(extent={{180,16},{160,36}})));
+    annotation (Placement(transformation(extent={{96,12},{76,32}})));
 equation
   connect(rampCurrent.n, hTS_Piline6_1.pin_p)
     annotation (Line(points={{-70,-14},{-70,8},{-49,8}}, color={0,0,255}));
@@ -54,13 +54,13 @@ equation
     annotation (Line(points={{-10,-34},{-10,-54},{-24,-54}},
                                                         color={0,0,255}));
   connect(prescribedTemperature.port, thermalConductor.port_b)
-    annotation (Line(points={{114,26},{92,26}}, color={191,0,0}));
+    annotation (Line(points={{42,22},{30,22}},  color={191,0,0}));
   connect(prescribedTemperature.T, const.y)
-    annotation (Line(points={{136,26},{159,26}}, color={0,0,127}));
+    annotation (Line(points={{64,22},{75,22}},   color={0,0,127}));
   connect(thermalConductor.port_a, hTS_Piline6_1.port_a)
-    annotation (Line(points={{72,26},{-39.8,26},{-39.8,12}}, color={191,0,0}));
-  connect(temperatureSensor.port, hTS_Piline6_1.port_a) annotation (Line(points
-        ={{44,40},{44,26},{-39.8,26},{-39.8,12}}, color={191,0,0}));
+    annotation (Line(points={{10,22},{-39.8,22},{-39.8,12}}, color={191,0,0}));
+  connect(temperatureSensor.port, hTS_Piline6_1.port_a) annotation (Line(points={{-18,36},
+          {-18,22},{-39.8,22},{-39.8,12}},        color={191,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
 end RampCurrent_RLoad_ThermalLimit3;

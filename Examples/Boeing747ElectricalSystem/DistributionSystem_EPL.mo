@@ -49,21 +49,22 @@ model DistributionSystem_EPL
     L=-1.5/200,
     P_fixed=0.0001) constrainedby Aircraft.Electrical.Loads.Boeing747.Fuel_Pump
     annotation (Placement(transformation(extent={{62,52},{82,72}})));
-  ElectrifiedPowertrains.ElectricMachines.ESM.Controllers.Speed     controller(
+  ElectrifiedPowertrains.ElectricMachines.ESM.Controllers.Speed controller(
       redeclare
       ElectrifiedPowertrains.ElectricMachines.ESM.Controllers.Records.Base.Speed
       data(
-      redeclare CHEETA.Aircraft.Electrical.Machines.Records.Boeing747_ESM
+      redeclare
+        CHEETA.Aircraft.Electrical.Machines.Records.Boeing.Boeing747_ESM
         machineData,
       Ve_max=1000,
       i_s_max=1000,
       Ie_max=10,
       tau_max=1000))
-                    annotation (Placement(transformation(extent={{-4,-8},{16,12}})));
+    annotation (Placement(transformation(extent={{-4,-8},{16,12}})));
   ElectrifiedPowertrains.ElectricMachines.Common.Models.IdealESM_Supply idealESM_Supply
     annotation (Placement(transformation(extent={{26,-8},{46,12}})));
   ElectrifiedPowertrains.ElectricMachines.ESM.ElectroMechanical.Linear machine(
-      redeclare Aircraft.Electrical.Machines.Records.Boeing747_ESM data)
+      redeclare Aircraft.Electrical.Machines.Records.Boeing.Boeing747_ESM data)
     annotation (Placement(transformation(extent={{56,-8},{76,12}})));
   ElectrifiedPowertrains.ElectricMachines.Common.Blocks.EnergyAnalyser machineAnalyser(
       useBusConnector=true)

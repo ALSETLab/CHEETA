@@ -29,8 +29,6 @@ model debug "Resistive load connected to inverter"
   Aircraft.Electrical.Machines.Motors.AIMC_SquirrelCage
     rectifierDrivenGenerator
     annotation (Placement(transformation(extent={{60,46},{80,62}})));
-  Modelica.Electrical.Analog.Sensors.PotentialSensor potentialSensor
-    annotation (Placement(transformation(extent={{30,44},{50,64}})));
   Aircraft.Mechanical.Loads.Fan fan
     annotation (Placement(transformation(extent={{94,50},{102,58}})));
   parameter Records.NotionalPowerSystem.SM_PermanentMagnetData smpmData
@@ -91,14 +89,9 @@ equation
           -88,46},{-58,46},{-58,38}}, color={0,0,255}));
   connect(signalPWM.notFire, inverter1.fire_n)
     annotation (Line(points={{20,15},{20,42}}, color={255,0,255}));
-  connect(rectifierDrivenGenerator.v1,potentialSensor. phi) annotation (Line(
-        points={{63.2727,54.8},{58,54.8},{58,54},{51,54}},
-                                                    color={0,0,127}));
   connect(rectifierDrivenGenerator.flange1,fan. flange_a1)
     annotation (Line(points={{79.2727,54},{93,54}},
                                                color={0,0,0}));
-  connect(potentialSensor.p, inverter1.ac)
-    annotation (Line(points={{30,54},{24,54}}, color={0,0,255}));
   connect(signalPWM1.fire, inverter2.fire_p)
     annotation (Line(points={{6,-79},{6,-52}}, color={255,0,255}));
   connect(constantVoltage_p1.n, constantVoltage_n1.p)
@@ -121,6 +114,8 @@ equation
           {-40,-46},{-40,-50},{-42,-50},{-42,-78},{-60,-78}}, color={0,0,255}));
   connect(simpleMotor.flange1, J2.flange_a) annotation (Line(points={{54.4,-40},
           {58,-40},{58,-38},{62,-38}}, color={0,0,0}));
+  connect(rectifierDrivenGenerator.p1, inverter1.ac)
+    annotation (Line(points={{61.8182,54},{24,54}}, color={0,0,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false)),
     Diagram(coordinateSystem(preserveAspectRatio=false)),

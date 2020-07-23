@@ -16,7 +16,7 @@ model SimpleLine
         iconTransformation(extent={{80,-10},{100,10}})));
   parameter Modelica.SIunits.Resistance R=0
     "Line resistance at temperature T_ref";
-  parameter Modelica.SIunits.Current i=i(start=0)
+  parameter Modelica.SIunits.Current i(start=0)
     "Current flowing from pin p to pin n";
 equation
   connect(inductor.p, p1)

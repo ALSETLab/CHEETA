@@ -18,18 +18,21 @@ model Distributed_FuelCell_central_battery
             {198,56}})));
   Aircraft.Mechanical.Loads.Fan fan
     annotation (Placement(transformation(extent={{186,6},{194,14}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_1MW
+      machine(redeclare
+        CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
         data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
@@ -37,7 +40,7 @@ model Distributed_FuelCell_central_battery
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{80,0},{100,20}})));
+    annotation (Placement(transformation(extent={{80,0},{100,20}})));
   Modelica.Electrical.Analog.Basic.Ground ground1
     annotation (Placement(transformation(extent={{62,-26},{82,-6}})));
   Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage(V=10)
@@ -50,26 +53,28 @@ model Distributed_FuelCell_central_battery
             {152,-44}})));
   Aircraft.Mechanical.Loads.Fan fan1
     annotation (Placement(transformation(extent={{186,-54},{194,-46}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive1(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive1(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{80,-60},{100,
-            -40}})));
+    annotation (Placement(transformation(extent={{80,-60},{100,-40}})));
   Modelica.Electrical.Analog.Basic.Ground ground2
     annotation (Placement(transformation(extent={{66,-86},{86,-66}})));
   Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage1(V=10)
@@ -84,26 +89,28 @@ model Distributed_FuelCell_central_battery
             -116},{152,-104}})));
   Aircraft.Mechanical.Loads.Fan fan2
     annotation (Placement(transformation(extent={{186,-114},{194,-106}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive2(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive2(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{80,-120},{100,
-            -100}})));
+    annotation (Placement(transformation(extent={{80,-120},{100,-100}})));
   Modelica.Electrical.Analog.Basic.Ground ground3
     annotation (Placement(transformation(extent={{66,-150},{86,-130}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=tauRef.y)
@@ -113,26 +120,28 @@ model Distributed_FuelCell_central_battery
             -176},{152,-164}})));
   Aircraft.Mechanical.Loads.Fan fan3
     annotation (Placement(transformation(extent={{186,-174},{194,-166}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive3(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive3(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{80,-180},{100,
-            -160}})));
+    annotation (Placement(transformation(extent={{80,-180},{100,-160}})));
   Modelica.Electrical.Analog.Basic.Ground ground4
     annotation (Placement(transformation(extent={{66,-206},{86,-186}})));
   Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage3(V=10)
@@ -147,26 +156,28 @@ model Distributed_FuelCell_central_battery
             -238},{152,-226}})));
   Aircraft.Mechanical.Loads.Fan fan4
     annotation (Placement(transformation(extent={{186,-236},{194,-228}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive4(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive4(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{84,-242},{104,
-            -222}})));
+    annotation (Placement(transformation(extent={{84,-242},{104,-222}})));
   Modelica.Electrical.Analog.Basic.Ground ground5
     annotation (Placement(transformation(extent={{66,-268},{86,-248}})));
   Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage4(V=10)
@@ -181,26 +192,28 @@ model Distributed_FuelCell_central_battery
             -296},{154,-284}})));
   Aircraft.Mechanical.Loads.Fan fan5
     annotation (Placement(transformation(extent={{188,-294},{196,-286}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive5(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive5(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{82,-300},{102,
-            -280}})));
+    annotation (Placement(transformation(extent={{82,-300},{102,-280}})));
   Modelica.Electrical.Analog.Basic.Ground ground6
     annotation (Placement(transformation(extent={{68,-326},{88,-306}})));
   Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage5(V=10)
@@ -215,26 +228,28 @@ model Distributed_FuelCell_central_battery
             -356},{152,-344}})));
   Aircraft.Mechanical.Loads.Fan fan6
     annotation (Placement(transformation(extent={{186,-354},{194,-346}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive6(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive6(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{80,-360},{100,
-            -340}})));
+    annotation (Placement(transformation(extent={{80,-360},{100,-340}})));
   Modelica.Electrical.Analog.Basic.Ground ground7
     annotation (Placement(transformation(extent={{66,-386},{86,-366}})));
   Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage6(V=10)
@@ -249,26 +264,28 @@ model Distributed_FuelCell_central_battery
             -416},{152,-404}})));
   Aircraft.Mechanical.Loads.Fan fan7
     annotation (Placement(transformation(extent={{186,-414},{194,-406}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive7(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive7(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{80,-420},{100,
-            -400}})));
+    annotation (Placement(transformation(extent={{80,-420},{100,-400}})));
   Modelica.Electrical.Analog.Basic.Ground ground8
     annotation (Placement(transformation(extent={{66,-446},{86,-426}})));
   Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage7(V=10)

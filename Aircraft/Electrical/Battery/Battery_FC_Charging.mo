@@ -46,7 +46,9 @@ public
   Modelica.Electrical.Analog.Interfaces.NegativePin n1 "Negative pin of the left port"
     annotation (Placement(transformation(extent={{40,90},{60,110}}),
         iconTransformation(extent={{40,90},{60,110}})));
-  BMS bms(N_parallelCells=5, N_cells=batteryPack.N_x*batteryPack.N_y)
+  BMS bms(
+    batteryVoltage=batteryVoltage,
+          N_parallelCells=5, N_cells=batteryPack.N_x*batteryPack.N_y)
     annotation (Placement(transformation(extent={{-12,4},{-36,26}})));
   Modelica.Blocks.Interfaces.BooleanInput u1 annotation (Placement(
         transformation(

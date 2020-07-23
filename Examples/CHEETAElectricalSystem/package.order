@@ -1,9 +1,6 @@
 System
-SingleBranch_3Phase
 HTS_test
 DriveTrainPowerSystem_FuelCell
-DriveTrainPowerSystem_Battery
 Battery_system
-debug
 AveragedConverters_Battery
 AveragedConverters_Battery_EPL

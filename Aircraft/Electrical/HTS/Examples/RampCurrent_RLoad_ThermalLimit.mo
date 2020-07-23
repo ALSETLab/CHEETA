@@ -1,6 +1,6 @@
 within CHEETA.Aircraft.Electrical.HTS.Examples;
 model RampCurrent_RLoad_ThermalLimit
-  HTS_filmboiling                        hTS_filmboiling2_1(
+  LiquidCooled.HTS_filmboiling hTS_filmboiling2_1(
     l=4,
     n=15.2,
     I_c0=1000,
@@ -12,9 +12,9 @@ model RampCurrent_RLoad_ThermalLimit
     G_d=0,
     a=0.1,
     b=0.5,
-    P=0.1)       annotation (Placement(transformation(extent={{-48,12},{-32,4}})));
+    P=0.1) annotation (Placement(transformation(extent={{-48,12},{-32,4}})));
   Modelica.Electrical.Analog.Sources.RampCurrent rampCurrent(
-    I=250,
+    I=1000,
     duration=5,
     offset=0.1)
     annotation (Placement(transformation(
@@ -33,6 +33,38 @@ model RampCurrent_RLoad_ThermalLimit
     annotation (Placement(transformation(extent={{-14,32},{-34,52}})));
   Modelica.Blocks.Sources.Constant const(k=77)
     annotation (Placement(transformation(extent={{32,32},{12,52}})));
+  Modelica.Electrical.Analog.Basic.Resistor resistor2(R=0)   annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={146,-24})));
+  Modelica.Electrical.Analog.Basic.Ground ground1
+    annotation (Placement(transformation(extent={{122,-74},{142,-54}})));
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
+    prescribedTemperature1
+    annotation (Placement(transformation(extent={{142,32},{122,52}})));
+  Modelica.Blocks.Sources.Constant const1(k=77)
+    annotation (Placement(transformation(extent={{188,32},{168,52}})));
+  Modelica.Electrical.Analog.Sources.RampCurrent rampCurrent1(
+    I=1000,
+    duration=5,
+    offset=0.1)
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={70,-28})));
+  GasCooled.HTS_GasCooling hTS_GasCooling(
+    l=4,
+    n=15.2,
+    I_c0=1000,
+    A=0.1,
+    A_cu=0.1,
+    I_crit=10000,
+    T_c(displayUnit="K"),
+    R_L=1e-3,
+    G_d=0,
+    a=0.1,
+    b=0.5) annotation (Placement(transformation(extent={{104,4},{120,-4}})));
 equation
   connect(rampCurrent.n, hTS_filmboiling2_1.pin_p)
     annotation (Line(points={{-70,-14},{-70,8},{-49,8}}, color={0,0,255}));
@@ -47,8 +79,24 @@ equation
     annotation (Line(points={{-12,42},{11,42}},  color={0,0,127}));
   connect(prescribedTemperature.port, hTS_filmboiling2_1.port_a) annotation (
       Line(points={{-34,42},{-39.8,42},{-39.8,12}}, color={191,0,0}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-        coordinateSystem(preserveAspectRatio=false)),
+  connect(resistor2.n,ground1. p)
+    annotation (Line(points={{146,-34},{146,-54},{132,-54}},
+                                                        color={0,0,255}));
+  connect(prescribedTemperature1.T, const1.y)
+    annotation (Line(points={{144,42},{167,42}}, color={0,0,127}));
+  connect(ground1.p, rampCurrent1.p)
+    annotation (Line(points={{132,-54},{70,-54},{70,-38}}, color={0,0,255}));
+  connect(hTS_GasCooling.pin_p, rampCurrent1.n)
+    annotation (Line(points={{103,0},{70,0},{70,-18}}, color={0,0,255}));
+  connect(hTS_GasCooling.pin_n, resistor2.p)
+    annotation (Line(points={{121,0},{146,0},{146,-14}}, color={0,0,255}));
+  connect(prescribedTemperature1.port, hTS_GasCooling.port_a) annotation (Line(
+        points={{122,42},{118,42},{118,40},{112.2,40},{112.2,4}}, color={191,0,
+          0}));
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{220,100}})),                                  Diagram(
+        coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{220,
+            100}})),
     experiment(
       StopTime=10,
       __Dymola_NumberOfIntervals=100000,

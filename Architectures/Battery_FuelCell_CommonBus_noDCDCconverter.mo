@@ -14,26 +14,28 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
   Aircraft.Mechanical.Loads.Pinwheel
                                 pinwheel(J=10)
     annotation (Placement(transformation(extent={{176,-6},{184,2}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{88,-12},{108,
-            8}})));
+    annotation (Placement(transformation(extent={{88,-12},{108,8}})));
   Modelica.Electrical.Analog.Basic.Ground ground1
     annotation (Placement(transformation(extent={{72,-38},{92,-18}})));
   Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage(V=1000)
@@ -59,26 +61,28 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor1
                                                                 annotation (Placement(transformation(extent={{152,-76},
             {164,-64}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive1(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive1(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{94,-80},{114,
-            -60}})));
+    annotation (Placement(transformation(extent={{94,-80},{114,-60}})));
   Aircraft.Mechanical.Loads.Pinwheel
                                 pinwheel1
     annotation (Placement(transformation(extent={{178,-74},{186,-66}})));
@@ -89,26 +93,28 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor2
                                                                 annotation (Placement(transformation(extent={{150,
             -142},{162,-130}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive2(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive2(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{92,-146},{112,
-            -126}})));
+    annotation (Placement(transformation(extent={{92,-146},{112,-126}})));
   Aircraft.Mechanical.Loads.Pinwheel
                                 pinwheel3
     annotation (Placement(transformation(extent={{176,-140},{184,-132}})));
@@ -119,26 +125,28 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor3
                                                                 annotation (Placement(transformation(extent={{150,
             -208},{162,-196}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive3(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive3(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{92,-212},{112,
-            -192}})));
+    annotation (Placement(transformation(extent={{92,-212},{112,-192}})));
   Aircraft.Mechanical.Loads.Pinwheel
                                 pinwheel4
     annotation (Placement(transformation(extent={{176,-206},{184,-198}})));
@@ -149,26 +157,28 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor4
                                                                 annotation (Placement(transformation(extent={{150,
             -280},{162,-268}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive4(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive4(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{92,-284},{112,
-            -264}})));
+    annotation (Placement(transformation(extent={{92,-284},{112,-264}})));
   Aircraft.Mechanical.Loads.Pinwheel
                                 pinwheel5
     annotation (Placement(transformation(extent={{176,-278},{184,-270}})));
@@ -179,26 +189,28 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor5
                                                                 annotation (Placement(transformation(extent={{150,
             -348},{162,-336}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive5(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive5(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{92,-352},{112,
-            -332}})));
+    annotation (Placement(transformation(extent={{92,-352},{112,-332}})));
   Aircraft.Mechanical.Loads.Pinwheel
                                 pinwheel6
     annotation (Placement(transformation(extent={{176,-346},{184,-338}})));
@@ -209,26 +221,28 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor6
                                                                 annotation (Placement(transformation(extent={{150,
             -412},{162,-400}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive6(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive6(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{92,-416},{112,
-            -396}})));
+    annotation (Placement(transformation(extent={{92,-416},{112,-396}})));
   Aircraft.Mechanical.Loads.Pinwheel
                                 pinwheel7
     annotation (Placement(transformation(extent={{176,-410},{184,-402}})));
@@ -239,26 +253,28 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor7
                                                                 annotation (Placement(transformation(extent={{152,
             -484},{164,-472}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive7(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive7(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{94,-488},{114,
-            -468}})));
+    annotation (Placement(transformation(extent={{94,-488},{114,-468}})));
   Aircraft.Mechanical.Loads.Pinwheel
                                 pinwheel2
     annotation (Placement(transformation(extent={{180,-482},{188,-474}})));

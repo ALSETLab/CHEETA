@@ -15,18 +15,21 @@ model Distributed_FuelCell_local_battery2
             {-84,46}})));
   Aircraft.Mechanical.Loads.Fan fan(J=10)
     annotation (Placement(transformation(extent={{130,6},{138,14}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_1MW
+      machine(redeclare
+        CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
         data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
@@ -34,7 +37,7 @@ model Distributed_FuelCell_local_battery2
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{76,0},{96,20}})));
+    annotation (Placement(transformation(extent={{76,0},{96,20}})));
   Modelica.Electrical.Analog.Basic.Ground ground1
     annotation (Placement(transformation(extent={{46,-26},{66,-6}})));
   Aircraft.Electrical.Battery.Battery_FC_Charging battery_FC_Charging
@@ -145,7 +148,8 @@ model Distributed_FuelCell_local_battery2
     annotation (Placement(transformation(extent={{158,-50},{178,-30}})));
   Modelica.Electrical.Analog.Basic.Ground ground2
     annotation (Placement(transformation(extent={{-82,-62},{-72,-52}})));
-  Aircraft.Electrical.HTS.HTS_filmboiling2 hTS_filmboiling2_1
+  Aircraft.Electrical.HTS.LiquidCooled.HTS_filmboiling_Current
+    hTS_filmboiling2_1
     annotation (Placement(transformation(extent={{24,20},{40,12}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor
                                            thermalConductor(G=1)
