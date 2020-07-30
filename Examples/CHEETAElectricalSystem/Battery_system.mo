@@ -92,23 +92,12 @@ model Battery_system
   Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM pwm2(
       constantDutyCycle=0.5, f(displayUnit="kHz") = 100000)
     annotation (Placement(transformation(extent={{-16,-130},{4,-110}})));
-  Aircraft.Mechanical.Loads.Fan      fan2(J=10)
+  Aircraft.Mechanical.Loads.Pinwheel pinwheel(
+                                          J=10)
     annotation (Placement(transformation(extent={{124,-98},{144,-78}})));
   Aircraft.Electrical.Machines.ElectricDrives.SimpleSpeedDrive_Variable
                                                                simpleSpeedDrive_Variable
     annotation (Placement(transformation(extent={{70,-100},{90,-80}})));
-  ElectrifiedPowertrains.SupplySystem.Batteries.Blocks.EnergyAnalysis energyAnalysis1(
-      useBusConnector=true)
-    annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=0,
-        origin={-56,-64})));
-  Aircraft.Electrical.Battery.DC_Battery dC_Battery1
-                                                    annotation (Placement(
-        transformation(
-        extent={{-12,-11},{12,11}},
-        rotation=270,
-        origin={-35,-88})));
   ElectrifiedPowertrains.ElectricDrives.Common.Blocks.EnergyAnalyser driveEfficiencyComputation(
       useBusConnector=true)
     annotation (Placement(transformation(extent={{110,-8},{130,12}})));
@@ -2644,6 +2633,13 @@ model Battery_system
         30554.8,543.635742644674; 30559.8,543.635742644674; 30564.8,
         543.635742644674; 30569.8,543.635742644674; 30574.8,543.635742644674])
     annotation (Placement(transformation(extent={{58,-60},{78,-40}})));
+  Modelica.Blocks.Sources.Constant
+                               tauRef1(k=733.038285)
+               annotation (Placement(transformation(extent={{38,-76},{58,-56}})));
+  Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage(V=1000)
+    annotation (Placement(transformation(extent={{-50,-104},{-30,-84}})));
+  Modelica.Electrical.Analog.Basic.Ground ground
+    annotation (Placement(transformation(extent={{-30,-122},{-10,-102}})));
 equation
   connect(circuitBreaker1.p1, stekly_ExtraHeatGeneration.pin_n)
     annotation (Line(points={{54,34},{39,34}},color={0,0,255}));
@@ -2679,16 +2675,8 @@ equation
     annotation (Line(points={{94,40},{94,60},{93,60}},   color={0,0,127}));
   connect(pwm2.fire,dcdc1. fire_p) annotation (Line(points={{-12,-109},{-12,-100}},
                       color={255,0,255}));
-  connect(fan2.flange_a1, simpleSpeedDrive_Variable.flange1) annotation (Line(
-        points={{121.5,-88},{106,-88},{106,-89.6},{89,-89.6}}, color={0,0,0}));
-  connect(energyAnalysis1.batteryBus, dC_Battery1.batteryBus1) annotation (Line(
-      points={{-56,-74},{-56,-82.96},{-46,-82.96}},
-      color={0,255,0},
-      thickness=0.5));
-  connect(dC_Battery1.p1, dcdc1.dc_p1) annotation (Line(points={{-24,-81.76},{-21,
-          -81.76},{-21,-82},{-16,-82}}, color={0,0,255}));
-  connect(dcdc1.dc_n1, dC_Battery1.n1) annotation (Line(points={{-16,-94},{-20,-94},
-          {-20,-93.76},{-24,-93.76}}, color={0,0,255}));
+  connect(pinwheel.flange_a1, simpleSpeedDrive_Variable.flange1) annotation (
+      Line(points={{124,-88},{106,-88},{106,-89.6},{89,-89.6}}, color={0,0,0}));
   connect(driveEfficiencyComputation.electricDriveBus, electricDrive.electricDriveBus)
     annotation (Line(
       points={{120,-8},{120,-18},{94,-18},{94,18}},
@@ -2703,8 +2691,14 @@ equation
          {{4,-82},{38,-82},{38,-85.8},{71.6,-85.8}}, color={0,0,255}));
   connect(simpleSpeedDrive_Variable.dc_n1, dcdc1.dc_n2)
     annotation (Line(points={{71.6,-94},{4,-94}}, color={0,0,255}));
-  connect(combiTimeTable.y[1], simpleSpeedDrive_Variable.wref) annotation (Line(
-        points={{79,-50},{82,-50},{82,-80.6},{80,-80.6}}, color={0,0,127}));
+  connect(simpleSpeedDrive_Variable.wref, tauRef1.y) annotation (Line(points={{
+          80,-80.6},{70,-80.6},{70,-66},{59,-66}}, color={0,0,127}));
+  connect(dcdc1.dc_n1, constantVoltage.n)
+    annotation (Line(points={{-16,-94},{-30,-94}}, color={0,0,255}));
+  connect(constantVoltage.p, dcdc1.dc_p1) annotation (Line(points={{-50,-94},{
+          -58,-94},{-58,-80},{-16,-80},{-16,-82}}, color={0,0,255}));
+  connect(dcdc1.dc_n1, ground.p) annotation (Line(points={{-16,-94},{-18,-94},{
+          -18,-102},{-20,-102}}, color={0,0,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-60,-140},{180,
             100}})),

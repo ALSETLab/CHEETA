@@ -59,6 +59,12 @@ equation
     i = maxChargeCurrent.y;
   elseif potentialSensor.phi <= 0.9*nominalVoltage then
     i = maxDischargeCurrent.y;
+  elseif potentialSensor.phi >= 0.9*nominalVoltage and  potentialSensor.phi <= 1.1*nominalVoltage then
+    i = 0;
+  elseif potentialSensor.phi >= 1.1*nominalVoltage then
+    i = maxChargeCurrent.y;
+  elseif potentialSensor.phi <= batteryVoltage then
+    i = maxDischargeCurrent.y;
   elseif u == false then
     i = maxDischargeCurrent.y;
   else

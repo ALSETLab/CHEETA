@@ -8,21 +8,21 @@ model ThreePhaseMotor
   Modelica.Electrical.Machines.BasicMachines.AsynchronousInductionMachines.AIM_SquirrelCage
     aimc(
     p=aimcData.p,
-    fsNominal=aimcData.fsNominal,
+    fsNominal=aimcData.fs_nom,
     Rs=aimcData.Rs,
-    TsRef=aimcData.TsRef,
+    TsRef=aimcData.Ts_ref,
     alpha20s(displayUnit="1/K") = aimcData.alpha20s,
-    Lszero=aimcData.Lszero,
-    Lssigma=aimcData.Lssigma,
+    Lszero=aimcData.Ls_zero,
+    Lssigma=aimcData.Ls_sigma,
     Jr=aimcData.Jr,
     Js=aimcData.Js,
     frictionParameters=aimcData.frictionParameters,
     statorCoreParameters=aimcData.statorCoreParameters,
     strayLoadParameters=aimcData.strayLoadParameters,
     Lm=aimcData.Lm,
-    Lrsigma=aimcData.Lrsigma,
+    Lrsigma=aimcData.Lr_sigma,
     Rr=aimcData.Rr,
-    TrRef=aimcData.TrRef,
+    TrRef=aimcData.Tr_ref,
     TsOperational=293.15,
     alpha20r=aimcData.alpha20r,
     TrOperational=293.15) annotation (Placement(transformation(extent={{-10,-48},
@@ -33,7 +33,7 @@ model ThreePhaseMotor
   Modelica.Mechanics.Rotational.Interfaces.Flange_a flange1
                                                            "Shaft"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  parameter Records.NotionalPowerSystem.AIM_SquirrelCageData aimcData
+  parameter Records.Boeing.Boeing747                         aimcData
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
   Modelica.Electrical.MultiPhase.Interfaces.PositivePlug plug_p1
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));

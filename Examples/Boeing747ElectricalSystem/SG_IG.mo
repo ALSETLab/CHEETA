@@ -99,5 +99,8 @@ equation
       __Dymola_NumberOfIntervals=50000,
       Tolerance=1e-05,
       __Dymola_fixedstepsize=0.001,
-      __Dymola_Algorithm="Dassl"));
+      __Dymola_Algorithm="Dassl"),
+    Documentation(info="<html>
+<p>Synchronous generator with induction generator</p>
+</html>"));
 end SG_IG;

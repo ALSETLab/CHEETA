@@ -46,5 +46,8 @@ equation
     experiment(
       StopTime=36000,
       __Dymola_NumberOfIntervals=5000,
-      Tolerance=1e-06));
+      Tolerance=1e-06),
+    Documentation(info="<html>
+<p>synchronous generator with AVR</p>
+</html>"));
 end SG_AVR;

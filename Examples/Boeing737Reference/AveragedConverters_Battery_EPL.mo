@@ -21,18 +21,17 @@ model AveragedConverters_Battery_EPL
     annotation (Placement(transformation(extent={{18,26},{38,34}})));
   Aircraft.Electrical.CB.CircuitBreaker circuitBreaker2(k=200000)
     annotation (Placement(transformation(extent={{18,14},{38,22}})));
-  Aircraft.Electrical.HTS.HTS_Piline    hTS_Piline(
-                                               l=1,
+  Aircraft.Electrical.HTS.LiquidCooled.HTS_Piline hTS_Piline(
+    l=1,
+    I_crit=1000,
     R_L=100,
-    UIC=false,
-    IC=1)
-    annotation (Placement(transformation(extent={{-6,24},{10,32}})));
-  Aircraft.Electrical.HTS.HTS_Piline    hTS_Piline1(
-                                                l=1,
+    G_d=0)
+          annotation (Placement(transformation(extent={{-6,24},{10,32}})));
+  Aircraft.Electrical.HTS.LiquidCooled.HTS_Piline hTS_Piline1(
+    l=1,
+    I_crit=1000,
     R_L=100,
-    UIC=false,
-    IC=0.1)
-    annotation (Placement(transformation(extent={{-6,12},{10,20}})));
+    G_d=0)  annotation (Placement(transformation(extent={{-6,12},{10,20}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor
                                            thermalConductor(G=0.1)
                                                         annotation (Placement(
@@ -52,18 +51,21 @@ model AveragedConverters_Battery_EPL
   Modelica.Blocks.Sources.Constant voltage_ce(k=1000)
                                                     annotation (Placement(transformation(extent={{-54,-20},
             {-34,0}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_1MW
+      machine(redeclare
+        CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
         data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
@@ -71,8 +73,7 @@ model AveragedConverters_Battery_EPL
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{80,14},{100,
-            34}})));
+    annotation (Placement(transformation(extent={{80,14},{100,34}})));
   Modelica.Electrical.Analog.Basic.Ground ground annotation (Placement(
         transformation(
         extent={{-9,-9},{9,9}},
@@ -2660,9 +2661,11 @@ equation
       color={0,255,0},
       thickness=0.5));
   connect(hTS_Piline1.port_a, thermalConductor.port_a)
-    annotation (Line(points={{2,12},{-8,12},{-8,-50}}, color={191,0,0}));
+    annotation (Line(points={{2.2,12},{-8,12},{-8,-50}},
+                                                       color={191,0,0}));
   connect(hTS_Piline.port_a, thermalConductor.port_a)
-    annotation (Line(points={{2,24},{-8,24},{-8,-50}}, color={191,0,0}));
+    annotation (Line(points={{2.2,24},{-8,24},{-8,-50}},
+                                                       color={191,0,0}));
   connect(combiTimeTable.y[1], electricDrive.desiredSpeed)
     annotation (Line(points={{61,70},{90,70},{90,36}}, color={0,0,127}));
   annotation (

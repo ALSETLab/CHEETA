@@ -1,8 +1,8 @@
-within CHEETA.Aircraft.Electrical.HTS;
-model HTS_filmboiling2 "HTS line using Stekly equations"
+within CHEETA.Aircraft.Electrical.HTS.LiquidCooled;
+model HTS_Piline "HTS line using Stekly equations"
   parameter Modelica.SIunits.Length l "Length of wire";
   parameter Modelica.SIunits.ElectricFieldStrength E_0 = 1e-4 "Reference electric field";
-  parameter Real n = 5.29 "Intrinstic value of the superconductor";
+  parameter Real n = 2 "Intrinstic value of the superconductor";
   parameter Real I_c0 = 1 "Reference corner current";
   parameter Modelica.SIunits.Area A = 1 "Area";
   parameter Modelica.SIunits.Area A_cu = 1 "Area of copper in wire";
@@ -10,7 +10,7 @@ model HTS_filmboiling2 "HTS line using Stekly equations"
   parameter Modelica.SIunits.Temp_K T_c = 92 "Critical temperature";
   //Losses
   parameter Modelica.SIunits.Resistance R_L "Resistance of the brass connectors";
-  parameter Modelica.SIunits.Power G_d = 3.527*10^4 "Extra heat generation due to fault";
+  parameter Modelica.SIunits.Power G_d "Extra heat generation due to fault";
   //Characteristics of the line
   parameter Modelica.SIunits.Radius a = 2e-6
                                             "Inner radius of co-axial cable";
@@ -21,8 +21,6 @@ model HTS_filmboiling2 "HTS line using Stekly equations"
   parameter Modelica.SIunits.Permittivity epsilon_r = 1;
   parameter Modelica.SIunits.Length P = 0.1035 "Perimeter of line";
   parameter Modelica.SIunits.Frequency f = 60 "Frequency of AC system";
-  parameter Modelica.SIunits.Conductivity kappa = 400;
-
   //Constants
   Real pi= Modelica.Constants.pi;
   Modelica.SIunits.PermeabilityOfVacuum mu_0 = 4*pi*10e-7;
@@ -38,7 +36,6 @@ model HTS_filmboiling2 "HTS line using Stekly equations"
   Modelica.SIunits.Current I_c "corner current";
   Modelica.SIunits.ElectricFieldStrength E "Electric field";
   Modelica.SIunits.Power Q;
-  Modelica.SIunits.Power Q_ce;
   Modelica.SIunits.Power G;
   //Resistances, inductances, and currents
   Modelica.SIunits.Resistance R_pi;
@@ -50,7 +47,7 @@ model HTS_filmboiling2 "HTS line using Stekly equations"
 
   Real x(start=0);
   //Real y(start = 0.07);
-  Real z;
+  Real z=1;
 
   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p             annotation (Placement(
         transformation(extent={{-100,-10},{-80,10}}),iconTransformation(extent={{-100,
@@ -107,7 +104,7 @@ equation
   mu = mu_0*mu_r;
   epsilon = epsilon_0*epsilon_r;
 
-  I_c = I_c0*(1-(port_a.T/T_c));
+  I_c = I_c0 *(1-(port_a.T/T_c));
   E = E_0 *(pin_p.i/I_c)^n;
   rho = DymolaModels.Functions.Math.divNoZero(E,(I_c/A));
   L_pi = l*mu/(2*pi) * log(b/a);
@@ -116,22 +113,16 @@ equation
   R_ac =DymolaModels.Functions.Math.divNoZero( tan(delta),omega)*C_pi;
 
   dT = DymolaModels.Functions.Math.divNoZero(port_a.T*(rho *I_c^2/(P*A_cu) + G_d),(h));
+  x = 0;
+  h = smooth(10,noEvent(if dT>=2 then 10*DymolaModels.Functions.Math.divNoZero(-5.787-0.155*dT,1-0.546*dT) else 1000*(0.6953+0.001079*dT^4)));
 
-  x = if dT>=2 then 1 else 0;
-  //h = smooth(10,noEvent(if dT>2 then -1000*(0.6953+0.001079*dT^4)  else 1000*(0.6953+0.001079*dT^4)));//100*DymolaModels.Functions.Math.divNoZero(-5.787-0.155*dT,1-0.546*dT)
-  h = smooth(10,noEvent(if dT<3 then 100*(dT)^n elseif (dT>=3 and dT<100) then 10^5/(dT) else 1000));
-  z = noEvent(if dT<3 then 0 elseif (dT>3 and dT<100) then 1 else 2);
-
-  //port_a.Q_flow = smooth(10,noEvent(if dT<3 then 100*(dT)^n elseif (dT>3 and dT<100) then 10^5/port_a.T else 1000));
-  port_a.Q_flow = -h*dT*A+Q_ce;
+  port_a.Q_flow = -h*dT*A+G;
   Q = l*(mu_0 * h * I_c^2)/ (3*pi*b) * (I_c0/I_c)^3;
 
   if noEvent(pin_p.i>I_crit) then
     G = (rho * I_c^2 * 10^3 / A_cu*P) + G_d*A_cu;
-    Q_ce = port_a.T*sqrt(2*kappa*A_cu*P*h);
   else
     G = 0;
-    Q_ce = 0;
   end if;
 
   connect(pin_p, resistor.p)
@@ -213,4 +204,4 @@ equation
 <p>This transmission line model is a pi-line model. The capactiance, resistance, and inductance of the line depend on the physical dimensions and current of the line. The resistance in parallel to the capacitor is used as a modeled loss.</p>
 </html>"),
     experiment(__Dymola_NumberOfIntervals=1000, __Dymola_Algorithm="Dassl"));
-end HTS_filmboiling2;
+end HTS_Piline;

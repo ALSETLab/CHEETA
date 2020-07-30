@@ -33,18 +33,21 @@ model AveragedConverters_Battery_EPL
   Modelica.Blocks.Sources.Constant voltage_ce(k=1000)
                                                     annotation (Placement(transformation(extent={{-54,-20},
             {-34,0}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_1MW
+      machine(redeclare
+        CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
         data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
@@ -52,8 +55,7 @@ model AveragedConverters_Battery_EPL
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{80,14},{100,
-            34}})));
+    annotation (Placement(transformation(extent={{80,14},{100,34}})));
   Modelica.Electrical.Analog.Basic.Ground ground annotation (Placement(
         transformation(
         extent={{-9,-9},{9,9}},
@@ -98,26 +100,28 @@ model AveragedConverters_Battery_EPL
   Modelica.Blocks.Sources.Constant voltage_ce1(k=1000)
                                                     annotation (Placement(transformation(extent={{-50,
             -114},{-30,-94}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive1(
+  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC
+    electricDrive1(
     redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
       controller(redeclare
         ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed
-        data(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW
+        data(redeclare
+          Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
           machineData)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
     redeclare
       ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage
-      machine(redeclare Aircraft.Electrical.Machines.Records.CHEETA_1MW data),
+      machine(redeclare
+        Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency
       inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
     useThermalPort=false)
-                    annotation (Placement(transformation(extent={{84,-80},{104,
-            -60}})));
+    annotation (Placement(transformation(extent={{84,-80},{104,-60}})));
   Modelica.Electrical.Analog.Basic.Ground ground2
                                                  annotation (Placement(
         transformation(

@@ -1,8 +1,8 @@
-within CHEETA.Aircraft.Electrical.HTS;
-model HTS_filmboiling "HTS line using Stekly equations"
+within CHEETA.Aircraft.Electrical.HTS.LiquidCooled;
+model HTS_filmboiling_Current "HTS line using Stekly equations"
   parameter Modelica.SIunits.Length l "Length of wire";
   parameter Modelica.SIunits.ElectricFieldStrength E_0 = 1e-4 "Reference electric field";
-  parameter Real n = 2 "Intrinstic value of the superconductor";
+  parameter Real n = 5.29 "Intrinstic value of the superconductor";
   parameter Real I_c0 = 1 "Reference corner current";
   parameter Modelica.SIunits.Area A = 1 "Area";
   parameter Modelica.SIunits.Area A_cu = 1 "Area of copper in wire";
@@ -50,7 +50,7 @@ model HTS_filmboiling "HTS line using Stekly equations"
 
   Real x(start=0);
   //Real y(start = 0.07);
-  Real z=1;
+  Real z;
 
   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p             annotation (Placement(
         transformation(extent={{-100,-10},{-80,10}}),iconTransformation(extent={{-100,
@@ -102,7 +102,7 @@ model HTS_filmboiling "HTS line using Stekly equations"
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-8,-50},{12,-30}})));
 initial equation
-  R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
+ R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
 equation
   mu = mu_0*mu_r;
   epsilon = epsilon_0*epsilon_r;
@@ -117,10 +117,12 @@ equation
 
   dT = DymolaModels.Functions.Math.divNoZero(port_a.T*(rho *I_c^2/(P*A_cu) + G_d),(h));
 
-
   x = if dT>=2 then 1 else 0;
-  h = smooth(10,noEvent(if dT>2 then -1000*(0.6953+0.001079*dT^4)  else 1000*(0.6953+0.001079*dT^4)));//100*DymolaModels.Functions.Math.divNoZero(-5.787-0.155*dT,1-0.546*dT)
+  //h = smooth(10,noEvent(if dT>2 then -1000*(0.6953+0.001079*dT^4)  else 1000*(0.6953+0.001079*dT^4)));//100*DymolaModels.Functions.Math.divNoZero(-5.787-0.155*dT,1-0.546*dT)
+  h = smooth(10,noEvent(if dT<3 then 100*(dT)^n elseif (dT>=3 and dT<100) then 10^5/(dT) else 1000));
+  z = noEvent(if dT<3 then 0 elseif (dT>3 and dT<100) then 1 else 2);
 
+  //port_a.Q_flow = smooth(10,noEvent(if dT<3 then 100*(dT)^n elseif (dT>3 and dT<100) then 10^5/port_a.T else 1000));
   port_a.Q_flow = -h*dT*A+Q_ce;
   Q = l*(mu_0 * h * I_c^2)/ (3*pi*b) * (I_c0/I_c)^3;
 
@@ -211,4 +213,4 @@ equation
 <p>This transmission line model is a pi-line model. The capactiance, resistance, and inductance of the line depend on the physical dimensions and current of the line. The resistance in parallel to the capacitor is used as a modeled loss.</p>
 </html>"),
     experiment(__Dymola_NumberOfIntervals=1000, __Dymola_Algorithm="Dassl"));
-end HTS_filmboiling;
+end HTS_filmboiling_Current;

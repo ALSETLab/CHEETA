@@ -1,4 +1,3 @@
-BatteryCharging
 Battery_FC_Charging
 Battery_FuelCell_CommonBus
 Distributed_FuelCell_local_battery
@@ -6,3 +5,5 @@ Battery_FuelCell_CommonBus_noDCDCconverter
 Distributed_FuelCell_central_battery
 Distributed_FuelCell_local_battery2
 Battery_FuelCell_CommonBus_noDCDCconverter2
+Distributed_FuelCell_local_battery_ESM
+Distributed_FuelCell_local_battery_ESM2

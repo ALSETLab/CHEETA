@@ -41,11 +41,13 @@ model DriveTrainPowerSystem_FuelCell
     annotation (Placement(transformation(extent={{18,14},{38,22}})));
   Aircraft.Electrical.HTS.Stekly.Stekly_ExtraHeatGeneration
                                         stekly_ExtraHeatGeneration(
-                                               l=1, G_d=100)
+                                               l=1, G_d=100,
+    I_crit=1000)
     annotation (Placement(transformation(extent={{-12,24},{4,32}})));
   Aircraft.Electrical.HTS.Stekly.Stekly_ExtraHeatGeneration
                                         stekly_ExtraHeatGeneration1(
-                                                l=1, G_d=100)
+                                                l=1, G_d=100,
+    I_crit=1000)
     annotation (Placement(transformation(extent={{-12,12},{4,20}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor
                                            thermalConductor(G=0.1)

@@ -4,6 +4,7 @@ package Loads
   model Pinwheel
     Modelica.Mechanics.MultiBody.Visualizers.PipeWithScalarField
       pipeWithScalarField(
+    animation=false,
       rOuter=0.3,
       length=1,
       T=Modelica.Math.sin(Modelica.Constants.pi*pipeWithScalarField.xsi)*
@@ -26,6 +27,7 @@ package Loads
           transformation(extent={{-94,2},{-74,22}})));
     Modelica.Mechanics.MultiBody.Parts.BodyCylinder
                        cyl1(
+    animation=false,
       diameter=0.1,
       color={0,128,0},
       r={0.4,0,0}) annotation (Placement(transformation(extent={{-24,32},{-4,
@@ -62,6 +64,7 @@ package Loads
   parameter Modelica.SIunits.Inertia J=10 "Moment of inertia";
     Modelica.Mechanics.MultiBody.Visualizers.PipeWithScalarField
       pipeWithScalarField1(
+    animation=false,
     rOuter=0.3,
     length=1,
     T=Modelica.Math.sin(Modelica.Constants.pi*pipeWithScalarField.xsi)*
@@ -76,11 +79,13 @@ package Loads
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
     Modelica.Mechanics.MultiBody.Parts.BodyCylinder
                        cyl2(
+    animation=false,
     diameter=0.1,
     color={0,128,0},
     r={0.4,0.4,0}) annotation (Placement(transformation(extent={{44,32},{64,52}})));
     Modelica.Mechanics.MultiBody.Parts.BodyCylinder
                        cyl3(
+    animation=false,
     diameter=0.1,
     color={0,128,0},
     r={0.4,-0.4,0})
