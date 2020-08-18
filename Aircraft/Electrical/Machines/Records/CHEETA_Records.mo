@@ -61,7 +61,7 @@ package CHEETA_Records
 </html>"));
   end CHEETA_1MW_controller;
 
-  record CHEETA_5MW_ESM "5MW machine for CHEETA"
+  record CHEETA_2_5MW_ESM "2.5MW machine for CHEETA"
     import Modelica.Constants.pi;
     extends
       ElectrifiedPowertrains.ElectricMachines.ESM.ElectroMechanical.Records.Base.Linear(
@@ -69,7 +69,7 @@ package CHEETA_Records
       p=8,
       Js=1.29,
       Jr=1.29,
-      fs_nom=400,
+      fs_nom=300,
       u_s_openCircuit=600,
       Ie_openCircuit=550,
       Rs=0.15,
@@ -93,28 +93,28 @@ package CHEETA_Records
       Rrd=0.04,
       Rrq=Rrd,
       brushParameters=Modelica.Electrical.Machines.Losses.BrushParameters(V=0, ILinear=0.01),
-      frictionParameters=Modelica.Electrical.Machines.Losses.FrictionParameters(PRef=0, wRef=Modelica.SIunits.Conversions.from_rpm(7000)),
+      frictionParameters=Modelica.Electrical.Machines.Losses.FrictionParameters(PRef=0, wRef=Modelica.SIunits.Conversions.from_rpm(4500)),
       statorCoreParameters=Modelica.Electrical.Machines.Losses.CoreParameters(
           m=3,
           PRef=0,
           VRef=200,
-          wRef=Modelica.SIunits.Conversions.from_rpm(7000)),
+          wRef=Modelica.SIunits.Conversions.from_rpm(4500)),
       strayLoadParameters=Modelica.Electrical.Machines.Losses.StrayLoadParameters(
           PRef=0,
           IRef=100,
-          wRef=Modelica.SIunits.Conversions.from_rpm(7000)),
+          wRef=Modelica.SIunits.Conversions.from_rpm(4500)),
       tau_nom=6280.93,
-      w_nom=Modelica.SIunits.Conversions.from_rpm(7000),
-      u_s_nom=635.62,
-      i_s_nom=5500,
+      w_nom=Modelica.SIunits.Conversions.from_rpm(4500),
+      u_s_nom=750,
+      i_s_nom=1111,
       psi_nom=Ie_openCircuit*Lmd*turnsRatio,
-      P_nom=5e6);       //(0.1*(u_s_nom/i_s_nom))/(2*pi*fs_nom),
+      P_nom=2.5e6);       //(0.1*(u_s_nom/i_s_nom))/(2*pi*fs_nom),
                //(0.1*(u_s_nom/i_s_nom))/(2*pi*fs_nom),
 
     annotation (Documentation(info="<html>
 <p>Data from Example Modelica.Electrical.Machines.Examples.AsynchronousInductionMachines.AIMC_withLosses</p>
 </html>"),   defaultComponentName="data");
-  end CHEETA_5MW_ESM;
+  end CHEETA_2_5MW_ESM;
 
   record CHEETA_555MVA_ESM "555MVA machine for CHEETA"
     import Modelica.Constants.pi;
@@ -213,16 +213,16 @@ package CHEETA_Records
 </html>"),   defaultComponentName="data");
   end CHEETA_555MVA_ESM;
 
-  record CHEETA_5MW_ESM_Controller "5MW machine for CHEETA"
+  record CHEETA_2_5MW_ESM_Controller "2.5MW machine for CHEETA"
     extends ElectrifiedPowertrains.ElectricMachines.ESM.Controllers.Records.Base.Speed(
-      redeclare CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_5MW_ESM machineData,
+      redeclare CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_2_5MW_ESM machineData,
       Ve_max=2000,
       i_s_max=5000,
       Ie_max=6000,
       tau_max=10000);
-  end CHEETA_5MW_ESM_Controller;
+  end CHEETA_2_5MW_ESM_Controller;
 
-  record CHEETA_5MW_ESM2 "5MW machine for CHEETA 2"
+  record CHEETA_2_5MW_ESM2 "2.5MW machine for CHEETA 2"
     import Modelica.Constants.pi;
     extends
       ElectrifiedPowertrains.ElectricMachines.ESM.ElectroMechanical.Records.Base.Linear(
@@ -279,5 +279,5 @@ package CHEETA_Records
     annotation (Documentation(info="<html>
 <p>Data from Example Modelica.Electrical.Machines.Examples.AsynchronousInductionMachines.AIMC_withLosses</p>
 </html>"),   defaultComponentName="data");
-  end CHEETA_5MW_ESM2;
+  end CHEETA_2_5MW_ESM2;
 end CHEETA_Records;

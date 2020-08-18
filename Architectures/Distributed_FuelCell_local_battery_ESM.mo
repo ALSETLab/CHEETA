@@ -68,8 +68,10 @@ model Distributed_FuelCell_local_battery_ESM
     electricDrive(
     redeclare ElectrifiedPowertrains.ElectricMachines.ESM.Controllers.Speed
       controller(redeclare
-        CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_5MW_ESM_Controller
-        data),
+        ElectrifiedPowertrains.ElectricMachines.ESM.Controllers.Records.Base.Speed
+        data(redeclare
+          CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_2_5MW_ESM
+          machineData, tau_max=1000)),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
@@ -80,7 +82,7 @@ model Distributed_FuelCell_local_battery_ESM
     redeclare
       ElectrifiedPowertrains.ElectricMachines.ESM.ElectroMechanical.Linear
       machine(redeclare
-        CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_5MW_ESM
+        CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_2_5MW_ESM
         data)) annotation (Placement(transformation(extent={{44,-12},{64,8}})));
   ElectrifiedPowertrains.ElectricMachines.Common.Blocks.EnergyAnalyser machineAnalyser(
       useBusConnector=true)

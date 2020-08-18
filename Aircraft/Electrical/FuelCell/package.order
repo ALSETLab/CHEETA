@@ -6,3 +6,5 @@ SOFCStack
 SOFC
 SimulinkFuelCell
 SimulinkFuelCellDetailed
+FuelCell_ElectricalEquivalent
+FuelCell_EquationBased

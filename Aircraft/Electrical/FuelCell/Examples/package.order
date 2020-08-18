@@ -2,3 +2,4 @@ Fluids
 FuelCellLinearization
 SimulinkFuelCellExample
 PEMFC_Test
+FuelCell_EquivalentCircuit

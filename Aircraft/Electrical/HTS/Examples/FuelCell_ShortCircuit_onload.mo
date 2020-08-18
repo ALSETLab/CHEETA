@@ -1,0 +1,86 @@
+within CHEETA.Aircraft.Electrical.HTS.Examples;
+model FuelCell_ShortCircuit_onload
+
+  Modelica.Electrical.Analog.Basic.Ground ground2
+    annotation (Placement(transformation(extent={{24,-70},{44,-50}})));
+  LiquidCooled.HTS_filmboiling_Voltage2 HTS(
+    l=10,
+    n=20,
+    I_c0=7800,
+    A=0.1,
+    A_cu=0.1,
+    I_crit=100000,
+    T_c(displayUnit="K"),
+    R_L=1e-4,
+    G_d=0,
+    a=0.1,
+    b=0.5,
+    P=1) annotation (Placement(transformation(extent={{-18,-6},{-2,-14}})));
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
+    prescribedTemperature1
+    annotation (Placement(transformation(extent={{16,14},{-4,34}})));
+  Modelica.Blocks.Sources.Constant const1(k=20)
+    annotation (Placement(transformation(extent={{62,14},{42,34}})));
+  Modelica.Blocks.Sources.Step     step(
+    height=-9999.99,
+    offset=10000,
+    startTime=10)
+    annotation (Placement(transformation(extent={{-40,-44},{-20,-24}})));
+  PowerElectronics.Converters.DCAC.TheveninEquivalent inverter(R=0.1, R_cm=0.1)
+    annotation (Placement(transformation(extent={{10,-26},{30,-6}})));
+  Modelica.Electrical.Analog.Basic.Resistor resistor2(R=100)
+    annotation (Placement(transformation(extent={{58,-42},{78,-22}})));
+  CHEETA.Aircraft.Electrical.FuelCell.FuelCell_EquationBased
+    fuelCell_EquationBased(R_ohm(R=0.02*5))
+    annotation (Placement(transformation(extent={{-78,-16},{-64,-2}})));
+  Modelica.Electrical.Analog.Basic.Inductor inductor(L=0.12086)
+    annotation (Placement(transformation(extent={{58,-20},{78,0}})));
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
+    prescribedTemperature2
+    annotation (Placement(transformation(extent={{-104,-54},{-84,-34}})));
+  Modelica.Blocks.Sources.Constant const2(k=353.15)
+    annotation (Placement(transformation(extent={{-138,-54},{-118,-34}})));
+  Modelica.Electrical.Analog.Basic.VariableResistor
+                                            resistor3
+    annotation (Placement(transformation(extent={{-10,10},{10,-10}},
+        rotation=270,
+        origin={42,-34})));
+equation
+  connect(HTS.port_a,prescribedTemperature1. port)
+    annotation (Line(points={{-9.8,-6},{-10,-6},{-10,24},{-4,24}},
+                                                           color={191,0,0}));
+  connect(const1.y,prescribedTemperature1. T)
+    annotation (Line(points={{41,24},{18,24}}, color={0,0,127}));
+  connect(inverter.dc_p,HTS. pin_n) annotation (Line(points={{10,-10},{-1,-10}},
+                          color={0,0,255}));
+  connect(inverter.dc_n,ground2. p) annotation (Line(points={{10,-22},{2,-22},{
+          2,-50},{34,-50}},     color={0,0,255}));
+  connect(inverter.ac,resistor2. p)
+    annotation (Line(points={{30,-16},{54,-16},{54,-32},{58,-32}},
+                                                 color={0,0,255}));
+  connect(resistor2.n,ground2. p) annotation (Line(points={{78,-32},{82,-32},{
+          82,-50},{34,-50}},   color={0,0,255}));
+  connect(HTS.pin_p,fuelCell_EquationBased. p1) annotation (Line(points={{-19,-10},
+          {-44,-10},{-44,-8.3},{-64,-8.3}},
+                                        color={0,0,255}));
+  connect(inductor.p,resistor2. p) annotation (Line(points={{58,-10},{54,-10},{
+          54,-32},{58,-32}},
+                          color={0,0,255}));
+  connect(inductor.n,ground2. p) annotation (Line(points={{78,-10},{82,-10},{82,
+          -50},{34,-50}},
+                     color={0,0,255}));
+  connect(const2.y,prescribedTemperature2. T)
+    annotation (Line(points={{-117,-44},{-106,-44}},
+                                               color={0,0,127}));
+  connect(prescribedTemperature2.port,fuelCell_EquationBased. port_a)
+    annotation (Line(points={{-84,-44},{-71,-44},{-71,-16}},color={191,0,0}));
+  connect(resistor3.p, resistor2.p) annotation (Line(points={{42,-24},{42,-16},
+          {54,-16},{54,-32},{58,-32}}, color={0,0,255}));
+  connect(resistor3.n, ground2.p)
+    annotation (Line(points={{42,-44},{42,-50},{34,-50}}, color={0,0,255}));
+  connect(step.y, resistor3.R)
+    annotation (Line(points={{-19,-34},{30,-34}}, color={0,0,127}));
+  annotation (Diagram(coordinateSystem(extent={{-140,-100},{100,60}})), Icon(
+        coordinateSystem(extent={{-140,-100},{100,60}})),
+    experiment(StopTime=10, __Dymola_Algorithm="Dassl"));
+end FuelCell_ShortCircuit_onload;

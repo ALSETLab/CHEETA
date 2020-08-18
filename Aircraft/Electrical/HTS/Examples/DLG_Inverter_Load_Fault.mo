@@ -4,23 +4,18 @@ model DLG_Inverter_Load_Fault
 
   Modelica.Blocks.Sources.Ramp ramp[3](
     height={-2000.1,-2000.1,-00},
-    duration=1,
+    duration=100,
     offset={2000.25,2000.25,2000.25},
     startTime=2)
     annotation (Placement(transformation(extent={{-44,30},{-24,50}})));
-  Modelica.Electrical.Analog.Sources.ConstantVoltage
-                                                 constantVoltage(V=1000)
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
-        rotation=270,
-        origin={-74,-8})));
   Modelica.Electrical.Analog.Basic.Ground ground2
-    annotation (Placement(transformation(extent={{-84,-44},{-64,-24}})));
+    annotation (Placement(transformation(extent={{-142,-46},{-122,-26}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature1
     annotation (Placement(transformation(extent={{-8,-84},{-28,-64}})));
   Modelica.Blocks.Sources.Constant const1(k=25)
     annotation (Placement(transformation(extent={{26,-84},{6,-64}})));
-  LiquidCooled.HTS_filmboiling_Voltage2 hTS_filmboiling3_1(
+  LiquidCooled.HTS_filmboiling_Current  hTS_filmboiling3_1(
     l=0.1,
     n=20,
     I_c0=9000,
@@ -56,15 +51,23 @@ model DLG_Inverter_Load_Fault
     amplitude=1100*{1,1,1},
     phase={0,-2.0943951023932,-4.1887902047864})
     annotation (Placement(transformation(extent={{-126,-68},{-106,-48}})));
+  Modelica.Electrical.Analog.Basic.Capacitor capacitor(C=1.6635) annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={-106,-12})));
+  Modelica.Electrical.Analog.Basic.Resistor resistor(R=0.0146)
+    annotation (Placement(transformation(extent={{-94,-4},{-74,16}})));
+  Modelica.Electrical.Analog.Sources.ConstantCurrent constantCurrent(I=1000)
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={-132,-8})));
 equation
   connect(prescribedTemperature1.T, const1.y)
     annotation (Line(points={{-6,-74},{5,-74}},    color={0,0,127}));
-  connect(constantVoltage.p, hTS_filmboiling3_1.pin_p)
-    annotation (Line(points={{-74,2},{-74,6},{-51,6}}, color={0,0,255}));
   connect(hTS_filmboiling3_1.port_a, prescribedTemperature1.port) annotation (
       Line(points={{-41.8,2},{-42,2},{-42,-74},{-28,-74}}, color={191,0,0}));
-  connect(constantVoltage.n, ground2.p)
-    annotation (Line(points={{-74,-18},{-74,-24}}, color={0,0,255}));
   connect(averagedInverter.pin_p, hTS_filmboiling3_1.pin_n)
     annotation (Line(points={{-12,6},{-33,6}}, color={0,0,255}));
   connect(averagedInverter.pin_n, ground3.p)
@@ -88,6 +91,16 @@ equation
       thickness=0.5));
   connect(ramp.y, resistor1.R) annotation (Line(points={{-23,40},{0,40},{0,28},
           {34,28},{34,12}},       color={0,0,127}));
+  connect(capacitor.n, ground2.p) annotation (Line(points={{-106,-22},{-106,-26},
+          {-132,-26}}, color={0,0,255}));
+  connect(hTS_filmboiling3_1.pin_p, resistor.n)
+    annotation (Line(points={{-51,6},{-74,6}}, color={0,0,255}));
+  connect(capacitor.p, resistor.p)
+    annotation (Line(points={{-106,-2},{-106,6},{-94,6}}, color={0,0,255}));
+  connect(ground2.p, constantCurrent.p)
+    annotation (Line(points={{-132,-26},{-132,-18}}, color={0,0,255}));
+  connect(constantCurrent.n, resistor.p)
+    annotation (Line(points={{-132,2},{-132,6},{-94,6}}, color={0,0,255}));
   annotation (Diagram(coordinateSystem(extent={{-140,-100},{100,60}})), Icon(
         coordinateSystem(extent={{-140,-100},{100,60}})),
     experiment(StopTime=5, __Dymola_Algorithm="Dassl"));

@@ -1,7 +1,7 @@
 within CHEETA.Aircraft.Electrical.HTS.Examples;
 model RampCurrent_RLoad_ThermalLimit2
   Modelica.Electrical.Analog.Sources.RampCurrent rampCurrent(
-    I=1000,
+    I=6280.95,
     duration=15,
     offset=0.1)
     annotation (Placement(transformation(
@@ -18,21 +18,22 @@ model RampCurrent_RLoad_ThermalLimit2
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature
     annotation (Placement(transformation(extent={{48,30},{28,50}})));
-  Modelica.Blocks.Sources.Constant const(k=77)
+  Modelica.Blocks.Sources.Constant const(k=20)
     annotation (Placement(transformation(extent={{94,30},{74,50}})));
-  LiquidCooled.HTS_filmboiling_Current hTS_filmboiling2_2(
-    l=4,
-    n=5.29,
-    I_c0=1000,
+  LiquidCooled.HTS_filmboiling_Current
+                            HTS(
+    l=10,
+    n=20,
+    I_c0=5000,
     A=0.1,
     A_cu=0.1,
-    I_crit=1000,
+    I_crit=3000,
     T_c(displayUnit="K"),
-    R_L=1e-3,
-    G_d=0,
-    a=0.1,
-    b=0.5,
-    P=0.1) annotation (Placement(transformation(extent={{-48,24},{-32,16}})));
+    R_L=3.3e-3,
+    G_d=10,
+    a(displayUnit="cm") = 0.256,
+    b(displayUnit="cm") = 0.363,
+    P=0.1) annotation (Placement(transformation(extent={{-46,24},{-30,16}})));
 equation
   connect(rampCurrent.p,ground2. p) annotation (Line(points={{-70,-34},{-70,-56},
           {-24,-56}},      color={0,0,255}));
@@ -41,12 +42,12 @@ equation
                                                         color={0,0,255}));
   connect(prescribedTemperature.T, const.y)
     annotation (Line(points={{50,40},{73,40}},   color={0,0,127}));
-  connect(hTS_filmboiling2_2.pin_p, rampCurrent.n)
-    annotation (Line(points={{-49,20},{-70,20},{-70,-14}}, color={0,0,255}));
-  connect(hTS_filmboiling2_2.pin_n, resistor1.p)
-    annotation (Line(points={{-31,20},{-10,20},{-10,-14}}, color={0,0,255}));
-  connect(hTS_filmboiling2_2.port_a, prescribedTemperature.port)
-    annotation (Line(points={{-39.8,24},{-39.8,40},{28,40}}, color={191,0,0}));
+  connect(prescribedTemperature.port, HTS.port_a) annotation (Line(points={{28,
+          40},{-20,40},{-20,34},{-37.8,34},{-37.8,24}}, color={191,0,0}));
+  connect(HTS.pin_p, rampCurrent.n)
+    annotation (Line(points={{-47,20},{-70,20},{-70,-14}}, color={0,0,255}));
+  connect(HTS.pin_n, resistor1.p)
+    annotation (Line(points={{-29,20},{-10,20},{-10,-14}}, color={0,0,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
