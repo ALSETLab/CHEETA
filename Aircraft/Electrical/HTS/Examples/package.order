@@ -14,3 +14,7 @@ Loss_of_Load
 GasCooling
 DLG_Inverter_Load_Fault
 ThreePhase_Inverter_Load_Fault
+FuelCell
+FuelCell_ShortCircuit
+FuelCell_ShortCircuit_onload
+FuelCell_ShortCircuit_GasCooling
