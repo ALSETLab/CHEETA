@@ -61,7 +61,9 @@ package Loads
       annotation (Placement(transformation(extent={{-44,-44},{-24,-24}})));
     Modelica.Mechanics.Rotational.Components.Inertia inertia(J=J)
       annotation (Placement(transformation(extent={{-76,-28},{-56,-8}})));
-  parameter Modelica.SIunits.Inertia J=10 "Moment of inertia";
+      parameter Modelica.SIunits.Inertia J=10 "Moment of inertia";
+      parameter Modelica.SIunits.Area A = 2 "Frontal area of fan";
+      parameter Modelica.SIunits.Density rho = 1 "Density of air";
     Modelica.Mechanics.MultiBody.Visualizers.PipeWithScalarField
       pipeWithScalarField1(
     animation=false,
@@ -90,7 +92,19 @@ package Loads
     color={0,128,0},
     r={0.4,-0.4,0})
                    annotation (Placement(transformation(extent={{44,-4},{64,16}})));
+
+                   Modelica.SIunits.Force F_drag;
+                   Real C_d = 5200
+                    "Drag coefficient";
+                    Modelica.SIunits.Velocity v_plane "Velocity of the plane";
+                   Modelica.SIunits.Velocity v_wind "Velocity of the wind";
+                   Modelica.SIunits.Velocity v "Total velocity";
+
+
+
   equation
+    F_drag = (rho*v^2*C_d*A)/2;
+    v = v_plane + v_wind;
     connect(world.frame_b,gearConstraint. bearing) annotation (Line(
         points={{-74,12},{16,12},{16,32}},
         color={95,95,95},

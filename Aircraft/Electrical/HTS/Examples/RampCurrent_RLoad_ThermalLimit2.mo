@@ -27,6 +27,7 @@ model RampCurrent_RLoad_ThermalLimit2
     I_c0=5000,
     A=0.1,
     A_cu=0.1,
+    I_crit=3000,
     T_c(displayUnit="K"),
     R_L=3.3e-3,
     G_d=3.325e5,
