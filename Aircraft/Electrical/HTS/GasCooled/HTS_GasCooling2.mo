@@ -131,7 +131,7 @@ algorithm
 equation
 
     I_c =I_c0*(1 - (port_a.T/T_c));
-    dT_rho = DymolaModels.Functions.Math.divNoZero(port_a.T*(rho *I_c^2/(P*A_cu)),(h));
+    dT_rho = DymolaModels.Functions.Math.divNoZero((rho *I_c^2/(P*A_cu)),(h));
     E =E_0*(pin_p.i/I_c)^n;
     rho =DymolaModels.Functions.Math.divNoZero(E, (I_c/A));
     h = smooth(10,noEvent(if dT_rho<3 then 100*(dT_rho)^n elseif (dT_rho>=3 and dT_rho<100) then 10^5/(dT_rho) else 1000));

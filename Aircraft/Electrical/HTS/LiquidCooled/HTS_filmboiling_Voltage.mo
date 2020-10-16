@@ -6,7 +6,6 @@ model HTS_filmboiling_Voltage "HTS line using Stekly equations"
   parameter Real I_c0 = 1 "Reference corner current";
   parameter Modelica.SIunits.Area A = 1 "Area";
   parameter Modelica.SIunits.Area A_cu = 1 "Area of copper in wire";
-  parameter Modelica.SIunits.Current I_crit "Critical current";
   parameter Modelica.SIunits.Temp_K T_c = 92 "Critical temperature";
   //Losses
   parameter Modelica.SIunits.Resistance R_L "Resistance of the brass connectors";
@@ -115,7 +114,7 @@ equation
   R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
   R_ac =DymolaModels.Functions.Math.divNoZero( tan(delta),omega)*C_pi;
 
-  dT = DymolaModels.Functions.Math.divNoZero(port_a.T*(rho *I_c^2/(P*A_cu) + G_d),(h));
+  dT = DymolaModels.Functions.Math.divNoZero(G,(h));
 
   x = if dT>=2 then 1 else 0;
   //h = smooth(10,noEvent(if dT>2 then -1000*(0.6953+0.001079*dT^4)  else 1000*(0.6953+0.001079*dT^4)));//100*DymolaModels.Functions.Math.divNoZero(-5.787-0.155*dT,1-0.546*dT)
@@ -124,8 +123,8 @@ equation
   port_a.Q_flow = -h*dT*A+Q_ce;
   Q = l*(mu_0 * h * I_c^2)/ (3*pi*b) * (I_c0/I_c)^3;
 
-  if noEvent(pin_p.i>I_crit) then
-    G = (rho * I_c^2 * 10^3 / A_cu*P) + G_d*A_cu;
+  if noEvent(pin_p.i>I_c) then
+    G = (rho * I_c^2 * 10^3 / (A_cu*P)) + G_d;
     Q_ce = port_a.T*sqrt(2*kappa*A_cu*P*h);
   else
     G = 0;

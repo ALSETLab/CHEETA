@@ -29,7 +29,6 @@ model FuelCell "Double line to ground fault on the load side of the inverter."
     I_c0=7800,
     A=0.1,
     A_cu=0.1,
-    I_crit=100000,
     T_c(displayUnit="K"),
     R_L=1e-4,
     G_d=0,

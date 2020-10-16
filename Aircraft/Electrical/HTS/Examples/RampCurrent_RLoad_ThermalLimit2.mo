@@ -17,9 +17,9 @@ model RampCurrent_RLoad_ThermalLimit2
     annotation (Placement(transformation(extent={{-34,-76},{-14,-56}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature
-    annotation (Placement(transformation(extent={{48,30},{28,50}})));
+    annotation (Placement(transformation(extent={{-10,32},{-30,52}})));
   Modelica.Blocks.Sources.Constant const(k=20)
-    annotation (Placement(transformation(extent={{94,30},{74,50}})));
+    annotation (Placement(transformation(extent={{36,32},{16,52}})));
   LiquidCooled.HTS_filmboiling_Current
                             HTS(
     l=10,
@@ -27,10 +27,9 @@ model RampCurrent_RLoad_ThermalLimit2
     I_c0=5000,
     A=0.1,
     A_cu=0.1,
-    I_crit=3000,
     T_c(displayUnit="K"),
     R_L=3.3e-3,
-    G_d=10,
+    G_d=3.325e5,
     a(displayUnit="cm") = 0.256,
     b(displayUnit="cm") = 0.363,
     P=0.1) annotation (Placement(transformation(extent={{-46,24},{-30,16}})));
@@ -41,9 +40,9 @@ equation
     annotation (Line(points={{-10,-34},{-10,-56},{-24,-56}},
                                                         color={0,0,255}));
   connect(prescribedTemperature.T, const.y)
-    annotation (Line(points={{50,40},{73,40}},   color={0,0,127}));
-  connect(prescribedTemperature.port, HTS.port_a) annotation (Line(points={{28,
-          40},{-20,40},{-20,34},{-37.8,34},{-37.8,24}}, color={191,0,0}));
+    annotation (Line(points={{-8,42},{15,42}},   color={0,0,127}));
+  connect(prescribedTemperature.port, HTS.port_a) annotation (Line(points={{-30,42},
+          {-38,42},{-38,34},{-37.8,34},{-37.8,24}},     color={191,0,0}));
   connect(HTS.pin_p, rampCurrent.n)
     annotation (Line(points={{-47,20},{-70,20},{-70,-14}}, color={0,0,255}));
   connect(HTS.pin_n, resistor1.p)

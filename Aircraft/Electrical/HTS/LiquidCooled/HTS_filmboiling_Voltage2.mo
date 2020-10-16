@@ -4,9 +4,9 @@ model HTS_filmboiling_Voltage2 "HTS line using Stekly equations"
   parameter Modelica.SIunits.ElectricFieldStrength E_0 = 1e-4 "Reference electric field";
   parameter Real n = 5.29 "Intrinstic value of the superconductor";
   parameter Real I_c0 = 1 "Reference corner current";
-  parameter Modelica.SIunits.Area A = 1 "Area";
-  parameter Modelica.SIunits.Area A_cu = 1 "Area of copper in wire";
-  parameter Modelica.SIunits.Current I_crit "Critical current";
+  parameter Modelica.SIunits.Area A = 2.835e-4 "Area";
+  parameter Modelica.SIunits.Area A_cu = 5.04e-9 "Area of copper in wire";
+
   parameter Modelica.SIunits.Temp_K T_c = 92 "Critical temperature";
   //Losses
   parameter Modelica.SIunits.Resistance R_L "Resistance of the brass connectors";
@@ -21,7 +21,7 @@ model HTS_filmboiling_Voltage2 "HTS line using Stekly equations"
   parameter Modelica.SIunits.Permittivity epsilon_r = 1;
   parameter Modelica.SIunits.Length P = 0.1035 "Perimeter of line";
   parameter Modelica.SIunits.Frequency f = 0 "Frequency of AC system";
-  parameter Modelica.SIunits.Conductivity kappa = 400;
+  parameter Real kappa = 400e3;
 
   //Constants
   Real pi= Modelica.Constants.pi;
@@ -47,11 +47,12 @@ model HTS_filmboiling_Voltage2 "HTS line using Stekly equations"
   Modelica.SIunits.Capacitance C_pi;
 
   Modelica.SIunits.Resistivity rho;
+  Modelica.SIunits.Power G_dp;
 
  // Real x(start=0);
   //Real y(start = 0.07);
   Real z;
-
+  Real eta = 1;
   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p             annotation (Placement(
         transformation(extent={{-100,-10},{-80,10}}),iconTransformation(extent={{-100,
             -10},{-80,10}})));
@@ -76,8 +77,7 @@ model HTS_filmboiling_Voltage2 "HTS line using Stekly equations"
   Modelica.Electrical.Analog.Basic.VariableResistor
                                             resistor3
     annotation (Placement(transformation(extent={{-6,6},{6,-6}})));
-  Modelica.Electrical.Analog.Basic.Capacitor capacitor(v(start=1000),             C=
-        3.4565684e-10)                                                      annotation (Placement(
+  Modelica.Electrical.Analog.Basic.Capacitor capacitor(v(start=1000), C=C)  annotation (Placement(
         transformation(
         extent={{-6,6},{6,-6}},
         rotation=270,
@@ -95,6 +95,7 @@ model HTS_filmboiling_Voltage2 "HTS line using Stekly equations"
     annotation (Placement(transformation(extent={{28,-18},{16,-10}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-8,-50},{12,-30}})));
+  parameter Modelica.SIunits.Capacitance C=3.4565684e-10 "Capacitance";
 initial equation
 //  R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
 equation
@@ -109,21 +110,24 @@ equation
   R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
   R_ac =DymolaModels.Functions.Math.divNoZero( tan(delta),omega)*C_pi;
 
-  dT = DymolaModels.Functions.Math.divNoZero(port_a.T*(rho *I_c^2/(P*A_cu) + G_d),(h));
+  dT = DymolaModels.Functions.Math.divNoZero(G,(h));
 
  // x = if dT>=2 then 1 else 0;
   //h = smooth(10,noEvent(if dT>2 then -1000*(0.6953+0.001079*dT^4)  else 1000*(0.6953+0.001079*dT^4)));//100*DymolaModels.Functions.Math.divNoZero(-5.787-0.155*dT,1-0.546*dT)
-  h = smooth(10,noEvent(if dT<3 then 100*(dT)^n elseif (dT>=3 and dT<100) then 10^5/(dT) else 1000));
+  h = smooth(10,noEvent(if dT<2.999999 then 100*(dT)^n elseif (dT>=3 and dT<100) then 10^5/(dT) else 1000));
   z = noEvent(if dT<3 then 0 elseif (dT>3 and dT<100) then 1 else 2);
-  port_a.Q_flow = -h*dT*A-Q_ce;
+  port_a.Q_flow = -h*dT-Q_ce;
   Q = l*(mu_0 * h * I_c^2)/ (3*pi*b) * (I_c0/I_c)^3;
+  if noEvent(pin_p.i>I_c) then
+    G = (rho * I_c^2 / (A_cu*P)) + G_d;
+    Q_ce = sqrt(2*kappa*A_cu*P);
+    G_dp = G_d;
 
-  if noEvent(pin_p.i>I_crit) then
-    G = (rho * I_c^2 * 10^3 / A_cu*P) + G_d*A_cu;
-    Q_ce = port_a.T*sqrt(2*kappa*A_cu*P*h);
   else
-    G = 0;
+    G = rho * I_c^2 / (A_cu*P);
     Q_ce = 0;
+    G_dp = 0;
+
   end if;
 
   connect(pin_p, resistor.p)
