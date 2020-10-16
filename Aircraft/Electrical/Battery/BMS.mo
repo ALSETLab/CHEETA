@@ -5,7 +5,9 @@ model BMS
   parameter Real minSOC = 0.3 "minimum charge current";
   parameter Real nominalVoltage = 1000 "Nominal bus voltage";
 public
-  Battery.BMS.Variants.PerformanceAndObserverBMS exampleBMS(N_parallelCells=
+  Battery.BMS.Variants.PerformanceAndObserverBMS exampleBMS(
+    I_maxCharge=10,
+    I_maxDischarge=-50,                                     N_parallelCells=
         N_parallelCells, N_cells=N_cells)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,

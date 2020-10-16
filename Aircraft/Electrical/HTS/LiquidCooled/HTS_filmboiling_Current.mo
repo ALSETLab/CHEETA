@@ -6,7 +6,6 @@ model HTS_filmboiling_Current "HTS line using Stekly equations"
   parameter Real I_c0 = 1 "Reference corner current";
   parameter Modelica.SIunits.Area A = 1 "Area";
   parameter Modelica.SIunits.Area A_cu = 1 "Area of copper in wire";
-  parameter Modelica.SIunits.Current I_crit "Critical current";
   parameter Modelica.SIunits.Temp_K T_c = 92 "Critical temperature";
   //Losses
   parameter Modelica.SIunits.Resistance R_L "Resistance of the brass connectors";
@@ -21,7 +20,7 @@ model HTS_filmboiling_Current "HTS line using Stekly equations"
   parameter Modelica.SIunits.Permittivity epsilon_r = 1;
   parameter Modelica.SIunits.Length P = 0.1035 "Perimeter of line";
   parameter Modelica.SIunits.Frequency f = 60 "Frequency of AC system";
-  parameter Modelica.SIunits.Conductivity kappa = 400;
+  parameter Real kappa = 400e3;
 
   //Constants
   Real pi= Modelica.Constants.pi;
@@ -62,7 +61,7 @@ model HTS_filmboiling_Current "HTS line using Stekly equations"
   Modelica.Electrical.Analog.Basic.Resistor resistor(R=R_L)
     annotation (Placement(transformation(extent={{-70,-6},{-58,6}})));
   Modelica.Electrical.Analog.Basic.Resistor resistor1(R=R_L)
-    annotation (Placement(transformation(extent={{60,-6},{72,6}})));
+    annotation (Placement(transformation(extent={{24,-6},{36,6}})));
   Modelica.Electrical.Analog.Basic.VariableInductor
                                             inductor
     annotation (Placement(transformation(extent={{-46,10},{-34,22}})));
@@ -100,7 +99,8 @@ model HTS_filmboiling_Current "HTS line using Stekly equations"
   Modelica.Blocks.Sources.RealExpression realExpression3(y=R_ac)
     annotation (Placement(transformation(extent={{28,-18},{16,-10}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
-    annotation (Placement(transformation(extent={{-8,-50},{12,-30}})));
+    annotation (Placement(transformation(extent={{-8,-50},{12,-30}}),
+        iconTransformation(extent={{-8,-50},{12,-30}})));
 initial equation
  R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
 equation
@@ -115,7 +115,7 @@ equation
   R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
   R_ac =DymolaModels.Functions.Math.divNoZero( tan(delta),omega)*C_pi;
 
-  dT = DymolaModels.Functions.Math.divNoZero(port_a.T*(rho *I_c^2/(P*A_cu) + G_d),(h));
+  dT = DymolaModels.Functions.Math.divNoZero((G),(h));
 
   x = if dT>=2 then 1 else 0;
   //h = smooth(10,noEvent(if dT>2 then -1000*(0.6953+0.001079*dT^4)  else 1000*(0.6953+0.001079*dT^4)));//100*DymolaModels.Functions.Math.divNoZero(-5.787-0.155*dT,1-0.546*dT)
@@ -123,14 +123,14 @@ equation
   z = noEvent(if dT<3 then 0 elseif (dT>3 and dT<100) then 1 else 2);
 
   //port_a.Q_flow = smooth(10,noEvent(if dT<3 then 100*(dT)^n elseif (dT>3 and dT<100) then 10^5/port_a.T else 1000));
-  port_a.Q_flow = -h*dT*A+Q_ce;
+  port_a.Q_flow = -h*dT*A+Q_ce+G;
   Q = l*(mu_0 * h * I_c^2)/ (3*pi*b) * (I_c0/I_c)^3;
 
-  if noEvent(pin_p.i>I_crit) then
-    G = (rho * I_c^2 * 10^3 / A_cu*P) + G_d*A_cu;
+  if noEvent(pin_p.i>I_c) then
+    G = (rho * I_c^2 * 10^3 / (A_cu*P)) + G_d;
     Q_ce = port_a.T*sqrt(2*kappa*A_cu*P*h);
   else
-    G = 0;
+    G = (rho * I_c^2 * 10^3 / (A_cu*P));
     Q_ce = 0;
   end if;
 
@@ -164,9 +164,9 @@ equation
   connect(inductor1.L, realExpression2.y)
     annotation (Line(points={{0,23.2},{0,34},{-43.5,34}}, color={0,0,127}));
   connect(resistor1.n, pin_n)
-    annotation (Line(points={{72,0},{90,0}}, color={0,0,255}));
+    annotation (Line(points={{36,0},{90,0}}, color={0,0,255}));
   connect(resistor1.p, resistor3.n)
-    annotation (Line(points={{60,0},{6,0}}, color={0,0,255}));
+    annotation (Line(points={{24,0},{6,0}}, color={0,0,255}));
   connect(resistor4.p, inductor1.p) annotation (Line(points={{-10,-8},{-10,-4},{
           -18,-4},{-18,16},{-6,16}}, color={0,0,255}));
   connect(resistor4.n, ground.p)

@@ -21,11 +21,6 @@ model FuelCell_ShortCircuit_onload
     annotation (Placement(transformation(extent={{16,14},{-4,34}})));
   Modelica.Blocks.Sources.Constant const1(k=20)
     annotation (Placement(transformation(extent={{62,14},{42,34}})));
-  Modelica.Blocks.Sources.Step     step(
-    height=-9999.99,
-    offset=10000,
-    startTime=10)
-    annotation (Placement(transformation(extent={{-40,-44},{-20,-24}})));
   PowerElectronics.Converters.DCAC.TheveninEquivalent inverter(R=0.1, R_cm=0.1)
     annotation (Placement(transformation(extent={{10,-26},{30,-6}})));
   Modelica.Electrical.Analog.Basic.Resistor resistor2(R=100)
@@ -45,6 +40,12 @@ model FuelCell_ShortCircuit_onload
     annotation (Placement(transformation(extent={{-10,10},{10,-10}},
         rotation=270,
         origin={42,-34})));
+  Modelica.Blocks.Sources.Ramp     ramp(
+    height=-9999.99,
+    duration=0.5,
+    offset=10000,
+    startTime=10)
+    annotation (Placement(transformation(extent={{-34,-54},{-14,-34}})));
 equation
   connect(HTS.port_a,prescribedTemperature1. port)
     annotation (Line(points={{-9.8,-6},{-10,-6},{-10,24},{-4,24}},
@@ -78,8 +79,8 @@ equation
           {54,-16},{54,-32},{58,-32}}, color={0,0,255}));
   connect(resistor3.n, ground2.p)
     annotation (Line(points={{42,-44},{42,-50},{34,-50}}, color={0,0,255}));
-  connect(step.y, resistor3.R)
-    annotation (Line(points={{-19,-34},{30,-34}}, color={0,0,127}));
+  connect(resistor3.R, ramp.y) annotation (Line(points={{30,-34},{8,-34},{8,-44},
+          {-13,-44}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(extent={{-140,-100},{100,60}})), Icon(
         coordinateSystem(extent={{-140,-100},{100,60}})),
     experiment(StopTime=10, __Dymola_Algorithm="Dassl"));

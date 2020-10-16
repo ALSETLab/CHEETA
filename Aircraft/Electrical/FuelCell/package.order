@@ -8,3 +8,5 @@ SimulinkFuelCell
 SimulinkFuelCellDetailed
 FuelCell_ElectricalEquivalent
 FuelCell_EquationBased
+FuelCell_EquationBased_DetailedRohm
+FuelCell_EquationBased_SR12

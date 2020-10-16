@@ -5,13 +5,11 @@ model Battery_FC_Charging
   Modelica.Electrical.Analog.Basic.Ground ground annotation (Placement(transformation(extent={{28,-34},
             {48,-14}})));
   Battery.Packs.Scaled.ScaledPackCylindric batteryPack(
-    N_verticalElements=3,
-    SOC_init=0.6,
-    redeclare Battery.Cells.Variants.DemoCell3dSDF cell,
-    N_serialCells=250,
-    N_parallelCells=5,
+    redeclare Battery.Cells.Variants.DemoCell3dDAF cell,
+    N_serialCells=200,
+    N_parallelCells=15,
     redeclare Battery.Packs.Scaled.Housings.IdealHousingCylindric housing,
-    T_init=300.15)
+    T_init=293.15)
     annotation (Placement(transformation(extent={{6,48},{30,72}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature     [batteryPack.N_x, batteryPack.N_y]
     packBottomTemperatureBoundary(T=298.15)
