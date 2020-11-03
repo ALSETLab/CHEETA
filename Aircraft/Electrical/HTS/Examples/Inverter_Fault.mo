@@ -16,7 +16,7 @@ model Inverter_Fault
     annotation (Placement(transformation(extent={{-18,-90},{-38,-70}})));
   Modelica.Blocks.Sources.Constant const(k=20)
     annotation (Placement(transformation(extent={{16,-90},{-4,-70}})));
-  LiquidCooled.HTS_filmboiling_Voltage2 hTS_filmboiling3_2(
+  LiquidCooled.HTS_filmboiling_Voltage_Hydrogen hTS_filmboiling3_2(
     l=10,
     n=20,
     I_c0=9000,

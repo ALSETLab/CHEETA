@@ -2,25 +2,26 @@ within CHEETA.Aircraft.Electrical.HTS.LiquidCooled;
 model HTS_filmboiling_Current "HTS line using Stekly equations"
   parameter Modelica.SIunits.Length l "Length of wire";
   parameter Modelica.SIunits.ElectricFieldStrength E_0 = 1e-4 "Reference electric field";
-  parameter Real n = 5.29 "Intrinstic value of the superconductor";
-  parameter Real I_c0 = 1 "Reference corner current";
-  parameter Modelica.SIunits.Area A = 1 "Area";
-  parameter Modelica.SIunits.Area A_cu = 1 "Area of copper in wire";
+  parameter Real n = 5.29 "Index value of the superconductor";
+  parameter Real I_c0 = 1 "Critical current at 0K";
+  parameter Modelica.SIunits.Area A = 1 "Copper area per tape (ref. 2mm by 1mm)";
+  parameter Modelica.SIunits.Area A_cu_tape = 0.0000002 "Copper area per tape (ref. 2mm by 1mm)";
+  parameter Real n_Tape = 132 "Number of tapes";
   parameter Modelica.SIunits.Temp_K T_c = 92 "Critical temperature";
   //Losses
   parameter Modelica.SIunits.Resistance R_L "Resistance of the brass connectors";
   parameter Modelica.SIunits.Power G_d = 3.527*10^4 "Extra heat generation due to fault";
   //Characteristics of the line
-  parameter Modelica.SIunits.Radius a = 2e-6
+  parameter Modelica.SIunits.Radius a = 3e-3
                                             "Inner radius of co-axial cable";
-  parameter Modelica.SIunits.Radius b = 4e-6
+  parameter Modelica.SIunits.Radius b = 11e-3
                                             "Outer radius of co-axial cable";
 
   parameter Modelica.SIunits.Permeability mu_r = 1;
   parameter Modelica.SIunits.Permittivity epsilon_r = 1;
-  parameter Modelica.SIunits.Length P = 0.1035 "Perimeter of line";
+
   parameter Modelica.SIunits.Frequency f = 60 "Frequency of AC system";
-  parameter Real kappa = 400e3;
+  parameter Real kappa = 400 "Cable thermal conductivity";
 
   //Constants
   Real pi= Modelica.Constants.pi;
@@ -29,12 +30,12 @@ model HTS_filmboiling_Current "HTS line using Stekly equations"
   Modelica.SIunits.Permeability mu;
   Modelica.SIunits.Permittivity epsilon;
   Modelica.SIunits.Resistivity omega = f*2*pi;
-  Modelica.SIunits.Resistivity delta = 30;
+  Real delta = 3.3e-5;
 
   //Line heat transfer characeteristics
   Real h "Heat transfer coefficient of surfaces";
   Modelica.SIunits.Temp_K dT "Change in temperature";
-  Modelica.SIunits.Current I_c "corner current";
+  Modelica.SIunits.Current I_c "Critical current at 20K";
   Modelica.SIunits.ElectricFieldStrength E "Electric field";
   Modelica.SIunits.Power Q;
   Modelica.SIunits.Power Q_ce;
@@ -45,7 +46,11 @@ model HTS_filmboiling_Current "HTS line using Stekly equations"
   Modelica.SIunits.Inductance L_pi;
   Modelica.SIunits.Capacitance C_pi;
 
-  Modelica.SIunits.Resistivity rho;
+
+  //Line physical values
+  Modelica.SIunits.Resistivity rho "Resistivity of line";
+  Modelica.SIunits.Length P "Perimeter of line";
+  Modelica.SIunits.Area A_cu "Area of copper in wire";
 
   Real x(start=0);
   //Real y(start = 0.07);
@@ -104,6 +109,8 @@ model HTS_filmboiling_Current "HTS line using Stekly equations"
 initial equation
  R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
 equation
+  A_cu = A_cu_tape*n_Tape;
+  P = b* Modelica.Constants.pi;
   mu = mu_0*mu_r;
   epsilon = epsilon_0*epsilon_r;
 
@@ -113,7 +120,7 @@ equation
   L_pi = l*mu/(2*pi) * log(b/a);
   C_pi = l*2*pi*epsilon / (log(b/a));
   R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
-  R_ac =DymolaModels.Functions.Math.divNoZero( tan(delta),omega)*C_pi;
+  R_ac =DymolaModels.Functions.Math.divNoZero( delta,omega)*C_pi;
 
   dT = DymolaModels.Functions.Math.divNoZero((G),(h));
 

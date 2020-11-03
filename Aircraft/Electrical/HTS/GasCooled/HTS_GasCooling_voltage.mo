@@ -1,32 +1,32 @@
 within CHEETA.Aircraft.Electrical.HTS.GasCooled;
 model HTS_GasCooling_Voltage "HTS line using Stekly equations"
-   parameter Integer l "Length of wire";
+  parameter Integer l "Length of wire";
   parameter Modelica.SIunits.ElectricFieldStrength E_0 = 1e-4 "Reference electric field";
-  parameter Real n = 5.29 "Intrinstic value of the superconductor";
-  parameter Real I_c0 = 1 "Reference corner current";
+  parameter Real n = 5.29 "Index value of the superconductor";
+  parameter Real I_c0 = 1 "Critical current at 0K";
   parameter Modelica.SIunits.Area A = 1 "Area";
-  parameter Modelica.SIunits.Area A_cu = 1 "Area of copper in wire";
-  parameter Modelica.SIunits.Current I_crit "Critical current";
+  parameter Modelica.SIunits.Area A_cu_tape = 0.0000002 "Copper area per tape (ref. 2mm by 1mm)";
+  parameter Real n_Tape = 132 "Number of tapes";
   parameter Modelica.SIunits.Temp_K T_c = 92 "Critical temperature";
   //Losses
   parameter Modelica.SIunits.Resistance R_L "Resistance of the brass connectors";
   parameter Modelica.SIunits.Power G_d = 3.527*10^4 "Extra heat generation due to fault";
   //Characteristics of the line
-  parameter Modelica.SIunits.Radius a = 2e-1
+  parameter Modelica.SIunits.Radius a = 3e-3
                                             "Inner radius of co-axial cable";
-  parameter Modelica.SIunits.Radius b = 4e-1
+  parameter Modelica.SIunits.Radius b = 11e-3
                                             "Outer radius of co-axial cable";
 
-  parameter Modelica.SIunits.Radius R_c = 5e-1
+  parameter Modelica.SIunits.Radius R_c = 3e-3
                                             "Inner radius of cryostat";
 
-  parameter Modelica.SIunits.Radius R_0 = 4e-1
+  parameter Modelica.SIunits.Radius R_0 = 11e-3
                                             "Outer radius of co-axial cable";
   parameter Modelica.SIunits.Permeability mu_r = 1;
-  parameter Modelica.SIunits.Permittivity epsilon_r = 1;
-  parameter Modelica.SIunits.Length P = 0.1035 "Perimeter of line";
+  parameter Modelica.SIunits.Permittivity epsilon_r = 2.2;
+
   parameter Modelica.SIunits.Frequency f = 60 "Frequency of AC system";
-  parameter Modelica.SIunits.Conductivity kappa = 400;
+  parameter Modelica.SIunits.Conductivity kappa = 400 "cable thermal conductivity";
 
   parameter Modelica.SIunits.Velocity v = 1 "Velocity of gas";
   parameter Modelica.SIunits.HeatCapacity C_pv = 5200 "Heat capacity";
@@ -40,7 +40,7 @@ model HTS_GasCooling_Voltage "HTS line using Stekly equations"
   Modelica.SIunits.Permeability mu;
   Modelica.SIunits.Permittivity epsilon;
   Modelica.SIunits.Resistivity omega = f*2*pi;
-  Modelica.SIunits.Resistivity delta = 30;
+  Modelica.SIunits.Resistivity delta = 3.3e-5;
 
   //Line heat transfer characeteristics
   Real h "Heat transfer coefficient of surfaces";
@@ -48,7 +48,7 @@ model HTS_GasCooling_Voltage "HTS line using Stekly equations"
   Real dT_rho "Change in temperature";
   Real T[100] "Temperature at point z on line";
   Real Q_flow[100] "heat dissipation from line";
-  Modelica.SIunits.Current I_c "corner current";
+  Modelica.SIunits.Current I_c "Critical current at 20K";
   Modelica.SIunits.ElectricFieldStrength E "Electric field";
 
   //Resistances, inductances, and currents
@@ -57,11 +57,13 @@ model HTS_GasCooling_Voltage "HTS line using Stekly equations"
   Modelica.SIunits.Inductance L_pi;
   Modelica.SIunits.Capacitance C_pi;
 
+  // Line physical values
+  Modelica.SIunits.Area A_cu = A_cu_tape*n_Tape "Area of copper in wire";
   Modelica.SIunits.Resistivity rho;
+  Modelica.SIunits.Length P = b*pi "Perimeter of line";
 
   Real x(start=0);
   //Real y(start = 0.07);
-  Real r;
   Real z[100];
   Real aa;
 
@@ -116,7 +118,6 @@ initial algorithm
 algorithm
   for n in 1:l*10 loop
     T[n] := DymolaModels.Functions.Math.divNoZero(n*0.1*(-port_a.Q_flow),(v*C_pv*2*pi*(R_c-R_0)^2)) + port_a.T;
-    r := 100;
     dT[n] := T[n] - port_a.T;
     x := (v*C_pv*2*pi*(a-b)^2);
   // HYDROGEN h = smooth(10,noEvent(if dT<3 then 100*(dT)^n elseif (dT>=3 and dT<100) then 10^5/(dT) else 1000));
@@ -140,9 +141,9 @@ equation
     L_pi =l*mu/(2*pi)*log(b/a);
     C_pi =l*2*pi*epsilon/(log(b/a));
     R_pi =l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n, pin_p.i);
-    R_ac =DymolaModels.Functions.Math.divNoZero(tan(delta), omega)*C_pi;
+    R_ac =DymolaModels.Functions.Math.divNoZero((delta), omega)*C_pi;
 
-    if noEvent(pin_p.i>I_crit) then
+    if noEvent(pin_p.i>I_c) then
       aa=1;
       G = (rho * I_c^2 * 10^3 / A_cu*P) + G_d*A_cu;
     else

@@ -13,19 +13,15 @@ model Inverter_Fault_resistor
     annotation (Placement(transformation(extent={{-18,-90},{-38,-70}})));
   Modelica.Blocks.Sources.Constant const(k=20)
     annotation (Placement(transformation(extent={{16,-90},{-4,-70}})));
-  LiquidCooled.HTS_filmboiling_Voltage2 hTS_filmboiling3_2(
+  LiquidCooled.HTS_filmboiling_Voltage_Hydrogen hTS_filmboiling3_2(
     l=10,
     n=20,
-    I_c0=9000,
+    I_c0=37000,
     A=0.1,
-    A_cu=0.1,
-    I_crit=10000,
+    epsilon_r=2.2,
     T_c(displayUnit="K"),
     R_L=1e-6,
-    G_d=0,
-    a=0.1,
-    b=0.5,
-    P=10) annotation (Placement(transformation(extent={{-60,-4},{-44,4}})));
+    G_d=0) annotation (Placement(transformation(extent={{-60,-4},{-44,4}})));
   Modelica.Electrical.Analog.Basic.Ground ground1
     annotation (Placement(transformation(extent={{-44,-60},{-24,-40}})));
   Modelica.Electrical.PowerConverters.DCAC.SinglePhase2Level inverter

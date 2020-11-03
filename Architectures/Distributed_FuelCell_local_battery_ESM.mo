@@ -40,7 +40,7 @@ model Distributed_FuelCell_local_battery_ESM
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature
     annotation (Placement(transformation(extent={{30,-90},{10,-70}})));
-  Aircraft.Electrical.HTS.LiquidCooled.HTS_filmboiling_Voltage2
+  Aircraft.Electrical.HTS.LiquidCooled.HTS_filmboiling_Voltage_Hydrogen
     hTS_filmboiling3_1(
     l=10,
     n=20,

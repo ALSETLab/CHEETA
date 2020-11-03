@@ -15,21 +15,23 @@ model ForcedCoolingAIM
     annotation (Placement(transformation(extent={{122,-40},{142,-20}})));
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor annotation (Placement(transformation(extent={{146,-6},
             {158,6}})));
-  ElectrifiedPowertrains.ElectricDrives.AIM.ElectroMechanical.SpeedFOC  electricDrive(
-    redeclare ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Speed
+  ElectrifiedPowertrains.ElectricDrives.ESM.ElectroMechanical.SpeedFOC  electricDrive(
+    redeclare ElectrifiedPowertrains.ElectricMachines.ESM.Controllers.Speed
       controller(redeclare
-        ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Data.Speed.MSL_18p5kW
+        CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_2_5MW_ESM_Controller
         data),
     redeclare
       ElectrifiedPowertrains.PowerElectronics.Inverters.PWM.NoModulation
       modulationMethod,
-    redeclare ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.LinearSquirrelCage machine(redeclare
-        ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.Records.Data.Linear.MSL_18p5kW data),
     redeclare ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.ConstantEfficiency inverter(redeclare
         ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Records.Data.ConstantEfficiency.Constant98percent
         data),
-    useThermalPort=true)
-                    annotation (Placement(transformation(extent={{52,-10},{72,
+    useThermalPort=true,
+    redeclare
+      ElectrifiedPowertrains.ElectricMachines.ESM.ElectroMechanical.Linear
+      machine(redeclare
+        CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_2_5MW_ESM
+        data))      annotation (Placement(transformation(extent={{52,-10},{72,
             10}})));
   replaceable Atmospheres.CoolingMedium.LH2                   coolingMedium constrainedby
     Modelica.Thermal.FluidHeatFlow.Media.Air_30degC

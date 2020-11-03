@@ -23,8 +23,7 @@ model FuelCell_EquivalentCircuit
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={8,36})));
-  HTS.LiquidCooled.HTS_filmboiling_Voltage2
-                                        hTS_filmboiling3_1(
+  HTS.LiquidCooled.HTS_filmboiling_Voltage_Hydrogen hTS_filmboiling3_1(
     l=1,
     n=20,
     I_c0=7800,
@@ -36,7 +35,7 @@ model FuelCell_EquivalentCircuit
     G_d=0,
     a=0.1,
     b=0.5,
-    P=1)  annotation (Placement(transformation(extent={{22,-22},{6,-14}})));
+    P=1) annotation (Placement(transformation(extent={{22,-22},{6,-14}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature1
     annotation (Placement(transformation(extent={{44,-78},{24,-58}})));

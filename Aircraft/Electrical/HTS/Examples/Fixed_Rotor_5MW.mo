@@ -16,7 +16,7 @@ model Fixed_Rotor_5MW
     annotation (Placement(transformation(extent={{-26,-38},{-46,-18}})));
   Modelica.Blocks.Sources.Constant const(k=20)
     annotation (Placement(transformation(extent={{20,-38},{0,-18}})));
-  LiquidCooled.HTS_filmboiling_Voltage2 hTS_filmboiling3_2(
+  LiquidCooled.HTS_filmboiling_Voltage_Hydrogen hTS_filmboiling3_2(
     l=10,
     n=20,
     I_c0=9000,

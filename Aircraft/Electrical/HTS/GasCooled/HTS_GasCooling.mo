@@ -1,30 +1,37 @@
 within CHEETA.Aircraft.Electrical.HTS.GasCooled;
-model HTS_GasCooling "HTS line using Stekly equations"
-  parameter Modelica.SIunits.Length l "Length of wire";
+model HTS_GasCooling "HTS line using Stekly equations with gas cooling"
+  parameter Integer l "Length of wire";
   parameter Modelica.SIunits.ElectricFieldStrength E_0 = 1e-4 "Reference electric field";
-  parameter Real n = 5.29 "Intrinstic value of the superconductor";
-  parameter Real I_c0 = 1 "Reference corner current";
+  parameter Real n = 5.29 "Index value of the superconductor";
+  parameter Real I_c0 = 1 "Critical current at 0K";
   parameter Modelica.SIunits.Area A = 1 "Area";
-  parameter Modelica.SIunits.Area A_cu = 1 "Area of copper in wire";
-  parameter Modelica.SIunits.Current I_crit "Critical current";
+  parameter Modelica.SIunits.Area A_cu_tape = 0.0000002 "Copper area per tape (ref. 2mm by 1mm)";
+  parameter Real n_Tape = 132 "Number of tapes";
   parameter Modelica.SIunits.Temp_K T_c = 92 "Critical temperature";
   //Losses
   parameter Modelica.SIunits.Resistance R_L "Resistance of the brass connectors";
   parameter Modelica.SIunits.Power G_d = 3.527*10^4 "Extra heat generation due to fault";
   //Characteristics of the line
-  parameter Modelica.SIunits.Radius a = 2e-6
+  parameter Modelica.SIunits.Radius a = 3e-3
                                             "Inner radius of co-axial cable";
-  parameter Modelica.SIunits.Radius b = 4e-6
+  parameter Modelica.SIunits.Radius b = 11e-3
                                             "Outer radius of co-axial cable";
 
-  parameter Modelica.SIunits.Permeability mu_r = 1;
-  parameter Modelica.SIunits.Permittivity epsilon_r = 1;
-  parameter Modelica.SIunits.Length P = 0.1035 "Perimeter of line";
-  parameter Modelica.SIunits.Frequency f = 60 "Frequency of AC system";
-  parameter Modelica.SIunits.Conductivity kappa = 400;
+  parameter Modelica.SIunits.Radius R_c = 3e-3
+                                            "Inner radius of cryostat";
 
-  parameter Modelica.SIunits.Velocity v = 100 "Velocity of gas";
+  parameter Modelica.SIunits.Radius R_0 = 11e-3
+                                            "Outer radius of co-axial cable";
+  parameter Modelica.SIunits.Permeability mu_r = 1;
+  parameter Modelica.SIunits.Permittivity epsilon_r = 2.2;
+
+  parameter Modelica.SIunits.Frequency f = 60 "Frequency of AC system";
+  parameter Modelica.SIunits.Conductivity kappa = 400 "cable thermal conductivity";
+
+  parameter Modelica.SIunits.Velocity v = 1 "Velocity of gas";
   parameter Modelica.SIunits.HeatCapacity C_pv = 5200 "Heat capacity";
+
+  Real G;
 
   //Constants
   Real pi= Modelica.Constants.pi;
@@ -33,27 +40,32 @@ model HTS_GasCooling "HTS line using Stekly equations"
   Modelica.SIunits.Permeability mu;
   Modelica.SIunits.Permittivity epsilon;
   Modelica.SIunits.Resistivity omega = f*2*pi;
-  Modelica.SIunits.Resistivity delta = 30;
+  Modelica.SIunits.Resistivity delta = 3.3e-5;
 
   //Line heat transfer characeteristics
   Real h "Heat transfer coefficient of surfaces";
-  Modelica.SIunits.Temp_K dT "Change in temperature";
-  Modelica.SIunits.Current I_c "corner current";
+  Real dT[100] "Change in temperature";
+  Real dT_rho "Change in temperature";
+  Real T[100] "Temperature at point z on line";
+  Real Q_flow[100] "heat dissipation from line";
+  Modelica.SIunits.Current I_c "Critical current at 20K";
   Modelica.SIunits.ElectricFieldStrength E "Electric field";
-  Modelica.SIunits.Power Q;
-  Modelica.SIunits.Power Q_ce;
-  Modelica.SIunits.Power G;
+
   //Resistances, inductances, and currents
   Modelica.SIunits.Resistance R_pi;
   Modelica.SIunits.Resistance R_ac;
   Modelica.SIunits.Inductance L_pi;
   Modelica.SIunits.Capacitance C_pi;
 
+  // Line physical values
+  Modelica.SIunits.Area A_cu = A_cu_tape*n_Tape "Area of copper in wire";
   Modelica.SIunits.Resistivity rho;
+  Modelica.SIunits.Length P = b*pi "Perimeter of line";
 
   Real x(start=0);
   //Real y(start = 0.07);
-  Real z;
+  Real z[100];
+  Real aa;
 
   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p             annotation (Placement(
         transformation(extent={{-100,-10},{-80,10}}),iconTransformation(extent={{-100,
@@ -81,7 +93,7 @@ model HTS_GasCooling "HTS line using Stekly equations"
     annotation (Placement(transformation(extent={{-6,6},{6,-6}})));
   Modelica.Electrical.Analog.Basic.VariableCapacitor
                                              capacitor(
-    Cmin=Modelica.Constants.eps)                                            annotation (Placement(
+    Cmin=Modelica.Constants.eps, UIC=false)                                 annotation (Placement(
         transformation(
         extent={{-6,6},{6,-6}},
         rotation=270,
@@ -99,41 +111,41 @@ model HTS_GasCooling "HTS line using Stekly equations"
     annotation (Placement(transformation(extent={{28,-18},{16,-10}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-8,-50},{12,-30}})));
-  Modelica.Electrical.Analog.Basic.VariableResistor
-                                            resistor4
-    annotation (Placement(transformation(extent={{6,6},{-6,-6}},
-        rotation=90,
-        origin={-10,-14})));
-initial equation
-//  R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
-equation
-  mu = mu_0*mu_r;
-  epsilon = epsilon_0*epsilon_r;
+initial algorithm
 
-  I_c = I_c0*(1-(port_a.T/T_c));
-  E = E_0 *(pin_p.i/I_c)^n;
-  rho = DymolaModels.Functions.Math.divNoZero(E,(I_c/A));
-  L_pi = l*mu/(2*pi) * log(b/a);
-  C_pi = l*2*pi*epsilon / (log(b/a));
-  R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
-  R_ac =DymolaModels.Functions.Math.divNoZero( tan(delta),omega)*C_pi;
-
-  T(z) = DymolaModels.Functions.Math.divNoZero(port_a.Q_flow*z,(v*C_pv*2*pi*(a-b)^2));
-  dT = port_a.T - T(z);
-  x = (v*C_pv*2*pi*(a-b)^2);
+algorithm
+  for n in 1:l*10 loop
+    T[n] := DymolaModels.Functions.Math.divNoZero(n*0.1*(-port_a.Q_flow),(v*C_pv*2*pi*(R_c-R_0)^2)) + port_a.T;
+    dT[n] := T[n] - port_a.T;
+    x := (v*C_pv*2*pi*(a-b)^2);
   // HYDROGEN h = smooth(10,noEvent(if dT<3 then 100*(dT)^n elseif (dT>=3 and dT<100) then 10^5/(dT) else 1000));
-  h = (0.6953+0.001079*dT^4)*A;
   //z = noEvent(if dT<3 then 0 elseif (dT>3 and dT<100) then 1 else 2);
-  port_a.Q_flow = C_pv*dT;
-  Q = l*(mu_0 * h * I_c^2)/ (3*pi*b) * (I_c0/I_c)^3;
+    Q_flow[n] :=0.05*dT[n];
+    z[n] :=n*0.1;
+  end for;
 
-  if noEvent(pin_p.i>I_crit) then
-    G = (rho * I_c^2 * 10^3 / A_cu*P) + G_d*A_cu;
-    Q_ce = 0;
-  else
-    G = 0;
-    Q_ce = 0;
-  end if;
+equation
+
+    I_c =I_c0*(1 - (port_a.T/T_c));
+    dT_rho = DymolaModels.Functions.Math.divNoZero((rho *I_c^2/(P*A_cu)),(h));
+    E =E_0*(pin_p.i/I_c)^n;
+    rho =DymolaModels.Functions.Math.divNoZero(E, (I_c/A));
+    h = smooth(10,noEvent(if dT_rho<3 then 100*(dT_rho)^n elseif (dT_rho>=3 and dT_rho<100) then 10^5/(dT_rho) else 1000));
+    mu =mu_0*mu_r;
+    epsilon =epsilon_0*epsilon_r;
+    port_a.Q_flow = -h*dT_rho - G;
+    L_pi =l*mu/(2*pi)*log(b/a);
+    C_pi =l*2*pi*epsilon/(log(b/a));
+    R_pi =l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n, pin_p.i);
+    R_ac =DymolaModels.Functions.Math.divNoZero(tan(delta), omega)*C_pi;
+
+    if noEvent(pin_p.i>I_c) then
+      aa=1;
+      G = (rho * I_c^2 * 10^3 / A_cu*P) + G_d*A_cu;
+    else
+      aa=0;
+      G = 0;
+    end if;
 
   connect(pin_p, resistor.p)
     annotation (Line(points={{-90,0},{-70,0}}, color={0,0,255}));
@@ -172,12 +184,6 @@ equation
           -48,0},{-46,0}}, color={0,0,255}));
   connect(inductor.n, inductor1.p)
     annotation (Line(points={{-34,16},{-6,16}}, color={0,0,255}));
-  connect(resistor4.p, inductor1.p) annotation (Line(points={{-10,-8},{-10,-4},
-          {-18,-4},{-18,16},{-6,16}}, color={0,0,255}));
-  connect(resistor4.n, ground.p)
-    annotation (Line(points={{-10,-20},{-10,-22},{-18,-22}}, color={0,0,255}));
-  connect(realExpression3.y, resistor4.R)
-    annotation (Line(points={{15.4,-14},{-2.8,-14}}, color={0,0,127}));
    annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-80,-40},
             {80,40}}),     graphics={
                   Rectangle(

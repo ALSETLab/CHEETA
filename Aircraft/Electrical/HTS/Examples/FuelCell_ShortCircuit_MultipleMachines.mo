@@ -3,7 +3,7 @@ model FuelCell_ShortCircuit_MultipleMachines
 
   Modelica.Electrical.Analog.Basic.Ground ground2
     annotation (Placement(transformation(extent={{36,-60},{56,-40}})));
-  LiquidCooled.HTS_filmboiling_Voltage2 HTS(
+  LiquidCooled.HTS_filmboiling_Voltage_Hydrogen HTS(
     l=10,
     n=20,
     I_c0=7800,

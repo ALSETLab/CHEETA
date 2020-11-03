@@ -21,20 +21,18 @@ model AveragedConverters_Battery
     annotation (Placement(transformation(extent={{18,26},{38,34}})));
   Aircraft.Electrical.CB.CircuitBreaker circuitBreaker2(k=200000)
     annotation (Placement(transformation(extent={{18,14},{38,22}})));
-  Aircraft.Electrical.HTS.LiquidCooled.HTS_filmboiling_Voltage2
-                                        hTS_Piline3_1(
-                                               l=1,
+  Aircraft.Electrical.HTS.LiquidCooled.HTS_filmboiling_Voltage_Hydrogen
+    hTS_Piline3_1(
+    l=1,
     I_crit=1100,
     R_L=10,
-    G_d=0)
-    annotation (Placement(transformation(extent={{-14,24},{2,32}})));
-  Aircraft.Electrical.HTS.LiquidCooled.HTS_filmboiling_Voltage2
-                                        hTS_Piline3_2(
-                                                l=1,
+    G_d=0) annotation (Placement(transformation(extent={{-14,24},{2,32}})));
+  Aircraft.Electrical.HTS.LiquidCooled.HTS_filmboiling_Voltage_Hydrogen
+    hTS_Piline3_2(
+    l=1,
     I_crit=1100,
     R_L=10,
-    G_d=0)
-    annotation (Placement(transformation(extent={{-14,12},{2,20}})));
+    G_d=0) annotation (Placement(transformation(extent={{-14,12},{2,20}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor
                                            thermalConductor(G=1)
                                                         annotation (Placement(

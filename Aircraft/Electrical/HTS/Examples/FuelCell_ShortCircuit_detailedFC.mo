@@ -30,7 +30,7 @@ model FuelCell_ShortCircuit_detailedFC
     annotation (Placement(transformation(extent={{-96,-40},{-76,-20}})));
   Modelica.Blocks.Sources.Constant const4(k=353.15)
     annotation (Placement(transformation(extent={{-130,-40},{-110,-20}})));
-  LiquidCooled.HTS_filmboiling_Voltage2 HTS1(
+  LiquidCooled.HTS_filmboiling_Voltage_Hydrogen HTS1(
     l=10,
     n=5,
     I_c0=8000,
