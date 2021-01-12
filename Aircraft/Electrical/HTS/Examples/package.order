@@ -8,6 +8,7 @@ Inverter_Fault_DCSide
 Loss_of_Load
 GasCooling
 FuelCell_ShortCircuit
+FuelCell_ShortCircuit_nitrogen
 FuelCell_ShortCircuit_GasCooling
 FuelCell_ShortCircuit_SimpleMachine
 FuelCell_ShortCircuit_SimpleMachine_GasCooling

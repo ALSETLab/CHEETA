@@ -24,8 +24,8 @@ model FuelCell_ShortCircuit_GasCooling
   Modelica.Electrical.Analog.Basic.Resistor resistor4(R=100)
     annotation (Placement(transformation(extent={{66,-26},{86,-6}})));
   CHEETA.Aircraft.Electrical.FuelCell.FuelCell_EquationBased
-    fuelCell_EquationBased1(R_ohm_current=0.01)
-    annotation (Placement(transformation(extent={{-70,0},{-56,14}})));
+    fuelCell_EquationBased1(R_ohm_current=0.17)
+    annotation (Placement(transformation(extent={{-68,2},{-54,16}})));
   Modelica.Electrical.Analog.Basic.Inductor inductor1(L=0.12086)
     annotation (Placement(transformation(extent={{66,-4},{86,16}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
@@ -36,7 +36,7 @@ model FuelCell_ShortCircuit_GasCooling
   GasCooled.HTS_GasCooling_Voltage HTS1(
     l=10,
     n=20,
-    I_c0=37000,
+    I_c0=3700,
     A=0.1,
     epsilon_r=2.2,
     T_c(displayUnit="K"),
@@ -66,13 +66,13 @@ equation
     annotation (Line(points={{-113,-28},{-102,-28}},
                                                color={0,0,127}));
   connect(prescribedTemperature4.port, fuelCell_EquationBased1.port_a)
-    annotation (Line(points={{-80,-28},{-63,-28},{-63,0}},      color={191,0,0}));
+    annotation (Line(points={{-80,-28},{-61,-28},{-61,2}},      color={191,0,0}));
   connect(inverter1.dc_p, resistor1.p) annotation (Line(points={{38,-10},{24,
           -10},{24,8},{14,8},{14,-6}},          color={0,0,255}));
   connect(HTS1.port_a, prescribedTemperature3.port) annotation (Line(points={{
           -23.8,26},{-24,26},{-24,40},{4,40}}, color={191,0,0}));
-  connect(fuelCell_EquationBased1.p1, HTS1.pin_p) annotation (Line(points={{-56,
-          7.7},{-44,7.7},{-44,22},{-33,22}}, color={0,0,255}));
+  connect(fuelCell_EquationBased1.p1, HTS1.pin_p) annotation (Line(points={{-54,9.7},
+          {-44,9.7},{-44,22},{-33,22}},      color={0,0,255}));
   connect(HTS1.pin_n, resistor1.p)
     annotation (Line(points={{-15,22},{14,22},{14,-6}}, color={0,0,255}));
   annotation (Diagram(coordinateSystem(extent={{-140,-60},{100,60}})),  Icon(

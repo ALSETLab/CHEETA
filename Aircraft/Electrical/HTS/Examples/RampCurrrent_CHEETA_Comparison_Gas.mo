@@ -104,5 +104,6 @@ equation
     experiment(
       StopTime=15,
       __Dymola_NumberOfIntervals=1000,
-      __Dymola_Algorithm="Dassl"));
+      __Dymola_Algorithm="Dassl"),
+    __Dymola_Commands(file="GasCoolingPlot.mos" "GasCoolingSetup"));
 end RampCurrrent_CHEETA_Comparison_Gas;

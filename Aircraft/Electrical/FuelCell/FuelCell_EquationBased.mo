@@ -38,7 +38,7 @@ model FuelCell_EquationBased
   Real R_act_val;
   Real R_conc_val;
   Modelica.SIunits.Current I_max = 5000 "Maximum current of fuel cell";
-
+  Real z;
   Modelica.Blocks.Sources.RealExpression realExpression(y=E_Nernst)
     annotation (Placement(transformation(extent={{-94,-28},{-74,-8}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=R_act_val)
@@ -56,6 +56,7 @@ equation
   R_act_val = 1000*(R*port_a.T)/(alpha*n*F) * DymolaModels.Functions.Math.divNoZero(ln(-E_cell.i+ Modelica.Constants.eps),-E_cell.i);
   R_conc_val = -1000*DymolaModels.Functions.Math.divNoZero((R*port_a.T),-E_cell.i*n*F) * ln((-E_cell.i+Modelica.Constants.eps)/I_max);
   port_a.Q_flow = 0;
+  z = 0;//R_act_val + R_conc_val + R_ohm_current;
   connect(R_act.p, E_cell.p)
     annotation (Line(points={{-30,14},{-52,14},{-52,-8}}, color={0,0,255}));
   connect(R_act.n, R_conc.p)

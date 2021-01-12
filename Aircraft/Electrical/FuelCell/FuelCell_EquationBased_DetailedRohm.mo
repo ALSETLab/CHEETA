@@ -50,6 +50,7 @@ model FuelCell_EquationBased_DetailedRohm
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
   Real R_ohm_val
     "Resistance of current leads";
+    Real z "Impedance";
   Modelica.Electrical.Analog.Basic.VariableResistor R_ohm
     annotation (Placement(transformation(extent={{44,4},{64,24}})));
   Modelica.Blocks.Sources.RealExpression realExpression3(y=R_ohm_val)
@@ -61,6 +62,7 @@ equation
   R_ohm_val = R_ohm0- k_RT*port_a.T; // + k_RI*R_ohm.p.i ;
   port_a.Q_flow = 0;
   x =   + k_RI*R_ohm.p.i;
+  z = R_ohm_val;
   connect(R_act.p, E_cell.p)
     annotation (Line(points={{-30,14},{-52,14},{-52,-8}}, color={0,0,255}));
   connect(R_act.n, R_conc.p)

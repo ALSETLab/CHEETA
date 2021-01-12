@@ -2,20 +2,7 @@ within CHEETA.Aircraft.Electrical.HTS.Examples;
 model FuelCell_ShortCircuit_SimpleMachine
 
   Modelica.Electrical.Analog.Basic.Ground ground2
-    annotation (Placement(transformation(extent={{36,-60},{56,-40}})));
-  LiquidCooled.HTS_filmboiling_Voltage_Hydrogen HTS(
-    l=10,
-    n=20,
-    I_c0=7800,
-    A=0.1,
-    A_cu=0.1,
-    I_crit=7800,
-    T_c(displayUnit="K"),
-    R_L=1e-4,
-    G_d=0,
-    a=0.1,
-    b=0.5,
-    P=1) annotation (Placement(transformation(extent={{-6,4},{10,-4}})));
+    annotation (Placement(transformation(extent={{8,-60},{28,-40}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature1
     annotation (Placement(transformation(extent={{28,24},{8,44}})));
@@ -32,11 +19,8 @@ model FuelCell_ShortCircuit_SimpleMachine
     offset=10000,
     startTime=10)
     annotation (Placement(transformation(extent={{-34,-32},{-14,-12}})));
-  PowerElectronics.Converters.DCAC.TheveninEquivalent inverter(R=0.1, R_cm=0.1)
+  PowerElectronics.Converters.DCAC.DCAC_SinglePhase   inverter
     annotation (Placement(transformation(extent={{42,-32},{62,-12}})));
-  CHEETA.Aircraft.Electrical.FuelCell.FuelCell_EquationBased
-    fuelCell_EquationBased(R_ohm(R=0.05))
-    annotation (Placement(transformation(extent={{-66,-6},{-52,8}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature2
     annotation (Placement(transformation(extent={{-96,-44},{-76,-24}})));
@@ -44,30 +28,58 @@ model FuelCell_ShortCircuit_SimpleMachine
     annotation (Placement(transformation(extent={{-130,-44},{-110,-24}})));
   Machines.Motors.SimpleMotor simpleMotor
     annotation (Placement(transformation(extent={{78,-32},{98,-12}})));
+  LiquidCooled.HTS_filmboiling_Voltage_Hydrogen HTS(
+    l=10,
+    n=20,
+    I_c0=3700,
+    A=0.1,
+    epsilon_r=2.2,
+    T_c(displayUnit="K"),
+    R_L=3.3e-3,
+    G_d(displayUnit="kW") = 0,
+    a(displayUnit="mm"),
+    b(displayUnit="mm"))
+    annotation (Placement(transformation(extent={{-28,6},{-12,-2}})));
+  FuelCell.FuelCell_EquationBased
+    fuelCell_EquationBased_DetailedRohm1(n=2, R_ohm_current=0.075)
+    annotation (Placement(transformation(extent={{-74,-8},{-60,6}})));
+  Modelica.Electrical.PowerConverters.DCDC.Control.SignalPWM signalPWM(each
+      useConstantDutyCycle=true, each f=60) annotation (Placement(
+        transformation(extent={{-10,-10},{10,10}}, origin={52,-58})));
+  Modelica.Mechanics.Rotational.Sources.LinearSpeedDependentTorque
+    linearSpeedDependentTorque(tau_nominal=500, w_nominal=4500)
+    annotation (Placement(transformation(extent={{130,-32},{110,-12}})));
 equation
-  connect(HTS.port_a, prescribedTemperature1.port)
-    annotation (Line(points={{2.2,4},{2,4},{2,34},{8,34}}, color={191,0,0}));
   connect(const1.y, prescribedTemperature1.T)
     annotation (Line(points={{53,34},{30,34}}, color={0,0,127}));
   connect(resistor3.n, ground2.p)
-    annotation (Line(points={{18,-32},{18,-40},{46,-40}},   color={0,0,255}));
+    annotation (Line(points={{18,-32},{18,-40}},            color={0,0,255}));
   connect(resistor3.R,ramp. y)
     annotation (Line(points={{6,-22},{-13,-22}}, color={0,0,127}));
-  connect(resistor3.p, HTS.pin_n)
-    annotation (Line(points={{18,-12},{18,0},{11,0}}, color={0,0,255}));
-  connect(inverter.dc_p, HTS.pin_n) annotation (Line(points={{42,-16},{30,-16},
-          {30,0},{11,0}}, color={0,0,255}));
   connect(inverter.dc_n, ground2.p) annotation (Line(points={{42,-28},{30,-28},
-          {30,-40},{46,-40}},   color={0,0,255}));
-  connect(HTS.pin_p, fuelCell_EquationBased.p1) annotation (Line(points={{-7,0},
-          {-32,0},{-32,1.7},{-52,1.7}}, color={0,0,255}));
+          {30,-40},{18,-40}},   color={0,0,255}));
   connect(const2.y,prescribedTemperature2. T)
     annotation (Line(points={{-109,-34},{-98,-34}},
                                                color={0,0,127}));
-  connect(prescribedTemperature2.port, fuelCell_EquationBased.port_a)
-    annotation (Line(points={{-76,-34},{-59,-34},{-59,-6}}, color={191,0,0}));
   connect(inverter.ac, simpleMotor.p1)
     annotation (Line(points={{62,-22},{77.6,-22}}, color={0,0,255}));
+  connect(HTS.pin_n, resistor3.p)
+    annotation (Line(points={{-11,2},{18,2},{18,-12}}, color={0,0,255}));
+  connect(prescribedTemperature1.port, HTS.port_a)
+    annotation (Line(points={{8,34},{-19.8,34},{-19.8,6}}, color={191,0,0}));
+  connect(fuelCell_EquationBased_DetailedRohm1.p1, HTS.pin_p) annotation (Line(
+        points={{-60,-0.3},{-46,-0.3},{-46,2},{-29,2}}, color={0,0,255}));
+  connect(fuelCell_EquationBased_DetailedRohm1.port_a, prescribedTemperature2.port)
+    annotation (Line(points={{-67,-8},{-68,-8},{-68,-34},{-76,-34}}, color={191,
+          0,0}));
+  connect(inverter.dc_p, resistor3.p) annotation (Line(points={{42,-16},{30,-16},
+          {30,2},{18,2},{18,-12}}, color={0,0,255}));
+  connect(inverter.fire_p, signalPWM.fire)
+    annotation (Line(points={{46,-34},{46,-47}}, color={255,0,255}));
+  connect(inverter.fire_n, signalPWM.notFire)
+    annotation (Line(points={{58,-34},{58,-47}}, color={255,0,255}));
+  connect(simpleMotor.flange1, linearSpeedDependentTorque.flange)
+    annotation (Line(points={{98.4,-22},{110,-22}}, color={0,0,0}));
   annotation (Diagram(coordinateSystem(extent={{-140,-100},{100,60}})), Icon(
         coordinateSystem(extent={{-140,-100},{100,60}})),
     experiment(StopTime=30, __Dymola_Algorithm="Dassl"),

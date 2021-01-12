@@ -1,0 +1,356 @@
+model HTS_filmboiling_Voltage_Nitrogen
+  parameter Modelica.SIunits.Length l "Length of wire";
+  parameter Modelica.SIunits.ElectricFieldStrength E_0 = 0.0001 "Reference electric field";
+  parameter Real n = 5.29 "Index value of the superconductor";
+  parameter Real I_c0 = 1 "Critical current at 0K";
+  parameter Modelica.SIunits.Area A = 1 "Area";
+  parameter Modelica.SIunits.Area A_cu_tape = 2E-07 "Copper area per tape (ref. 2mm by 1mm)";
+  parameter Real n_Tape = 132 "Number of tapes";
+  parameter Modelica.SIunits.Temp_K T_c = 92 "Critical temperature";
+  parameter Modelica.SIunits.Resistance R_L "Resistance of the brass connectors";
+  parameter Modelica.SIunits.Power G_d = 35270.0 "Extra heat generation due to fault";
+  parameter Modelica.SIunits.Radius a = 0.003 "Inner radius of co-axial cable";
+  parameter Modelica.SIunits.Radius b = 0.011 "Outer radius of co-axial cable";
+  parameter Modelica.SIunits.Permeability mu_r = 1;
+  parameter Modelica.SIunits.Permittivity epsilon_r = 1;
+  parameter Modelica.SIunits.Frequency f = 60 "Frequency of AC system";
+  parameter Real kappa = 400 "Cable thermal conductivity";
+  parameter Modelica.SIunits.Resistance resistor.R(start = 1) = R_L 
+    "Resistance at temperature T_ref";
+  parameter Modelica.SIunits.Temperature resistor.T_ref = 300.15 
+    "Reference temperature";
+  parameter Modelica.SIunits.LinearTemperatureCoefficient resistor.alpha = 0 
+    "Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref))";
+  constant Boolean resistor.useHeatPort = false "=true, if heatPort is enabled";
+  parameter Modelica.SIunits.Temperature resistor.T = resistor.T_ref 
+    "Fixed device temperature if useHeatPort = false";
+  parameter Modelica.SIunits.Resistance resistor1.R(start = 1) = R_L 
+    "Resistance at temperature T_ref";
+  parameter Modelica.SIunits.Temperature resistor1.T_ref = 300.15 
+    "Reference temperature";
+  parameter Modelica.SIunits.LinearTemperatureCoefficient resistor1.alpha = 0 
+    "Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref))";
+  constant Boolean resistor1.useHeatPort = false "=true, if heatPort is enabled";
+  parameter Modelica.SIunits.Temperature resistor1.T = resistor1.T_ref 
+    "Fixed device temperature if useHeatPort = false";
+  parameter Modelica.SIunits.Inductance inductor.Lmin = 1E-15 "lower bound for variable inductance";
+  parameter Modelica.SIunits.Current inductor.IC = 0 "Initial Value";
+  parameter Boolean inductor.UIC = false;
+  parameter Modelica.SIunits.Temperature resistor2.T_ref = 300.15 
+    "Reference temperature";
+  parameter Modelica.SIunits.LinearTemperatureCoefficient resistor2.alpha = 0 
+    "Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref))";
+  constant Boolean resistor2.useHeatPort = false "=true, if heatPort is enabled";
+  parameter Modelica.SIunits.Temperature resistor2.T = resistor2.T_ref 
+    "Fixed device temperature if useHeatPort = false";
+  parameter Modelica.SIunits.Inductance inductor1.Lmin = 1E-15 "lower bound for variable inductance";
+  parameter Modelica.SIunits.Current inductor1.IC = 0 "Initial Value";
+  parameter Boolean inductor1.UIC = false;
+  parameter Modelica.SIunits.Temperature resistor3.T_ref = 300.15 
+    "Reference temperature";
+  parameter Modelica.SIunits.LinearTemperatureCoefficient resistor3.alpha = 0 
+    "Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref))";
+  constant Boolean resistor3.useHeatPort = false "=true, if heatPort is enabled";
+  parameter Modelica.SIunits.Temperature resistor3.T = resistor3.T_ref 
+    "Fixed device temperature if useHeatPort = false";
+  parameter Modelica.SIunits.Capacitance capacitor.C(start = 1) = C 
+    "Capacitance";
+  parameter Modelica.SIunits.Capacitance C = 9.419727E-10 "Capacitance";
+
+  Real pi = 3.141592653589793;
+  Modelica.SIunits.PermeabilityOfVacuum mu_0 = 4*pi*1E-06;
+  Modelica.SIunits.PermittivityOfVacuum epsilon_0 = 8.854E-12;
+  Modelica.SIunits.Permeability mu;
+  Modelica.SIunits.Permittivity epsilon;
+  Modelica.SIunits.Resistivity omega = f*2*pi;
+  Real delta = 3.3E-05;
+  Real h "Heat transfer coefficient of surfaces";
+  Modelica.SIunits.Temp_K dT "Change in temperature";
+  Modelica.SIunits.Current I_c "Critical current at 20K";
+  Modelica.SIunits.ElectricFieldStrength E "Electric field";
+  Modelica.SIunits.Power Q;
+  Modelica.SIunits.Power Q_ce;
+  Modelica.SIunits.Power G;
+  Modelica.SIunits.Resistance R_pi;
+  Modelica.SIunits.Resistance R_ac;
+  Modelica.SIunits.Inductance L_pi;
+  Modelica.SIunits.Capacitance C_pi;
+  Modelica.SIunits.Resistivity rho "Resistivity of line";
+  Modelica.SIunits.Length P = b*3.141592653589793 "Perimeter of line";
+  Modelica.SIunits.Area A_cu = A_cu_tape*n_Tape "Area of copper in wire";
+  Real G_dp;
+  Real z;
+  Real eta = 1;
+  Modelica.SIunits.ElectricPotential pin_p.v "Potential at the pin";
+  Modelica.SIunits.Current pin_p.i "Current flowing into the pin";
+  Modelica.SIunits.ElectricPotential pin_n.v "Potential at the pin";
+  Modelica.SIunits.Current pin_n.i "Current flowing into the pin";
+  Modelica.SIunits.Voltage resistor.v "Voltage drop of the two pins (= p.v - n.v)";
+  Modelica.SIunits.Current resistor.i "Current flowing from pin p to pin n";
+  Modelica.SIunits.ElectricPotential resistor.p.v "Potential at the pin";
+  Modelica.SIunits.Current resistor.p.i "Current flowing into the pin";
+  Modelica.SIunits.ElectricPotential resistor.n.v "Potential at the pin";
+  Modelica.SIunits.Current resistor.n.i "Current flowing into the pin";
+  Modelica.SIunits.Power resistor.LossPower "Loss power leaving component via heatPort";
+  Modelica.SIunits.Temperature resistor.T_heatPort "Temperature of heatPort";
+  Modelica.SIunits.Resistance resistor.R_actual "Actual resistance = R*(1 + alpha*(T_heatPort - T_ref))";
+  Modelica.SIunits.Voltage resistor1.v "Voltage drop of the two pins (= p.v - n.v)";
+  Modelica.SIunits.Current resistor1.i "Current flowing from pin p to pin n";
+  Modelica.SIunits.ElectricPotential resistor1.p.v "Potential at the pin";
+  Modelica.SIunits.Current resistor1.p.i "Current flowing into the pin";
+  Modelica.SIunits.ElectricPotential resistor1.n.v "Potential at the pin";
+  Modelica.SIunits.Current resistor1.n.i "Current flowing into the pin";
+  Modelica.SIunits.Power resistor1.LossPower "Loss power leaving component via heatPort";
+  Modelica.SIunits.Temperature resistor1.T_heatPort "Temperature of heatPort";
+  Modelica.SIunits.Resistance resistor1.R_actual "Actual resistance = R*(1 + alpha*(T_heatPort - T_ref))";
+  Modelica.SIunits.Voltage inductor.v "Voltage drop of the two pins (= p.v - n.v)";
+  Modelica.SIunits.Current inductor.i "Current flowing from pin p to pin n";
+  Modelica.SIunits.ElectricPotential inductor.p.v "Potential at the pin";
+  Modelica.SIunits.Current inductor.p.i "Current flowing into the pin";
+  Modelica.SIunits.ElectricPotential inductor.n.v "Potential at the pin";
+  Modelica.SIunits.Current inductor.n.i "Current flowing into the pin";
+  Modelica.Blocks.Interfaces.RealInput inductor.L(unit = "H");
+  Modelica.SIunits.MagneticFlux inductor.Psi;
+  Modelica.SIunits.Voltage resistor2.v "Voltage drop of the two pins (= p.v - n.v)";
+  Modelica.SIunits.Current resistor2.i "Current flowing from pin p to pin n";
+  Modelica.SIunits.ElectricPotential resistor2.p.v "Potential at the pin";
+  Modelica.SIunits.Current resistor2.p.i "Current flowing into the pin";
+  Modelica.SIunits.ElectricPotential resistor2.n.v "Potential at the pin";
+  Modelica.SIunits.Current resistor2.n.i "Current flowing into the pin";
+  Modelica.SIunits.Power resistor2.LossPower "Loss power leaving component via heatPort";
+  Modelica.SIunits.Temperature resistor2.T_heatPort "Temperature of heatPort";
+  Modelica.SIunits.Resistance resistor2.R_actual "Actual resistance = R*(1 + alpha*(T_heatPort - T_ref))";
+  Modelica.Blocks.Interfaces.RealInput resistor2.R(unit = "Ohm");
+  Modelica.SIunits.Voltage inductor1.v "Voltage drop of the two pins (= p.v - n.v)";
+  Modelica.SIunits.Current inductor1.i "Current flowing from pin p to pin n";
+  Modelica.SIunits.ElectricPotential inductor1.p.v "Potential at the pin";
+  Modelica.SIunits.Current inductor1.p.i "Current flowing into the pin";
+  Modelica.SIunits.ElectricPotential inductor1.n.v "Potential at the pin";
+  Modelica.SIunits.Current inductor1.n.i "Current flowing into the pin";
+  Modelica.Blocks.Interfaces.RealInput inductor1.L(unit = "H");
+  Modelica.SIunits.MagneticFlux inductor1.Psi;
+  Modelica.SIunits.Voltage resistor3.v "Voltage drop of the two pins (= p.v - n.v)";
+  Modelica.SIunits.Current resistor3.i "Current flowing from pin p to pin n";
+  Modelica.SIunits.ElectricPotential resistor3.p.v "Potential at the pin";
+  Modelica.SIunits.Current resistor3.p.i "Current flowing into the pin";
+  Modelica.SIunits.ElectricPotential resistor3.n.v "Potential at the pin";
+  Modelica.SIunits.Current resistor3.n.i "Current flowing into the pin";
+  Modelica.SIunits.Power resistor3.LossPower "Loss power leaving component via heatPort";
+  Modelica.SIunits.Temperature resistor3.T_heatPort "Temperature of heatPort";
+  Modelica.SIunits.Resistance resistor3.R_actual "Actual resistance = R*(1 + alpha*(T_heatPort - T_ref))";
+  Modelica.Blocks.Interfaces.RealInput resistor3.R(unit = "Ohm");
+  Modelica.SIunits.Voltage capacitor.v(start = 1000) "Voltage drop of the two pins (= p.v - n.v)";
+  Modelica.SIunits.Current capacitor.i "Current flowing from pin p to pin n";
+  Modelica.SIunits.ElectricPotential capacitor.p.v "Potential at the pin";
+  Modelica.SIunits.Current capacitor.p.i "Current flowing into the pin";
+  Modelica.SIunits.ElectricPotential capacitor.n.v "Potential at the pin";
+  Modelica.SIunits.Current capacitor.n.i "Current flowing into the pin";
+  Modelica.SIunits.ElectricPotential ground.p.v "Potential at the pin";
+  Modelica.SIunits.Current ground.p.i "Current flowing into the pin";
+  Modelica.Blocks.Interfaces.RealOutput realExpression.y = R_pi "Value of Real output";
+  Modelica.Blocks.Interfaces.RealOutput realExpression1.y = C_pi 
+    "Value of Real output";
+  Modelica.Blocks.Interfaces.RealOutput realExpression2.y = L_pi 
+    "Value of Real output";
+  Modelica.Blocks.Interfaces.RealOutput realExpression3.y = R_ac 
+    "Value of Real output";
+  Modelica.SIunits.Temperature port_a.T "Port temperature";
+  Modelica.SIunits.HeatFlowRate port_a.Q_flow "Heat flow rate (positive if flowing from outside into the component)";
+
+// Equations and algorithms
+
+  // Component resistor
+  // class Modelica.Electrical.Analog.Basic.Resistor
+    // extends Modelica.Electrical.Analog.Interfaces.OnePort
+    equation
+      resistor.v = resistor.p.v-resistor.n.v;
+      0 = resistor.p.i+resistor.n.i;
+      resistor.i = resistor.p.i;
+    // extends Modelica.Electrical.Analog.Interfaces.ConditionalHeatPort
+    equation
+      if ( not resistor.useHeatPort) then 
+        resistor.T_heatPort = resistor.T;
+      end if;
+    // end of extends 
+  equation
+    assert(1+resistor.alpha*(resistor.T_heatPort-resistor.T_ref) >= 1E-15, 
+      "Temperature outside scope of model!");
+    resistor.R_actual = resistor.R*(1+resistor.alpha*(resistor.T_heatPort-
+      resistor.T_ref));
+    resistor.v = resistor.R_actual*resistor.i;
+    resistor.LossPower = resistor.v*resistor.i;
+
+  // Component resistor1
+  // class Modelica.Electrical.Analog.Basic.Resistor
+    // extends Modelica.Electrical.Analog.Interfaces.OnePort
+    equation
+      resistor1.v = resistor1.p.v-resistor1.n.v;
+      0 = resistor1.p.i+resistor1.n.i;
+      resistor1.i = resistor1.p.i;
+    // extends Modelica.Electrical.Analog.Interfaces.ConditionalHeatPort
+    equation
+      if ( not resistor1.useHeatPort) then 
+        resistor1.T_heatPort = resistor1.T;
+      end if;
+    // end of extends 
+  equation
+    assert(1+resistor1.alpha*(resistor1.T_heatPort-resistor1.T_ref) >= 1E-15, 
+      "Temperature outside scope of model!");
+    resistor1.R_actual = resistor1.R*(1+resistor1.alpha*(resistor1.T_heatPort-
+      resistor1.T_ref));
+    resistor1.v = resistor1.R_actual*resistor1.i;
+    resistor1.LossPower = resistor1.v*resistor1.i;
+
+  // Component inductor
+  // class Modelica.Electrical.Analog.Basic.VariableInductor
+    // extends Modelica.Electrical.Analog.Interfaces.OnePort
+    equation
+      inductor.v = inductor.p.v-inductor.n.v;
+      0 = inductor.p.i+inductor.n.i;
+      inductor.i = inductor.p.i;
+    // end of extends 
+  equation
+    assert(inductor.L >= 0, "Inductance L_ (= "+       String(inductor.L, true, 0)
+      +") has to be >= 0!");
+    inductor.Psi = noEvent(max(inductor.L, inductor.Lmin))*inductor.i;
+    inductor.v = der(inductor.Psi);
+
+  // Component resistor2
+  // class Modelica.Electrical.Analog.Basic.VariableResistor
+    // extends Modelica.Electrical.Analog.Interfaces.OnePort
+    equation
+      resistor2.v = resistor2.p.v-resistor2.n.v;
+      0 = resistor2.p.i+resistor2.n.i;
+      resistor2.i = resistor2.p.i;
+    // extends Modelica.Electrical.Analog.Interfaces.ConditionalHeatPort
+    equation
+      if ( not resistor2.useHeatPort) then 
+        resistor2.T_heatPort = resistor2.T;
+      end if;
+    // end of extends 
+  equation
+    assert(1+resistor2.alpha*(resistor2.T_heatPort-resistor2.T_ref) >= 1E-15, 
+      "Temperature outside scope of model!");
+    resistor2.R_actual = resistor2.R*(1+resistor2.alpha*(resistor2.T_heatPort-
+      resistor2.T_ref));
+    resistor2.v = resistor2.R_actual*resistor2.i;
+    resistor2.LossPower = resistor2.v*resistor2.i;
+
+  // Component inductor1
+  // class Modelica.Electrical.Analog.Basic.VariableInductor
+    // extends Modelica.Electrical.Analog.Interfaces.OnePort
+    equation
+      inductor1.v = inductor1.p.v-inductor1.n.v;
+      0 = inductor1.p.i+inductor1.n.i;
+      inductor1.i = inductor1.p.i;
+    // end of extends 
+  equation
+    assert(inductor1.L >= 0, "Inductance L_ (= "+       String(inductor1.L, true,
+       0)+") has to be >= 0!");
+    inductor1.Psi = noEvent(max(inductor1.L, inductor1.Lmin))*inductor1.i;
+    inductor1.v = der(inductor1.Psi);
+
+  // Component resistor3
+  // class Modelica.Electrical.Analog.Basic.VariableResistor
+    // extends Modelica.Electrical.Analog.Interfaces.OnePort
+    equation
+      resistor3.v = resistor3.p.v-resistor3.n.v;
+      0 = resistor3.p.i+resistor3.n.i;
+      resistor3.i = resistor3.p.i;
+    // extends Modelica.Electrical.Analog.Interfaces.ConditionalHeatPort
+    equation
+      if ( not resistor3.useHeatPort) then 
+        resistor3.T_heatPort = resistor3.T;
+      end if;
+    // end of extends 
+  equation
+    assert(1+resistor3.alpha*(resistor3.T_heatPort-resistor3.T_ref) >= 1E-15, 
+      "Temperature outside scope of model!");
+    resistor3.R_actual = resistor3.R*(1+resistor3.alpha*(resistor3.T_heatPort-
+      resistor3.T_ref));
+    resistor3.v = resistor3.R_actual*resistor3.i;
+    resistor3.LossPower = resistor3.v*resistor3.i;
+
+  // Component capacitor
+  // class Modelica.Electrical.Analog.Basic.Capacitor
+    // extends Modelica.Electrical.Analog.Interfaces.OnePort
+    equation
+      capacitor.v = capacitor.p.v-capacitor.n.v;
+      0 = capacitor.p.i+capacitor.n.i;
+      capacitor.i = capacitor.p.i;
+    // end of extends 
+  equation
+    capacitor.i = capacitor.C*der(capacitor.v);
+
+  // Component ground
+  // class Modelica.Electrical.Analog.Basic.Ground
+  equation
+    ground.p.v = 0;
+
+  // This model
+  // class CHEETA.Aircraft.Electrical.HTS.LiquidCooled.HTS_filmboiling_Voltage_Nitrogen
+  equation
+    mu = mu_0*mu_r;
+    epsilon = epsilon_0*epsilon_r;
+    I_c = I_c0*(1-port_a.T/T_c);
+    E = E_0*(pin_p.i/I_c)^n;
+    rho = DymolaModels.Functions.Math.divNoZero(E, I_c/A, 1E-60);
+    L_pi = l*mu/(2*pi)*log(b/a);
+    C_pi = l*2*pi*epsilon/log(b/a);
+    R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n, pin_p.i,
+       1E-60);
+    R_ac = DymolaModels.Functions.Math.divNoZero(delta, omega, 1E-60)*C_pi;
+    h = smooth(10, noEvent((if dT >= 8 then 10*DymolaModels.Functions.Math.divNoZero
+      ((-5.787)-0.155*dT, 1-0.546*dT, 1E-60) else 1000*(0.6953+0.001079*dT^4))));
+    dT = DymolaModels.Functions.Math.divNoZero(G, h, 1E-60);
+    z = noEvent((if dT < 3 then 0 else (if dT > 3 and dT < 100 then 1 else 2)));
+    port_a.Q_flow = ( -h*dT)-Q_ce;
+    Q = l*(mu_0*h*I_c^2)/(3*pi*b)*(I_c0/I_c)^3;
+    if (noEvent(pin_p.i > I_c)) then 
+      G = rho*I_c^2/(A_cu*P)+G_d;
+      Q_ce = sqrt(2*kappa*A_cu*P);
+      G_dp = G_d;
+    else
+      G = rho*I_c^2/(A_cu*P);
+      Q_ce = 0;
+      G_dp = 0;
+    end if;
+    capacitor.n.i+ground.p.i = 0.0;
+    ground.p.v = capacitor.n.v;
+    capacitor.p.i+inductor.n.i+inductor1.p.i+resistor2.n.i+resistor3.p.i = 0.0;
+    inductor.n.v = capacitor.p.v;
+    inductor1.p.v = capacitor.p.v;
+    resistor2.n.v = capacitor.p.v;
+    resistor3.p.v = capacitor.p.v;
+    inductor1.L = inductor.L;
+    realExpression2.y = inductor.L;
+    inductor.p.i+resistor.n.i+resistor2.p.i = 0.0;
+    resistor.n.v = inductor.p.v;
+    resistor2.p.v = inductor.p.v;
+    inductor1.n.i+resistor1.p.i+resistor3.n.i = 0.0;
+    resistor1.p.v = inductor1.n.v;
+    resistor3.n.v = inductor1.n.v;
+    pin_n.i-resistor1.n.i = 0.0;
+    resistor1.n.v = pin_n.v;
+    pin_p.i-resistor.p.i = 0.0;
+    resistor.p.v = pin_p.v;
+    resistor2.R = realExpression.y;
+    resistor3.R = realExpression.y;
+            
+// Initial equations and algorithms
+
+  // Component inductor
+  // class Modelica.Electrical.Analog.Basic.VariableInductor
+  initial equation
+    if (inductor.UIC) then 
+      inductor.i = inductor.IC;
+    end if;
+
+  // Component inductor1
+  // class Modelica.Electrical.Analog.Basic.VariableInductor
+  initial equation
+    if (inductor1.UIC) then 
+      inductor1.i = inductor1.IC;
+    end if;
+
+end HTS_filmboiling_Voltage_Nitrogen;

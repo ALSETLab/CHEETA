@@ -24,8 +24,8 @@ model FuelCell_ShortCircuit
   Modelica.Electrical.Analog.Basic.Resistor resistor4(R=100)
     annotation (Placement(transformation(extent={{68,-28},{88,-8}})));
   CHEETA.Aircraft.Electrical.FuelCell.FuelCell_EquationBased
-    fuelCell_EquationBased_DetailedRohm1(n=2, R_ohm_current=0.1373)
-    annotation (Placement(transformation(extent={{-70,-8},{-56,6}})));
+    fuelCell_EquationBased_DetailedRohm1(n=2, R_ohm_current=0.09)
+    annotation (Placement(transformation(extent={{-72,-8},{-58,6}})));
   Modelica.Electrical.Analog.Basic.Inductor inductor1(L=0.12086)
     annotation (Placement(transformation(extent={{68,-2},{88,18}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
@@ -66,11 +66,11 @@ equation
     annotation (Line(points={{-111,-30},{-100,-30}},
                                                color={0,0,127}));
   connect(prescribedTemperature4.port, fuelCell_EquationBased_DetailedRohm1.port_a)
-    annotation (Line(points={{-78,-30},{-63,-30},{-63,-8}},     color={191,0,0}));
+    annotation (Line(points={{-78,-30},{-65,-30},{-65,-8}},     color={191,0,0}));
   connect(inverter1.dc_p, resistor1.p) annotation (Line(points={{40,-12},{30,
           -12},{30,-4},{16,-4},{16,-8}},        color={0,0,255}));
   connect(fuelCell_EquationBased_DetailedRohm1.p1, HTS.pin_p) annotation (Line(
-        points={{-56,-0.3},{-56,0},{-40,0},{-40,20},{-29,20}}, color={0,0,255}));
+        points={{-58,-0.3},{-58,0},{-40,0},{-40,20},{-29,20}}, color={0,0,255}));
   connect(HTS.pin_n, resistor1.p)
     annotation (Line(points={{-11,20},{16,20},{16,-8}}, color={0,0,255}));
   connect(HTS.port_a, prescribedTemperature3.port)

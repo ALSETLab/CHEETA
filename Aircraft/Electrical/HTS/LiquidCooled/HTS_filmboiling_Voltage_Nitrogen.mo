@@ -113,7 +113,7 @@ equation
   R_pi = l*E_0*DymolaModels.Functions.Math.divNoZero((pin_p.i/I_c)^n,pin_p.i);
   R_ac =DymolaModels.Functions.Math.divNoZero((delta),omega)*C_pi;
 
-   h = smooth(10,noEvent(if dT>=2 then 10*DymolaModels.Functions.Math.divNoZero(-5.787-0.155*dT,1-0.546*dT) else 1000*(0.6953+0.001079*dT^4)));//100*DymolaModels.Functions.Math.divNoZero(-5.787-0.155*dT,1-0.546*dT)
+   h = smooth(10,noEvent(if dT>=11 then 1000*DymolaModels.Functions.Math.divNoZero(-5.787-0.155*dT,1-0.546*dT) else 1000*(0.6953+0.001079*dT^4)));//100*DymolaModels.Functions.Math.divNoZero(-5.787-0.155*dT,1-0.546*dT)
   dT = DymolaModels.Functions.Math.divNoZero(G,(h));
   //h = smooth(10,noEvent(if dT<2.999999 then 100*(dT)^n elseif (dT>=3 and dT<100) then 10^5/(dT) else 1000));
   z = noEvent(if dT<3 then 0 elseif (dT>3 and dT<100) then 1 else 2);
@@ -125,7 +125,7 @@ equation
     G_dp = G_d;
 
   else
-    G = rho * I_c^2 / (A_cu*P);
+    G = smooth(10, if noEvent((pin_p.i-I_c)<= 0) then Modelica.Constants.eps else (rho * (I_c - pin_p.i)^2 / (A_cu*P)));
     Q_ce = 0;
     G_dp = 0;
 

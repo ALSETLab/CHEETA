@@ -120,12 +120,12 @@ equation
   port_a.Q_flow = -h*dT-Q_ce;
   Q = l*(mu_0 * h * I_c^2)/ (3*pi*b) * (I_c0/I_c)^3;
   if noEvent(pin_p.i>I_c) then
-    G = (rho * I_c^2 / (A_cu*P)) + G_d;
+    G = smooth(10, if noEvent((pin_p.i-I_c)<= 0) then Modelica.Constants.eps else (rho * (I_c - pin_p.i)^2 / (A_cu*P)));
     Q_ce = sqrt(2*kappa*A_cu*P);
     G_dp = G_d;
 
   else
-    G = rho * I_c^2 / (A_cu*P);
+    G = smooth(10, if noEvent((pin_p.i-I_c)<= 0) then Modelica.Constants.eps else (rho * (I_c - pin_p.i)^2 / (A_cu*P)));
     Q_ce = 0;
     G_dp = 0;
 
