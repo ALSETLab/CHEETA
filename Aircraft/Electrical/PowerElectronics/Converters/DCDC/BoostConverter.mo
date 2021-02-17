@@ -2,17 +2,17 @@ within CHEETA.Aircraft.Electrical.PowerElectronics.Converters.DCDC;
 model BoostConverter "Step up chopper"
   import Modelica.Constants.pi;
   extends Modelica.Electrical.PowerConverters.Icons.Converter;
-  parameter Modelica.SIunits.Resistance RonTransistor=1e-05
+  parameter Modelica.Units.SI.Resistance RonTransistor=1e-05
     "Transistor closed resistance";
-  parameter Modelica.SIunits.Conductance GoffTransistor=1e-05
+  parameter Modelica.Units.SI.Conductance GoffTransistor=1e-05
     "Transistor opened conductance";
-  parameter Modelica.SIunits.Voltage VkneeTransistor=0
+  parameter Modelica.Units.SI.Voltage VkneeTransistor=0
     "Transistor threshold voltage";
-  parameter Modelica.SIunits.Resistance RonDiode(final min=0) = 1e-05
+  parameter Modelica.Units.SI.Resistance RonDiode(final min=0) = 1e-05
     "Closed diode resistance";
-  parameter Modelica.SIunits.Conductance GoffDiode(final min=0) = 1e-05
+  parameter Modelica.Units.SI.Conductance GoffDiode(final min=0) = 1e-05
     "Opened diode conductance";
-  parameter Modelica.SIunits.Voltage VkneeDiode(final min=0) = 0
+  parameter Modelica.Units.SI.Voltage VkneeDiode(final min=0) = 0
     "Diode forward threshold voltage";
   extends Modelica.Electrical.PowerConverters.Interfaces.DCDC.DCtwoPin1;
   extends Modelica.Electrical.PowerConverters.Interfaces.DCDC.DCtwoPin2;
@@ -39,16 +39,15 @@ model BoostConverter "Step up chopper"
   Modelica.Electrical.Analog.Basic.Inductor inductor(i(start=i),
                                                      L=L)
     annotation (Placement(transformation(extent={{-84,50},{-64,70}})));
-  parameter Modelica.SIunits.Inductance L "Inductance";
-  parameter Modelica.SIunits.Current i
-    "Current flowing from pin p to pin n";
+  parameter Modelica.Units.SI.Inductance L "Inductance";
+  parameter Modelica.Units.SI.Current i "Current flowing from pin p to pin n";
   Modelica.Electrical.Analog.Basic.Capacitor capacitor(v(start=v), C=C)
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={72,0})));
-  parameter Modelica.SIunits.Capacitance C "Capacitance";
-  parameter Modelica.SIunits.Voltage v
+  parameter Modelica.Units.SI.Capacitance C "Capacitance";
+  parameter Modelica.Units.SI.Voltage v
     "Voltage drop of the two pins (= p.v - n.v)";
 equation
   if not useHeatPort then

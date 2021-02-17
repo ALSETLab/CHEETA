@@ -13,7 +13,7 @@ model SG_to_secondary_distribution
         extent={{10,-10},{-10,10}},
         rotation=180,
         origin={-48,72})));
-  Modelica.Electrical.Machines.BasicMachines.AsynchronousInductionMachines.AIM_SquirrelCage
+  Modelica.Electrical.Machines.BasicMachines.InductionMachines.IM_SquirrelCage
     AC_Hydraulic_Pump(
     p=8,
     fsNominal=400,
@@ -49,8 +49,9 @@ model SG_to_secondary_distribution
         rotation=180,
         extent={{-10,-4},{10,4}},
         origin={44,8})));
-  Modelica.Electrical.MultiPhase.Basic.Star star(final m=3) annotation (
-      Placement(transformation(extent={{10,10},{-10,-10}},
+  Modelica.Electrical.Polyphase.Basic.Star star(final m=3) annotation (
+      Placement(transformation(
+        extent={{10,10},{-10,-10}},
         rotation=90,
         origin={74,30})));
   Modelica.Electrical.Analog.Basic.Ground ground1
@@ -59,11 +60,10 @@ model SG_to_secondary_distribution
         origin={74,2},
         extent={{10,-10},{-10,10}},
         rotation=0)));
-  Modelica.Electrical.MultiPhase.Basic.Resistor Lamp(m=3, R={1000/(200^2),1000/
-        (200^2),1000/(200^2)})
-    "AC 1kW load to power a resistive lamp"
+  Modelica.Electrical.Polyphase.Basic.Resistor Lamp(m=3, R={1000/(200^2),1000/(
+        200^2),1000/(200^2)}) "AC 1kW load to power a resistive lamp"
     annotation (Placement(transformation(extent={{28,-24},{48,-4}})));
-  Modelica.Electrical.MultiPhase.Basic.Star star1
+  Modelica.Electrical.Polyphase.Basic.Star star1
     annotation (Placement(transformation(extent={{62,-24},{82,-4}})));
   Modelica.Electrical.Analog.Basic.Ground ground annotation (Placement(
         transformation(

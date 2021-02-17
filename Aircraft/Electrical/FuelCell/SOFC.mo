@@ -79,7 +79,7 @@ model SOFC
           extent={{28,70},{48,90}})));
   Modelica.Electrical.Analog.Basic.Ground ground
     annotation (Placement(transformation(extent={{28,48},{48,68}})));
-  parameter Modelica.SIunits.Resistance R "Resistance at temperature T_ref";
+  parameter Modelica.Units.SI.Resistance R "Resistance at temperature T_ref";
 equation
 
   connect(flowAnode.fluidPort, stack.feed_an) annotation (Line(points={{-71,20},

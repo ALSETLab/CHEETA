@@ -6,8 +6,8 @@ model Fan "Simple fan model"
                     "Flange of left shaft" annotation (Placement(transformation(
           extent={{-60,-10},{-40,10}}), iconTransformation(extent={{-60,-10},{
             -40,10}})));
-  parameter Modelica.SIunits.Inertia J=1 "Moment of inertia of the fan blades";
-  parameter Modelica.SIunits.Angle deltaPhi=0
+  parameter Modelica.Units.SI.Inertia J=1 "Moment of inertia of the fan blades";
+  parameter Modelica.Units.SI.Angle deltaPhi=0
     "Fixed rotation of left flange with respect to right flange";
 equation
   connect(flange_a1, inertia.flange_a)

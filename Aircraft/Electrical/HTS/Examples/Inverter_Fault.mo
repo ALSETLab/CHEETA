@@ -72,12 +72,12 @@ model Inverter_Fault
     annotation (Placement(transformation(extent={{104,-16},{124,4}})));
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor annotation (Placement(transformation(extent={{68,-12},
             {80,0}})));
-  Modelica.Electrical.MultiPhase.Basic.Star star annotation (Placement(
+  Modelica.Electrical.Polyphase.Basic.Star star annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={-6,-34})));
-  Modelica.Electrical.MultiPhase.Basic.Resistor resistor(R={0.1,0.1,0.1})
+  Modelica.Electrical.Polyphase.Basic.Resistor resistor(R={0.1,0.1,0.1})
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,

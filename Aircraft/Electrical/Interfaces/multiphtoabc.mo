@@ -1,8 +1,8 @@
 within CHEETA.Aircraft.Electrical.Interfaces;
 model multiphtoabc
-  Modelica.Electrical.MultiPhase.Interfaces.PositivePlug m
-    annotation (Placement(transformation(extent={{-106,-4},{-86,16}}),
-        iconTransformation(extent={{-106,-4},{-86,16}})));
+  Modelica.Electrical.Polyphase.Interfaces.PositivePlug m annotation (Placement(
+        transformation(extent={{-106,-4},{-86,16}}), iconTransformation(extent=
+            {{-106,-4},{-86,16}})));
   Modelica.Electrical.Analog.Interfaces.PositivePin a
     annotation (Placement(transformation(extent={{94,86},{114,106}})));
   Modelica.Electrical.Analog.Interfaces.PositivePin b

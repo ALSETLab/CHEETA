@@ -31,10 +31,11 @@ model Battery "Battery with SOC output"
   Modelica.Blocks.Logical.LessThreshold voltageLimit(threshold=V_min)
     annotation (Placement(transformation(extent={{-20,-80},{0,-60}})));
 
-  final parameter Modelica.SIunits.Mass m_battery = stackVoltage.ns*stackVoltage.np*stackVoltage.cellInfo.m_cell
-    "Battery mass, calculated from cell mass";
+  final parameter Modelica.Units.SI.Mass m_battery=stackVoltage.ns*stackVoltage.np
+      *stackVoltage.cellInfo.m_cell "Battery mass, calculated from cell mass";
 
-  final parameter Modelica.SIunits.Resistance R_int = (stackVoltage.ns/stackVoltage.np)*stackVoltage.cellInfo.R_cell
+  final parameter Modelica.Units.SI.Resistance R_int=(stackVoltage.ns/
+      stackVoltage.np)*stackVoltage.cellInfo.R_cell
     "Battery internal resistance, calculated from cell resistance and number of series/parallel cells";
 
   parameter Real SOC_start=0.6 "Initial SOC";

@@ -2,7 +2,7 @@ within CHEETA.Aircraft;
 package Electrical
   record SystemBase "System Base Definition"
   parameter CHEETA.Types.ApparentPowerMega S_b=100 "System base";
-  parameter Modelica.SIunits.Frequency fn=50 "System Frequency";
+  parameter Modelica.Units.SI.Frequency fn=50 "System Frequency";
   annotation (
     Icon(coordinateSystem(
         preserveAspectRatio=false,

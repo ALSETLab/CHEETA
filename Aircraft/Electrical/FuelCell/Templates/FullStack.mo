@@ -23,13 +23,17 @@ model FullStack
   parameter Integer[nbrSubStacks] n_cell = fill(1,nbrSubStacks)
     "number of cells in substacks (vector)"                                          annotation(Dialog(tab="Stack", group="Configuration"));
 
-  parameter Modelica.SIunits.Area A_cell "active cell area" annotation(Dialog(tab="Stack",group="Cell data"));
-  parameter Modelica.SIunits.SpecificHeatCapacity Cp_cell
-    "specific heat capacity of cell material" annotation(Dialog(tab="Stack",group="Cell data"));
-  parameter Modelica.SIunits.CoefficientOfHeatTransfer kc_cell
-    "cell internal heat transfer coefficient" annotation(Dialog(tab="Stack",group="Cell data"));
+  parameter Modelica.Units.SI.Area A_cell "active cell area"
+    annotation (Dialog(tab="Stack", group="Cell data"));
+  parameter Modelica.Units.SI.SpecificHeatCapacity Cp_cell
+    "specific heat capacity of cell material"
+    annotation (Dialog(tab="Stack", group="Cell data"));
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer kc_cell
+    "cell internal heat transfer coefficient"
+    annotation (Dialog(tab="Stack", group="Cell data"));
 
-  parameter Modelica.SIunits.Mass M_stack = 1 "total mass of stack" annotation(Dialog(group="General"));
+  parameter Modelica.Units.SI.Mass M_stack=1 "total mass of stack"
+    annotation (Dialog(group="General"));
 
   /* Heat transfer */
   extends FuelCell.Stacks.Interfaces.HeatTransferParameters;
@@ -44,38 +48,42 @@ model FullStack
   extends FuelCell.Stacks.Interfaces.AdvancedParameters(final
       useHeatTransfer_anode=false, final useHeatTransfer_cathode=false);
 
-  parameter Modelica.SIunits.Pressure dp_start_anode=5000
+  parameter Modelica.Units.SI.Pressure dp_start_anode=5000
     "Initial pressure drop in anode manifolds due to friction/Pipe resistance"
-  annotation(Dialog(tab="Initialization", group="Manifold"));
+    annotation (Dialog(tab="Initialization", group="Manifold"));
 
-  parameter Modelica.SIunits.Pressure dp_start_cathode=5000
+  parameter Modelica.Units.SI.Pressure dp_start_cathode=5000
     "Initial pressure drop in cathode manifolds due to friction/Pipe resistance"
-  annotation(Dialog(tab="Initialization", group="Manifold"));
+    annotation (Dialog(tab="Initialization", group="Manifold"));
 
   parameter Real[nbrSubStacks] splitRatio_an = n_cell/sum(n_cell)
     "splitratio anode side"                                                              annotation(Dialog(group="Manifolds"));
   parameter Real[nbrSubStacks] splitRatio_cath = n_cell/sum(n_cell)
     "splitratio cathode side"                                                                annotation(Dialog(group="Manifolds"));
 
-  parameter Modelica.SIunits.Volume V_manifold_an = 0.001 "Manifold_an volume" annotation(Dialog(group="Manifolds"));
-  parameter Modelica.SIunits.Volume V_manifold_cath = 0.001
-    "Manifold_cath volume"                                                         annotation(Dialog(group="Manifolds"));
+  parameter Modelica.Units.SI.Volume V_manifold_an=0.001 "Manifold_an volume"
+    annotation (Dialog(group="Manifolds"));
+  parameter Modelica.Units.SI.Volume V_manifold_cath=0.001
+    "Manifold_cath volume" annotation (Dialog(group="Manifolds"));
 
-  parameter Modelica.SIunits.Height height = sum(n_cell)*thickness_cell
-    "Stack height" annotation(Dialog(group="Stack parameter"));
+  parameter Modelica.Units.SI.Height height=sum(n_cell)*thickness_cell
+    "Stack height" annotation (Dialog(group="Stack parameter"));
 
-  parameter Modelica.SIunits.Length thickness_cell = 3e-2 "Cell thickness" annotation(Dialog(group="Cell parameters"));
+  parameter Modelica.Units.SI.Length thickness_cell=3e-2 "Cell thickness"
+    annotation (Dialog(group="Cell parameters"));
 
-  parameter Modelica.SIunits.Length wallthickness = 0.01
-    "Average metal thickness of wall" annotation(Dialog(group="End plates"));
+  parameter Modelica.Units.SI.Length wallthickness=0.01
+    "Average metal thickness of wall" annotation (Dialog(group="End plates"));
 
-  parameter Modelica.SIunits.Area A_cell_tot(min=A_cell) = 400e-4
-    "Total cell area"   annotation(Dialog(group="Cell parameters"));
+  parameter Modelica.Units.SI.Area A_cell_tot(min=A_cell) = 400e-4
+    "Total cell area" annotation (Dialog(group="Cell parameters"));
 
-  parameter Modelica.SIunits.MassFlowRate m_flow_nom_an = 1e-3
-    "Nominal mass flow rate anode side" annotation(Dialog(group="Pressure loss"));
-  parameter Modelica.SIunits.MassFlowRate m_flow_nom_cath = 1e-3
-    "Nominal mass flow rate cathode side" annotation(Dialog(group="Pressure loss"));
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nom_an=1e-3
+    "Nominal mass flow rate anode side"
+    annotation (Dialog(group="Pressure loss"));
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nom_cath=1e-3
+    "Nominal mass flow rate cathode side"
+    annotation (Dialog(group="Pressure loss"));
 
   FuelCell.HeatTransfer.BasicHeatTransfer[nbrSubStacks-1] heat(
     each n=N,
@@ -131,10 +139,12 @@ SubStack subStack[nbrSubStacks](
     N=nbrSubStacks,
     tAirStkIn=feed_Cathode.volume[1].summary.T,
     tFuelStkIn=feed_Anode.volume[1].summary.T,
-    tFuelStkOut={subStack[i].anode_channel.channel.gas[end].T_degC for i in 1:nbrSubStacks},
-    tAirStkOut={subStack[i].cathode_channel.channel.gas[end].T_degC for i in 1:nbrSubStacks},
-    tStkOut=Modelica.SIunits.Conversions.to_degC({subStack[i].T_stack[end] for
-        i in 1:nbrSubStacks}),
+    tFuelStkOut={subStack[i].anode_channel.channel.gas[end].T_degC for i in 1:
+        nbrSubStacks},
+    tAirStkOut={subStack[i].cathode_channel.channel.gas[end].T_degC for i in 1:
+        nbrSubStacks},
+    tStkOut=Modelica.Units.Conversions.to_degC({subStack[i].T_stack[end] for i in
+            1:nbrSubStacks}),
     tStkTopWall=sum(topWall.T_degC)/N,
     tStkBottomWall=sum(bottomWall.T_degC)/N,
     PStkElec=(pin_p.v - pin_n.v)*(-pin_p.i),
@@ -145,8 +155,8 @@ SubStack subStack[nbrSubStacks](
     PStk=pin_p.v*pin_n.i,
     facFuelStkUtil={subStack[i].utilization for i in 1:nbrSubStacks},
     facFuelStkOutComp={subStack[i].cell.y_an[end, 1:7] for i in 1:nbrSubStacks})
-    "Summary record"                                                                                 annotation ( Placement(
-         transformation(extent={{-80,60},{-60,80}}, rotation=0)));
+    "Summary record" annotation (Placement(transformation(extent={{-80,60},{-60,
+            80}}, rotation=0)));
 
   FuelCell.HeatTransfer.BasicHeatTransfer            topHeatTransfer(
     n=N,

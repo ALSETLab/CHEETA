@@ -23,32 +23,33 @@ model PEMFC
   parameter Integer[1] cath = Medium_cath.substanceIndexVector({"O2"})
     "index of required substances on the cathode side"                                                                        annotation(Evaluate=true);
 
-  parameter Modelica.SIunits.MassFraction[Medium_an.nS] X_fuel= {0.04,0,0.41,0.17,0.3785,0.0015}
-    "Inlet fuel composition";
+  parameter Modelica.Units.SI.MassFraction[Medium_an.nS] X_fuel={0.04,0,0.41,
+      0.17,0.3785,0.0015} "Inlet fuel composition";
 
-  parameter Modelica.SIunits.MassFraction[Medium_cath.nS] X_air = {0,0,0.05,0.74,0.21}
-    "Inlet air composition";
+  parameter Modelica.Units.SI.MassFraction[Medium_cath.nS] X_air={0,0,0.05,0.74,
+      0.21} "Inlet air composition";
 
-  parameter Modelica.SIunits.Temperature Tin_fuel = 323.15
+  parameter Modelica.Units.SI.Temperature Tin_fuel=323.15
     "Inlet fuel temperature";
-  parameter Modelica.SIunits.Temperature Tin_air = 323.15
+  parameter Modelica.Units.SI.Temperature Tin_air=323.15
     "Inlet air temperature";
-  parameter Modelica.SIunits.Temperature Tin_water = 330.15
+  parameter Modelica.Units.SI.Temperature Tin_water=330.15
     "Inlet water temperature";
 
-  parameter Modelica.SIunits.Pressure pstart_an = 1.3e5
+  parameter Modelica.Units.SI.Pressure pstart_an=1.3e5
     "Start pressure (anode side)";
-  parameter Modelica.SIunits.Pressure pstart_cath = 1.2e5
+  parameter Modelica.Units.SI.Pressure pstart_cath=1.2e5
     "Start pressure (cathode side)";
-  parameter Modelica.SIunits.Pressure pin_water = 2.06e5 "Inlet water pressure";
+  parameter Modelica.Units.SI.Pressure pin_water=2.06e5 "Inlet water pressure";
 
-  parameter Modelica.SIunits.MassFlowRate m_fuel= 0.0024 "Inlet fuel flow rate";
-  parameter Modelica.SIunits.MassFlowRate m_air = 0.007 "Inlet air flow rate";
-  parameter Modelica.SIunits.MassFlowRate m_water = 0.1 "Inlet water flow rate";
+  parameter Modelica.Units.SI.MassFlowRate m_fuel=0.0024 "Inlet fuel flow rate";
+  parameter Modelica.Units.SI.MassFlowRate m_air=0.007 "Inlet air flow rate";
+  parameter Modelica.Units.SI.MassFlowRate m_water=0.1 "Inlet water flow rate";
   parameter Real cath_stoich = 1.7 "cathode stoichiometry";
   parameter Real anode_stoich = 1.2 "anode stoichiometry";
 
-  parameter Modelica.SIunits.MassFlowRate m_out = m_air*X_air[cath[1]]*(1-1/cath_stoich)
+  parameter Modelica.Units.SI.MassFlowRate m_out=m_air*X_air[cath[1]]*(1 - 1/
+      cath_stoich)
     "calculated mass flow rate of oxygen gas at cathode outlet, may be used for control of the inlet cathode flow rate";
   FuelCell.Sources.GasFlowBoundary flowAnode(
     redeclare package Medium = Medium_an,

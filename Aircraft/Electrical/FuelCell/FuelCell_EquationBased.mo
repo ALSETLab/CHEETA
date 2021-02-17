@@ -3,8 +3,10 @@ model FuelCell_EquationBased
   parameter Real E_0 = 1239.764;
 
   parameter Real n = 2 "Intrinsic value";
-  parameter Modelica.SIunits.PartialPressure P_O2 = 1.6 "Partial pressure of oxygen";
-  parameter Modelica.SIunits.PartialPressure P_H2 = 1.6 "Partial pressure of hydrogen";
+  parameter Modelica.Units.SI.PartialPressure P_O2=1.6
+    "Partial pressure of oxygen";
+  parameter Modelica.Units.SI.PartialPressure P_H2=1.6
+    "Partial pressure of hydrogen";
   Modelica.Electrical.Analog.Sources.SignalVoltage   E_cell         annotation (
      Placement(transformation(
         extent={{-10,10},{10,-10}},
@@ -37,7 +39,7 @@ model FuelCell_EquationBased
   Real E_Nernst;
   Real R_act_val;
   Real R_conc_val;
-  Modelica.SIunits.Current I_max = 5000 "Maximum current of fuel cell";
+  Modelica.Units.SI.Current I_max=5000 "Maximum current of fuel cell";
   Real z;
   Modelica.Blocks.Sources.RealExpression realExpression(y=E_Nernst)
     annotation (Placement(transformation(extent={{-94,-28},{-74,-8}})));
@@ -47,7 +49,7 @@ model FuelCell_EquationBased
     annotation (Placement(transformation(extent={{-54,54},{-34,74}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
-  parameter Modelica.SIunits.Resistance R_ohm_current=0.02
+  parameter Modelica.Units.SI.Resistance R_ohm_current=0.02
     "Resistance of current leads";
   Modelica.Electrical.Analog.Basic.Resistor R_ohm(R=R_ohm_current)
     annotation (Placement(transformation(extent={{40,4},{60,24}})));

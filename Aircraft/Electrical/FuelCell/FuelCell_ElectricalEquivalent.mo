@@ -41,7 +41,7 @@ model FuelCell_ElectricalEquivalent
   Modelica.Electrical.Analog.Interfaces.PositivePin p1
                 "Positive electrical pin"
     annotation (Placement(transformation(extent={{90,0},{110,20}})));
-  Modelica.Electrical.Analog.Ideal.IdealCommutingSwitch switch
+  Modelica.Electrical.Analog.Ideal.IdealTwoWaySwitch switch
     annotation (Placement(transformation(extent={{84,36},{64,16}})));
   Modelica.Blocks.Sources.BooleanStep booleanStep(startTime=faultTime)
     annotation (Placement(transformation(extent={{28,-34},{48,-14}})));

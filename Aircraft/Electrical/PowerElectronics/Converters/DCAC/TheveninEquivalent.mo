@@ -1,11 +1,11 @@
 within CHEETA.Aircraft.Electrical.PowerElectronics.Converters.DCAC;
 model TheveninEquivalent "Single phase DC to AC converter"
   extends Modelica.Blocks.Icons.Block;
-  parameter Modelica.SIunits.Resistance R = 1e-3 "Resistance of diode";
-  parameter Modelica.SIunits.Resistance R_cm = 1e-2 "Common mode resistance";
+  parameter Modelica.Units.SI.Resistance R=1e-3 "Resistance of diode";
+  parameter Modelica.Units.SI.Resistance R_cm=1e-2 "Common mode resistance";
   // parameter Boolean useEnable "Enables enable signal connector";
-  Modelica.SIunits.Voltage V_th "Thevenin voltage";
-  Modelica.SIunits.Resistance Z_th = R/3 + R_cm "Thevenin resistance";
+  Modelica.Units.SI.Voltage V_th "Thevenin voltage";
+  Modelica.Units.SI.Resistance Z_th=R/3 + R_cm "Thevenin resistance";
 
   extends Modelica.Electrical.PowerConverters.Interfaces.DCAC.DCtwoPin;
   extends Modelica.Electrical.PowerConverters.Interfaces.DCAC.ACpin;

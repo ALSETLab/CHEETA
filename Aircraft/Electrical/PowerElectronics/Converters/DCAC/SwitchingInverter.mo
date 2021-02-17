@@ -6,60 +6,60 @@ model SwitchingInverter "Single phase DC to AC converter with switching"
   extends ElectrifiedPowertrains.PowerElectronics.Inverters.Averaged.Electrical.Interfaces.ThermalBase;
   extends DymolaModels.Icons.Models.Inverter;
 
-  parameter Modelica.SIunits.Resistance RonTransistor=1e-05
+  parameter Modelica.Units.SI.Resistance RonTransistor=1e-05
     "Transistor closed resistance";
-  parameter Modelica.SIunits.Conductance GoffTransistor=1e-05
+  parameter Modelica.Units.SI.Conductance GoffTransistor=1e-05
     "Transistor opened conductance";
-  parameter Modelica.SIunits.Voltage VkneeTransistor=0
+  parameter Modelica.Units.SI.Voltage VkneeTransistor=0
     "Transistor threshold voltage";
-  parameter Modelica.SIunits.Resistance RonDiode=1e-05
+  parameter Modelica.Units.SI.Resistance RonDiode=1e-05
     "Diode closed resistance";
-  parameter Modelica.SIunits.Conductance GoffDiode=1e-05
+  parameter Modelica.Units.SI.Conductance GoffDiode=1e-05
     "Diode opened conductance";
-  parameter Modelica.SIunits.Voltage VkneeDiode=0 "Diode threshold voltage";
+  parameter Modelica.Units.SI.Voltage VkneeDiode=0 "Diode threshold voltage";
   parameter Integer m = 3 "Number of phases";
-  Modelica.Electrical.MultiPhase.Ideal.IdealGTOThyristor transistor_p(
+  Modelica.Electrical.Polyphase.Ideal.IdealGTOThyristor transistor_p(
     final m=m,
     final Ron=fill(RonTransistor, m),
     final Goff=fill(GoffTransistor, m),
     final Vknee=fill(VkneeTransistor, m),
-    useHeatPort=false)                    annotation (Placement(transformation(
+    useHeatPort=false) annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={6,20})));
-  Modelica.Electrical.MultiPhase.Ideal.IdealDiode diode_p(
+  Modelica.Electrical.Polyphase.Ideal.IdealDiode diode_p(
     final m=m,
     final Ron=fill(RonDiode, m),
     final Goff=fill(GoffDiode, m),
     final Vknee=fill(VkneeDiode, m),
-    useHeatPort=false)               annotation (Placement(transformation(
+    useHeatPort=false) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={46,20})));
-  Modelica.Electrical.MultiPhase.Basic.Star star_p(final m=m) annotation (
+  Modelica.Electrical.Polyphase.Basic.Star star_p(final m=m) annotation (
       Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=90,
         origin={26,50})));
-  Modelica.Electrical.MultiPhase.Ideal.IdealGTOThyristor transistor_n(
+  Modelica.Electrical.Polyphase.Ideal.IdealGTOThyristor transistor_n(
     final m=m,
     final Ron=fill(RonTransistor, m),
     final Goff=fill(GoffTransistor, m),
     final Vknee=fill(VkneeTransistor, m),
-    useHeatPort=false)                    annotation (Placement(transformation(
+    useHeatPort=false) annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={6,-20})));
-  Modelica.Electrical.MultiPhase.Ideal.IdealDiode diode_n(
+  Modelica.Electrical.Polyphase.Ideal.IdealDiode diode_n(
     final m=m,
     final Ron=fill(RonDiode, m),
     final Goff=fill(GoffDiode, m),
     final Vknee=fill(VkneeDiode, m),
-    useHeatPort=false)               annotation (Placement(transformation(
+    useHeatPort=false) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={46,-20})));
-  Modelica.Electrical.MultiPhase.Basic.Star star_n(final m=m) annotation (
+  Modelica.Electrical.Polyphase.Basic.Star star_n(final m=m) annotation (
       Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=90,

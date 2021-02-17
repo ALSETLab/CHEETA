@@ -1,11 +1,11 @@
 within CHEETA.Aircraft.Electrical.Machines.Motors;
 model AIMC_SquirrelCage
-  import SI = Modelica.SIunits;
-  import Modelica.SIunits.Conversions.*;
+  import      Modelica.Units.SI;
+  import Modelica.Units.Conversions.*;
   parameter Integer m= 3 "Number of phases";
 
   parameter Real wref = 4000;
-  Modelica.Electrical.Machines.BasicMachines.AsynchronousInductionMachines.AIM_SquirrelCage
+  Modelica.Electrical.Machines.BasicMachines.InductionMachines.IM_SquirrelCage
     aimc(
     p=aimcData.p,
     fsNominal=aimcData.fs_nom,
@@ -25,8 +25,8 @@ model AIMC_SquirrelCage
     TrRef=aimcData.Tr_ref,
     TsOperational=293.15,
     alpha20r=aimcData.alpha20r,
-    TrOperational=293.15) annotation (Placement(transformation(extent={{-10,-48},
-            {10,-28}})));
+    TrOperational=293.15)
+    annotation (Placement(transformation(extent={{-10,-48},{10,-28}})));
   Modelica.Electrical.Machines.Utilities.TerminalBox
                                  terminalBox(terminalConnection="Y")
     annotation (Placement(transformation(extent={{-10,-32},{10,-12}})));
@@ -36,13 +36,14 @@ model AIMC_SquirrelCage
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={0,0})));
-  Modelica.Electrical.MultiPhase.Sources.SignalVoltage signalVoltage(final m=m)
-                 annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Sources.SignalVoltage signalVoltage(final m=m)
+    annotation (Placement(transformation(
         origin={0,32},
         extent={{10,10},{-10,-10}},
         rotation=270)));
-  Modelica.Electrical.MultiPhase.Basic.Star star(final m=m) annotation (
-      Placement(transformation(extent={{10,-10},{-10,10}},
+  Modelica.Electrical.Polyphase.Basic.Star star(final m=m) annotation (
+      Placement(transformation(
+        extent={{10,-10},{-10,10}},
         rotation=270,
         origin={0,60})));
   Modelica.Electrical.Analog.Basic.Ground ground annotation (Placement(

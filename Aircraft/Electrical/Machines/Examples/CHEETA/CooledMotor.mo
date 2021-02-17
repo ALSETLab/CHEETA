@@ -84,8 +84,8 @@ equation
           {{-29,-52},{-22,-52},{-22,-46},{-20,-46},{-20,-36}}, color={255,0,255}));
   connect(HTS.pin_n, electricDrive1.pin_p) annotation (Line(points={{-29,0},{28,
           0},{28,-14},{86,-14}}, color={0,0,255}));
-  connect(battery_FC_Charging.p1, electricDrive1.pin_p) annotation (Line(points
-        ={{-12,-17},{-12,0},{28,0},{28,-14},{86,-14}}, color={0,0,255}));
+  connect(battery_FC_Charging.p1, electricDrive1.pin_p) annotation (Line(points=
+         {{-12,-17},{-12,0},{28,0},{28,-14},{86,-14}}, color={0,0,255}));
   connect(constantTorque.flange, multiSensor.flange_b)
     annotation (Line(points={{134,-20},{126,-20}}, color={0,0,0}));
   connect(multiSensor.flange_a, electricDrive1.flange)

@@ -9,37 +9,36 @@ model Yd
   parameter Real Lm = 12.631 "Magnetization Inductance";
   parameter Real N = 200/(22*sqrt(3)) "Transformer Turn Ratio";
 
-  Modelica.Electrical.MultiPhase.Basic.Star
-             starT(m=m) annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Basic.Star starT(m=m) annotation (Placement(
+        transformation(
         origin={-46,-44},
         extent={{-10,-10},{10,10}},
         rotation=270)));
-  Modelica.Electrical.MultiPhase.Basic.Delta
-              deltaT2(m=m) annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Basic.Delta deltaT2(m=m) annotation (Placement(
+        transformation(
         origin={34,30},
         extent={{-10,10},{10,-10}},
         rotation=270)));
   Modelica.Electrical.Analog.Basic.Ground groundT annotation (Placement(
         transformation(extent={{-56,-80},{-36,-60}})));
-  Modelica.Electrical.MultiPhase.Basic.Resistor R_sec1(m=m, R=fill(R2, m))
+  Modelica.Electrical.Polyphase.Basic.Resistor R_sec1(m=m, R=fill(R2, m))
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
-  Modelica.Electrical.MultiPhase.Basic.Resistor R_pr(m=m, R=fill(R1, m))
+  Modelica.Electrical.Polyphase.Basic.Resistor R_pr(m=m, R=fill(R1, m))
     annotation (Placement(transformation(extent={{-114,30},{-94,50}})));
-  Modelica.Electrical.MultiPhase.Basic.Resistor R_m(m=m, R=fill(Rm, m))
+  Modelica.Electrical.Polyphase.Basic.Resistor R_m(m=m, R=fill(Rm, m))
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-74,20})));
-  Modelica.Electrical.MultiPhase.Interfaces.PositivePlug Primary
+  Modelica.Electrical.Polyphase.Interfaces.PositivePlug Primary
     annotation (Placement(transformation(extent={{-172,-10},{-152,10}})));
-  Modelica.Electrical.MultiPhase.Interfaces.NegativePlug Secondary1
+  Modelica.Electrical.Polyphase.Interfaces.NegativePlug Secondary1
     annotation (Placement(transformation(extent={{94,-10},{114,10}})));
-  Modelica.Electrical.MultiPhase.Ideal.IdealTransformer
-                         idealTransformer(
+  Modelica.Electrical.Polyphase.Ideal.IdealTransformer idealTransformer(
     m=m,
     Lm1=fill(Lm, m),
-    n=fill(N, m))  annotation (Placement(transformation(extent={{-42,20},
-            {-22,40}})));
+    n=fill(N, m))
+    annotation (Placement(transformation(extent={{-42,20},{-22,40}})));
 equation
   connect(groundT.p,starT. pin_n)
     annotation (Line(points={{-46,-60},{-46,-54}}, color={0,0,255}));

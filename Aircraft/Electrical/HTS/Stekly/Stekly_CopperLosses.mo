@@ -1,18 +1,19 @@
 within CHEETA.Aircraft.Electrical.HTS.Stekly;
 model Stekly_CopperLosses "HTS line using Stekly equations"
-parameter Modelica.SIunits.Length l "Length of wire";
-parameter Modelica.SIunits.ElectricFieldStrength E_0 = 1e-4 "Reference electric field";
+  parameter Modelica.Units.SI.Length l "Length of wire";
+  parameter Modelica.Units.SI.ElectricFieldStrength E_0=1e-4
+    "Reference electric field";
 parameter Real n = 2 "Intrinstic value of the superconductor";
 parameter Real I_c0 = 1 "Reference corner current";
 parameter Real dT = 2 "Change in temperature";
-parameter Modelica.SIunits.Area A = 1 "Area";
-parameter Modelica.SIunits.Length P = 0.1035 "Perimeter of cable";
-parameter Modelica.SIunits.Resistivity rho = 2.1e-9 "Resitivity of copper";
-parameter Modelica.SIunits.Current I_crit "Critical current";
-Modelica.SIunits.Current I_c "corner current";
-Modelica.SIunits.ElectricFieldStrength E "Electric field";
-Modelica.SIunits.Power G;
-Modelica.SIunits.Voltage x;
+  parameter Modelica.Units.SI.Area A=1 "Area";
+  parameter Modelica.Units.SI.Length P=0.1035 "Perimeter of cable";
+  parameter Modelica.Units.SI.Resistivity rho=2.1e-9 "Resitivity of copper";
+  parameter Modelica.Units.SI.Current I_crit "Critical current";
+  Modelica.Units.SI.Current I_c "corner current";
+  Modelica.Units.SI.ElectricFieldStrength E "Electric field";
+  Modelica.Units.SI.Power G;
+  Modelica.Units.SI.Voltage x;
 
 
 Modelica.Electrical.Analog.Interfaces.PositivePin pin_p             annotation (Placement(

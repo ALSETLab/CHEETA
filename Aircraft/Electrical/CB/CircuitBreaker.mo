@@ -3,8 +3,8 @@ model CircuitBreaker "Ideal circuit breaker"
   SimpleCircuitBreaker switch
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   parameter Boolean useHeatPort=false "=true, if heatPort is enabled";
-  parameter Modelica.SIunits.Conductance Goff=1e-5 "Opened switch conductance";
-  parameter Modelica.SIunits.Resistance Ron=1e-5 "Closed switch resistance";
+  parameter Modelica.Units.SI.Conductance Goff=1e-5 "Opened switch conductance";
+  parameter Modelica.Units.SI.Resistance Ron=1e-5 "Closed switch resistance";
   CB_Trigger cB_Trigger(k=k)
     annotation (Placement(transformation(extent={{-16,24},{-4,32}})));
   Modelica.Electrical.Analog.Interfaces.PositivePin p1

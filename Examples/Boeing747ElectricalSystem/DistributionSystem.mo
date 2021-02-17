@@ -44,7 +44,7 @@ model DistributionSystem
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-10,-30})));
-  Modelica.Electrical.MultiPhase.Basic.Inductor inductor(L=fill(1e-3, 3))
+  Modelica.Electrical.Polyphase.Basic.Inductor inductor(L=fill(1e-3, 3))
     annotation (Placement(transformation(extent={{-20,-70},{0,-50}})));
 equation
   connect(timeTable.y,RPMtoRPS. u)

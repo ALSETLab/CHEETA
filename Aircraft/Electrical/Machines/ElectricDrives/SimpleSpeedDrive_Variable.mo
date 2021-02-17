@@ -31,22 +31,23 @@ model SimpleSpeedDrive_Variable
     annotation (Placement(transformation(extent={{-94,-50},{-74,-30}}),
         iconTransformation(extent={{-94,-50},{-74,-30}})));
 
-  parameter Modelica.SIunits.Time T=10
-    "Time Constant (T>0 required) for speed drive PID" annotation (Dialog(group="Speed Drive Controller"));
+  parameter Modelica.Units.SI.Time T=10
+    "Time Constant (T>0 required) for speed drive PID"
+    annotation (Dialog(group="Speed Drive Controller"));
   parameter Real k=1 "Gain for speed drive PID" annotation (Dialog(group="Speed Drive Controller"));
-  parameter Modelica.SIunits.Frequency f(displayUnit="kHz") = 100000
+  parameter Modelica.Units.SI.Frequency f(displayUnit="kHz") = 100000
     "Switching frequency for inverter" annotation (Dialog(group="Inverter"));
-  parameter Modelica.SIunits.Resistance R=149
+  parameter Modelica.Units.SI.Resistance R=149
     "Effective resistance for hysteresis" annotation (Dialog(group="Motor"));
-  parameter Modelica.SIunits.Resistance R_trs=1e-6
+  parameter Modelica.Units.SI.Resistance R_trs=1e-6
     "Effective resistance for transport  ac loss"
     annotation (Dialog(group="Motor"));
-  parameter Modelica.SIunits.Inductance X_s=0.041 "Reactance"
+  parameter Modelica.Units.SI.Inductance X_s=0.041 "Reactance"
     annotation (Dialog(group="Motor"));
-  parameter Modelica.SIunits.Resistance R_hyst=149
+  parameter Modelica.Units.SI.Resistance R_hyst=149
     "Effective resistance for hysteresis ac loss"
     annotation (Dialog(group="Motor"));
-  parameter Modelica.SIunits.ElectricalTorqueConstant EMF_k=0.021
+  parameter Modelica.Units.SI.ElectricalTorqueConstant EMF_k=0.021
     "Transformation coefficient of back EMF" annotation (Dialog(group="Motor"));
   Modelica.Blocks.Interfaces.RealInput wref annotation (Placement(
         transformation(

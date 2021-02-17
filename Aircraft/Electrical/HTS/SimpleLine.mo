@@ -7,16 +7,16 @@ model SimpleLine
                 "Positive electrical pin"
     annotation (Placement(transformation(extent={{-100,-10},{-80,10}}),
         iconTransformation(extent={{-100,-10},{-80,10}})));
-  parameter Modelica.SIunits.Inductance L=1e-6 "Line inductance";
+  parameter Modelica.Units.SI.Inductance L=1e-6 "Line inductance";
   Modelica.Electrical.Analog.Basic.Resistor resistor(R=R)
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
   Modelica.Electrical.Analog.Interfaces.NegativePin n1
                 "Negative electrical pin"
     annotation (Placement(transformation(extent={{80,-10},{100,10}}),
         iconTransformation(extent={{80,-10},{100,10}})));
-  parameter Modelica.SIunits.Resistance R=0
+  parameter Modelica.Units.SI.Resistance R=0
     "Line resistance at temperature T_ref";
-  parameter Modelica.SIunits.Current i(start=0)
+  parameter Modelica.Units.SI.Current i(start=0)
     "Current flowing from pin p to pin n";
 equation
   connect(inductor.p, p1)

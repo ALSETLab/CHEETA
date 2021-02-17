@@ -42,7 +42,7 @@ model VSI_averaged
             {-102,44}})));
   Modelica.Mechanics.Rotational.Sensors.MultiSensor multiSensor annotation (Placement(transformation(extent={{64,34},
             {76,46}})));
-  Modelica.Electrical.MultiPhase.Basic.Star star annotation (Placement(
+  Modelica.Electrical.Polyphase.Basic.Star star annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
@@ -61,13 +61,12 @@ model VSI_averaged
                                                               threePhaseRectifier(
       enableSmoothing=true)
     annotation (Placement(transformation(extent={{-46,-20},{-26,0}})));
-  Modelica.Electrical.MultiPhase.Sources.SineVoltage sineVoltage(V=fill(400*
-        sqrt(2), 3),
-      freqHz=fill(60, 3)) annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Sources.SineVoltage sineVoltage(V=fill(400*sqrt(
+        2), 3), f=fill(60, 3)) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-60,-30})));
-  Modelica.Electrical.Machines.BasicMachines.SynchronousInductionMachines.SM_PermanentMagnet
+  Modelica.Electrical.Machines.BasicMachines.SynchronousMachines.SM_PermanentMagnet
     smpm1(
     p=smpmData.p,
     fsNominal=smpmData.fsNominal,
@@ -94,8 +93,8 @@ model VSI_averaged
     TsOperational=293.15,
     alpha20s=smpmData.alpha20s,
     TrOperational=293.15,
-    alpha20r=smpmData.alpha20r) annotation (Placement(transformation(
-          extent={{-108,-48},{-128,-28}})));
+    alpha20r=smpmData.alpha20r)
+    annotation (Placement(transformation(extent={{-108,-48},{-128,-28}})));
   Modelica.Electrical.Machines.Utilities.TerminalBox terminalBox(
       terminalConnection="Y")
     annotation (Placement(transformation(extent={{-108,-32},{-128,-12}})));
@@ -104,7 +103,7 @@ model VSI_averaged
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed(w_fixed=2*
         3.14*smpmData.fsNominal/smpmData.p)
     annotation (Placement(transformation(extent={{-164,-48},{-144,-28}})));
-  Modelica.Electrical.MultiPhase.Basic.Resistor resistor(R={20,20,20})
+  Modelica.Electrical.Polyphase.Basic.Resistor resistor(R={20,20,20})
     annotation (Placement(transformation(extent={{-96,-28},{-76,-8}})));
 equation
   connect(machine.plug_p,inverter. plug)

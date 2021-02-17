@@ -17,8 +17,8 @@ model SimulinkFuelCell "Basic hydrogen fuel cell from MATLAB"
   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p annotation (Placement(
         transformation(extent={{60,30},{80,50}}), iconTransformation(extent={{60,30},
             {80,50}})));
-  parameter Modelica.SIunits.Resistance R "Internal resistance";
-  parameter Modelica.SIunits.Voltage V=1000 "Fuel cell voltage";
+  parameter Modelica.Units.SI.Resistance R "Internal resistance";
+  parameter Modelica.Units.SI.Voltage V=1000 "Fuel cell voltage";
 
 
 

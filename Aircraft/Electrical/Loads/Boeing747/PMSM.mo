@@ -4,15 +4,15 @@ model PMSM
   parameter Real L = -0.2 "Slope of Linear Speed to Torque Load";
   extends CHEETA.Aircraft.Electrical.Loads.Boeing747.DC_Load(
       simulink_Averaged_Rectifier(P_fixed=200, V_rated=1),           yd(N=N));
-  Modelica.Electrical.MultiPhase.Basic.Star star2 annotation (Placement(
+  Modelica.Electrical.Polyphase.Basic.Star star2 annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-38,-52})));
   Modelica.Electrical.Analog.Basic.Ground ground1
     annotation (Placement(transformation(extent={{-48,-86},{-28,-66}})));
-  Modelica.Electrical.MultiPhase.Basic.Capacitor capacitor2(C={1e-6,1e-6,1e-6})
-               annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Basic.Capacitor capacitor2(C={1e-6,1e-6,1e-6})
+    annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-38,-22})));
@@ -24,12 +24,12 @@ model PMSM
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={312,30})));
-  Modelica.Electrical.MultiPhase.Sensors.CurrentSensor currentSensor(m=3)
+  Modelica.Electrical.Polyphase.Sensors.CurrentSensor currentSensor(m=3)
     annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=270,
         origin={258,0})));
-  Modelica.Electrical.Machines.BasicMachines.SynchronousInductionMachines.SM_PermanentMagnet
+  Modelica.Electrical.Machines.BasicMachines.SynchronousMachines.SM_PermanentMagnet
     smpm(
     phiMechanical(start=0, fixed=false),
     wMechanical(start=0, fixed=false),
@@ -60,8 +60,8 @@ model PMSM
     TsOperational=293.15,
     alpha20s=smpmData.alpha20s,
     TrOperational=293.15,
-    alpha20r=smpmData.alpha20r) annotation (Placement(transformation(
-          extent={{292,-44},{312,-24}})));
+    alpha20r=smpmData.alpha20r)
+    annotation (Placement(transformation(extent={{292,-44},{312,-24}})));
   Modelica.Electrical.Machines.Utilities.TerminalBox
                                  terminalBox(terminalConnection="Y")
     annotation (Placement(transformation(extent={{292,-28},{312,-8}})));

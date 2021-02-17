@@ -11,7 +11,7 @@ model SmallSignalModel
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={204,208})));
-  Modelica.Electrical.Machines.BasicMachines.AsynchronousInductionMachines.AIM_SquirrelCage
+  Modelica.Electrical.Machines.BasicMachines.InductionMachines.IM_SquirrelCage
     AC_Hydraulic_Pump(
     p=8,
     fsNominal=400,
@@ -45,8 +45,8 @@ model SmallSignalModel
         rotation=0,
         extent={{-17,-17},{17,17}},
         origin={145,205})));
-  Modelica.Electrical.MultiPhase.Basic.Star star(final m=3) annotation (
-      Placement(transformation(extent={{-2,198},{-22,218}})));
+  Modelica.Electrical.Polyphase.Basic.Star star(final m=3)
+    annotation (Placement(transformation(extent={{-2,198},{-22,218}})));
   Modelica.Electrical.Analog.Basic.Ground ground1
                                                  annotation (Placement(
         transformation(
@@ -103,20 +103,20 @@ model SmallSignalModel
   Aircraft.Electrical.PowerElectronics.Converters.ACDC.Simulink_Averaged_Rectifier
     simulink_Averaged_Rectifier(P_fixed=1, V_rated=200)
     annotation (Placement(transformation(extent={{182,158},{198,174}})));
-  Modelica.Electrical.MultiPhase.Ideal.IdealCommutingSwitch switch1(Goff={
-        1e-5,1e-5,1e-5}) annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Ideal.IdealCommutingSwitch switch1(Goff={1e-5,
+        1e-5,1e-5}) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={46,208})));
-  Modelica.Electrical.MultiPhase.Basic.Star star2 annotation (Placement(
+  Modelica.Electrical.Polyphase.Basic.Star star2 annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={170,122})));
   Modelica.Electrical.Analog.Basic.Ground ground2
     annotation (Placement(transformation(extent={{160,84},{180,104}})));
-  Modelica.Electrical.MultiPhase.Basic.Capacitor capacitor(C={1e-6,1e-6,
-        1e-6}) annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Basic.Capacitor capacitor(C={1e-6,1e-6,1e-6})
+    annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={170,148})));
@@ -135,15 +135,15 @@ model SmallSignalModel
     L1=1e-6,
     N=200/(sqrt(2)*28))
     annotation (Placement(transformation(extent={{132,156},{158,176}})));
-  Modelica.Electrical.MultiPhase.Basic.Star star4 annotation (Placement(
+  Modelica.Electrical.Polyphase.Basic.Star star4 annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={40,-10})));
   Modelica.Electrical.Analog.Basic.Ground ground4
     annotation (Placement(transformation(extent={{30,-50},{50,-30}})));
-  Modelica.Electrical.MultiPhase.Basic.Capacitor capacitor1(C={1e-6,1e-6,
-        1e-6}) annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Basic.Capacitor capacitor1(C={1e-6,1e-6,1e-6})
+    annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={40,22})));
@@ -204,7 +204,7 @@ model SmallSignalModel
         extent={{-25,-16},{25,16}},
         rotation=0,
         origin={319,54})));
-  Modelica.Electrical.Machines.BasicMachines.SynchronousInductionMachines.SM_PermanentMagnet
+  Modelica.Electrical.Machines.BasicMachines.SynchronousMachines.SM_PermanentMagnet
     smpm(
     phiMechanical(start=0, fixed=false),
     wMechanical(start=0, fixed=false),
@@ -235,13 +235,13 @@ model SmallSignalModel
     alpha20s=smpmData.alpha20s,
     TrOperational=293.15,
     alpha20r=smpmData.alpha20r) annotation (Placement(transformation(
-          extent={{-10,-10},{10,10}},
+        extent={{-10,-10},{10,10}},
         rotation=180,
         origin={282,-82})));
   Modelica.Mechanics.Rotational.Sources.LinearSpeedDependentTorque
     linearSpeedDependentTorque(tau_nominal=-0.2, w_nominal=1)
     annotation (Placement(transformation(extent={{298,-34},{278,-14}})));
-  Modelica.Electrical.MultiPhase.Sensors.CurrentSensor currentSensor(m=3)
+  Modelica.Electrical.Polyphase.Sensors.CurrentSensor currentSensor(m=3)
     annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=270,
@@ -255,9 +255,9 @@ model SmallSignalModel
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=90,
         origin={254,42})));
-  Modelica.Electrical.MultiPhase.Basic.Star star3(final m=3)
-                                                            annotation (
-      Placement(transformation(extent={{10,-10},{-10,10}},
+  Modelica.Electrical.Polyphase.Basic.Star star3(final m=3) annotation (
+      Placement(transformation(
+        extent={{10,-10},{-10,10}},
         rotation=90,
         origin={318,-114})));
   Modelica.Electrical.Analog.Basic.Ground ground3

@@ -1,6 +1,6 @@
 within CHEETA.Aircraft.Electrical.Machines;
 model Boeing747_BLDC_Motor_pump "Boeing 747 BLDC motor pump"
-  Modelica.Electrical.MultiPhase.Interfaces.PositivePlug Bus
+  Modelica.Electrical.Polyphase.Interfaces.PositivePlug Bus
     annotation (Placement(transformation(extent={{-114,-10},{-94,10}})));
   PowerElectronics.Converters.ACDC.Snubber_Rectifier aCDC(
     Rcond=1e-3,
@@ -51,22 +51,22 @@ model Boeing747_BLDC_Motor_pump "Boeing 747 BLDC motor pump"
     TeNominal=TeNominal)
     annotation (Placement(transformation(extent={{70,-30},{90,-10}})));
 
-  parameter Modelica.SIunits.Resistance Ra=0.35 "Armature resistance at TRef";
-  parameter Modelica.SIunits.Temperature TaRef=65
+  parameter Modelica.Units.SI.Resistance Ra=0.35 "Armature resistance at TRef";
+  parameter Modelica.Units.SI.Temperature TaRef=65
     "Reference temperature of armature resistance";
-  parameter Modelica.SIunits.Inductance La=0.0001 "Armature inductance";
-  parameter Modelica.SIunits.Voltage VaNominal=400 "Nominal armature voltage";
-  parameter Modelica.SIunits.Current IaNominal=1
+  parameter Modelica.Units.SI.Inductance La=0.0001 "Armature inductance";
+  parameter Modelica.Units.SI.Voltage VaNominal=400 "Nominal armature voltage";
+  parameter Modelica.Units.SI.Current IaNominal=1
     "Nominal armature current (>0..Motor, <0..Generator)";
-  parameter Modelica.SIunits.Temperature TaNominal=60
+  parameter Modelica.Units.SI.Temperature TaNominal=60
     "Nominal armature temperature";
-  parameter Modelica.SIunits.Temperature TeNominal=65
+  parameter Modelica.Units.SI.Temperature TeNominal=65
     "Nominal series excitation temperature";
-  parameter Modelica.SIunits.Resistance Re
+  parameter Modelica.Units.SI.Resistance Re
     "Series excitation resistance at TRef";
-  parameter Modelica.SIunits.Temperature TeRef
+  parameter Modelica.Units.SI.Temperature TeRef
     "Reference temperature of excitation resistance";
-  parameter Modelica.SIunits.Inductance Le "Total field excitation inductance";
+  parameter Modelica.Units.SI.Inductance Le "Total field excitation inductance";
   parameter Real sigmae "Stray fraction of total excitation inductance";
   Mechanical.Pumps.Boeing747_Pump_Load boeing747_Pump_Load(k=1.5/200)
     annotation (Placement(transformation(extent={{122,-24},{102,-16}})));

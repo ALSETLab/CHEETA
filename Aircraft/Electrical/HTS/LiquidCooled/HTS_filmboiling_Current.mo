@@ -1,56 +1,58 @@
 within CHEETA.Aircraft.Electrical.HTS.LiquidCooled;
 model HTS_filmboiling_Current "HTS line using Stekly equations"
-  parameter Modelica.SIunits.Length l "Length of wire";
-  parameter Modelica.SIunits.ElectricFieldStrength E_0 = 1e-4 "Reference electric field";
+  parameter Modelica.Units.SI.Length l "Length of wire";
+  parameter Modelica.Units.SI.ElectricFieldStrength E_0=1e-4
+    "Reference electric field";
   parameter Real n = 5.29 "Index value of the superconductor";
   parameter Real I_c0 = 1 "Critical current at 0K";
-  parameter Modelica.SIunits.Area A = 1 "Copper area per tape (ref. 2mm by 1mm)";
-  parameter Modelica.SIunits.Area A_cu_tape = 0.0000002 "Copper area per tape (ref. 2mm by 1mm)";
+  parameter Modelica.Units.SI.Area A=1 "Copper area per tape (ref. 2mm by 1mm)";
+  parameter Modelica.Units.SI.Area A_cu_tape=0.0000002
+    "Copper area per tape (ref. 2mm by 1mm)";
   parameter Real n_Tape = 132 "Number of tapes";
-  parameter Modelica.SIunits.Temp_K T_c = 92 "Critical temperature";
+  parameter Modelica.Units.SI.Temperature T_c=92 "Critical temperature";
   //Losses
-  parameter Modelica.SIunits.Resistance R_L "Resistance of the brass connectors";
-  parameter Modelica.SIunits.Power G_d = 3.527*10^4 "Extra heat generation due to fault";
+  parameter Modelica.Units.SI.Resistance R_L
+    "Resistance of the brass connectors";
+  parameter Modelica.Units.SI.Power G_d=3.527*10^4
+    "Extra heat generation due to fault";
   //Characteristics of the line
-  parameter Modelica.SIunits.Radius a = 3e-3
-                                            "Inner radius of co-axial cable";
-  parameter Modelica.SIunits.Radius b = 11e-3
-                                            "Outer radius of co-axial cable";
+  parameter Modelica.Units.SI.Radius a=3e-3 "Inner radius of co-axial cable";
+  parameter Modelica.Units.SI.Radius b=11e-3 "Outer radius of co-axial cable";
 
-  parameter Modelica.SIunits.Permeability mu_r = 1;
-  parameter Modelica.SIunits.Permittivity epsilon_r = 1;
+  parameter Modelica.Units.SI.Permeability mu_r=1;
+  parameter Modelica.Units.SI.Permittivity epsilon_r=1;
 
-  parameter Modelica.SIunits.Frequency f = 60 "Frequency of AC system";
+  parameter Modelica.Units.SI.Frequency f=60 "Frequency of AC system";
   parameter Real kappa = 400 "Cable thermal conductivity";
 
   //Constants
   Real pi= Modelica.Constants.pi;
-  Modelica.SIunits.PermeabilityOfVacuum mu_0 = 4*pi*10e-7;
-  Modelica.SIunits.PermittivityOfVacuum epsilon_0 = 8.854e-12;
-  Modelica.SIunits.Permeability mu;
-  Modelica.SIunits.Permittivity epsilon;
-  Modelica.SIunits.Resistivity omega = f*2*pi;
+  Modelica.Units.SI.PermeabilityOfVacuum mu_0=4*pi*10e-7;
+  Modelica.Units.SI.PermittivityOfVacuum epsilon_0=8.854e-12;
+  Modelica.Units.SI.Permeability mu;
+  Modelica.Units.SI.Permittivity epsilon;
+  Modelica.Units.SI.Resistivity omega=f*2*pi;
   Real delta = 3.3e-5;
 
   //Line heat transfer characeteristics
   Real h "Heat transfer coefficient of surfaces";
-  Modelica.SIunits.Temp_K dT "Change in temperature";
-  Modelica.SIunits.Current I_c "Critical current at 20K";
-  Modelica.SIunits.ElectricFieldStrength E "Electric field";
-  Modelica.SIunits.Power Q;
-  Modelica.SIunits.Power Q_ce;
-  Modelica.SIunits.Power G;
+  Modelica.Units.SI.Temperature dT "Change in temperature";
+  Modelica.Units.SI.Current I_c "Critical current at 20K";
+  Modelica.Units.SI.ElectricFieldStrength E "Electric field";
+  Modelica.Units.SI.Power Q;
+  Modelica.Units.SI.Power Q_ce;
+  Modelica.Units.SI.Power G;
   //Resistances, inductances, and currents
-  Modelica.SIunits.Resistance R_pi;
-  Modelica.SIunits.Resistance R_ac;
-  Modelica.SIunits.Inductance L_pi;
-  Modelica.SIunits.Capacitance C_pi;
+  Modelica.Units.SI.Resistance R_pi;
+  Modelica.Units.SI.Resistance R_ac;
+  Modelica.Units.SI.Inductance L_pi;
+  Modelica.Units.SI.Capacitance C_pi;
 
 
   //Line physical values
-  Modelica.SIunits.Resistivity rho "Resistivity of line";
-  Modelica.SIunits.Length P "Perimeter of line";
-  Modelica.SIunits.Area A_cu "Area of copper in wire";
+  Modelica.Units.SI.Resistivity rho "Resistivity of line";
+  Modelica.Units.SI.Length P "Perimeter of line";
+  Modelica.Units.SI.Area A_cu "Area of copper in wire";
 
   Real x(start=0);
   //Real y(start = 0.07);

@@ -32,27 +32,27 @@ model Fuel_Pump
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={158,12})));
-  parameter Modelica.SIunits.Torque L=-L
+  parameter Modelica.Units.SI.Torque L=-L
     "Nominal torque (if negative, torque is acting as load)";
   replaceable CHEETA.Records.Boeing747electricalModel.DCMotor.FuelPumps.FuelPump_2 Data
     constrainedby CHEETA.Records.Boeing747electricalModel.Base.DC_Motor_Data
     annotation (Placement(transformation(extent={{94,-80},{114,-60}})));
 
-  parameter Modelica.SIunits.Resistance R = 0.5
+  parameter Modelica.Units.SI.Resistance R=0.5
     "Resistance of Auxillary Loads (Ohms)";
   Modelica.Electrical.Analog.Basic.Resistor DC_Load_Lamp(R=1)
     annotation (Placement(transformation(extent={{14,-48},{34,-28}})));
   Modelica.Electrical.Analog.Basic.Resistor DC_Load_Heater(R=1)
     annotation (Placement(transformation(extent={{14,-78},{34,-58}})));
-  Modelica.Electrical.MultiPhase.Basic.Star star2 annotation (Placement(
+  Modelica.Electrical.Polyphase.Basic.Star star2 annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-28,-54})));
   Modelica.Electrical.Analog.Basic.Ground ground2
     annotation (Placement(transformation(extent={{-38,-94},{-18,-74}})));
-  Modelica.Electrical.MultiPhase.Basic.Capacitor capacitor(C={1e-6,1e-6,
-        1e-6}) annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Basic.Capacitor capacitor(C={1e-6,1e-6,1e-6})
+    annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-28,-30})));

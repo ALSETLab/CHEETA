@@ -1,7 +1,7 @@
 within CHEETA.Aircraft.Electrical.Machines.Examples.Boeing747;
 model SG_small_signal
   import CHEETA;
-  Modelica.Electrical.Machines.BasicMachines.SynchronousInductionMachines.SM_ElectricalExcited
+  Modelica.Electrical.Machines.BasicMachines.SynchronousMachines.SM_ElectricalExcited
     smee(
     fsNominal=Data.fsNominal,
     Rs=Data.Rs,
@@ -59,12 +59,12 @@ model SG_small_signal
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={80,-14})));
-  Modelica.Electrical.MultiPhase.Sensors.VoltageSensor voltageSensor
-    annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Sensors.VoltageSensor voltageSensor annotation (
+     Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={26,46})));
-  Modelica.Electrical.MultiPhase.Blocks.QuasiRMS rms annotation (Placement(
+  Modelica.Electrical.Polyphase.Blocks.QuasiRMS rms annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
@@ -98,9 +98,8 @@ model SG_small_signal
   Modelica.Blocks.Interfaces.RealInput w_ref(unit="rad/s") annotation (
       Placement(transformation(rotation=0, extent={{100,30},{120,50}}),
         iconTransformation(extent={{100,30},{120,50}})));
-  Modelica.Electrical.MultiPhase.Interfaces.PositivePlug plugSupply
-    annotation (Placement(transformation(rotation=0, extent={{-112,32},{
-            -92,52}})));
+  Modelica.Electrical.Polyphase.Interfaces.PositivePlug plugSupply annotation (
+      Placement(transformation(rotation=0, extent={{-112,32},{-92,52}})));
   Modelica.Blocks.Math.Gain PerUnitConversion1(k=Data.VsNominal)  annotation (
      Placement(transformation(
         extent={{-8,-8},{8,8}},

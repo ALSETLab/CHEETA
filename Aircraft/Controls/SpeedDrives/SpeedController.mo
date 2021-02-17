@@ -5,21 +5,21 @@ model SpeedController
   parameter Real K_ref = 1 "Reference Proportional Gain";
   parameter Real T_ref = 0.1 "Reference Integrator Time Constant";
   parameter Integer p "Number of pole pairs";
-  parameter Modelica.SIunits.Frequency fsNominal "Nominal frequency";
-  parameter Modelica.SIunits.Voltage VsOpenCircuit
+  parameter Modelica.Units.SI.Frequency fsNominal "Nominal frequency";
+  parameter Modelica.Units.SI.Voltage VsOpenCircuit
     "Open circuit RMS voltage per phase @ fsNominal";
-  parameter Modelica.SIunits.Resistance Rs "Stator resistance per phase";
-  parameter Modelica.SIunits.Inductance Ld "Inductance in d-axis";
-  parameter Modelica.SIunits.Inductance Lq "Inductance in q-axis";
+  parameter Modelica.Units.SI.Resistance Rs "Stator resistance per phase";
+  parameter Modelica.Units.SI.Inductance Ld "Inductance in d-axis";
+  parameter Modelica.Units.SI.Inductance Lq "Inductance in q-axis";
   //Decoupling
   parameter Boolean decoupling=false "Use decoupling network";
-  final parameter Modelica.SIunits.MagneticFlux psiM=sqrt(2)*VsOpenCircuit/
-      (2*pi*fsNominal);
-  Modelica.SIunits.AngularVelocity omega;
-  Modelica.SIunits.Voltage Vd;
-  Modelica.SIunits.Voltage Vq;
-  Modelica.SIunits.Current iq_rms;
-  Modelica.SIunits.Current id_rms;
+  final parameter Modelica.Units.SI.MagneticFlux psiM=sqrt(2)*VsOpenCircuit/(2*
+      pi*fsNominal);
+  Modelica.Units.SI.AngularVelocity omega;
+  Modelica.Units.SI.Voltage Vd;
+  Modelica.Units.SI.Voltage Vq;
+  Modelica.Units.SI.Current iq_rms;
+  Modelica.Units.SI.Current id_rms;
 
   Modelica.Blocks.Interfaces.RealOutput a
     annotation (Placement(transformation(extent={{380,78},{400,98}})));
@@ -115,7 +115,7 @@ model SpeedController
     yMin=-200,
     withFeedForward=false,
     kFF=0.01,
-    initType=Modelica.Blocks.Types.InitPID.NoInit,
+    initType=Modelica.Blocks.Types.Init.NoInit,
     xi_start=0,
     xd_start=0)
     annotation (Placement(transformation(extent={{102,54},{122,74}})));
@@ -127,7 +127,7 @@ model SpeedController
     yMin=-200,
     withFeedForward=false,
     kFF=0.01,
-    initType=Modelica.Blocks.Types.InitPID.NoInit,
+    initType=Modelica.Blocks.Types.Init.NoInit,
     xi_start=0,
     xd_start=0)
     annotation (Placement(transformation(extent={{100,-4},{120,16}})));
@@ -150,15 +150,15 @@ model SpeedController
   Modelica.Blocks.Math.Gain gain1(k=1/sqrt(2))
     annotation (Placement(transformation(extent={{78,-56},{98,-36}})));
   parameter Real Iqmax=100 "Upper Limit of Currents";
-  parameter Modelica.SIunits.Time ramping=10
+  parameter Modelica.Units.SI.Time ramping=10
     "Duration of ramp (= 0.0 gives a Step)";
-  parameter Modelica.SIunits.Time startTime=20
+  parameter Modelica.Units.SI.Time startTime=20
     "Output y = offset for time < startTime";
   Modelica.Blocks.Interfaces.RealInput Ref "Reference signal input" annotation (
      Placement(transformation(extent={{-100,52},{-60,92}}), iconTransformation(
           extent={{-100,52},{-60,92}})));
 protected
-  constant Modelica.SIunits.Resistance unitResistance=1;
+  constant Modelica.Units.SI.Resistance unitResistance=1;
 
 equation
   omega=Speed;

@@ -19,7 +19,7 @@ model VariableSpeedDriveController
 
   Modelica.Blocks.Math.Feedback feedback
     annotation (Placement(transformation(extent={{-10,10},{10,-10}})));
-  parameter Modelica.SIunits.Time T "Time Constant (T>0 required)";
+  parameter Modelica.Units.SI.Time T "Time Constant (T>0 required)";
   parameter Real k=1 "Gain";
   Modelica.Blocks.Interfaces.RealInput wref
     annotation (Placement(transformation(extent={{-140,40},{-100,80}})));

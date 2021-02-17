@@ -15,8 +15,8 @@ model DC_Load "DC load interface"
   PowerElectronics.Converters.ACDC.Simulink_Averaged_Rectifier simulink_Averaged_Rectifier(P_fixed=
         P_fixed, V_rated=V_rated)
     annotation (Placement(transformation(extent={{-26,-8},{-10,8}})));
-  parameter Modelica.SIunits.Power P_fixed;
-  parameter Modelica.SIunits.Voltage V_rated;
+  parameter Modelica.Units.SI.Power P_fixed;
+  parameter Modelica.Units.SI.Voltage V_rated;
 equation
   connect(simulink_Averaged_Rectifier.AC, yd.Secondary1)
     annotation (Line(points={{-27,0},{-45.6,0}}, color={0,0,255}));

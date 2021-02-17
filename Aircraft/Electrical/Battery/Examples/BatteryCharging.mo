@@ -1,10 +1,9 @@
 within CHEETA.Aircraft.Electrical.Battery.Examples;
 model BatteryCharging
-  Modelica.Electrical.Analog.Sources.CosineVoltage   cosineVoltage(
+  Modelica.Electrical.Analog.Sources.CosineVoltage cosineVoltage(
     V=100,
-    freqHz=0.01,
-    offset=900)
-    annotation (Placement(transformation(
+    f=0.01,
+    offset=900) annotation (Placement(transformation(
         extent={{-6,-6},{6,6}},
         rotation=180,
         origin={-4,22})));

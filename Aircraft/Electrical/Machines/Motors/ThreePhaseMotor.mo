@@ -1,11 +1,11 @@
 within CHEETA.Aircraft.Electrical.Machines.Motors;
 model ThreePhaseMotor
-  import SI = Modelica.SIunits;
-  import Modelica.SIunits.Conversions.*;
+  import      Modelica.Units.SI;
+  import Modelica.Units.Conversions.*;
   parameter Integer m= 3 "Number of phases";
 
   parameter Real wref = 4000;
-  Modelica.Electrical.Machines.BasicMachines.AsynchronousInductionMachines.AIM_SquirrelCage
+  Modelica.Electrical.Machines.BasicMachines.InductionMachines.IM_SquirrelCage
     aimc(
     p=aimcData.p,
     fsNominal=aimcData.fs_nom,
@@ -25,8 +25,8 @@ model ThreePhaseMotor
     TrRef=aimcData.Tr_ref,
     TsOperational=293.15,
     alpha20r=aimcData.alpha20r,
-    TrOperational=293.15) annotation (Placement(transformation(extent={{-10,-48},
-            {10,-28}})));
+    TrOperational=293.15)
+    annotation (Placement(transformation(extent={{-10,-48},{10,-28}})));
   Modelica.Electrical.Machines.Utilities.TerminalBox
                                  terminalBox(terminalConnection="Y")
     annotation (Placement(transformation(extent={{-10,-32},{10,-12}})));
@@ -35,7 +35,7 @@ model ThreePhaseMotor
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   parameter Records.Boeing.Boeing747                         aimcData
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
-  Modelica.Electrical.MultiPhase.Interfaces.PositivePlug plug_p1
+  Modelica.Electrical.Polyphase.Interfaces.PositivePlug plug_p1
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
 protected
   parameter Real rpm=from_rpm(wref) "Reference speed of the generator";

@@ -9,30 +9,30 @@ model Ydd
   parameter Real Lm = 12.631 "Magnetization Inductance";
   parameter Real N = 200/(22*sqrt(3)) "Transformer Turn Ratio";
 
-  Modelica.Electrical.MultiPhase.Basic.Star
-             starT(m=m) annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Basic.Star starT(m=m) annotation (Placement(
+        transformation(
         origin={-46,-44},
         extent={{-10,-10},{10,10}},
         rotation=270)));
-  Modelica.Electrical.MultiPhase.Basic.Delta
-              deltaT2(m=m) annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Basic.Delta deltaT2(m=m) annotation (Placement(
+        transformation(
         origin={28,44},
         extent={{-10,10},{10,-10}},
         rotation=270)));
   Modelica.Electrical.Analog.Basic.Ground groundT annotation (Placement(
         transformation(extent={{-56,-80},{-36,-60}})));
-  Modelica.Electrical.MultiPhase.Basic.Resistor R_sec1(m=m, R={R2,R2,R2})
+  Modelica.Electrical.Polyphase.Basic.Resistor R_sec1(m=m, R={R2,R2,R2})
     annotation (Placement(transformation(extent={{-14,44},{6,64}})));
-  Modelica.Electrical.MultiPhase.Basic.Delta
-              deltaT1(m=m) annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Basic.Delta deltaT1(m=m) annotation (Placement(
+        transformation(
         origin={28,14},
         extent={{-10,10},{10,-10}},
         rotation=270)));
-  Modelica.Electrical.MultiPhase.Basic.Resistor R_sec2(m=m, R={R2,R2,R2})
+  Modelica.Electrical.Polyphase.Basic.Resistor R_sec2(m=m, R={R2,R2,R2})
     annotation (Placement(transformation(extent={{-14,14},{6,34}})));
-  Modelica.Electrical.MultiPhase.Basic.Resistor R_pr(m=m, R={R1,R1,R1})
+  Modelica.Electrical.Polyphase.Basic.Resistor R_pr(m=m, R={R1,R1,R1})
     annotation (Placement(transformation(extent={{-114,30},{-94,50}})));
-  Modelica.Electrical.MultiPhase.Basic.Resistor R_m(m=m, R={Rm,Rm,Rm})
+  Modelica.Electrical.Polyphase.Basic.Resistor R_m(m=m, R={Rm,Rm,Rm})
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
@@ -43,11 +43,11 @@ model Ydd
     final n12=N,
     final n13=N)  annotation (Placement(transformation(extent={{-46,20},{
             -26,40}})));
-  Modelica.Electrical.MultiPhase.Interfaces.PositivePlug Primary
+  Modelica.Electrical.Polyphase.Interfaces.PositivePlug Primary
     annotation (Placement(transformation(extent={{-172,-10},{-152,10}})));
-  Modelica.Electrical.MultiPhase.Interfaces.NegativePlug Secondary1
+  Modelica.Electrical.Polyphase.Interfaces.NegativePlug Secondary1
     annotation (Placement(transformation(extent={{94,50},{114,70}})));
-  Modelica.Electrical.MultiPhase.Interfaces.NegativePlug Secondary2
+  Modelica.Electrical.Polyphase.Interfaces.NegativePlug Secondary2
     annotation (Placement(transformation(extent={{94,-70},{114,-50}})));
 equation
   connect(groundT.p,starT. pin_n)

@@ -5,10 +5,29 @@ model Battery_FC_Charging
   Modelica.Electrical.Analog.Basic.Ground ground annotation (Placement(transformation(extent={{28,-34},
             {48,-14}})));
   Battery.Packs.Scaled.ScaledPackCylindric batteryPack(
-    redeclare Battery.Cells.Variants.DemoCell3dDAF cell,
-    N_serialCells=200,
-    N_parallelCells=15,
+    redeclare Battery.Cells.Variants.DemoCell3dDAF cell(redeclare replaceable
+        Battery.Cells.Thermal.Variants.CylindricDiscretizedMaterialBased
+        thermalModel(
+        redeclare Battery.Common.Material.Data.Aluminium pinMaterial,
+        redeclare Battery.Common.Material.Data.Aluminium sheetMaterial,
+        redeclare Battery.Common.Material.Data.LithiumIonSanyo coreMaterial,
+        D=0.0181,
+        height=0.0648,
+        sheetThickness=5e-05,
+        positivePinDiameter=0.009,
+        negativePinDiameter=0.009,
+        positivePinHeight=0.004,
+        negativePinHeight=0.004), redeclare replaceable
+        Battery.Cells.Electric.Variants.ElectricTableBased3dDAF electricModel(
+        fileName=Modelica.Utilities.Files.loadResource(
+            "modelica://Battery/Resources/Data/DemoRoundCell_3dDAF.mat"),
+        useChargeConservation=false,
+        readFromFile=true,
+        C_nominalOriginal=3*3600)),
+    N_serialCells=5*16*3,
+    N_parallelCells=2*20,
     redeclare Battery.Packs.Scaled.Housings.IdealHousingCylindric housing,
+    SOC_init=1,
     T_init=293.15)
     annotation (Placement(transformation(extent={{6,48},{30,72}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature     [batteryPack.N_x, batteryPack.N_y]

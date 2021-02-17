@@ -1,6 +1,6 @@
 within CHEETA.Aircraft.Electrical.Machines;
 model Boeing747_SG_AVR
-  Modelica.Electrical.Machines.BasicMachines.SynchronousInductionMachines.SM_ElectricalExcited
+  Modelica.Electrical.Machines.BasicMachines.SynchronousMachines.SM_ElectricalExcited
     smee(
     fsNominal=Data.fsNominal,
     Rs=Data.Rs,
@@ -55,12 +55,12 @@ model Boeing747_SG_AVR
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={80,-14})));
-  Modelica.Electrical.MultiPhase.Sensors.VoltageSensor voltageSensor
-    annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Sensors.VoltageSensor voltageSensor annotation (
+     Placement(transformation(
         extent={{-6,6},{6,-6}},
         rotation=0,
         origin={24,26})));
-  Modelica.Electrical.MultiPhase.Blocks.QuasiRMS rms annotation (Placement(
+  Modelica.Electrical.Polyphase.Blocks.QuasiRMS rms annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
@@ -95,9 +95,9 @@ model Boeing747_SG_AVR
     "Reference angular velocity of flange with respect to support as input signal"
     annotation (Placement(transformation(extent={{140,-40},{100,0}}),
         iconTransformation(extent={{140,-40},{100,0}})));
-  Modelica.Electrical.MultiPhase.Interfaces.PositivePlug plugSupply1
-          "To grid" annotation (Placement(transformation(extent={{-10,54},{10,
-            74}}), iconTransformation(extent={{-10,54},{10,74}})));
+  Modelica.Electrical.Polyphase.Interfaces.PositivePlug plugSupply1 "To grid"
+    annotation (Placement(transformation(extent={{-10,54},{10,74}}),
+        iconTransformation(extent={{-10,54},{10,74}})));
   parameter CHEETA.Records.Boeing747electricalModel.SynchronousMachine.SM100kVA
                                                                          Data
     annotation (Placement(transformation(extent={{52,22},{72,44}})));

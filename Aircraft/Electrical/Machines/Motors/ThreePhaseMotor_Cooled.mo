@@ -1,14 +1,14 @@
 within CHEETA.Aircraft.Electrical.Machines.Motors;
 model ThreePhaseMotor_Cooled "3 phase motor with cooling"
-  import SI = Modelica.SIunits;
-  import Modelica.SIunits.Conversions.*;
+  import      Modelica.Units.SI;
+  import Modelica.Units.Conversions.*;
   parameter Integer m= 3 "Number of phases";
 
   parameter Real wref = 4000;
   Modelica.Mechanics.Rotational.Interfaces.Flange_a flange1
                                                            "Shaft"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Modelica.Electrical.MultiPhase.Interfaces.PositivePlug plug_p1
+  Modelica.Electrical.Polyphase.Interfaces.PositivePlug plug_p1
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
   ElectrifiedPowertrains.ElectricMachines.PSM.ElectroMechanical.Linear
     linearPSM(redeclare

@@ -11,7 +11,7 @@ model SG_IG
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={168,106})));
-  Modelica.Electrical.Machines.BasicMachines.AsynchronousInductionMachines.AIM_SquirrelCage
+  Modelica.Electrical.Machines.BasicMachines.InductionMachines.IM_SquirrelCage
     AC_Hydraulic_Pump(
     p=8,
     fsNominal=400,
@@ -44,8 +44,8 @@ model SG_IG
         rotation=0,
         extent={{-17,-17},{17,17}},
         origin={115,103})));
-  Modelica.Electrical.MultiPhase.Basic.Star star(final m=3) annotation (
-      Placement(transformation(extent={{0,98},{-20,118}})));
+  Modelica.Electrical.Polyphase.Basic.Star star(final m=3)
+    annotation (Placement(transformation(extent={{0,98},{-20,118}})));
   Modelica.Electrical.Analog.Basic.Ground ground1
                                                  annotation (Placement(
         transformation(
@@ -61,7 +61,7 @@ model SG_IG
         rotation=0,
         origin={20,58})));
 
-  Modelica.Electrical.MultiPhase.Ideal.IdealClosingSwitch switch
+  Modelica.Electrical.Polyphase.Ideal.IdealClosingSwitch switch
     annotation (Placement(transformation(extent={{48,96},{68,116}})));
   Modelica.Blocks.Sources.BooleanStep booleanStep(startTime=20, startValue=
         false)

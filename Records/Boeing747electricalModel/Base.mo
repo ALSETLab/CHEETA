@@ -2,12 +2,13 @@ within CHEETA.Records.Boeing747electricalModel;
 package Base
   record DC_Motor_Data
     extends Modelica.Icons.Record;
-    parameter Modelica.SIunits.Resistance  Ra "Armature Resistance";
-    parameter Modelica.SIunits.Inductance  La "Armature Inductance";
-    parameter Modelica.SIunits.Resistance  Rf "Field Resistance";
-    parameter Modelica.SIunits.Inductance  Lf "Field Inductance";
-    parameter Modelica.SIunits.Inductance  Laf "Field- armature Mutual Inductance";
-    parameter Modelica.SIunits.Inertia J "Inertia";
+    parameter Modelica.Units.SI.Resistance Ra "Armature Resistance";
+    parameter Modelica.Units.SI.Inductance La "Armature Inductance";
+    parameter Modelica.Units.SI.Resistance Rf "Field Resistance";
+    parameter Modelica.Units.SI.Inductance Lf "Field Inductance";
+    parameter Modelica.Units.SI.Inductance Laf
+      "Field- armature Mutual Inductance";
+    parameter Modelica.Units.SI.Inertia J "Inertia";
   end DC_Motor_Data;
 
   record Synch

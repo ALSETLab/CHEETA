@@ -59,8 +59,8 @@ equation
           {30,0},{11,0}}, color={0,0,255}));
   connect(inverter.dc_n, ground2.p) annotation (Line(points={{42,-28},{30,-28},
           {30,-40},{46,-40}},   color={0,0,255}));
-  connect(HTS.pin_p, fuelCell_EquationBased.p1) annotation (Line(points={{-7,0},
-          {-32,0},{-32,1.7},{-52,1.7}}, color={0,0,255}));
+  connect(HTS.pin_p, fuelCell_EquationBased.p1) annotation (Line(points={{-7,0},{
+          -32,0},{-32,1.7},{-52,1.7}},  color={0,0,255}));
   connect(const2.y,prescribedTemperature2. T)
     annotation (Line(points={{-109,-34},{-98,-34}},
                                                color={0,0,127}));

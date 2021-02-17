@@ -3,7 +3,7 @@ model Induction_Motor
   extends CHEETA.Aircraft.Electrical.Interfaces.Loads;
   parameter Real R_l "Aux AC Load Resistance";
   parameter Real L_l "Aux AC Load Inductance";
-  Modelica.Electrical.Machines.BasicMachines.AsynchronousInductionMachines.AIM_SquirrelCage
+  Modelica.Electrical.Machines.BasicMachines.InductionMachines.IM_SquirrelCage
     AC_Hydraulic_Pump(
     p=Data.p,
     fsNominal=Data.fsNominal,
@@ -31,8 +31,9 @@ model Induction_Motor
         rotation=0,
         origin={6,-28})));
 
-  Modelica.Electrical.MultiPhase.Basic.Star star(final m=3) annotation (
-      Placement(transformation(extent={{10,-10},{-10,10}},
+  Modelica.Electrical.Polyphase.Basic.Star star(final m=3) annotation (
+      Placement(transformation(
+        extent={{10,-10},{-10,10}},
         rotation=0,
         origin={-22,-16})));
   Modelica.Electrical.Analog.Basic.Ground ground1
@@ -49,8 +50,9 @@ model Induction_Motor
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={8,-66})));
-  Modelica.Electrical.MultiPhase.Ideal.IdealClosingSwitch switch
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+  Modelica.Electrical.Polyphase.Ideal.IdealClosingSwitch switch annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
         rotation=0,
         origin={46,-18})));
   Modelica.Blocks.Sources.BooleanStep booleanStep(startTime=startTime,
@@ -62,7 +64,7 @@ model Induction_Motor
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=0,
         origin={28,12})));
-  parameter Modelica.SIunits.Time startTime=20
+  parameter Modelica.Units.SI.Time startTime=20
     "Time instant of Motor Connection";
     parameter Real L = -28/500
     "Mechanical Linear Load Slope";

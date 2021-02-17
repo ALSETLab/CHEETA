@@ -1,36 +1,39 @@
 within CHEETA.Aircraft.Electrical.HTS.Stekly;
 model Stekly_ColdEndCooling "HTS line using Stekly equations"
-  parameter Modelica.SIunits.Length l "Length of wire";
-  parameter Modelica.SIunits.ElectricFieldStrength E_0 = 1e-4 "Reference electric field";
+  parameter Modelica.Units.SI.Length l "Length of wire";
+  parameter Modelica.Units.SI.ElectricFieldStrength E_0=1e-4
+    "Reference electric field";
   parameter Real n = 20 "Intrinstic value of the superconductor";
   parameter Real I_c0 = 1 "Reference corner current";
-  parameter Modelica.SIunits.Area A = 1 "Area";
-  parameter Modelica.SIunits.Area A_cu = 1 "Area";
-  parameter Modelica.SIunits.Length P = 0.1035 "Perimeter of cable";
-  parameter Modelica.SIunits.Power G_d "Extra heat generation";
-  parameter Modelica.SIunits.Radius R_0 "Wire radius";
-  parameter Modelica.SIunits.Thickness h = 1 "Heat transfer coefficient of surfaces";
-  parameter Modelica.SIunits.Resistance R "Line resistance";
-  parameter Modelica.SIunits.Current I_crit "Critical current";
-  parameter Modelica.SIunits.Temp_K T_c = 92 "Critical temperature";
+  parameter Modelica.Units.SI.Area A=1 "Area";
+  parameter Modelica.Units.SI.Area A_cu=1 "Area";
+  parameter Modelica.Units.SI.Length P=0.1035 "Perimeter of cable";
+  parameter Modelica.Units.SI.Power G_d "Extra heat generation";
+  parameter Modelica.Units.SI.Radius R_0 "Wire radius";
+  parameter Modelica.Units.SI.Thickness h=1
+    "Heat transfer coefficient of surfaces";
+  parameter Modelica.Units.SI.Resistance R "Line resistance";
+  parameter Modelica.Units.SI.Current I_crit "Critical current";
+  parameter Modelica.Units.SI.Temperature T_c=92 "Critical temperature";
   parameter Real kappa;
 
-  parameter Modelica.SIunits.Heat h_fg = 0.44936 "Latent heat of liquid hydrogen";
-  parameter Modelica.SIunits.Density rho_l = 70.85 "Density of liquid";
-  parameter Modelica.SIunits.Density rho_v "Density of vapor";
-  parameter Modelica.SIunits.Acceleration g = 9.81 "Gravity";
-  parameter Modelica.SIunits.SurfaceTension sigma;
+  parameter Modelica.Units.SI.Heat h_fg=0.44936
+    "Latent heat of liquid hydrogen";
+  parameter Modelica.Units.SI.Density rho_l=70.85 "Density of liquid";
+  parameter Modelica.Units.SI.Density rho_v "Density of vapor";
+  parameter Modelica.Units.SI.Acceleration g=9.81 "Gravity";
+  parameter Modelica.Units.SI.SurfaceTension sigma;
 
-  Modelica.SIunits.Current I_c "corner current";
-  Modelica.SIunits.ElectricFieldStrength E "Electric field";
-  Modelica.SIunits.Power G;
+  Modelica.Units.SI.Current I_c "corner current";
+  Modelica.Units.SI.ElectricFieldStrength E "Electric field";
+  Modelica.Units.SI.Power G;
   Real pi = Modelica.Constants.pi;
-  Modelica.SIunits.PermeabilityOfVacuum mu_0 = 4*pi*10e-7;
-  Modelica.SIunits.Power Q;
-  Modelica.SIunits.Power Q_ce;
-  Modelica.SIunits.Voltage v_n;
+  Modelica.Units.SI.PermeabilityOfVacuum mu_0=4*pi*10e-7;
+  Modelica.Units.SI.Power Q;
+  Modelica.Units.SI.Power Q_ce;
+  Modelica.Units.SI.Voltage v_n;
   Real dT  "Change in temperature";
-  Modelica.SIunits.Resistivity rho "Resitivity of line";
+  Modelica.Units.SI.Resistivity rho "Resitivity of line";
   Real x;
   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p             annotation (Placement(
         transformation(extent={{-100,-10},{-80,10}}),iconTransformation(extent={{-100,

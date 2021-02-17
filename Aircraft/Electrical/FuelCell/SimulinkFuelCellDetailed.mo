@@ -17,19 +17,22 @@ model SimulinkFuelCellDetailed "Basic hydrogen fuel cell from MATLAB"
   Modelica.Electrical.Analog.Interfaces.PositivePin pin_p annotation (Placement(
         transformation(extent={{60,30},{80,50}}), iconTransformation(extent={{60,30},
             {80,50}})));
-  parameter Modelica.SIunits.Resistance R "Impedance";
-  parameter Modelica.SIunits.Voltage V=1000 "Fuel cell voltage";
+  parameter Modelica.Units.SI.Resistance R "Impedance";
+  parameter Modelica.Units.SI.Voltage V=1000 "Fuel cell voltage";
 
   parameter Real R_mol = 8.3145;
   parameter Real K_c "Voltage constant at nominal condition of operation";
   parameter Real E_n "Nernst voltage, which is the thermodynamics voltage of the cells and depends on the temperatures and partial pressures of reactants and products inside the stack (V)";
   parameter Real F = 96485;
   parameter Real z "Number of moving electrons";
-  parameter Modelica.SIunits.PartialPressure PH2 "Partial pressure of hydrogen inside the stack (Pa)";
-  parameter Modelica.SIunits.PartialPressure PO2 "Partial pressure of oxygen inside the stack (Pa)";
-  parameter Modelica.SIunits.Volume dV "Activation barrier volume factor";
-  parameter Modelica.SIunits.Volume dG "Size of the activation barrier which depends on the type of electrode and catalyst used (J/mol)";
-  parameter Modelica.SIunits.Temp_C T "Temperature of operation";
+  parameter Modelica.Units.SI.PartialPressure PH2
+    "Partial pressure of hydrogen inside the stack (Pa)";
+  parameter Modelica.Units.SI.PartialPressure PO2
+    "Partial pressure of oxygen inside the stack (Pa)";
+  parameter Modelica.Units.SI.Volume dV "Activation barrier volume factor";
+  parameter Modelica.Units.SI.Volume dG
+    "Size of the activation barrier which depends on the type of electrode and catalyst used (J/mol)";
+  parameter Modelica.Units.NonSI.Temperature_degC T "Temperature of operation";
   parameter Real alpha "Charge transfer coefficient, which depends on the type of electrodes and catalysts used";
   parameter Real T_d "Time constant for transfer function";
 

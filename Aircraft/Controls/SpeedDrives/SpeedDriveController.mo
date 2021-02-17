@@ -21,7 +21,7 @@ model SpeedDriveController
   parameter Real wref=100 "Constant output value";
   Modelica.Blocks.Math.Feedback feedback
     annotation (Placement(transformation(extent={{-10,10},{10,-10}})));
-  parameter Modelica.SIunits.Time T "Time Constant (T>0 required)";
+  parameter Modelica.Units.SI.Time T "Time Constant (T>0 required)";
   parameter Real k=1 "Gain";
 equation
   connect(speedSensor.flange, flange1) annotation (Line(points={{-62,1.77636e-15},

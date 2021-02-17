@@ -23,13 +23,13 @@ model SynGenwAVR
 
   Modelica.Blocks.Sources.Constant Vref(k=1) annotation (Placement(
         transformation(extent={{-204,-22},{-196,-14}})));
-  parameter Modelica.SIunits.Inertia J=0.02 "Rotor's moment of inertia";
+  parameter Modelica.Units.SI.Inertia J=0.02 "Rotor's moment of inertia";
 
   replaceable parameter CHEETA.Records.Boeing747electricalModel.SynchronousMachine.SM300kVA
     SG_Data constrainedby CHEETA.Records.Boeing747electricalModel.Base.Synch
     annotation (Placement(transformation(extent={{56,24},{76,44}})));
 
-  Modelica.Electrical.Machines.BasicMachines.SynchronousInductionMachines.SM_ElectricalExcited
+  Modelica.Electrical.Machines.BasicMachines.SynchronousMachines.SM_ElectricalExcited
     smee(
     fsNominal=SG_Data.fsNominal,
     Rs=SG_Data.Rs,
@@ -82,12 +82,12 @@ model SynGenwAVR
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={62,0})));
-  Modelica.Electrical.MultiPhase.Sensors.VoltageSensor voltageSensor
-    annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Sensors.VoltageSensor voltageSensor annotation (
+     Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=0,
         origin={-28,28})));
-  Modelica.Electrical.MultiPhase.Blocks.QuasiRMS rms annotation (Placement(
+  Modelica.Electrical.Polyphase.Blocks.QuasiRMS rms annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,

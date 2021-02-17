@@ -1,7 +1,7 @@
 within CHEETA.Aircraft.Electrical.Machines;
 model Boeing747_SG_disturbance_input
   "Synchronous generator used in Boeing 747 electrical system"
-  Modelica.Electrical.Machines.BasicMachines.SynchronousInductionMachines.SM_ElectricalExcited
+  Modelica.Electrical.Machines.BasicMachines.SynchronousMachines.SM_ElectricalExcited
     smee(
     fsNominal=Data.fsNominal,
     Rs=Data.Rs,
@@ -56,12 +56,12 @@ model Boeing747_SG_disturbance_input
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={80,-14})));
-  Modelica.Electrical.MultiPhase.Sensors.VoltageSensor voltageSensor
-    annotation (Placement(transformation(
+  Modelica.Electrical.Polyphase.Sensors.VoltageSensor voltageSensor annotation (
+     Placement(transformation(
         extent={{-6,6},{6,-6}},
         rotation=0,
         origin={26,18})));
-  Modelica.Electrical.MultiPhase.Blocks.QuasiRMS rms annotation (Placement(
+  Modelica.Electrical.Polyphase.Blocks.QuasiRMS rms annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
@@ -94,8 +94,8 @@ model Boeing747_SG_disturbance_input
         origin={-26,-14})));
   Modelica.Blocks.Interfaces.RealInput w_ref(unit="rad/s") annotation (
       Placement(transformation(rotation=0, extent={{-124,-32},{-100,-8}})));
-  Modelica.Electrical.MultiPhase.Interfaces.PositivePlug plugSupply
-    annotation (Placement(transformation(rotation=0, extent={{-10,54},{10,74}})));
+  Modelica.Electrical.Polyphase.Interfaces.PositivePlug plugSupply annotation (
+      Placement(transformation(rotation=0, extent={{-10,54},{10,74}})));
   Modelica.Blocks.Math.Add add annotation (Placement(transformation(
         extent={{-7,-7},{7,7}},
         rotation=270,

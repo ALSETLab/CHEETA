@@ -3,15 +3,16 @@ model CRJ700 "Bombardier CRJ 700 commercial aircraft"
   extends AircraftDynamics.Aircraft.Shevell(
     m_mtow=Modelon.Units.Conversions.from_lbm(72750),
     payloadmargin=Modelon.Units.Conversions.from_lbm(2850),
-    redeclare Templates.AirframeCRJ700                       airframe(
+    redeclare Templates.AirframeCRJ700 airframe(
       ar=12.5,
-      sweep=Modelica.SIunits.Conversions.from_deg(33.5),
+      sweep=Modelica.Units.Conversions.from_deg(33.5),
       winglethOverB=0.1,
       span=Modelon.Units.Conversions.from_ft(115.0)),
-    redeclare Templates.PowerCRJ700                   power,
-    redeclare Templates.DomesticCPS                     systems,
+    redeclare Templates.PowerCRJ700 power,
+    redeclare Templates.DomesticCPS systems,
     aggregateMass(resolve=Modelon.Mechanics.MultiBody.Internal.AggregateMass.Types.ResolveEnumeration.RESOLVE),
     airframeData(l=5.58, mass=80000));
+
 equation
   connect(aggregateMass.frame_resolve, aeroFrames.wnb) annotation (Line(
       points={{-90,-100},{-90,-106},{-196,-106},{-196,78},{-182,78}},

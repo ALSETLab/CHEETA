@@ -37,11 +37,10 @@ model Battery_FuelCell_CommonBus_noDCDCconverter2
     annotation (Placement(transformation(extent={{76,-8},{96,12}})));
   Modelica.Electrical.Analog.Basic.Ground ground1
     annotation (Placement(transformation(extent={{60,-34},{80,-14}})));
-  Modelica.Electrical.Analog.Sources.CosineVoltage   cosineVoltage(
+  Modelica.Electrical.Analog.Sources.CosineVoltage cosineVoltage(
     V=450,
-    freqHz=0.1,
-    offset=550)
-    annotation (Placement(transformation(
+    f=0.1,
+    offset=550) annotation (Placement(transformation(
         extent={{-6,-6},{6,6}},
         rotation=180,
         origin={-62,-6})));

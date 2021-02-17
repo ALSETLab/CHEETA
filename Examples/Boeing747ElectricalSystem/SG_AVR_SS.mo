@@ -12,12 +12,12 @@ model SG_AVR_SS
         extent={{10,-10},{-10,10}},
         rotation=180,
         origin={-20,20})));
-  Modelica.Electrical.MultiPhase.Basic.Resistor resistor(R={100,100,100})
+  Modelica.Electrical.Polyphase.Basic.Resistor resistor(R={100,100,100})
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={0,-20})));
-  Modelica.Electrical.MultiPhase.Basic.Star star annotation (Placement(
+  Modelica.Electrical.Polyphase.Basic.Star star annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,

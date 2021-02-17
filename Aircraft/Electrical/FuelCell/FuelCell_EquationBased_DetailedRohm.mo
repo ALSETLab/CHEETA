@@ -3,8 +3,10 @@ model FuelCell_EquationBased_DetailedRohm
   parameter Real E_0 = 1558.9;
 
   parameter Real n = 2 "Intrinsic value";
-  parameter Modelica.SIunits.PartialPressure P_O2 = 1.6 "Partial pressure of oxygen";
-  parameter Modelica.SIunits.PartialPressure P_H2 = 1.5 "Partial pressure of hydrogen";
+  parameter Modelica.Units.SI.PartialPressure P_O2=1.6
+    "Partial pressure of oxygen";
+  parameter Modelica.Units.SI.PartialPressure P_H2=1.5
+    "Partial pressure of hydrogen";
   parameter Real k_RI = 10e-8 "Empirical constant to calculate R_ohm (ohm/A)";
   parameter Real k_RT = 10e-8 "Empirical constant to calculate R_ohm (ohm/K)";
   parameter Real R_ohm0 = 0.2793 "Constant portion of R_ohm";
@@ -38,7 +40,7 @@ model FuelCell_EquationBased_DetailedRohm
   Real E_Nernst;
   Real R_act_val;
   Real R_conc_val;
-  Modelica.SIunits.Current I_max = 5000 "Maximum current of fuel cell";
+  Modelica.Units.SI.Current I_max=5000 "Maximum current of fuel cell";
   Real x;
   Modelica.Blocks.Sources.RealExpression realExpression(y=E_Nernst)
     annotation (Placement(transformation(extent={{-94,-28},{-74,-8}})));
