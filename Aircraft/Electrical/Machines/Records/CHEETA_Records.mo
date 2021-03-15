@@ -1,67 +1,6 @@
 within CHEETA.Aircraft.Electrical.Machines.Records;
 package CHEETA_Records
   extends Modelica.Icons.RecordsPackage;
-  record CHEETA_1MW "1MW machine"
-  import Modelica.Constants.pi;
-    extends DymolaModels.Icons.Data.Record;
-    extends
-      ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.Records.Base.Linear(
-      terminalConnection=DymolaModels.Electrical.MultiPhase.Choices.Wiring.D,
-      p=8,
-      Jr=0.29,
-      Js=10*Jr,
-      fs_nom=60,
-      Rs=0.03,
-      Rr=0.04,
-      Ts_ref=Modelica.Units.Conversions.from_degC(20),
-      Tr_ref=Modelica.Units.Conversions.from_degC(20),
-      Ts_operational=Modelica.Units.Conversions.from_degC(20),
-      Tr_operational=Modelica.Units.Conversions.from_degC(20),
-      alpha20s=0,
-      alpha20r=0,
-      Ls_sigma=21e-6,
-      Ls_zero=Ls_sigma,
-      Lr_sigma=3*(1 - sqrt(1 - 0.0667))/(2*pi*fs_nom),
-      Lm=3*sqrt(1 - 0.0667)/(2*pi*fs_nom),
-      statorCoreParameters=Modelica.Electrical.Machines.Losses.CoreParameters(
-            m=3,
-            PRef=0,
-            VRef=u_s_nom,
-            wRef=2*pi*fs_nom),
-      strayLoadParameters=
-          Modelica.Electrical.Machines.Losses.StrayLoadParameters(
-            PRef=0,
-            IRef=i_s_nom,
-            wRef=w_nom),
-      frictionParameters=Modelica.Electrical.Machines.Losses.FrictionParameters(
-          PRef=0, wRef=w_nom),
-      tau_nom=6280.4,
-      psi_nom=2.62,
-      w_nom=Modelica.Units.Conversions.from_rpm(7000),
-      i_s_nom=40111.16 "motor phase current (RMS)",
-      u_s_nom=1635.62 "line to line voltage (RMS)");
-                 //3*sqrt(1 - 0.0667)/(2*pi*fs_nom),
-                    //0.15*(u_s_nom/i_s_nom)/w_nom,
-
-    annotation (Documentation(info="<html>
-<p>Data from Example Modelica.Electrical.Machines.Examples.AsynchronousInductionMachines.AIMC_withLosses</p>
-</html>"),   defaultComponentName="data");
-  end CHEETA_1MW;
-
-  record CHEETA_1MW_controller "1 MW machine"
-    extends
-      ElectrifiedPowertrains.ElectricMachines.AIM.Controllers.Records.Base.Speed(
-      redeclare final
-        CHEETA.Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_1MW
-        machineData,
-      simpleCurrentTuning=true,
-      speedTuningWithSO=true,
-      discretize=false,
-      i_s_max=4000);
-    annotation (Documentation(info="<html>
-<p>Controller parameters for the data set <a href=\"ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.Records.Data.Linear.MSL_18p5kW\">ElectrifiedPowertrains.ElectricMachines.AIM.ElectroMechanical.Records.Data.Linear.MSL_18p5kW</a></p>
-</html>"));
-  end CHEETA_1MW_controller;
 
   record CHEETA_2_5MW_ESM "2.5MW machine for CHEETA"
     import Modelica.Constants.pi;

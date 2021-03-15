@@ -2,10 +2,10 @@ within CHEETA.Aircraft.Electrical.FuelCell;
 model FuelCell_EquationBased
   parameter Real E_0 = 1239.764;
 
-  parameter Real n = 2 "Intrinsic value";
-  parameter Modelica.Units.SI.PartialPressure P_O2=1.6
+  parameter Real n = 20.145 "Intrinsic value";
+  parameter Modelica.Units.SI.Pressure P_O2=1.6
     "Partial pressure of oxygen";
-  parameter Modelica.Units.SI.PartialPressure P_H2=1.6
+  parameter Modelica.Units.SI.Pressure P_H2=1.6
     "Partial pressure of hydrogen";
   Modelica.Electrical.Analog.Sources.SignalVoltage   E_cell         annotation (
      Placement(transformation(
@@ -18,7 +18,7 @@ model FuelCell_EquationBased
   Modelica.Electrical.Analog.Basic.VariableResistor
                                             R_conc
     annotation (Placement(transformation(extent={{-4,4},{16,24}})));
-  Modelica.Electrical.Analog.Basic.Capacitor C_dl(v(start=239.7634, fixed=false),
+  Modelica.Electrical.Analog.Basic.Capacitor C_dl(v(fixed=false),
                                                   C=10.6635)
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -33,7 +33,7 @@ model FuelCell_EquationBased
 
   Real R = Modelica.Constants.R "Universal gas constant";
   Real F = Modelica.Constants.F "Faraday constant";
-  Real alpha = 0.5;
+  Real alpha = 0.1373;
 
 
   Real E_Nernst;
