@@ -52,7 +52,7 @@ model System_Battery
     duration=0.5,
     offset=10000,
     startTime=10)
-    annotation (Placement(transformation(extent={{-46,-22},{-26,-2}})));
+    annotation (Placement(transformation(extent={{-110,26},{-90,46}})));
   Aircraft.Electrical.HTS.LiquidCooled.HTS_filmboiling_Voltage_Hydrogen
                                                 HTS(
     l=10,

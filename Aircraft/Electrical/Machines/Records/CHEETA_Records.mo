@@ -11,7 +11,7 @@ package CHEETA_Records
       Js=1.29,
       Jr=1.29,
       fs_nom=300,
-      u_s_openCircuit=600,
+      u_s_openCircuit=1000,
       Ie_openCircuit=550,
       Rs=0.15,
       Ts_ref=20 + 273.15,
@@ -166,7 +166,7 @@ package CHEETA_Records
       tau_max=10000);
   end CHEETA_2_5MW_ESM_Controller;
 
-  record CHEETA_2_5MW_ESM2 "2.5MW machine for CHEETA 2"
+  record CHEETA_2_5MW_ESM2 "2.5MW machine for CHEETA at 50Hz"
     import Modelica.Constants.pi;
     extends
       ElectrifiedPowertrains.ElectricMachines.ESM.ElectroMechanical.Records.Base.Linear(
