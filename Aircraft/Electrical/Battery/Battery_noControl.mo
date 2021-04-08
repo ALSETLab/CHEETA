@@ -1,9 +1,7 @@
 within CHEETA.Aircraft.Electrical.Battery;
-model Battery_FC_Charging
+model Battery_noControl
   import Battery;
   parameter Real batteryVoltage = 900 "Minimum bus voltage needed to turn on the battery";
-  Modelica.Electrical.Analog.Basic.Ground ground annotation (Placement(transformation(extent={{28,-34},
-            {48,-14}})));
   Battery.Packs.Scaled.ScaledPackCylindric batteryPack(
     redeclare Battery.Cells.Variants.DemoCell3dDAF cell(redeclare replaceable
         Battery.Cells.Thermal.Variants.CylindricDiscretizedMaterialBased
@@ -47,34 +45,13 @@ public
     packFrontBackTemperatureBoundary(each T(displayUnit="degC") = 298.15)
     "Fixed housing temperature boundary front and back"
     annotation (Placement(transformation(extent={{108,-88},{88,-68}})));
-  ElectrifiedPowertrains.PowerElectronics.Converters.Averaged.CurrentInputConstantEfficiency
-                                                         converterVoltageInput1(
-      redeclare
-      ElectrifiedPowertrains.PowerElectronics.Converters.Averaged.Records.Data.ConstantEfficiency.Constant100percent
-      data)                                                   annotation (
-      Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=0,
-        origin={-68,78})));
   Modelica.Electrical.Analog.Interfaces.PositivePin p1
     "Positive pin of the left port (potential p.v > n.v for positive voltage drop v)"
-    annotation (Placement(transformation(extent={{-60,78},{-40,98}}),
-        iconTransformation(extent={{-60,78},{-40,98}})));
+    annotation (Placement(transformation(extent={{-60,80},{-40,100}}),
+        iconTransformation(extent={{-60,80},{-40,100}})));
   Modelica.Electrical.Analog.Interfaces.NegativePin n1 "Negative pin of the left port"
-    annotation (Placement(transformation(extent={{40,78},{60,98}}),
-        iconTransformation(extent={{40,78},{60,98}})));
-  BMS bms(
-    batteryVoltage=batteryVoltage,
-          N_parallelCells=5, N_cells=batteryPack.N_x*batteryPack.N_y)
-    annotation (Placement(transformation(extent={{-12,4},{-36,26}})));
-  Modelica.Blocks.Interfaces.BooleanInput u1 annotation (Placement(
-        transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=180,
-        origin={140,20}), iconTransformation(
-        extent={{-20,-20},{20,20}},
-        rotation=180,
-        origin={100,-10})));
+    annotation (Placement(transformation(extent={{40,80},{60,100}}),
+        iconTransformation(extent={{40,80},{60,100}})));
 protected
   Battery.Common.Interfaces.HousingHeatPort housingHeatPort(
     N_x=batteryPack.N_x,
@@ -97,30 +74,10 @@ equation
     annotation (Line(points={{88,-78},{60.0625,-78},{60.0625,82.05}},        color={191,0,0}));
   connect(packFrontBackTemperatureBoundary.port,housingHeatPort. back)
     annotation (Line(points={{88,-78},{60.0625,-78},{60.0625,82.05}},                                   color={191,0,0}));
-  connect(batteryPack.n, ground.p) annotation (Line(points={{30,60},{38,60},{38,
-          -14}},                         color={0,0,255}));
-  connect(converterVoltageInput1.p2, batteryPack.p)
-    annotation (Line(points={{-58,84},{0,84},{0,60},{6,60}},
-                                                 color={0,0,255}));
-  connect(converterVoltageInput1.n2, ground.p) annotation (Line(points={{-58,72},
-          {-8,72},{-8,44},{38,44},{38,-14}},                         color={0,0,
-          255}));
-  connect(converterVoltageInput1.p1, p1) annotation (Line(points={{-78,84},{-88,
-          84},{-88,88},{-50,88}},         color={0,0,255}));
-  connect(converterVoltageInput1.n1, n1) annotation (Line(points={{-78,72},{-8,
-          72},{-8,88},{50,88}},    color={0,0,255}));
-  connect(batteryPack.packBus, bms.packBus1) annotation (Line(
-      points={{18,48},{18,40},{-24,40},{-24,26}},
-      color={83,189,255},
-      thickness=0.5));
-  connect(bms.i, converterVoltageInput1.i)
-    annotation (Line(points={{-37.2,15},{-60,15},{-60,66}},
-                                                          color={0,0,127}));
-  connect(bms.pin, p1) annotation (Line(points={{-12.24,15},{0,15},{0,0},{-88,0},
-          {-88,88},{-50,88}},         color={0,0,255}));
-  connect(bms.u, u1) annotation (Line(points={{-9.6,21.6},{66,21.6},{66,20},{
-          140,20}},
-        color={255,0,255}));
+  connect(batteryPack.p, p1) annotation (Line(points={{6,60},{-24,60},{-24,68},
+          {-50,68},{-50,90}}, color={0,0,255}));
+  connect(n1, batteryPack.n)
+    annotation (Line(points={{50,90},{50,60},{30,60}}, color={0,0,255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-80,-80},{80,60}}),
                     graphics={
@@ -176,4 +133,4 @@ equation
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-80,-80},{80,
             60}})),
     experiment(StopTime=10800, __Dymola_Algorithm="Dassl"));
-end Battery_FC_Charging;
+end Battery_noControl;

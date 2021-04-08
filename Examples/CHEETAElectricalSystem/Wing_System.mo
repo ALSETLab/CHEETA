@@ -18,7 +18,7 @@ model Wing_System "CHEETA Electrical System for one wing"
         Aircraft.Electrical.Machines.Records.CHEETA_Records.CHEETA_2_5MW_ESM
         data)) annotation (Placement(transformation(extent={{-16,54},{4,74}})));
   Modelica.Blocks.Sources.Constant const2(k=733.038285)
-    annotation (Placement(transformation(extent={{-46,86},{-32,100}})));
+    annotation (Placement(transformation(extent={{-48,84},{-34,98}})));
   Modelica.Electrical.Analog.Basic.Ground ground
     annotation (Placement(transformation(extent={{-70,-96},{-50,-76}})));
   ElectrifiedPowertrains.ElectricDrives.ESM.ElectroMechanical.SpeedFOC
@@ -130,7 +130,7 @@ model Wing_System "CHEETA Electrical System for one wing"
     annotation (Placement(transformation(extent={{-74,84},{-58,76}})));
 equation
   connect(const2.y,speedFOC_ESM. desiredSpeed)
-    annotation (Line(points={{-31.3,93},{-6,93},{-6,76}},
+    annotation (Line(points={{-33.3,91},{-6,91},{-6,76}},
                                                        color={0,0,127}));
   connect(speedFOC_ESM.pin_n, ground.p)
     annotation (Line(points={{-16,58},{-60,58},{-60,-76}}, color={0,0,255}));

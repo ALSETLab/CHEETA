@@ -3,3 +3,4 @@ Battery
 DC_Battery
 BMS
 Battery_FC_Charging
+Battery_noControl
