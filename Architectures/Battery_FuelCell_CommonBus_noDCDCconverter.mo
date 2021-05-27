@@ -43,8 +43,8 @@ model Battery_FuelCell_CommonBus_noDCDCconverter
         extent={{-6,-6},{6,6}},
         rotation=180,
         origin={-50,-10})));
-  Aircraft.Electrical.Battery.Battery_FC_Charging battery_FC_Charging
-    annotation (Placement(transformation(
+  Aircraft.Electrical.Battery.Battery_BMS battery_FC_Charging annotation (
+      Placement(transformation(
         extent={{-16.5,-11.5},{16.5,11.5}},
         rotation=270,
         origin={-80.5,13.5})));

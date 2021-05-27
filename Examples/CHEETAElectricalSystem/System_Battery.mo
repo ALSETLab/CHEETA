@@ -1,8 +1,6 @@
 within CHEETA.Examples.CHEETAElectricalSystem;
 model System_Battery
 
-  Modelica.Electrical.Analog.Basic.Ground ground1
-    annotation (Placement(transformation(extent={{18,-56},{38,-36}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature3
     annotation (Placement(transformation(extent={{26,28},{6,48}})));
@@ -38,21 +36,20 @@ model System_Battery
             {66,-4}})));
   Modelica.Blocks.Sources.Constant const1(k=733.038285)
     annotation (Placement(transformation(extent={{26,12},{40,26}})));
-  Aircraft.Electrical.Battery.Battery_FC_Charging battery_FC_Charging
-    annotation (Placement(transformation(
+  Aircraft.Electrical.Battery.Battery_BMS_fix
+                                          battery_FC_Charging annotation (
+      Placement(transformation(
         extent={{-12,-8},{12,8}},
         rotation=270,
         origin={-6,-28})));
-  Modelica.Blocks.Sources.BooleanExpression booleanExpression
+  Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=false)
     annotation (Placement(transformation(extent={{-46,-58},{-26,-38}})));
-  Aircraft.Electrical.BusExt busExt(nn=2, np=1)
-    annotation (Placement(transformation(extent={{14,10},{16,-10}})));
   Modelica.Blocks.Sources.Ramp     ramp(
-    height=-9999.99,
+    height=733.038285,
     duration=0.5,
-    offset=10000,
+    offset=0,
     startTime=10)
-    annotation (Placement(transformation(extent={{-110,26},{-90,46}})));
+    annotation (Placement(transformation(extent={{-78,26},{-58,46}})));
   Aircraft.Electrical.HTS.LiquidCooled.HTS_filmboiling_Voltage_Hydrogen
                                                 HTS(
     l=10,
@@ -75,30 +72,25 @@ equation
   connect(const4.y,prescribedTemperature4. T)
     annotation (Line(points={{-111,-30},{-100,-30}},
                                                color={0,0,127}));
-  connect(speedFOC_ESM.pin_n, ground1.p)
-    annotation (Line(points={{38,-20},{28,-20},{28,-36}}, color={0,0,255}));
   connect(speedFOC_ESM.flange, load.flange)
     annotation (Line(points={{58,-14},{66,-14}}, color={0,0,0}));
-  connect(const1.y,speedFOC_ESM. desiredSpeed)
-    annotation (Line(points={{40.7,19},{48,19},{48,-2}},
-                                                       color={0,0,127}));
-  connect(battery_FC_Charging.u1, booleanExpression.y) annotation (Line(points={{
-          -5.27273,-37.1765},{-5.27273,-48},{-25,-48}},   color={255,0,255}));
-  connect(busExt.p[1], speedFOC_ESM.pin_p)
-    annotation (Line(points={{16,0},{32,0},{32,-8},{38,-8}}, color={0,0,255}));
-  connect(battery_FC_Charging.p1, busExt.n[1]) annotation (Line(points={{
-          0.545455,-23.7647},{6,-23.7647},{6,3},{14,3}},   color={0,0,255}));
-  connect(battery_FC_Charging.n1, ground1.p) annotation (Line(points={{0.545455,
-          -30.8235},{28,-30.8235},{28,-36}}, color={0,0,255}));
+  connect(battery_FC_Charging.rotationDirection, booleanExpression.y)
+    annotation (Line(points={{-7,-37.6},{-7,-48},{-25,-48}}, color={255,0,255}));
   connect(fuelCell_EquationBased_DetailedRohm1.p1,HTS. pin_p) annotation (Line(
         points={{-72,9.7},{-58,9.7},{-58,12},{-41,12}}, color={0,0,255}));
-  connect(HTS.pin_n, busExt.n[2])
-    annotation (Line(points={{-23,12},{14,12},{14,-3}}, color={0,0,255}));
   connect(prescribedTemperature3.port, HTS.port_a) annotation (Line(points={{6,
           38},{-30,38},{-30,20},{-31.8,20},{-31.8,16}}, color={191,0,0}));
   connect(fuelCell_EquationBased_DetailedRohm1.port_a, prescribedTemperature4.port)
     annotation (Line(points={{-79,2},{-76,2},{-76,-12},{-62,-12},{-62,-30},{-78,
           -30},{-78,-30}}, color={191,0,0}));
+  connect(speedFOC_ESM.pin_n, battery_FC_Charging.n1) annotation (Line(points={
+          {38,-20},{24,-20},{24,-31.6},{2.8,-31.6}}, color={0,0,255}));
+  connect(speedFOC_ESM.desiredSpeed, ramp.y) annotation (Line(points={{48,-2},{
+          48,32},{40,32},{40,52},{-50,52},{-50,36},{-57,36}}, color={0,0,127}));
+  connect(speedFOC_ESM.pin_p, battery_FC_Charging.p1) annotation (Line(points={
+          {38,-8},{20,-8},{20,-10},{2.8,-10},{2.8,-19.6}}, color={0,0,255}));
+  connect(HTS.pin_n, battery_FC_Charging.p1) annotation (Line(points={{-23,12},
+          {8,12},{8,4},{20,4},{20,-10},{2.8,-10},{2.8,-19.6}}, color={0,0,255}));
   annotation (Diagram(coordinateSystem(extent={{-140,-60},{100,60}})),  Icon(
         coordinateSystem(extent={{-140,-60},{100,60}})),
     experiment(StopTime=30, __Dymola_Algorithm="Dassl"),

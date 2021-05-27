@@ -56,7 +56,7 @@ model CooledMotor
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-80,-20})));
-  CHEETA.Aircraft.Electrical.Battery.Battery_FC_Charging battery_FC_Charging
+  CHEETA.Aircraft.Electrical.Battery.Battery_BMS battery_FC_Charging
     annotation (Placement(transformation(
         extent={{-17,-11},{17,11}},
         rotation=270,

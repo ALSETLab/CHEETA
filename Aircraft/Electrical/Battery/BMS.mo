@@ -6,8 +6,8 @@ model BMS
   parameter Real nominalVoltage = 1000 "Nominal bus voltage";
 public
   Battery.BMS.Variants.PerformanceAndObserverBMS exampleBMS(
-    I_maxCharge=10,
-    I_maxDischarge=-50,                                     N_parallelCells=
+    I_maxCharge=I_maxCharge,
+    I_maxDischarge=I_maxDischarge,                          N_parallelCells=
         N_parallelCells, N_cells=N_cells)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
@@ -46,9 +46,9 @@ public
         origin={-100,-20})));
   Modelica.Electrical.Analog.Basic.Ground ground
     annotation (Placement(transformation(extent={{-110,-60},{-90,-40}})));
-  Modelica.Blocks.Interfaces.RealOutput i
-    annotation (Placement(transformation(extent={{100,-10},{120,10}}),
-        iconTransformation(extent={{100,-10},{120,10}})));
+  Modelica.Blocks.Interfaces.RealOutput DC annotation (Placement(transformation(
+          extent={{100,-10},{120,10}}), iconTransformation(extent={{100,-10},{120,
+            10}})));
   Modelica.Blocks.Interfaces.BooleanInput u
     annotation (Placement(transformation(extent={{-140,40},{-100,80}}),
         iconTransformation(extent={{-140,40},{-100,80}})));
@@ -56,21 +56,25 @@ public
     annotation (Placement(transformation(extent={{22,70},{42,90}})));
   Battery.Packs.Adapters.FromBus.MaxVoltage maxVoltage
     annotation (Placement(transformation(extent={{22,92},{42,112}})));
+  parameter Modelica.Units.SI.Current I_maxCharge=100
+    "maximal allowed charge current per cell";
+  parameter Modelica.Units.SI.Current I_maxDischarge=-500
+    "maximal allowed discharge current per cell";
 equation
   if SOC.y <= minSOC then
-    i = maxChargeCurrent.y;
+    DC = 1;
   elseif potentialSensor.phi <= 0.9*nominalVoltage then
-    i = maxDischargeCurrent.y;
+    DC = 1;
   elseif potentialSensor.phi >= 0.9*nominalVoltage and  potentialSensor.phi <= 1.1*nominalVoltage then
-    i = 0;
+    DC = 0;
   elseif potentialSensor.phi >= 1.1*nominalVoltage then
-    i = maxChargeCurrent.y;
+    DC = 1;
   elseif potentialSensor.phi <= batteryVoltage then
-    i = maxDischargeCurrent.y;
+    DC = 0;
   elseif u == false then
-    i = maxDischargeCurrent.y;
+    DC = 0;
   else
-    i = 0;
+    DC = 0;
   end if;
   connect(exampleBMS.bmsBus,maxChargeCurrent. bmsBus)
     annotation (Line(

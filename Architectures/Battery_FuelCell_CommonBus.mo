@@ -148,8 +148,8 @@ model Battery_FuelCell_CommonBus
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-48,-88})));
-  Aircraft.Electrical.Battery.Battery_FC_Charging battery_FC_Charging
-    annotation (Placement(transformation(
+  Aircraft.Electrical.Battery.Battery_BMS battery_FC_Charging annotation (
+      Placement(transformation(
         extent={{-12,-11},{12,11}},
         rotation=270,
         origin={-74,-45})));

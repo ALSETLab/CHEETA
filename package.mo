@@ -117,7 +117,8 @@ annotation (uses(
     Battery(version="2.2.0"),
     Hydrogen(version="1.3.3"),
     DassaultSystemes(version="1.5"),
-    Modelon(version="3.3")),
+    Modelon(version="3.3"),
+    BrushlessDCDrives(version="1.1.2")),
   version="5",
   conversion(from(
       version="3",

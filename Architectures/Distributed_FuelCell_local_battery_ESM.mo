@@ -24,8 +24,8 @@ model Distributed_FuelCell_local_battery_ESM
         extent={{-6,-6},{6,6}},
         rotation=180,
         origin={-78,-6})));
-  Aircraft.Electrical.Battery.Battery_FC_Charging battery_FC_Charging
-    annotation (Placement(transformation(
+  Aircraft.Electrical.Battery.Battery_BMS battery_FC_Charging annotation (
+      Placement(transformation(
         extent={{-16.5,-11.5},{16.5,11.5}},
         rotation=270,
         origin={-108.5,17.5})));

@@ -107,11 +107,14 @@ equation
   connect(speedFOC_ESM2.pin_n, ground1.p)
     annotation (Line(points={{24,-80},{-20,-80},{-20,-130}}, color={0,0,255}));
   connect(battery_BMS.p1, speedFOC_ESM.pin_p)
-    annotation (Line(points={{-46.2,16},{24,16}}, color={0,0,255}));
-  connect(battery_BMS.n1, ground1.p) annotation (Line(points={{-46.2,6},{-32,6},
-          {-32,4},{-20,4},{-20,-130}}, color={0,0,255}));
+    annotation (Line(points={{-46.55,16.6},{-12,16.6},{-12,16},{24,16}},
+                                                  color={0,0,255}));
+  connect(battery_BMS.n1, ground1.p) annotation (Line(points={{-46.55,8.6},{-32,
+          8.6},{-32,4},{-20,4},{-20,-130}},
+                                       color={0,0,255}));
   connect(booleanExpression.y, battery_BMS.u1)
-    annotation (Line(points={{-77,-16},{-56,-16},{-56,1}}, color={255,0,255}));
+    annotation (Line(points={{-77,-16},{-55.125,-16},{-55.125,4.6}},
+                                                           color={255,0,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-80,
             -160},{120,60}})),                                   Diagram(
         coordinateSystem(preserveAspectRatio=false, extent={{-80,-160},{120,60}})),

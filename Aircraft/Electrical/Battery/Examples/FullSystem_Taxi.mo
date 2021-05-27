@@ -20,7 +20,7 @@ model FullSystem_Taxi
       ElectrifiedPowertrains.ElectricMachines.ESM.ElectroMechanical.Linear
       machine(redeclare Machines.Records.CHEETA_Records.CHEETA_2_5MW_ESM data))
                annotation (Placement(transformation(extent={{24,0},{44,20}})));
-  Modelica.Blocks.Sources.Constant const2(k=0)
+  Modelica.Blocks.Sources.Ramp     ramp(height=200, duration=10)
     annotation (Placement(transformation(extent={{-6,32},{8,46}})));
   Modelica.Electrical.Analog.Basic.Ground ground1
     annotation (Placement(transformation(extent={{-30,-150},{-10,-130}})));
@@ -39,19 +39,19 @@ model FullSystem_Taxi
       ElectrifiedPowertrains.ElectricMachines.ESM.ElectroMechanical.Linear
       machine(redeclare Machines.Records.CHEETA_Records.CHEETA_2_5MW_ESM data))
                annotation (Placement(transformation(extent={{24,-40},{44,-20}})));
-  Modelica.Blocks.Sources.Constant const1(k=0)
+  Modelica.Blocks.Sources.Ramp     ramp2(height=200, duration=10)
     annotation (Placement(transformation(extent={{-6,-18},{8,-4}})));
-  Modelica.Blocks.Sources.Constant const4(k=0)
+  Modelica.Blocks.Sources.Ramp     ramp3(height=200, duration=10)
     annotation (Placement(transformation(extent={{-4,-62},{10,-48}})));
   Modelica.Mechanics.Rotational.Components.Inertia inertia(J=1e-6)
     annotation (Placement(transformation(extent={{60,0},{80,20}})));
   Modelica.Mechanics.Rotational.Components.Inertia inertia1(J=1e-6)
     annotation (Placement(transformation(extent={{60,-40},{80,-20}})));
   Modelica.Mechanics.Rotational.Sources.ConstantTorque constantTorque(
-      tau_constant=-20)
+      tau_constant=-1000)
     annotation (Placement(transformation(extent={{114,0},{94,20}})));
   Modelica.Mechanics.Rotational.Sources.ConstantTorque constantTorque2(
-      tau_constant=-20)
+      tau_constant=-1000)
     annotation (Placement(transformation(extent={{114,-40},{94,-20}})));
   ElectrifiedPowertrains.ElectricDrives.ESM.ElectroMechanical.SpeedFOC
     speedFOC_ESM2(
@@ -71,9 +71,9 @@ model FullSystem_Taxi
   Modelica.Mechanics.Rotational.Components.Inertia inertia2(J=1e-6)
     annotation (Placement(transformation(extent={{60,-84},{80,-64}})));
   Modelica.Mechanics.Rotational.Sources.ConstantTorque constantTorque3(
-      tau_constant=-20)
+      tau_constant=-1000)
     annotation (Placement(transformation(extent={{114,-84},{94,-64}})));
-  Modelica.Blocks.Sources.Constant const3(k=0)
+  Modelica.Blocks.Sources.Ramp     ramp4(height=200, duration=10)
     annotation (Placement(transformation(extent={{-4,-104},{10,-90}})));
   ElectrifiedPowertrains.ElectricDrives.ESM.ElectroMechanical.SpeedFOC
     speedFOC_ESM3(
@@ -93,7 +93,7 @@ model FullSystem_Taxi
   Modelica.Mechanics.Rotational.Components.Inertia inertia3(J=1e-6)
     annotation (Placement(transformation(extent={{62,-126},{82,-106}})));
   Modelica.Mechanics.Rotational.Sources.ConstantTorque constantTorque1(
-      tau_constant=-20)
+      tau_constant=-1000)
     annotation (Placement(transformation(extent={{116,-126},{96,-106}})));
   Battery_noControl battery_noControl1 annotation (Placement(transformation(
         extent={{-8,-7},{8,7}},
@@ -114,7 +114,7 @@ model FullSystem_Taxi
       ElectrifiedPowertrains.ElectricMachines.ESM.ElectroMechanical.Linear
       machine(redeclare Machines.Records.CHEETA_Records.CHEETA_2_5MW_ESM data))
                annotation (Placement(transformation(extent={{210,4},{230,24}})));
-  Modelica.Blocks.Sources.Constant const5(k=0)
+  Modelica.Blocks.Sources.Ramp     ramp6(height=200, duration=10)
     annotation (Placement(transformation(extent={{180,36},{194,50}})));
   Modelica.Electrical.Analog.Basic.Ground ground2
     annotation (Placement(transformation(extent={{156,-146},{176,-126}})));
@@ -133,19 +133,19 @@ model FullSystem_Taxi
       ElectrifiedPowertrains.ElectricMachines.ESM.ElectroMechanical.Linear
       machine(redeclare Machines.Records.CHEETA_Records.CHEETA_2_5MW_ESM data))
                annotation (Placement(transformation(extent={{210,-36},{230,-16}})));
-  Modelica.Blocks.Sources.Constant const6(k=0)
+  Modelica.Blocks.Sources.Ramp     ramp7(height=200, duration=10)
     annotation (Placement(transformation(extent={{180,-14},{194,0}})));
-  Modelica.Blocks.Sources.Constant const7(k=0)
+  Modelica.Blocks.Sources.Ramp     ramp5(height=200, duration=10)
     annotation (Placement(transformation(extent={{182,-58},{196,-44}})));
   Modelica.Mechanics.Rotational.Components.Inertia inertia4(J=1e-6)
     annotation (Placement(transformation(extent={{246,4},{266,24}})));
   Modelica.Mechanics.Rotational.Components.Inertia inertia5(J=1e-6)
     annotation (Placement(transformation(extent={{246,-36},{266,-16}})));
   Modelica.Mechanics.Rotational.Sources.ConstantTorque constantTorque4(
-      tau_constant=-20)
+      tau_constant=-1000)
     annotation (Placement(transformation(extent={{300,4},{280,24}})));
   Modelica.Mechanics.Rotational.Sources.ConstantTorque constantTorque5(
-      tau_constant=-20)
+      tau_constant=-1000)
     annotation (Placement(transformation(extent={{300,-36},{280,-16}})));
   ElectrifiedPowertrains.ElectricDrives.ESM.ElectroMechanical.SpeedFOC
     speedFOC_ESM6(
@@ -165,7 +165,7 @@ model FullSystem_Taxi
   Modelica.Mechanics.Rotational.Components.Inertia inertia6(J=1e-6)
     annotation (Placement(transformation(extent={{246,-80},{266,-60}})));
   Modelica.Mechanics.Rotational.Sources.ConstantTorque constantTorque6(
-      tau_constant=-20)
+      tau_constant=-1000)
     annotation (Placement(transformation(extent={{300,-80},{280,-60}})));
   Battery_noControl battery_noControl2 annotation (Placement(transformation(
         extent={{-8,-7},{8,7}},
@@ -186,7 +186,7 @@ model FullSystem_Taxi
       ElectrifiedPowertrains.ElectricMachines.ESM.ElectroMechanical.Linear
       machine(redeclare Machines.Records.CHEETA_Records.CHEETA_2_5MW_ESM data))
                annotation (Placement(transformation(extent={{386,4},{406,24}})));
-  Modelica.Blocks.Sources.Constant const8(k=0)
+  Modelica.Blocks.Sources.Ramp     ramp8(height=200, duration=10)
     annotation (Placement(transformation(extent={{356,36},{370,50}})));
   Modelica.Electrical.Analog.Basic.Ground ground3
     annotation (Placement(transformation(extent={{332,-146},{352,-126}})));
@@ -205,19 +205,19 @@ model FullSystem_Taxi
       ElectrifiedPowertrains.ElectricMachines.ESM.ElectroMechanical.Linear
       machine(redeclare Machines.Records.CHEETA_Records.CHEETA_2_5MW_ESM data))
                annotation (Placement(transformation(extent={{386,-36},{406,-16}})));
-  Modelica.Blocks.Sources.Constant const9(k=0)
+  Modelica.Blocks.Sources.Ramp     ramp9(height=200, duration=10)
     annotation (Placement(transformation(extent={{356,-14},{370,0}})));
-  Modelica.Blocks.Sources.Constant const10(k=0)
+  Modelica.Blocks.Sources.Ramp     ramp10(height=200, duration=10)
     annotation (Placement(transformation(extent={{358,-58},{372,-44}})));
   Modelica.Mechanics.Rotational.Components.Inertia inertia7(J=1e-6)
     annotation (Placement(transformation(extent={{422,4},{442,24}})));
   Modelica.Mechanics.Rotational.Components.Inertia inertia8(J=1e-6)
     annotation (Placement(transformation(extent={{422,-36},{442,-16}})));
   Modelica.Mechanics.Rotational.Sources.ConstantTorque constantTorque7(
-      tau_constant=-20)
+      tau_constant=-1000)
     annotation (Placement(transformation(extent={{476,4},{456,24}})));
   Modelica.Mechanics.Rotational.Sources.ConstantTorque constantTorque8(
-      tau_constant=-20)
+      tau_constant=-1000)
     annotation (Placement(transformation(extent={{476,-36},{456,-16}})));
   ElectrifiedPowertrains.ElectricDrives.ESM.ElectroMechanical.SpeedFOC
     speedFOC_ESM9(
@@ -237,9 +237,9 @@ model FullSystem_Taxi
   Modelica.Mechanics.Rotational.Components.Inertia inertia9(J=1e-6)
     annotation (Placement(transformation(extent={{422,-80},{442,-60}})));
   Modelica.Mechanics.Rotational.Sources.ConstantTorque constantTorque9(
-      tau_constant=-20)
+      tau_constant=-1000)
     annotation (Placement(transformation(extent={{476,-80},{456,-60}})));
-  Modelica.Blocks.Sources.Constant const11(k=0)
+  Modelica.Blocks.Sources.Ramp     ramp1(height=200, duration=10)
     annotation (Placement(transformation(extent={{358,-100},{372,-86}})));
   ElectrifiedPowertrains.ElectricDrives.ESM.ElectroMechanical.SpeedFOC
     speedFOC_ESM10(
@@ -260,15 +260,15 @@ model FullSystem_Taxi
   Modelica.Mechanics.Rotational.Components.Inertia inertia10(J=1e-6)
     annotation (Placement(transformation(extent={{424,-122},{444,-102}})));
   Modelica.Mechanics.Rotational.Sources.ConstantTorque constantTorque10(
-      tau_constant=-20)
+      tau_constant=-1000)
     annotation (Placement(transformation(extent={{478,-122},{458,-102}})));
 equation
-  connect(const2.y,speedFOC_ESM. desiredSpeed)
-    annotation (Line(points={{8.7,39},{34,39},{34,22}},color={0,0,127}));
+  connect(ramp.y, speedFOC_ESM.desiredSpeed)
+    annotation (Line(points={{8.7,39},{34,39},{34,22}}, color={0,0,127}));
   connect(speedFOC_ESM.pin_n, ground1.p)
     annotation (Line(points={{24,4},{-20,4},{-20,-130}}, color={0,0,255}));
-  connect(const1.y,speedFOC_ESM1. desiredSpeed)
-    annotation (Line(points={{8.7,-11},{34,-11},{34,-18}},color={0,0,127}));
+  connect(ramp2.y, speedFOC_ESM1.desiredSpeed)
+    annotation (Line(points={{8.7,-11},{34,-11},{34,-18}}, color={0,0,127}));
   connect(speedFOC_ESM1.pin_n, ground1.p)
     annotation (Line(points={{24,-36},{-20,-36},{-20,-130}}, color={0,0,255}));
   connect(speedFOC_ESM1.pin_p,speedFOC_ESM. pin_p) annotation (Line(points={{24,-24},
@@ -287,9 +287,8 @@ equation
     annotation (Line(points={{60,-74},{44,-74}},color={0,0,0}));
   connect(inertia2.flange_b,constantTorque3. flange)
     annotation (Line(points={{80,-74},{94,-74}}, color={0,0,0}));
-  connect(const4.y,speedFOC_ESM2. desiredSpeed)
-    annotation (Line(points={{10.7,-55},{34,-55},{34,-62}},
-                                                          color={0,0,127}));
+  connect(ramp3.y, speedFOC_ESM2.desiredSpeed)
+    annotation (Line(points={{10.7,-55},{34,-55},{34,-62}}, color={0,0,127}));
   connect(speedFOC_ESM2.pin_p,speedFOC_ESM. pin_p) annotation (Line(points={{24,-68},
           {16,-68},{16,16},{24,16}},             color={0,0,255}));
   connect(speedFOC_ESM2.pin_n, ground1.p)
@@ -305,20 +304,18 @@ equation
   connect(inertia3.flange_b,constantTorque1. flange)
     annotation (Line(points={{82,-116},{96,-116}},
                                                  color={0,0,0}));
-  connect(const3.y,speedFOC_ESM3. desiredSpeed)
-    annotation (Line(points={{10.7,-97},{34,-97},{34,-104}},
-                                                          color={0,0,127}));
+  connect(ramp4.y, speedFOC_ESM3.desiredSpeed)
+    annotation (Line(points={{10.7,-97},{34,-97},{34,-104}}, color={0,0,127}));
   connect(speedFOC_ESM3.pin_p,speedFOC_ESM. pin_p) annotation (Line(points={{24,-110},
           {16,-110},{16,16},{24,16}},            color={0,0,255}));
   connect(speedFOC_ESM3.pin_n, ground1.p) annotation (Line(points={{24,-122},{
           -20,-122},{-20,-130}}, color={0,0,255}));
-  connect(const5.y, speedFOC_ESM4.desiredSpeed)
+  connect(ramp6.y, speedFOC_ESM4.desiredSpeed)
     annotation (Line(points={{194.7,43},{220,43},{220,26}}, color={0,0,127}));
   connect(speedFOC_ESM4.pin_n, ground2.p)
     annotation (Line(points={{210,8},{166,8},{166,-126}}, color={0,0,255}));
-  connect(const6.y,speedFOC_ESM5. desiredSpeed)
-    annotation (Line(points={{194.7,-7},{220,-7},{220,-14}},
-                                                          color={0,0,127}));
+  connect(ramp7.y, speedFOC_ESM5.desiredSpeed)
+    annotation (Line(points={{194.7,-7},{220,-7},{220,-14}}, color={0,0,127}));
   connect(speedFOC_ESM5.pin_n, ground2.p) annotation (Line(points={{210,-32},{
           166,-32},{166,-126}}, color={0,0,255}));
   connect(speedFOC_ESM5.pin_p, speedFOC_ESM4.pin_p) annotation (Line(points={{
@@ -339,9 +336,8 @@ equation
   connect(inertia6.flange_b,constantTorque6. flange)
     annotation (Line(points={{266,-70},{280,-70}},
                                                  color={0,0,0}));
-  connect(const7.y,speedFOC_ESM6. desiredSpeed)
-    annotation (Line(points={{196.7,-51},{220,-51},{220,-58}},
-                                                          color={0,0,127}));
+  connect(ramp5.y, speedFOC_ESM6.desiredSpeed) annotation (Line(points={{196.7,
+          -51},{220,-51},{220,-58}}, color={0,0,127}));
   connect(speedFOC_ESM6.pin_p, speedFOC_ESM4.pin_p) annotation (Line(points={{
           210,-64},{202,-64},{202,20},{210,20}}, color={0,0,255}));
   connect(speedFOC_ESM6.pin_n, ground2.p) annotation (Line(points={{210,-76},{
@@ -351,13 +347,12 @@ equation
                                                    color={0,0,255}));
   connect(battery_noControl1.n1, ground2.p) annotation (Line(points={{152,10},{
           166,10},{166,-126}},  color={0,0,255}));
-  connect(const8.y, speedFOC_ESM7.desiredSpeed)
+  connect(ramp8.y, speedFOC_ESM7.desiredSpeed)
     annotation (Line(points={{370.7,43},{396,43},{396,26}}, color={0,0,127}));
   connect(speedFOC_ESM7.pin_n, ground3.p)
     annotation (Line(points={{386,8},{342,8},{342,-126}}, color={0,0,255}));
-  connect(const9.y,speedFOC_ESM8. desiredSpeed)
-    annotation (Line(points={{370.7,-7},{396,-7},{396,-14}},
-                                                          color={0,0,127}));
+  connect(ramp9.y, speedFOC_ESM8.desiredSpeed)
+    annotation (Line(points={{370.7,-7},{396,-7},{396,-14}}, color={0,0,127}));
   connect(speedFOC_ESM8.pin_n, ground3.p) annotation (Line(points={{386,-32},{
           342,-32},{342,-126}}, color={0,0,255}));
   connect(speedFOC_ESM8.pin_p, speedFOC_ESM7.pin_p) annotation (Line(points={{
@@ -378,8 +373,8 @@ equation
   connect(inertia9.flange_b,constantTorque9. flange)
     annotation (Line(points={{442,-70},{456,-70}},
                                                  color={0,0,0}));
-  connect(const10.y, speedFOC_ESM9.desiredSpeed) annotation (Line(points={{
-          372.7,-51},{396,-51},{396,-58}}, color={0,0,127}));
+  connect(ramp10.y, speedFOC_ESM9.desiredSpeed) annotation (Line(points={{372.7,
+          -51},{396,-51},{396,-58}}, color={0,0,127}));
   connect(speedFOC_ESM9.pin_p, speedFOC_ESM7.pin_p) annotation (Line(points={{
           386,-64},{378,-64},{378,20},{386,20}}, color={0,0,255}));
   connect(speedFOC_ESM9.pin_n, ground3.p) annotation (Line(points={{386,-76},{
@@ -393,8 +388,8 @@ equation
     annotation (Line(points={{424,-112},{406,-112}}, color={0,0,0}));
   connect(inertia10.flange_b, constantTorque10.flange)
     annotation (Line(points={{444,-112},{458,-112}}, color={0,0,0}));
-  connect(const11.y, speedFOC_ESM10.desiredSpeed) annotation (Line(points={{
-          372.7,-93},{396,-93},{396,-100}}, color={0,0,127}));
+  connect(ramp1.y, speedFOC_ESM10.desiredSpeed) annotation (Line(points={{372.7,
+          -93},{396,-93},{396,-100}}, color={0,0,127}));
   connect(speedFOC_ESM10.pin_p, speedFOC_ESM7.pin_p) annotation (Line(points={{
           386,-106},{378,-106},{378,20},{386,20}}, color={0,0,255}));
   connect(speedFOC_ESM10.pin_n, ground3.p) annotation (Line(points={{386,-118},

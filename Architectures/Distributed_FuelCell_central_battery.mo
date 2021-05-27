@@ -299,8 +299,8 @@ model Distributed_FuelCell_central_battery
     annotation (Placement(transformation(extent={{-70,48},{-74,-152}})));
   Aircraft.Electrical.BusExt busExt1(nn=2, np=1)
     annotation (Placement(transformation(extent={{44,2},{42,18}})));
-  Aircraft.Electrical.Battery.Battery_FC_Charging battery_FC_Charging
-    annotation (Placement(transformation(
+  Aircraft.Electrical.Battery.Battery_BMS battery_FC_Charging annotation (
+      Placement(transformation(
         extent={{-16.5,-11.5},{16.5,11.5}},
         rotation=270,
         origin={-114.5,-58.5})));

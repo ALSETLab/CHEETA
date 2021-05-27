@@ -78,7 +78,7 @@ equation
     annotation (Line(points={{-66,10},{-66,-30},{-76,-30}}, color={191,0,0}));
   annotation (Diagram(coordinateSystem(extent={{-140,-80},{100,60}})),  Icon(
         coordinateSystem(extent={{-140,-80},{100,60}})),
-    experiment(StopTime=30, __Dymola_Algorithm="Dassl"),
+    experiment(StopTime=30, __Dymola_Algorithm="Rkfix4"),
     __Dymola_Commands(file=
           "../../../image/HTS/Fault Test - One Line/PlotFaults.mos"
         "PlotFaults"));

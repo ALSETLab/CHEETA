@@ -2,5 +2,5 @@ Body_Taxi
 Wing_Taxi
 FullSystem_Taxi
 Body_Taxi_BMS
-Battery_Motor
-Battery_Motor_Fault
+Battery_switch_constantVoltage
+Battery_switch

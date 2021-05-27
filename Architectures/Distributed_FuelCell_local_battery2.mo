@@ -40,8 +40,8 @@ model Distributed_FuelCell_local_battery2
     annotation (Placement(transformation(extent={{76,0},{96,20}})));
   Modelica.Electrical.Analog.Basic.Ground ground1
     annotation (Placement(transformation(extent={{46,-26},{66,-6}})));
-  Aircraft.Electrical.Battery.Battery_FC_Charging battery_FC_Charging
-    annotation (Placement(transformation(
+  Aircraft.Electrical.Battery.Battery_BMS battery_FC_Charging annotation (
+      Placement(transformation(
         extent={{-16,-12},{16,12}},
         rotation=270,
         origin={-68,8})));
