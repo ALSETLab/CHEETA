@@ -1,23 +1,38 @@
 within CHEETA.Aircraft.Electrical.BusBar;
 model Al_Bar
-  Cu_CurrentLead cu_CurrentLead(I_0=8000, A=1) annotation (Placement(
-        transformation(
+  Cu_CurrentLead cu_CurrentLead(
+    l=l,
+    k_0=k_0,
+    h_L=h_L,
+    c_p0=c_p0,
+    I_0=I_0,
+    A=A) annotation (Placement(transformation(
         extent={{-4,-6},{4,6}},
         rotation=90,
         origin={-22,40})));
   Modelica.Electrical.Analog.Interfaces.PositivePin FuelCell
     "Positive electrical pin" annotation (Placement(transformation(extent={{-60,
             30},{-40,50}}), iconTransformation(extent={{-60,30},{-40,50}})));
-  Cu_CurrentLead cu_CurrentLead1(I_0=8000, A=1) annotation (Placement(
-        transformation(
+  Cu_CurrentLead cu_CurrentLead1(
+    l=l,
+    k_0=k_0,
+    h_L=h_L,
+    c_p0=c_p0,
+    I_0=I_0,
+    A=A) annotation (Placement(transformation(
         extent={{-4,-6},{4,6}},
         rotation=90,
         origin={-20,-40})));
   Modelica.Electrical.Analog.Interfaces.PositivePin Battery
     "Positive electrical pin" annotation (Placement(transformation(extent={{-60,
             -50},{-40,-30}}), iconTransformation(extent={{-60,-50},{-40,-30}})));
-  Cu_CurrentLead cu_CurrentLead2(I_0=8000, A=1) annotation (Placement(
-        transformation(
+  Cu_CurrentLead cu_CurrentLead2(
+    l=l,
+    k_0=k_0,
+    h_L=h_L,
+    c_p0=c_p0,
+    I_0=I_0,
+    A=A) annotation (Placement(transformation(
         extent={{-4,6},{4,-6}},
         rotation=90,
         origin={18,0})));
@@ -36,6 +51,12 @@ model Al_Bar
         origin={0,-16})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a1
     annotation (Placement(transformation(extent={{-54,-10},{-34,10}})));
+  parameter Real l=0.38 "Lead length";
+  parameter Real k_0=600 "Thermal conductivity";
+  parameter Real h_L=20.7e3 "Latent heat of liquid media";
+  parameter Real c_p0=5.26e3 "Specific heat of media";
+  parameter Real I_0=8000 "Carrying current";
+  parameter Real A=1 "Current lead area";
 equation
   connect(cu_CurrentLead.p1, FuelCell)
     annotation (Line(points={{-29,40},{-50,40}}, color={0,0,255}));

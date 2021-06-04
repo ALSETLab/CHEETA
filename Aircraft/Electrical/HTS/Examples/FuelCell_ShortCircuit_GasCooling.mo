@@ -18,7 +18,7 @@ model FuelCell_ShortCircuit_GasCooling
     duration=0.5,
     offset=10000,
     startTime=10)
-    annotation (Placement(transformation(extent={{-38,-26},{-18,-6}})));
+    annotation (Placement(transformation(extent={{-36,-26},{-16,-6}})));
   PowerElectronics.Converters.DCAC.TheveninEquivalent inverter1(R=0.1, R_cm=0.1)
     annotation (Placement(transformation(extent={{38,-26},{58,-6}})));
   Modelica.Electrical.Analog.Basic.Resistor resistor4(R=100)
@@ -51,7 +51,7 @@ equation
   connect(resistor1.n,ground1. p)
     annotation (Line(points={{14,-26},{14,-34},{42,-34}},   color={0,0,255}));
   connect(resistor1.R, ramp1.y)
-    annotation (Line(points={{2,-16},{-17,-16}},   color={0,0,127}));
+    annotation (Line(points={{2,-16},{-15,-16}},   color={0,0,127}));
   connect(inverter1.dc_n, ground1.p) annotation (Line(points={{38,-22},{26,-22},
           {26,-34},{42,-34}},   color={0,0,255}));
   connect(inverter1.ac, resistor4.p)
