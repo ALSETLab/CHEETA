@@ -1,25 +1,37 @@
 within CHEETA.Aircraft.Electrical.BusBar;
 package Examples
   model Cu_CurrentLead
-    CHEETA.Aircraft.Electrical.BusBar.Cu_CurrentLead cu_CurrentLead(I_0=3000, A
-        =0.1) annotation (Placement(transformation(extent={{24,-8},{36,10}})));
+    CHEETA.Aircraft.Electrical.BusBar.Cu_CurrentLead cu_CurrentLead(
+      l=0.5,
+      I_0=3000,
+      A=0.1) annotation (Placement(transformation(extent={{24,-14},{36,4}})));
     Modelica.Electrical.Analog.Basic.Ground ground
-      annotation (Placement(transformation(extent={{20,-46},{40,-26}})));
-    Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage(V=10)
-      annotation (Placement(transformation(
+      annotation (Placement(transformation(extent={{20,-48},{40,-28}})));
+    Modelica.Electrical.Analog.Sources.RampVoltage rampVoltage(V=10, duration=
+          10) annotation (Placement(transformation(
           extent={{-10,-10},{10,10}},
           rotation=270,
-          origin={0,0})));
+          origin={50,-4})));
+    Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
+      prescribedTemperature3
+      annotation (Placement(transformation(extent={{12,26},{-8,46}})));
+    Modelica.Blocks.Sources.Constant const3(k=20)
+      annotation (Placement(transformation(extent={{48,26},{28,46}})));
   equation
     connect(cu_CurrentLead.n1, ground.p)
-      annotation (Line(points={{30,-9.5},{30,-26}}, color={0,0,255}));
-    connect(constantVoltage.p, cu_CurrentLead.p1) annotation (Line(points={{
-            1.77636e-15,10},{0,10},{0,30},{30,30},{30,11.5}}, color={0,0,255}));
-    connect(constantVoltage.n, ground.p) annotation (Line(points={{-1.77636e-15,
-            -10},{0,-10},{0,-22},{24,-22},{24,-20},{30,-20},{30,-26}}, color={0,
-            0,255}));
-    annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-          coordinateSystem(preserveAspectRatio=false)));
+      annotation (Line(points={{30,-15.5},{30,-28}}, color={0,0,255}));
+    connect(rampVoltage.p, cu_CurrentLead.p1) annotation (Line(points={{50,6},{
+            50,16},{30,16},{30,5.5}}, color={0,0,255}));
+    connect(rampVoltage.n, ground.p) annotation (Line(points={{50,-14},{50,-22},
+            {30,-22},{30,-28}}, color={0,0,255}));
+    connect(const3.y, prescribedTemperature3.T)
+      annotation (Line(points={{27,36},{14,36}}, color={0,0,127}));
+    connect(prescribedTemperature3.port, cu_CurrentLead.port_a) annotation (
+        Line(points={{-8,36},{-16,36},{-16,-5},{24,-5}}, color={191,0,0}));
+    annotation (
+      Icon(coordinateSystem(preserveAspectRatio=false)),
+      Diagram(coordinateSystem(preserveAspectRatio=false)),
+      experiment(StopTime=10, __Dymola_Algorithm="Rkfix4"));
   end Cu_CurrentLead;
 
   model BusBar
@@ -101,8 +113,8 @@ package Examples
     connect(prescribedTemperature3.port, al_Bar.port_a1) annotation (Line(
           points={{10,38},{0,38},{0,-5},{27.5,-5}}, color={191,0,0}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
-              -80},{100,60}})), Diagram(coordinateSystem(preserveAspectRatio=
-              false, extent={{-140,-80},{100,60}})));
+              -60},{120,60}})), Diagram(coordinateSystem(preserveAspectRatio=
+              false, extent={{-140,-60},{120,60}})));
   end BusBar;
 
   model BusBar_Fault
@@ -130,7 +142,7 @@ package Examples
     Modelica.Electrical.Analog.Basic.Resistor resistor4(R=100)
       annotation (Placement(transformation(extent={{146,-46},{166,-26}})));
     FuelCell.FuelCell_EquationBased
-      fuelCell_EquationBased1(R_ohm_current=0.05)
+      fuelCell_EquationBased1(R_ohm_current=0.25)
       annotation (Placement(transformation(extent={{-70,-6},{-56,8}})));
     Modelica.Electrical.Analog.Basic.Inductor inductor1(L=0.12086)
       annotation (Placement(transformation(extent={{146,-24},{166,-4}})));
@@ -212,7 +224,7 @@ package Examples
     connect(battery_BMS.u1, booleanExpression.y) annotation (Line(points={{
             -37.125,-29.4},{-38,-29.4},{-38,-50},{-49,-50}}, color={255,0,255}));
     connect(al_Bar.port_a1, prescribedTemperature3.port) annotation (Line(
-          points={{69.5,-9},{-4,-9},{-4,32},{2,32}}, color={191,0,0}));
+          points={{70,-9},{-4,-9},{-4,32},{2,32}}, color={191,0,0}));
     annotation (
       Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,-80},{180,
               60}})),

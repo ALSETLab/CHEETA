@@ -1,0 +1,4287 @@
+#1
+char Aclass(3,24)
+Adymosim
+1.4
+Modelica experiment file
+
+
+#    Experiment parameters
+double experiment(7,1)
+       0                   # StartTime    Time at which integration starts
+                           #              (and linearization and trimming time)
+      15                   # StopTime     Time at which integration stops
+       0                   # Increment    Communication step size, if > 0
+    1000                   # nInterval    Number of communication intervals, if > 0
+  1.0000000000000000E-04   # Tolerance    Relative precision of signals for
+                           #              simulation, linearization and trimming
+       0                   # MaxFixedStep Maximum step size of fixed step size
+                           #              integrators, if > 0.0
+       8                   # Algorithm    Integration algorithm as integer (1...28)
+                           #
+                           #             | model|       |        | dense | state |
+                           # Algorithm   | typ  | stiff | order  | output| event |
+                           # ------------+------+-------+--------+-------+-------+
+                           #  1 | deabm  |  ode |   no  |  1-12  |  yes  |   no  |
+                           #  2 | lsode1 |  ode |   no  |  1-12  |  yes  |   no  |
+                           #  3 | lsode2 |  ode |  yes  |  1-5   |  yes  |   no  |
+                           #  4 | lsodar |  ode |  both |1-12,1-5|  yes  |  yes  |
+                           #  5 | dopri5 |  ode |   no  |   5    |   no  |   no  |
+                           #  6 | dopri8 |  ode |   no  |   8    |   no  |   no  |
+                           #  7 | grk4t  |  ode |  yes  |   4    |   no  |   no  |
+                           #  8 | dassl  |  dae |  yes  |  1-5   |  yes  |  yes  |
+                           #  9 | odassl | hdae |  yes  |  1-5   |  yes  |  yes  |
+                           # 10 | mexx   | hdae |   no  |  2-24  |   no  |   no  |
+                           # 11 | euler  |  ode |   no  |   1    |   no  |  yes  |
+                           # 12 | rkfix2 |  ode |   no  |   2    |   no  |  yes  |
+                           # 13 | rkfix3 |  ode |   no  |   3    |   no  |  yes  |
+                           # 14 | rkfix4 |  ode |   no  |   4    |   no  |  yes  |
+                           #>=14| others |  ode |yes/no |  2-5   |   yes |  yes  |
+                           # ---+--------+------+-------+--------+-------+-------+
+                           # euler and rkfix have fixed stepsize.
+
+
+#    Method tuning parameters
+double method(27,1)
+       1                   # grid     type of communication time grid, defined by
+                           #          = 1: equidistant points ("Increment/nInterval")
+                           #          = 2: vector of grid points ("tgrid")
+                           #          = 3: variable step integrator (automatically)
+                           #          = 4: model (call of "increment" in Dymola, e.g.
+                           #                      incr=Time > 2 then 0 else 0.1
+                           #                      dummy=increment(incr))
+                           #          grid = 1,3 is stopped by "StopTime"
+                           #          grid = 2   is stopped by "tgrid(last)"
+                           #          grid = 4   runs forever (stopped by model)
+       1                   # nt       Use every NT time instant, if grid = 3
+       3                   # dense    1/2/3 restart/step/interpolate GRID points
+       1                   # evgrid   0/1 do not/save event points in comm. time grid
+       1                   # evu      0/1 U-discontinuity does not/trigger events
+       0                   # evuord       U-discontinuity order to consider (0,1,...)
+       0                   # error    0/1/2 One message/warning/error messages
+       0                   # jac      0/1 Compute jacobian numerically/by BLOCKJ
+       0                   # xd0c     0/1 Compute/set XD0
+       0                   # f3       0/1 Ignore/use F3 of HDAE (= index 1)
+       0                   # f4       0/1 Ignore/use F4 of HDAE (= index 2)
+       0                   # f5       0/1 Ignore/use F5 of HDAE (= invar.)
+       0                   # debug    flags for debug information (1<<0 uses pdebug) 
+     100                   # pdebug       priority of debug information (1...100)
+       0                   # fmax     Maximum number of evaluations of BLOCKF, if > 0
+       0                   # ordmax   Maximum allowed integration order, if > 0
+       0                   # hmax     Maximum absolute stepsize, if > 0
+       0                   # hmin     Minimum absolute stepsize, if > 0 (use with care!)
+       0                   # h0       Stepsize to be attempted on first step, if > 0
+  2.0000000000000000E-14   # teps     Bound to check, if 2 equal time instants
+  1.0000000000000000E-10   # eveps    Hysteresis epsilon at event points
+      20                   # eviter   Maximum number of event iterations
+  9.9999999999999995E-07   # delaym   Minimum time increment in delay buffers
+       1                   # fexcep   0/1 floating exception crashes/stops dymosim
+       1                   # tscale   clock-time = tscale*simulation-time, if grid = 5
+                           #          > 1: simulation too slow
+                           #          = 1: simulation-time = real-time
+                           #          < 1: simulation too fast
+       1                   # shared   (not used)
+    2473                   # memkey   (not used)
+
+
+#    Output parameters
+int settings(13,1)
+ 0                         # lprec    0/1 do not/store result data in double
+ 1                         # lx       0/1 do not/store x  (state variables)
+ 1                         # lxd      0/1 do not/store xd (derivative of states)
+ 1                         # lu       0/1 do not/store u  (input     signals)
+ 1                         # ly       0/1 do not/store y  (output    signals)
+ 0                         # lz       0/1 do not/store z  (indicator signals)
+ 1                         # lw       0/1 do not/store w  (auxiliary signals)
+ 1                         # la       0/1 do not/store a  (alias     signals)
+ 0                         # lperf    0/1 do not/store performance indicators
+ 0                         # levent   0/1 do not/store event point
+ 1                         # lres     0/1 do not/store results on result file
+ 0                         # lshare   0/1 do not/store info data for shared memory on dsshare.txt
+ 1                         # lform    0/1 ASCII/Matlab-binary storage format of results
+                           #              (for simulation/linearization; not for trimming)
+
+
+#    Names of initial variables
+char initialName(1032,34)
+rampCurrent.I
+rampCurrent.duration
+rampCurrent.v
+rampCurrent.p.v
+rampCurrent.p.i
+rampCurrent.signalSource.height
+rampCurrent.signalSource.duration
+rampCurrent.signalSource.offset
+rampCurrent.signalSource.startTime
+rampCurrent.offset
+rampCurrent.startTime
+resistor1.R
+resistor1.T_ref
+resistor1.alpha
+resistor1.v
+resistor1.p.i
+resistor1.n.v
+resistor1.useHeatPort
+resistor1.T
+resistor1.LossPower
+resistor1.R_actual
+ground2.p.v
+ground2.p.i
+const.k
+HTS.l
+HTS.E_0
+HTS.n
+HTS.I_c0
+HTS.A
+HTS.A_cu_tape
+HTS.n_Tape
+HTS.T_c
+HTS.R_L
+HTS.G_d
+HTS.a
+HTS.b
+HTS.R_c
+HTS.R_0
+HTS.mu_r
+HTS.epsilon_r
+HTS.f
+HTS.kappa
+HTS.v
+HTS.C_pv
+HTS.G
+HTS.pi
+HTS.mu_0
+HTS.epsilon_0
+HTS.mu
+HTS.epsilon
+HTS.omega
+HTS.delta
+HTS.h
+HTS.dT[1]
+HTS.dT[2]
+HTS.dT[3]
+HTS.dT[4]
+HTS.dT[5]
+HTS.dT[6]
+HTS.dT[7]
+HTS.dT[8]
+HTS.dT[9]
+HTS.dT[10]
+HTS.dT[11]
+HTS.dT[12]
+HTS.dT[13]
+HTS.dT[14]
+HTS.dT[15]
+HTS.dT[16]
+HTS.dT[17]
+HTS.dT[18]
+HTS.dT[19]
+HTS.dT[20]
+HTS.dT[21]
+HTS.dT[22]
+HTS.dT[23]
+HTS.dT[24]
+HTS.dT[25]
+HTS.dT[26]
+HTS.dT[27]
+HTS.dT[28]
+HTS.dT[29]
+HTS.dT[30]
+HTS.dT[31]
+HTS.dT[32]
+HTS.dT[33]
+HTS.dT[34]
+HTS.dT[35]
+HTS.dT[36]
+HTS.dT[37]
+HTS.dT[38]
+HTS.dT[39]
+HTS.dT[40]
+HTS.dT[41]
+HTS.dT[42]
+HTS.dT[43]
+HTS.dT[44]
+HTS.dT[45]
+HTS.dT[46]
+HTS.dT[47]
+HTS.dT[48]
+HTS.dT[49]
+HTS.dT[50]
+HTS.dT[51]
+HTS.dT[52]
+HTS.dT[53]
+HTS.dT[54]
+HTS.dT[55]
+HTS.dT[56]
+HTS.dT[57]
+HTS.dT[58]
+HTS.dT[59]
+HTS.dT[60]
+HTS.dT[61]
+HTS.dT[62]
+HTS.dT[63]
+HTS.dT[64]
+HTS.dT[65]
+HTS.dT[66]
+HTS.dT[67]
+HTS.dT[68]
+HTS.dT[69]
+HTS.dT[70]
+HTS.dT[71]
+HTS.dT[72]
+HTS.dT[73]
+HTS.dT[74]
+HTS.dT[75]
+HTS.dT[76]
+HTS.dT[77]
+HTS.dT[78]
+HTS.dT[79]
+HTS.dT[80]
+HTS.dT[81]
+HTS.dT[82]
+HTS.dT[83]
+HTS.dT[84]
+HTS.dT[85]
+HTS.dT[86]
+HTS.dT[87]
+HTS.dT[88]
+HTS.dT[89]
+HTS.dT[90]
+HTS.dT[91]
+HTS.dT[92]
+HTS.dT[93]
+HTS.dT[94]
+HTS.dT[95]
+HTS.dT[96]
+HTS.dT[97]
+HTS.dT[98]
+HTS.dT[99]
+HTS.dT[100]
+HTS.dT_rho
+HTS.T[1]
+HTS.T[2]
+HTS.T[3]
+HTS.T[4]
+HTS.T[5]
+HTS.T[6]
+HTS.T[7]
+HTS.T[8]
+HTS.T[9]
+HTS.T[10]
+HTS.T[11]
+HTS.T[12]
+HTS.T[13]
+HTS.T[14]
+HTS.T[15]
+HTS.T[16]
+HTS.T[17]
+HTS.T[18]
+HTS.T[19]
+HTS.T[20]
+HTS.T[21]
+HTS.T[22]
+HTS.T[23]
+HTS.T[24]
+HTS.T[25]
+HTS.T[26]
+HTS.T[27]
+HTS.T[28]
+HTS.T[29]
+HTS.T[30]
+HTS.T[31]
+HTS.T[32]
+HTS.T[33]
+HTS.T[34]
+HTS.T[35]
+HTS.T[36]
+HTS.T[37]
+HTS.T[38]
+HTS.T[39]
+HTS.T[40]
+HTS.T[41]
+HTS.T[42]
+HTS.T[43]
+HTS.T[44]
+HTS.T[45]
+HTS.T[46]
+HTS.T[47]
+HTS.T[48]
+HTS.T[49]
+HTS.T[50]
+HTS.T[51]
+HTS.T[52]
+HTS.T[53]
+HTS.T[54]
+HTS.T[55]
+HTS.T[56]
+HTS.T[57]
+HTS.T[58]
+HTS.T[59]
+HTS.T[60]
+HTS.T[61]
+HTS.T[62]
+HTS.T[63]
+HTS.T[64]
+HTS.T[65]
+HTS.T[66]
+HTS.T[67]
+HTS.T[68]
+HTS.T[69]
+HTS.T[70]
+HTS.T[71]
+HTS.T[72]
+HTS.T[73]
+HTS.T[74]
+HTS.T[75]
+HTS.T[76]
+HTS.T[77]
+HTS.T[78]
+HTS.T[79]
+HTS.T[80]
+HTS.T[81]
+HTS.T[82]
+HTS.T[83]
+HTS.T[84]
+HTS.T[85]
+HTS.T[86]
+HTS.T[87]
+HTS.T[88]
+HTS.T[89]
+HTS.T[90]
+HTS.T[91]
+HTS.T[92]
+HTS.T[93]
+HTS.T[94]
+HTS.T[95]
+HTS.T[96]
+HTS.T[97]
+HTS.T[98]
+HTS.T[99]
+HTS.T[100]
+HTS.Q_flow[1]
+HTS.Q_flow[2]
+HTS.Q_flow[3]
+HTS.Q_flow[4]
+HTS.Q_flow[5]
+HTS.Q_flow[6]
+HTS.Q_flow[7]
+HTS.Q_flow[8]
+HTS.Q_flow[9]
+HTS.Q_flow[10]
+HTS.Q_flow[11]
+HTS.Q_flow[12]
+HTS.Q_flow[13]
+HTS.Q_flow[14]
+HTS.Q_flow[15]
+HTS.Q_flow[16]
+HTS.Q_flow[17]
+HTS.Q_flow[18]
+HTS.Q_flow[19]
+HTS.Q_flow[20]
+HTS.Q_flow[21]
+HTS.Q_flow[22]
+HTS.Q_flow[23]
+HTS.Q_flow[24]
+HTS.Q_flow[25]
+HTS.Q_flow[26]
+HTS.Q_flow[27]
+HTS.Q_flow[28]
+HTS.Q_flow[29]
+HTS.Q_flow[30]
+HTS.Q_flow[31]
+HTS.Q_flow[32]
+HTS.Q_flow[33]
+HTS.Q_flow[34]
+HTS.Q_flow[35]
+HTS.Q_flow[36]
+HTS.Q_flow[37]
+HTS.Q_flow[38]
+HTS.Q_flow[39]
+HTS.Q_flow[40]
+HTS.Q_flow[41]
+HTS.Q_flow[42]
+HTS.Q_flow[43]
+HTS.Q_flow[44]
+HTS.Q_flow[45]
+HTS.Q_flow[46]
+HTS.Q_flow[47]
+HTS.Q_flow[48]
+HTS.Q_flow[49]
+HTS.Q_flow[50]
+HTS.Q_flow[51]
+HTS.Q_flow[52]
+HTS.Q_flow[53]
+HTS.Q_flow[54]
+HTS.Q_flow[55]
+HTS.Q_flow[56]
+HTS.Q_flow[57]
+HTS.Q_flow[58]
+HTS.Q_flow[59]
+HTS.Q_flow[60]
+HTS.Q_flow[61]
+HTS.Q_flow[62]
+HTS.Q_flow[63]
+HTS.Q_flow[64]
+HTS.Q_flow[65]
+HTS.Q_flow[66]
+HTS.Q_flow[67]
+HTS.Q_flow[68]
+HTS.Q_flow[69]
+HTS.Q_flow[70]
+HTS.Q_flow[71]
+HTS.Q_flow[72]
+HTS.Q_flow[73]
+HTS.Q_flow[74]
+HTS.Q_flow[75]
+HTS.Q_flow[76]
+HTS.Q_flow[77]
+HTS.Q_flow[78]
+HTS.Q_flow[79]
+HTS.Q_flow[80]
+HTS.Q_flow[81]
+HTS.Q_flow[82]
+HTS.Q_flow[83]
+HTS.Q_flow[84]
+HTS.Q_flow[85]
+HTS.Q_flow[86]
+HTS.Q_flow[87]
+HTS.Q_flow[88]
+HTS.Q_flow[89]
+HTS.Q_flow[90]
+HTS.Q_flow[91]
+HTS.Q_flow[92]
+HTS.Q_flow[93]
+HTS.Q_flow[94]
+HTS.Q_flow[95]
+HTS.Q_flow[96]
+HTS.Q_flow[97]
+HTS.Q_flow[98]
+HTS.Q_flow[99]
+HTS.Q_flow[100]
+HTS.I_c
+HTS.E
+HTS.R_pi
+HTS.R_ac
+HTS.L_pi
+HTS.C_pi
+HTS.A_cu
+HTS.rho
+HTS.P
+HTS.x
+HTS.z[1]
+HTS.z[2]
+HTS.z[3]
+HTS.z[4]
+HTS.z[5]
+HTS.z[6]
+HTS.z[7]
+HTS.z[8]
+HTS.z[9]
+HTS.z[10]
+HTS.z[11]
+HTS.z[12]
+HTS.z[13]
+HTS.z[14]
+HTS.z[15]
+HTS.z[16]
+HTS.z[17]
+HTS.z[18]
+HTS.z[19]
+HTS.z[20]
+HTS.z[21]
+HTS.z[22]
+HTS.z[23]
+HTS.z[24]
+HTS.z[25]
+HTS.z[26]
+HTS.z[27]
+HTS.z[28]
+HTS.z[29]
+HTS.z[30]
+HTS.z[31]
+HTS.z[32]
+HTS.z[33]
+HTS.z[34]
+HTS.z[35]
+HTS.z[36]
+HTS.z[37]
+HTS.z[38]
+HTS.z[39]
+HTS.z[40]
+HTS.z[41]
+HTS.z[42]
+HTS.z[43]
+HTS.z[44]
+HTS.z[45]
+HTS.z[46]
+HTS.z[47]
+HTS.z[48]
+HTS.z[49]
+HTS.z[50]
+HTS.z[51]
+HTS.z[52]
+HTS.z[53]
+HTS.z[54]
+HTS.z[55]
+HTS.z[56]
+HTS.z[57]
+HTS.z[58]
+HTS.z[59]
+HTS.z[60]
+HTS.z[61]
+HTS.z[62]
+HTS.z[63]
+HTS.z[64]
+HTS.z[65]
+HTS.z[66]
+HTS.z[67]
+HTS.z[68]
+HTS.z[69]
+HTS.z[70]
+HTS.z[71]
+HTS.z[72]
+HTS.z[73]
+HTS.z[74]
+HTS.z[75]
+HTS.z[76]
+HTS.z[77]
+HTS.z[78]
+HTS.z[79]
+HTS.z[80]
+HTS.z[81]
+HTS.z[82]
+HTS.z[83]
+HTS.z[84]
+HTS.z[85]
+HTS.z[86]
+HTS.z[87]
+HTS.z[88]
+HTS.z[89]
+HTS.z[90]
+HTS.z[91]
+HTS.z[92]
+HTS.z[93]
+HTS.z[94]
+HTS.z[95]
+HTS.z[96]
+HTS.z[97]
+HTS.z[98]
+HTS.z[99]
+HTS.z[100]
+HTS.aa
+HTS.resistor.R
+HTS.resistor.T_ref
+HTS.resistor.alpha
+HTS.resistor.v
+HTS.resistor.n.v
+HTS.resistor.useHeatPort
+HTS.resistor.T
+HTS.resistor.LossPower
+HTS.resistor.R_actual
+HTS.resistor1.R
+HTS.resistor1.T_ref
+HTS.resistor1.alpha
+HTS.resistor1.v
+HTS.resistor1.p.v
+HTS.resistor1.useHeatPort
+HTS.resistor1.T
+HTS.resistor1.LossPower
+HTS.resistor1.R_actual
+HTS.inductor.p.i
+HTS.inductor.n.v
+HTS.inductor.Psi
+HTS.inductor.der(Psi)
+HTS.inductor.Lmin
+HTS.inductor.IC
+HTS.inductor.UIC
+HTS.resistor2.T_ref
+HTS.resistor2.alpha
+HTS.resistor2.v
+HTS.resistor2.p.i
+HTS.resistor2.useHeatPort
+HTS.resistor2.T
+HTS.resistor2.LossPower
+HTS.resistor2.R_actual
+HTS.inductor1.p.i
+HTS.inductor1.Psi
+HTS.inductor1.der(Psi)
+HTS.inductor1.Lmin
+HTS.inductor1.IC
+HTS.inductor1.UIC
+HTS.resistor3.T_ref
+HTS.resistor3.alpha
+HTS.resistor3.v
+HTS.resistor3.p.i
+HTS.resistor3.useHeatPort
+HTS.resistor3.T
+HTS.resistor3.LossPower
+HTS.resistor3.R_actual
+HTS.capacitor.n.v
+HTS.capacitor.Cmin
+HTS.capacitor.Q
+HTS.capacitor.der(Q)
+HTS.capacitor.IC
+HTS.capacitor.UIC
+HTS.ground.p.v
+HTS.port_a.T
+HTS.port_a.Q_flow
+constantVoltage.V
+constantVoltage.p.i
+constantVoltage.n.v
+resistor2.R
+resistor2.T_ref
+resistor2.alpha
+resistor2.v
+resistor2.p.i
+resistor2.n.v
+resistor2.useHeatPort
+resistor2.T
+resistor2.LossPower
+resistor2.R_actual
+ground1.p.v
+ground1.p.i
+const1.k
+HTS1.l
+HTS1.E_0
+HTS1.n
+HTS1.I_c0
+HTS1.A
+HTS1.A_cu_tape
+HTS1.n_Tape
+HTS1.T_c
+HTS1.R_L
+HTS1.G_d
+HTS1.a
+HTS1.b
+HTS1.R_c
+HTS1.R_0
+HTS1.mu_r
+HTS1.epsilon_r
+HTS1.f
+HTS1.kappa
+HTS1.v
+HTS1.C_pv
+HTS1.G
+HTS1.pi
+HTS1.mu_0
+HTS1.epsilon_0
+HTS1.mu
+HTS1.epsilon
+HTS1.omega
+HTS1.delta
+HTS1.h
+HTS1.dT[1]
+HTS1.dT[2]
+HTS1.dT[3]
+HTS1.dT[4]
+HTS1.dT[5]
+HTS1.dT[6]
+HTS1.dT[7]
+HTS1.dT[8]
+HTS1.dT[9]
+HTS1.dT[10]
+HTS1.dT[11]
+HTS1.dT[12]
+HTS1.dT[13]
+HTS1.dT[14]
+HTS1.dT[15]
+HTS1.dT[16]
+HTS1.dT[17]
+HTS1.dT[18]
+HTS1.dT[19]
+HTS1.dT[20]
+HTS1.dT[21]
+HTS1.dT[22]
+HTS1.dT[23]
+HTS1.dT[24]
+HTS1.dT[25]
+HTS1.dT[26]
+HTS1.dT[27]
+HTS1.dT[28]
+HTS1.dT[29]
+HTS1.dT[30]
+HTS1.dT[31]
+HTS1.dT[32]
+HTS1.dT[33]
+HTS1.dT[34]
+HTS1.dT[35]
+HTS1.dT[36]
+HTS1.dT[37]
+HTS1.dT[38]
+HTS1.dT[39]
+HTS1.dT[40]
+HTS1.dT[41]
+HTS1.dT[42]
+HTS1.dT[43]
+HTS1.dT[44]
+HTS1.dT[45]
+HTS1.dT[46]
+HTS1.dT[47]
+HTS1.dT[48]
+HTS1.dT[49]
+HTS1.dT[50]
+HTS1.dT[51]
+HTS1.dT[52]
+HTS1.dT[53]
+HTS1.dT[54]
+HTS1.dT[55]
+HTS1.dT[56]
+HTS1.dT[57]
+HTS1.dT[58]
+HTS1.dT[59]
+HTS1.dT[60]
+HTS1.dT[61]
+HTS1.dT[62]
+HTS1.dT[63]
+HTS1.dT[64]
+HTS1.dT[65]
+HTS1.dT[66]
+HTS1.dT[67]
+HTS1.dT[68]
+HTS1.dT[69]
+HTS1.dT[70]
+HTS1.dT[71]
+HTS1.dT[72]
+HTS1.dT[73]
+HTS1.dT[74]
+HTS1.dT[75]
+HTS1.dT[76]
+HTS1.dT[77]
+HTS1.dT[78]
+HTS1.dT[79]
+HTS1.dT[80]
+HTS1.dT[81]
+HTS1.dT[82]
+HTS1.dT[83]
+HTS1.dT[84]
+HTS1.dT[85]
+HTS1.dT[86]
+HTS1.dT[87]
+HTS1.dT[88]
+HTS1.dT[89]
+HTS1.dT[90]
+HTS1.dT[91]
+HTS1.dT[92]
+HTS1.dT[93]
+HTS1.dT[94]
+HTS1.dT[95]
+HTS1.dT[96]
+HTS1.dT[97]
+HTS1.dT[98]
+HTS1.dT[99]
+HTS1.dT[100]
+HTS1.dT_rho
+HTS1.T[1]
+HTS1.T[2]
+HTS1.T[3]
+HTS1.T[4]
+HTS1.T[5]
+HTS1.T[6]
+HTS1.T[7]
+HTS1.T[8]
+HTS1.T[9]
+HTS1.T[10]
+HTS1.T[11]
+HTS1.T[12]
+HTS1.T[13]
+HTS1.T[14]
+HTS1.T[15]
+HTS1.T[16]
+HTS1.T[17]
+HTS1.T[18]
+HTS1.T[19]
+HTS1.T[20]
+HTS1.T[21]
+HTS1.T[22]
+HTS1.T[23]
+HTS1.T[24]
+HTS1.T[25]
+HTS1.T[26]
+HTS1.T[27]
+HTS1.T[28]
+HTS1.T[29]
+HTS1.T[30]
+HTS1.T[31]
+HTS1.T[32]
+HTS1.T[33]
+HTS1.T[34]
+HTS1.T[35]
+HTS1.T[36]
+HTS1.T[37]
+HTS1.T[38]
+HTS1.T[39]
+HTS1.T[40]
+HTS1.T[41]
+HTS1.T[42]
+HTS1.T[43]
+HTS1.T[44]
+HTS1.T[45]
+HTS1.T[46]
+HTS1.T[47]
+HTS1.T[48]
+HTS1.T[49]
+HTS1.T[50]
+HTS1.T[51]
+HTS1.T[52]
+HTS1.T[53]
+HTS1.T[54]
+HTS1.T[55]
+HTS1.T[56]
+HTS1.T[57]
+HTS1.T[58]
+HTS1.T[59]
+HTS1.T[60]
+HTS1.T[61]
+HTS1.T[62]
+HTS1.T[63]
+HTS1.T[64]
+HTS1.T[65]
+HTS1.T[66]
+HTS1.T[67]
+HTS1.T[68]
+HTS1.T[69]
+HTS1.T[70]
+HTS1.T[71]
+HTS1.T[72]
+HTS1.T[73]
+HTS1.T[74]
+HTS1.T[75]
+HTS1.T[76]
+HTS1.T[77]
+HTS1.T[78]
+HTS1.T[79]
+HTS1.T[80]
+HTS1.T[81]
+HTS1.T[82]
+HTS1.T[83]
+HTS1.T[84]
+HTS1.T[85]
+HTS1.T[86]
+HTS1.T[87]
+HTS1.T[88]
+HTS1.T[89]
+HTS1.T[90]
+HTS1.T[91]
+HTS1.T[92]
+HTS1.T[93]
+HTS1.T[94]
+HTS1.T[95]
+HTS1.T[96]
+HTS1.T[97]
+HTS1.T[98]
+HTS1.T[99]
+HTS1.T[100]
+HTS1.Q_flow[1]
+HTS1.Q_flow[2]
+HTS1.Q_flow[3]
+HTS1.Q_flow[4]
+HTS1.Q_flow[5]
+HTS1.Q_flow[6]
+HTS1.Q_flow[7]
+HTS1.Q_flow[8]
+HTS1.Q_flow[9]
+HTS1.Q_flow[10]
+HTS1.Q_flow[11]
+HTS1.Q_flow[12]
+HTS1.Q_flow[13]
+HTS1.Q_flow[14]
+HTS1.Q_flow[15]
+HTS1.Q_flow[16]
+HTS1.Q_flow[17]
+HTS1.Q_flow[18]
+HTS1.Q_flow[19]
+HTS1.Q_flow[20]
+HTS1.Q_flow[21]
+HTS1.Q_flow[22]
+HTS1.Q_flow[23]
+HTS1.Q_flow[24]
+HTS1.Q_flow[25]
+HTS1.Q_flow[26]
+HTS1.Q_flow[27]
+HTS1.Q_flow[28]
+HTS1.Q_flow[29]
+HTS1.Q_flow[30]
+HTS1.Q_flow[31]
+HTS1.Q_flow[32]
+HTS1.Q_flow[33]
+HTS1.Q_flow[34]
+HTS1.Q_flow[35]
+HTS1.Q_flow[36]
+HTS1.Q_flow[37]
+HTS1.Q_flow[38]
+HTS1.Q_flow[39]
+HTS1.Q_flow[40]
+HTS1.Q_flow[41]
+HTS1.Q_flow[42]
+HTS1.Q_flow[43]
+HTS1.Q_flow[44]
+HTS1.Q_flow[45]
+HTS1.Q_flow[46]
+HTS1.Q_flow[47]
+HTS1.Q_flow[48]
+HTS1.Q_flow[49]
+HTS1.Q_flow[50]
+HTS1.Q_flow[51]
+HTS1.Q_flow[52]
+HTS1.Q_flow[53]
+HTS1.Q_flow[54]
+HTS1.Q_flow[55]
+HTS1.Q_flow[56]
+HTS1.Q_flow[57]
+HTS1.Q_flow[58]
+HTS1.Q_flow[59]
+HTS1.Q_flow[60]
+HTS1.Q_flow[61]
+HTS1.Q_flow[62]
+HTS1.Q_flow[63]
+HTS1.Q_flow[64]
+HTS1.Q_flow[65]
+HTS1.Q_flow[66]
+HTS1.Q_flow[67]
+HTS1.Q_flow[68]
+HTS1.Q_flow[69]
+HTS1.Q_flow[70]
+HTS1.Q_flow[71]
+HTS1.Q_flow[72]
+HTS1.Q_flow[73]
+HTS1.Q_flow[74]
+HTS1.Q_flow[75]
+HTS1.Q_flow[76]
+HTS1.Q_flow[77]
+HTS1.Q_flow[78]
+HTS1.Q_flow[79]
+HTS1.Q_flow[80]
+HTS1.Q_flow[81]
+HTS1.Q_flow[82]
+HTS1.Q_flow[83]
+HTS1.Q_flow[84]
+HTS1.Q_flow[85]
+HTS1.Q_flow[86]
+HTS1.Q_flow[87]
+HTS1.Q_flow[88]
+HTS1.Q_flow[89]
+HTS1.Q_flow[90]
+HTS1.Q_flow[91]
+HTS1.Q_flow[92]
+HTS1.Q_flow[93]
+HTS1.Q_flow[94]
+HTS1.Q_flow[95]
+HTS1.Q_flow[96]
+HTS1.Q_flow[97]
+HTS1.Q_flow[98]
+HTS1.Q_flow[99]
+HTS1.Q_flow[100]
+HTS1.I_c
+HTS1.E
+HTS1.R_pi
+HTS1.R_ac
+HTS1.L_pi
+HTS1.C_pi
+HTS1.A_cu
+HTS1.rho
+HTS1.P
+HTS1.x
+HTS1.z[1]
+HTS1.z[2]
+HTS1.z[3]
+HTS1.z[4]
+HTS1.z[5]
+HTS1.z[6]
+HTS1.z[7]
+HTS1.z[8]
+HTS1.z[9]
+HTS1.z[10]
+HTS1.z[11]
+HTS1.z[12]
+HTS1.z[13]
+HTS1.z[14]
+HTS1.z[15]
+HTS1.z[16]
+HTS1.z[17]
+HTS1.z[18]
+HTS1.z[19]
+HTS1.z[20]
+HTS1.z[21]
+HTS1.z[22]
+HTS1.z[23]
+HTS1.z[24]
+HTS1.z[25]
+HTS1.z[26]
+HTS1.z[27]
+HTS1.z[28]
+HTS1.z[29]
+HTS1.z[30]
+HTS1.z[31]
+HTS1.z[32]
+HTS1.z[33]
+HTS1.z[34]
+HTS1.z[35]
+HTS1.z[36]
+HTS1.z[37]
+HTS1.z[38]
+HTS1.z[39]
+HTS1.z[40]
+HTS1.z[41]
+HTS1.z[42]
+HTS1.z[43]
+HTS1.z[44]
+HTS1.z[45]
+HTS1.z[46]
+HTS1.z[47]
+HTS1.z[48]
+HTS1.z[49]
+HTS1.z[50]
+HTS1.z[51]
+HTS1.z[52]
+HTS1.z[53]
+HTS1.z[54]
+HTS1.z[55]
+HTS1.z[56]
+HTS1.z[57]
+HTS1.z[58]
+HTS1.z[59]
+HTS1.z[60]
+HTS1.z[61]
+HTS1.z[62]
+HTS1.z[63]
+HTS1.z[64]
+HTS1.z[65]
+HTS1.z[66]
+HTS1.z[67]
+HTS1.z[68]
+HTS1.z[69]
+HTS1.z[70]
+HTS1.z[71]
+HTS1.z[72]
+HTS1.z[73]
+HTS1.z[74]
+HTS1.z[75]
+HTS1.z[76]
+HTS1.z[77]
+HTS1.z[78]
+HTS1.z[79]
+HTS1.z[80]
+HTS1.z[81]
+HTS1.z[82]
+HTS1.z[83]
+HTS1.z[84]
+HTS1.z[85]
+HTS1.z[86]
+HTS1.z[87]
+HTS1.z[88]
+HTS1.z[89]
+HTS1.z[90]
+HTS1.z[91]
+HTS1.z[92]
+HTS1.z[93]
+HTS1.z[94]
+HTS1.z[95]
+HTS1.z[96]
+HTS1.z[97]
+HTS1.z[98]
+HTS1.z[99]
+HTS1.z[100]
+HTS1.aa
+HTS1.resistor.R
+HTS1.resistor.T_ref
+HTS1.resistor.alpha
+HTS1.resistor.v
+HTS1.resistor.n.v
+HTS1.resistor.useHeatPort
+HTS1.resistor.T
+HTS1.resistor.LossPower
+HTS1.resistor.R_actual
+HTS1.resistor1.R
+HTS1.resistor1.T_ref
+HTS1.resistor1.alpha
+HTS1.resistor1.v
+HTS1.resistor1.p.v
+HTS1.resistor1.useHeatPort
+HTS1.resistor1.T
+HTS1.resistor1.LossPower
+HTS1.resistor1.R_actual
+HTS1.inductor.p.i
+HTS1.inductor.Psi
+HTS1.inductor.der(Psi)
+HTS1.inductor.Lmin
+HTS1.inductor.IC
+HTS1.inductor.UIC
+HTS1.resistor2.T_ref
+HTS1.resistor2.alpha
+HTS1.resistor2.v
+HTS1.resistor2.p.i
+HTS1.resistor2.useHeatPort
+HTS1.resistor2.T
+HTS1.resistor2.LossPower
+HTS1.resistor2.R_actual
+HTS1.inductor1.p.i
+HTS1.inductor1.Psi
+HTS1.inductor1.der(Psi)
+HTS1.inductor1.Lmin
+HTS1.inductor1.IC
+HTS1.inductor1.UIC
+HTS1.resistor3.T_ref
+HTS1.resistor3.alpha
+HTS1.resistor3.v
+HTS1.resistor3.p.i
+HTS1.resistor3.useHeatPort
+HTS1.resistor3.T
+HTS1.resistor3.LossPower
+HTS1.resistor3.R_actual
+HTS1.ground.p.v
+HTS1.ground.p.i
+HTS1.port_a.T
+HTS1.port_a.Q_flow
+HTS1.capacitor.v
+HTS1.capacitor.der(v)
+HTS1.capacitor.n.v
+HTS1.capacitor.C
+
+double initialValue(1032,6)
+ -1    4000                       0                       0                
+  1  280   # rampCurrent.I
+ -1       5                  9.9999999999999997E-61 1.0000000000000000E+100
+  1  280   # rampCurrent.duration
+  0       0                       0                       0                
+  6  256   # rampCurrent.v
+  0       0                       0                       0                
+  6  260   # rampCurrent.p.v
+  0       0                       0                       0                
+  6  388   # rampCurrent.p.i
+  0       0                       0                       0                
+  6  256   # rampCurrent.signalSource.height
+  0       2                       0                 1.0000000000000000E+100
+  6  256   # rampCurrent.signalSource.duration
+  0       0                       0                       0                
+  6  256   # rampCurrent.signalSource.offset
+  0       0                       0                       0                
+  6  256   # rampCurrent.signalSource.startTime
+ -1  1.0000000000000001E-01       0                       0                
+  1  280   # rampCurrent.offset
+ -1       0                       0                       0                
+  1  280   # rampCurrent.startTime
+ -1       0                       0                       0                
+  1  280   # resistor1.R
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1  280   # resistor1.T_ref
+ -1       0                       0                       0                
+  1  280   # resistor1.alpha
+  0       0                       0                       0                
+  6  256   # resistor1.v
+  0       0                       0                       0                
+  6  388   # resistor1.p.i
+  0       0                       0                       0                
+  6  260   # resistor1.n.v
+  0       0                       0                       0                
+  6  769   # resistor1.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6  256   # resistor1.T
+  0       0                       0                       0                
+  6  256   # resistor1.LossPower
+  0       0                       0                       0                
+  6  256   # resistor1.R_actual
+  0       0                       0                       0                
+  6  260   # ground2.p.v
+  0       0                       0                       0                
+  6  388   # ground2.p.i
+ -1      20                       0                 1.0000000000000000E+100
+  1  280   # const.k
+ -1      10                       0                       0                
+  1  282   # HTS.l
+ -1  1.0000000000000000E-04       0                       0                
+  1  280   # HTS.E_0
+ -1      20                       0                       0                
+  1  280   # HTS.n
+ -1    3700                       0                       0                
+  1  280   # HTS.I_c0
+ -1  1.0000000000000001E-01       0                       0                
+  1  280   # HTS.A
+ -1  1.9999999999999999E-07       0                       0                
+  1  280   # HTS.A_cu_tape
+ -1     132                       0                       0                
+  1  280   # HTS.n_Tape
+ -1      92                       0                 1.0000000000000000E+100
+  1  280   # HTS.T_c
+ -1  3.3000000000000000E-03       0                       0                
+  1  280   # HTS.R_L
+ -1      10                       0                       0                
+  1  280   # HTS.G_d
+ -1  3.0000000000000001E-03       0                 1.0000000000000000E+100
+  1  280   # HTS.a
+ -1  1.0999999999999999E-02       0                 1.0000000000000000E+100
+  1  280   # HTS.b
+ -1  3.0000000000000001E-03       0                 1.0000000000000000E+100
+  1  280   # HTS.R_c
+ -1  1.0999999999999999E-02       0                 1.0000000000000000E+100
+  1  280   # HTS.R_0
+ -1       1                       0                       0                
+  1  280   # HTS.mu_r
+ -1  2.2000000000000002E+00       0                 1.0000000000000000E+100
+  1  280   # HTS.epsilon_r
+ -1      60                       0                       0                
+  1  280   # HTS.f
+ -1     400                       0                       0                
+  1  280   # HTS.kappa
+ -1       1                       0                       0                
+  1  280   # HTS.v
+ -1    5200                       0                       0                
+  1  280   # HTS.C_pv
+  0       0                       0                       0                
+  6  256   # HTS.G
+  0  3.1415926535897931E+00       0                       0                
+  6  256   # HTS.pi
+  0  1.2566370614359172E-05       0                       0                
+  6  256   # HTS.mu_0
+  0  8.8539999999999992E-12       0                 1.0000000000000000E+100
+  6  256   # HTS.epsilon_0
+  0       0                       0                       0                
+  6  256   # HTS.mu
+  0       0                       0                 1.0000000000000000E+100
+  6  256   # HTS.epsilon
+  0       0                       0                       0                
+  6  256   # HTS.omega
+  0  3.3000000000000003E-05       0                       0                
+  6  256   # HTS.delta
+  0       0                       0                       0                
+  6  288   # HTS.h
+  0       0                       0                       0                
+  6  256   # HTS.dT[1]
+  0       0                       0                       0                
+  6  256   # HTS.dT[2]
+  0       0                       0                       0                
+  6  256   # HTS.dT[3]
+  0       0                       0                       0                
+  6  256   # HTS.dT[4]
+  0       0                       0                       0                
+  6  256   # HTS.dT[5]
+  0       0                       0                       0                
+  6  256   # HTS.dT[6]
+  0       0                       0                       0                
+  6  256   # HTS.dT[7]
+  0       0                       0                       0                
+  6  256   # HTS.dT[8]
+  0       0                       0                       0                
+  6  256   # HTS.dT[9]
+  0       0                       0                       0                
+  6  256   # HTS.dT[10]
+  0       0                       0                       0                
+  6  256   # HTS.dT[11]
+  0       0                       0                       0                
+  6  256   # HTS.dT[12]
+  0       0                       0                       0                
+  6  256   # HTS.dT[13]
+  0       0                       0                       0                
+  6  256   # HTS.dT[14]
+  0       0                       0                       0                
+  6  256   # HTS.dT[15]
+  0       0                       0                       0                
+  6  256   # HTS.dT[16]
+  0       0                       0                       0                
+  6  256   # HTS.dT[17]
+  0       0                       0                       0                
+  6  256   # HTS.dT[18]
+  0       0                       0                       0                
+  6  256   # HTS.dT[19]
+  0       0                       0                       0                
+  6  256   # HTS.dT[20]
+  0       0                       0                       0                
+  6  256   # HTS.dT[21]
+  0       0                       0                       0                
+  6  256   # HTS.dT[22]
+  0       0                       0                       0                
+  6  256   # HTS.dT[23]
+  0       0                       0                       0                
+  6  256   # HTS.dT[24]
+  0       0                       0                       0                
+  6  256   # HTS.dT[25]
+  0       0                       0                       0                
+  6  256   # HTS.dT[26]
+  0       0                       0                       0                
+  6  256   # HTS.dT[27]
+  0       0                       0                       0                
+  6  256   # HTS.dT[28]
+  0       0                       0                       0                
+  6  256   # HTS.dT[29]
+  0       0                       0                       0                
+  6  256   # HTS.dT[30]
+  0       0                       0                       0                
+  6  256   # HTS.dT[31]
+  0       0                       0                       0                
+  6  256   # HTS.dT[32]
+  0       0                       0                       0                
+  6  256   # HTS.dT[33]
+  0       0                       0                       0                
+  6  256   # HTS.dT[34]
+  0       0                       0                       0                
+  6  256   # HTS.dT[35]
+  0       0                       0                       0                
+  6  256   # HTS.dT[36]
+  0       0                       0                       0                
+  6  256   # HTS.dT[37]
+  0       0                       0                       0                
+  6  256   # HTS.dT[38]
+  0       0                       0                       0                
+  6  256   # HTS.dT[39]
+  0       0                       0                       0                
+  6  256   # HTS.dT[40]
+  0       0                       0                       0                
+  6  256   # HTS.dT[41]
+  0       0                       0                       0                
+  6  256   # HTS.dT[42]
+  0       0                       0                       0                
+  6  256   # HTS.dT[43]
+  0       0                       0                       0                
+  6  256   # HTS.dT[44]
+  0       0                       0                       0                
+  6  256   # HTS.dT[45]
+  0       0                       0                       0                
+  6  256   # HTS.dT[46]
+  0       0                       0                       0                
+  6  256   # HTS.dT[47]
+  0       0                       0                       0                
+  6  256   # HTS.dT[48]
+  0       0                       0                       0                
+  6  256   # HTS.dT[49]
+  0       0                       0                       0                
+  6  256   # HTS.dT[50]
+  0       0                       0                       0                
+  6  256   # HTS.dT[51]
+  0       0                       0                       0                
+  6  256   # HTS.dT[52]
+  0       0                       0                       0                
+  6  256   # HTS.dT[53]
+  0       0                       0                       0                
+  6  256   # HTS.dT[54]
+  0       0                       0                       0                
+  6  256   # HTS.dT[55]
+  0       0                       0                       0                
+  6  256   # HTS.dT[56]
+  0       0                       0                       0                
+  6  256   # HTS.dT[57]
+  0       0                       0                       0                
+  6  256   # HTS.dT[58]
+  0       0                       0                       0                
+  6  256   # HTS.dT[59]
+  0       0                       0                       0                
+  6  256   # HTS.dT[60]
+  0       0                       0                       0                
+  6  256   # HTS.dT[61]
+  0       0                       0                       0                
+  6  256   # HTS.dT[62]
+  0       0                       0                       0                
+  6  256   # HTS.dT[63]
+  0       0                       0                       0                
+  6  256   # HTS.dT[64]
+  0       0                       0                       0                
+  6  256   # HTS.dT[65]
+  0       0                       0                       0                
+  6  256   # HTS.dT[66]
+  0       0                       0                       0                
+  6  256   # HTS.dT[67]
+  0       0                       0                       0                
+  6  256   # HTS.dT[68]
+  0       0                       0                       0                
+  6  256   # HTS.dT[69]
+  0       0                       0                       0                
+  6  256   # HTS.dT[70]
+  0       0                       0                       0                
+  6  256   # HTS.dT[71]
+  0       0                       0                       0                
+  6  256   # HTS.dT[72]
+  0       0                       0                       0                
+  6  256   # HTS.dT[73]
+  0       0                       0                       0                
+  6  256   # HTS.dT[74]
+  0       0                       0                       0                
+  6  256   # HTS.dT[75]
+  0       0                       0                       0                
+  6  256   # HTS.dT[76]
+  0       0                       0                       0                
+  6  256   # HTS.dT[77]
+  0       0                       0                       0                
+  6  256   # HTS.dT[78]
+  0       0                       0                       0                
+  6  256   # HTS.dT[79]
+  0       0                       0                       0                
+  6  256   # HTS.dT[80]
+  0       0                       0                       0                
+  6  256   # HTS.dT[81]
+  0       0                       0                       0                
+  6  256   # HTS.dT[82]
+  0       0                       0                       0                
+  6  256   # HTS.dT[83]
+  0       0                       0                       0                
+  6  256   # HTS.dT[84]
+  0       0                       0                       0                
+  6  256   # HTS.dT[85]
+  0       0                       0                       0                
+  6  256   # HTS.dT[86]
+  0       0                       0                       0                
+  6  256   # HTS.dT[87]
+  0       0                       0                       0                
+  6  256   # HTS.dT[88]
+  0       0                       0                       0                
+  6  256   # HTS.dT[89]
+  0       0                       0                       0                
+  6  256   # HTS.dT[90]
+  0       0                       0                       0                
+  6  256   # HTS.dT[91]
+  0       0                       0                       0                
+  6  256   # HTS.dT[92]
+  0       0                       0                       0                
+  6  256   # HTS.dT[93]
+  0       0                       0                       0                
+  6  256   # HTS.dT[94]
+  0       0                       0                       0                
+  6  256   # HTS.dT[95]
+  0       0                       0                       0                
+  6  256   # HTS.dT[96]
+  0       0                       0                       0                
+  6  256   # HTS.dT[97]
+  0       0                       0                       0                
+  6  256   # HTS.dT[98]
+  0       0                       0                       0                
+  6  256   # HTS.dT[99]
+  0       0                       0                       0                
+  6  256   # HTS.dT[100]
+  0       0                       0                       0                
+  6  256   # HTS.dT_rho
+  0       0                       0                       0                
+  6  256   # HTS.T[1]
+  0       0                       0                       0                
+  6  256   # HTS.T[2]
+  0       0                       0                       0                
+  6  256   # HTS.T[3]
+  0       0                       0                       0                
+  6  256   # HTS.T[4]
+  0       0                       0                       0                
+  6  256   # HTS.T[5]
+  0       0                       0                       0                
+  6  256   # HTS.T[6]
+  0       0                       0                       0                
+  6  256   # HTS.T[7]
+  0       0                       0                       0                
+  6  256   # HTS.T[8]
+  0       0                       0                       0                
+  6  256   # HTS.T[9]
+  0       0                       0                       0                
+  6  256   # HTS.T[10]
+  0       0                       0                       0                
+  6  256   # HTS.T[11]
+  0       0                       0                       0                
+  6  256   # HTS.T[12]
+  0       0                       0                       0                
+  6  256   # HTS.T[13]
+  0       0                       0                       0                
+  6  256   # HTS.T[14]
+  0       0                       0                       0                
+  6  256   # HTS.T[15]
+  0       0                       0                       0                
+  6  256   # HTS.T[16]
+  0       0                       0                       0                
+  6  256   # HTS.T[17]
+  0       0                       0                       0                
+  6  256   # HTS.T[18]
+  0       0                       0                       0                
+  6  256   # HTS.T[19]
+  0       0                       0                       0                
+  6  256   # HTS.T[20]
+  0       0                       0                       0                
+  6  256   # HTS.T[21]
+  0       0                       0                       0                
+  6  256   # HTS.T[22]
+  0       0                       0                       0                
+  6  256   # HTS.T[23]
+  0       0                       0                       0                
+  6  256   # HTS.T[24]
+  0       0                       0                       0                
+  6  256   # HTS.T[25]
+  0       0                       0                       0                
+  6  256   # HTS.T[26]
+  0       0                       0                       0                
+  6  256   # HTS.T[27]
+  0       0                       0                       0                
+  6  256   # HTS.T[28]
+  0       0                       0                       0                
+  6  256   # HTS.T[29]
+  0       0                       0                       0                
+  6  256   # HTS.T[30]
+  0       0                       0                       0                
+  6  256   # HTS.T[31]
+  0       0                       0                       0                
+  6  256   # HTS.T[32]
+  0       0                       0                       0                
+  6  256   # HTS.T[33]
+  0       0                       0                       0                
+  6  256   # HTS.T[34]
+  0       0                       0                       0                
+  6  256   # HTS.T[35]
+  0       0                       0                       0                
+  6  256   # HTS.T[36]
+  0       0                       0                       0                
+  6  256   # HTS.T[37]
+  0       0                       0                       0                
+  6  256   # HTS.T[38]
+  0       0                       0                       0                
+  6  256   # HTS.T[39]
+  0       0                       0                       0                
+  6  256   # HTS.T[40]
+  0       0                       0                       0                
+  6  256   # HTS.T[41]
+  0       0                       0                       0                
+  6  256   # HTS.T[42]
+  0       0                       0                       0                
+  6  256   # HTS.T[43]
+  0       0                       0                       0                
+  6  256   # HTS.T[44]
+  0       0                       0                       0                
+  6  256   # HTS.T[45]
+  0       0                       0                       0                
+  6  256   # HTS.T[46]
+  0       0                       0                       0                
+  6  256   # HTS.T[47]
+  0       0                       0                       0                
+  6  256   # HTS.T[48]
+  0       0                       0                       0                
+  6  256   # HTS.T[49]
+  0       0                       0                       0                
+  6  256   # HTS.T[50]
+  0       0                       0                       0                
+  6  256   # HTS.T[51]
+  0       0                       0                       0                
+  6  256   # HTS.T[52]
+  0       0                       0                       0                
+  6  256   # HTS.T[53]
+  0       0                       0                       0                
+  6  256   # HTS.T[54]
+  0       0                       0                       0                
+  6  256   # HTS.T[55]
+  0       0                       0                       0                
+  6  256   # HTS.T[56]
+  0       0                       0                       0                
+  6  256   # HTS.T[57]
+  0       0                       0                       0                
+  6  256   # HTS.T[58]
+  0       0                       0                       0                
+  6  256   # HTS.T[59]
+  0       0                       0                       0                
+  6  256   # HTS.T[60]
+  0       0                       0                       0                
+  6  256   # HTS.T[61]
+  0       0                       0                       0                
+  6  256   # HTS.T[62]
+  0       0                       0                       0                
+  6  256   # HTS.T[63]
+  0       0                       0                       0                
+  6  256   # HTS.T[64]
+  0       0                       0                       0                
+  6  256   # HTS.T[65]
+  0       0                       0                       0                
+  6  256   # HTS.T[66]
+  0       0                       0                       0                
+  6  256   # HTS.T[67]
+  0       0                       0                       0                
+  6  256   # HTS.T[68]
+  0       0                       0                       0                
+  6  256   # HTS.T[69]
+  0       0                       0                       0                
+  6  256   # HTS.T[70]
+  0       0                       0                       0                
+  6  256   # HTS.T[71]
+  0       0                       0                       0                
+  6  256   # HTS.T[72]
+  0       0                       0                       0                
+  6  256   # HTS.T[73]
+  0       0                       0                       0                
+  6  256   # HTS.T[74]
+  0       0                       0                       0                
+  6  256   # HTS.T[75]
+  0       0                       0                       0                
+  6  256   # HTS.T[76]
+  0       0                       0                       0                
+  6  256   # HTS.T[77]
+  0       0                       0                       0                
+  6  256   # HTS.T[78]
+  0       0                       0                       0                
+  6  256   # HTS.T[79]
+  0       0                       0                       0                
+  6  256   # HTS.T[80]
+  0       0                       0                       0                
+  6  256   # HTS.T[81]
+  0       0                       0                       0                
+  6  256   # HTS.T[82]
+  0       0                       0                       0                
+  6  256   # HTS.T[83]
+  0       0                       0                       0                
+  6  256   # HTS.T[84]
+  0       0                       0                       0                
+  6  256   # HTS.T[85]
+  0       0                       0                       0                
+  6  256   # HTS.T[86]
+  0       0                       0                       0                
+  6  256   # HTS.T[87]
+  0       0                       0                       0                
+  6  256   # HTS.T[88]
+  0       0                       0                       0                
+  6  256   # HTS.T[89]
+  0       0                       0                       0                
+  6  256   # HTS.T[90]
+  0       0                       0                       0                
+  6  256   # HTS.T[91]
+  0       0                       0                       0                
+  6  256   # HTS.T[92]
+  0       0                       0                       0                
+  6  256   # HTS.T[93]
+  0       0                       0                       0                
+  6  256   # HTS.T[94]
+  0       0                       0                       0                
+  6  256   # HTS.T[95]
+  0       0                       0                       0                
+  6  256   # HTS.T[96]
+  0       0                       0                       0                
+  6  256   # HTS.T[97]
+  0       0                       0                       0                
+  6  256   # HTS.T[98]
+  0       0                       0                       0                
+  6  256   # HTS.T[99]
+  0       0                       0                       0                
+  6  256   # HTS.T[100]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[1]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[2]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[3]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[4]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[5]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[6]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[7]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[8]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[9]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[10]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[11]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[12]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[13]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[14]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[15]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[16]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[17]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[18]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[19]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[20]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[21]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[22]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[23]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[24]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[25]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[26]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[27]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[28]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[29]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[30]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[31]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[32]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[33]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[34]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[35]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[36]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[37]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[38]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[39]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[40]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[41]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[42]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[43]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[44]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[45]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[46]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[47]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[48]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[49]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[50]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[51]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[52]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[53]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[54]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[55]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[56]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[57]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[58]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[59]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[60]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[61]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[62]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[63]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[64]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[65]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[66]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[67]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[68]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[69]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[70]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[71]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[72]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[73]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[74]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[75]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[76]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[77]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[78]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[79]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[80]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[81]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[82]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[83]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[84]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[85]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[86]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[87]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[88]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[89]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[90]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[91]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[92]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[93]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[94]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[95]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[96]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[97]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[98]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[99]
+  0       0                       0                       0                
+  6  256   # HTS.Q_flow[100]
+  0       0                       0                       0                
+  6  256   # HTS.I_c
+  0       0                       0                       0                
+  6  256   # HTS.E
+  0       0                       0                       0                
+  6  256   # HTS.R_pi
+  0       0                       0                       0                
+  6  256   # HTS.R_ac
+  0       0                       0                       0                
+  6  256   # HTS.L_pi
+  0       0                       0                 1.0000000000000000E+100
+  6  256   # HTS.C_pi
+  0       0                       0                       0                
+  6  256   # HTS.A_cu
+  0       0                       0                       0                
+  6  256   # HTS.rho
+  0       0                       0                       0                
+  6  256   # HTS.P
+  0       0                       0                       0                
+  6  256   # HTS.x
+  0       0                       0                       0                
+  6  256   # HTS.z[1]
+  0       0                       0                       0                
+  6  256   # HTS.z[2]
+  0       0                       0                       0                
+  6  256   # HTS.z[3]
+  0       0                       0                       0                
+  6  256   # HTS.z[4]
+  0       0                       0                       0                
+  6  256   # HTS.z[5]
+  0       0                       0                       0                
+  6  256   # HTS.z[6]
+  0       0                       0                       0                
+  6  256   # HTS.z[7]
+  0       0                       0                       0                
+  6  256   # HTS.z[8]
+  0       0                       0                       0                
+  6  256   # HTS.z[9]
+  0       0                       0                       0                
+  6  256   # HTS.z[10]
+  0       0                       0                       0                
+  6  256   # HTS.z[11]
+  0       0                       0                       0                
+  6  256   # HTS.z[12]
+  0       0                       0                       0                
+  6  256   # HTS.z[13]
+  0       0                       0                       0                
+  6  256   # HTS.z[14]
+  0       0                       0                       0                
+  6  256   # HTS.z[15]
+  0       0                       0                       0                
+  6  256   # HTS.z[16]
+  0       0                       0                       0                
+  6  256   # HTS.z[17]
+  0       0                       0                       0                
+  6  256   # HTS.z[18]
+  0       0                       0                       0                
+  6  256   # HTS.z[19]
+  0       0                       0                       0                
+  6  256   # HTS.z[20]
+  0       0                       0                       0                
+  6  256   # HTS.z[21]
+  0       0                       0                       0                
+  6  256   # HTS.z[22]
+  0       0                       0                       0                
+  6  256   # HTS.z[23]
+  0       0                       0                       0                
+  6  256   # HTS.z[24]
+  0       0                       0                       0                
+  6  256   # HTS.z[25]
+  0       0                       0                       0                
+  6  256   # HTS.z[26]
+  0       0                       0                       0                
+  6  256   # HTS.z[27]
+  0       0                       0                       0                
+  6  256   # HTS.z[28]
+  0       0                       0                       0                
+  6  256   # HTS.z[29]
+  0       0                       0                       0                
+  6  256   # HTS.z[30]
+  0       0                       0                       0                
+  6  256   # HTS.z[31]
+  0       0                       0                       0                
+  6  256   # HTS.z[32]
+  0       0                       0                       0                
+  6  256   # HTS.z[33]
+  0       0                       0                       0                
+  6  256   # HTS.z[34]
+  0       0                       0                       0                
+  6  256   # HTS.z[35]
+  0       0                       0                       0                
+  6  256   # HTS.z[36]
+  0       0                       0                       0                
+  6  256   # HTS.z[37]
+  0       0                       0                       0                
+  6  256   # HTS.z[38]
+  0       0                       0                       0                
+  6  256   # HTS.z[39]
+  0       0                       0                       0                
+  6  256   # HTS.z[40]
+  0       0                       0                       0                
+  6  256   # HTS.z[41]
+  0       0                       0                       0                
+  6  256   # HTS.z[42]
+  0       0                       0                       0                
+  6  256   # HTS.z[43]
+  0       0                       0                       0                
+  6  256   # HTS.z[44]
+  0       0                       0                       0                
+  6  256   # HTS.z[45]
+  0       0                       0                       0                
+  6  256   # HTS.z[46]
+  0       0                       0                       0                
+  6  256   # HTS.z[47]
+  0       0                       0                       0                
+  6  256   # HTS.z[48]
+  0       0                       0                       0                
+  6  256   # HTS.z[49]
+  0       0                       0                       0                
+  6  256   # HTS.z[50]
+  0       0                       0                       0                
+  6  256   # HTS.z[51]
+  0       0                       0                       0                
+  6  256   # HTS.z[52]
+  0       0                       0                       0                
+  6  256   # HTS.z[53]
+  0       0                       0                       0                
+  6  256   # HTS.z[54]
+  0       0                       0                       0                
+  6  256   # HTS.z[55]
+  0       0                       0                       0                
+  6  256   # HTS.z[56]
+  0       0                       0                       0                
+  6  256   # HTS.z[57]
+  0       0                       0                       0                
+  6  256   # HTS.z[58]
+  0       0                       0                       0                
+  6  256   # HTS.z[59]
+  0       0                       0                       0                
+  6  256   # HTS.z[60]
+  0       0                       0                       0                
+  6  256   # HTS.z[61]
+  0       0                       0                       0                
+  6  256   # HTS.z[62]
+  0       0                       0                       0                
+  6  256   # HTS.z[63]
+  0       0                       0                       0                
+  6  256   # HTS.z[64]
+  0       0                       0                       0                
+  6  256   # HTS.z[65]
+  0       0                       0                       0                
+  6  256   # HTS.z[66]
+  0       0                       0                       0                
+  6  256   # HTS.z[67]
+  0       0                       0                       0                
+  6  256   # HTS.z[68]
+  0       0                       0                       0                
+  6  256   # HTS.z[69]
+  0       0                       0                       0                
+  6  256   # HTS.z[70]
+  0       0                       0                       0                
+  6  256   # HTS.z[71]
+  0       0                       0                       0                
+  6  256   # HTS.z[72]
+  0       0                       0                       0                
+  6  256   # HTS.z[73]
+  0       0                       0                       0                
+  6  256   # HTS.z[74]
+  0       0                       0                       0                
+  6  256   # HTS.z[75]
+  0       0                       0                       0                
+  6  256   # HTS.z[76]
+  0       0                       0                       0                
+  6  256   # HTS.z[77]
+  0       0                       0                       0                
+  6  256   # HTS.z[78]
+  0       0                       0                       0                
+  6  256   # HTS.z[79]
+  0       0                       0                       0                
+  6  256   # HTS.z[80]
+  0       0                       0                       0                
+  6  256   # HTS.z[81]
+  0       0                       0                       0                
+  6  256   # HTS.z[82]
+  0       0                       0                       0                
+  6  256   # HTS.z[83]
+  0       0                       0                       0                
+  6  256   # HTS.z[84]
+  0       0                       0                       0                
+  6  256   # HTS.z[85]
+  0       0                       0                       0                
+  6  256   # HTS.z[86]
+  0       0                       0                       0                
+  6  256   # HTS.z[87]
+  0       0                       0                       0                
+  6  256   # HTS.z[88]
+  0       0                       0                       0                
+  6  256   # HTS.z[89]
+  0       0                       0                       0                
+  6  256   # HTS.z[90]
+  0       0                       0                       0                
+  6  256   # HTS.z[91]
+  0       0                       0                       0                
+  6  256   # HTS.z[92]
+  0       0                       0                       0                
+  6  256   # HTS.z[93]
+  0       0                       0                       0                
+  6  256   # HTS.z[94]
+  0       0                       0                       0                
+  6  256   # HTS.z[95]
+  0       0                       0                       0                
+  6  256   # HTS.z[96]
+  0       0                       0                       0                
+  6  256   # HTS.z[97]
+  0       0                       0                       0                
+  6  256   # HTS.z[98]
+  0       0                       0                       0                
+  6  256   # HTS.z[99]
+  0       0                       0                       0                
+  6  256   # HTS.z[100]
+  0       0                       0                       0                
+  6  256   # HTS.aa
+  0       1                       0                       0                
+  6  256   # HTS.resistor.R
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1  280   # HTS.resistor.T_ref
+ -1       0                       0                       0                
+  1  280   # HTS.resistor.alpha
+  0       0                       0                       0                
+  6  256   # HTS.resistor.v
+  0       0                       0                       0                
+  6  260   # HTS.resistor.n.v
+  0       0                       0                       0                
+  6  769   # HTS.resistor.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6  256   # HTS.resistor.T
+  0       0                       0                       0                
+  6  256   # HTS.resistor.LossPower
+  0       0                       0                       0                
+  6  256   # HTS.resistor.R_actual
+  0       1                       0                       0                
+  6  256   # HTS.resistor1.R
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1  280   # HTS.resistor1.T_ref
+ -1       0                       0                       0                
+  1  280   # HTS.resistor1.alpha
+  0       0                       0                       0                
+  6  256   # HTS.resistor1.v
+  0       0                       0                       0                
+  6  260   # HTS.resistor1.p.v
+  0       0                       0                       0                
+  6  769   # HTS.resistor1.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6  256   # HTS.resistor1.T
+  0       0                       0                       0                
+  6  256   # HTS.resistor1.LossPower
+  0       0                       0                       0                
+  6  256   # HTS.resistor1.R_actual
+  0       0                       0                       0                
+  6  388   # HTS.inductor.p.i
+  0       0                       0                       0                
+  6  260   # HTS.inductor.n.v
+ -1       0                       0                       0                
+  2  280   # HTS.inductor.Psi
+  0       0                       0                       0                
+  3  256   # HTS.inductor.der(Psi)
+ -1  1.0000000000000001E-15       0                       0                
+  1  280   # HTS.inductor.Lmin
+ -1       0                       0                       0                
+  1  280   # HTS.inductor.IC
+  0       0                       0                       0                
+  6  257   # HTS.inductor.UIC
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1  280   # HTS.resistor2.T_ref
+ -1       0                       0                       0                
+  1  280   # HTS.resistor2.alpha
+  0       0                       0                       0                
+  6  256   # HTS.resistor2.v
+  0       0                       0                       0                
+  6  388   # HTS.resistor2.p.i
+  0       0                       0                       0                
+  6  769   # HTS.resistor2.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6  256   # HTS.resistor2.T
+  0       0                       0                       0                
+  6  256   # HTS.resistor2.LossPower
+  0       0                       0                       0                
+  6  256   # HTS.resistor2.R_actual
+  0       0                       0                       0                
+  6  388   # HTS.inductor1.p.i
+ -1       0                       0                       0                
+  2  280   # HTS.inductor1.Psi
+  0       0                       0                       0                
+  3  256   # HTS.inductor1.der(Psi)
+ -1  1.0000000000000001E-15       0                       0                
+  1  280   # HTS.inductor1.Lmin
+ -1       0                       0                       0                
+  1  280   # HTS.inductor1.IC
+  0       0                       0                       0                
+  6  257   # HTS.inductor1.UIC
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1  280   # HTS.resistor3.T_ref
+ -1       0                       0                       0                
+  1  280   # HTS.resistor3.alpha
+  0       0                       0                       0                
+  6  256   # HTS.resistor3.v
+  0       0                       0                       0                
+  6  388   # HTS.resistor3.p.i
+  0       0                       0                       0                
+  6  769   # HTS.resistor3.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6  256   # HTS.resistor3.T
+  0       0                       0                       0                
+  6  256   # HTS.resistor3.LossPower
+  0       0                       0                       0                
+  6  256   # HTS.resistor3.R_actual
+  0       0                       0                       0                
+  6  260   # HTS.capacitor.n.v
+ -1  1.0000000000000001E-15       0                 1.0000000000000000E+100
+  1  280   # HTS.capacitor.Cmin
+ -1       0                       0                       0                
+  2  280   # HTS.capacitor.Q
+  0       0                       0                       0                
+  3  256   # HTS.capacitor.der(Q)
+ -1       0                       0                       0                
+  1  280   # HTS.capacitor.IC
+  0       0                       0                       0                
+  6  257   # HTS.capacitor.UIC
+  0       0                       0                       0                
+  6  260   # HTS.ground.p.v
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6  260   # HTS.port_a.T
+  0       0                       0                       0                
+  6  388   # HTS.port_a.Q_flow
+ -1    1000                       0                       0                
+  1  280   # constantVoltage.V
+  0       0                       0                       0                
+  6  388   # constantVoltage.p.i
+  0       0                       0                       0                
+  6  260   # constantVoltage.n.v
+ -1  1.0000000000000000E-02       0                       0                
+  1  280   # resistor2.R
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1  280   # resistor2.T_ref
+ -1       0                       0                       0                
+  1  280   # resistor2.alpha
+  0       0                       0                       0                
+  6  256   # resistor2.v
+  0       0                       0                       0                
+  6  388   # resistor2.p.i
+  0       0                       0                       0                
+  6  260   # resistor2.n.v
+  0       0                       0                       0                
+  6  769   # resistor2.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6  256   # resistor2.T
+  0       0                       0                       0                
+  6  256   # resistor2.LossPower
+  0       0                       0                       0                
+  6  256   # resistor2.R_actual
+  0       0                       0                       0                
+  6  260   # ground1.p.v
+  0       0                       0                       0                
+  6  388   # ground1.p.i
+ -1      20                       0                 1.0000000000000000E+100
+  1  280   # const1.k
+ -1      10                       0                       0                
+  1  282   # HTS1.l
+ -1  1.0000000000000000E-04       0                       0                
+  1  280   # HTS1.E_0
+ -1      20                       0                       0                
+  1  280   # HTS1.n
+ -1   37000                       0                       0                
+  1  280   # HTS1.I_c0
+ -1  1.0000000000000001E-01       0                       0                
+  1  280   # HTS1.A
+ -1  1.9999999999999999E-07       0                       0                
+  1  280   # HTS1.A_cu_tape
+ -1     132                       0                       0                
+  1  280   # HTS1.n_Tape
+ -1      92                       0                 1.0000000000000000E+100
+  1  280   # HTS1.T_c
+ -1  9.9999999999999995E-07       0                       0                
+  1  280   # HTS1.R_L
+ -1       0                       0                       0                
+  1  280   # HTS1.G_d
+ -1  3.0000000000000001E-03       0                 1.0000000000000000E+100
+  1  280   # HTS1.a
+ -1  1.0999999999999999E-02       0                 1.0000000000000000E+100
+  1  280   # HTS1.b
+ -1  3.0000000000000001E-03       0                 1.0000000000000000E+100
+  1  280   # HTS1.R_c
+ -1  1.0999999999999999E-02       0                 1.0000000000000000E+100
+  1  280   # HTS1.R_0
+ -1       1                       0                       0                
+  1  280   # HTS1.mu_r
+ -1  2.2000000000000002E+00       0                 1.0000000000000000E+100
+  1  280   # HTS1.epsilon_r
+ -1      60                       0                       0                
+  1  280   # HTS1.f
+ -1     400                       0                       0                
+  1  280   # HTS1.kappa
+ -1       1                       0                       0                
+  1  280   # HTS1.v
+ -1    5200                       0                       0                
+  1  280   # HTS1.C_pv
+  0       0                       0                       0                
+  6  256   # HTS1.G
+  0  3.1415926535897931E+00       0                       0                
+  6  256   # HTS1.pi
+  0  1.2566370614359172E-05       0                       0                
+  6  256   # HTS1.mu_0
+  0  8.8539999999999992E-12       0                 1.0000000000000000E+100
+  6  256   # HTS1.epsilon_0
+  0       0                       0                       0                
+  6  256   # HTS1.mu
+  0       0                       0                 1.0000000000000000E+100
+  6  256   # HTS1.epsilon
+  0       0                       0                       0                
+  6  256   # HTS1.omega
+  0  3.3000000000000003E-05       0                       0                
+  6  256   # HTS1.delta
+  0       0                       0                       0                
+  6  288   # HTS1.h
+  0       0                       0                       0                
+  6  256   # HTS1.dT[1]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[2]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[3]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[4]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[5]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[6]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[7]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[8]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[9]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[10]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[11]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[12]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[13]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[14]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[15]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[16]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[17]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[18]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[19]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[20]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[21]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[22]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[23]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[24]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[25]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[26]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[27]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[28]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[29]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[30]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[31]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[32]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[33]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[34]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[35]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[36]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[37]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[38]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[39]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[40]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[41]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[42]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[43]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[44]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[45]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[46]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[47]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[48]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[49]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[50]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[51]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[52]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[53]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[54]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[55]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[56]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[57]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[58]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[59]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[60]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[61]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[62]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[63]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[64]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[65]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[66]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[67]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[68]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[69]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[70]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[71]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[72]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[73]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[74]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[75]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[76]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[77]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[78]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[79]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[80]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[81]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[82]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[83]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[84]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[85]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[86]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[87]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[88]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[89]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[90]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[91]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[92]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[93]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[94]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[95]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[96]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[97]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[98]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[99]
+  0       0                       0                       0                
+  6  256   # HTS1.dT[100]
+  0       0                       0                       0                
+  6  256   # HTS1.dT_rho
+  0       0                       0                       0                
+  6  256   # HTS1.T[1]
+  0       0                       0                       0                
+  6  256   # HTS1.T[2]
+  0       0                       0                       0                
+  6  256   # HTS1.T[3]
+  0       0                       0                       0                
+  6  256   # HTS1.T[4]
+  0       0                       0                       0                
+  6  256   # HTS1.T[5]
+  0       0                       0                       0                
+  6  256   # HTS1.T[6]
+  0       0                       0                       0                
+  6  256   # HTS1.T[7]
+  0       0                       0                       0                
+  6  256   # HTS1.T[8]
+  0       0                       0                       0                
+  6  256   # HTS1.T[9]
+  0       0                       0                       0                
+  6  256   # HTS1.T[10]
+  0       0                       0                       0                
+  6  256   # HTS1.T[11]
+  0       0                       0                       0                
+  6  256   # HTS1.T[12]
+  0       0                       0                       0                
+  6  256   # HTS1.T[13]
+  0       0                       0                       0                
+  6  256   # HTS1.T[14]
+  0       0                       0                       0                
+  6  256   # HTS1.T[15]
+  0       0                       0                       0                
+  6  256   # HTS1.T[16]
+  0       0                       0                       0                
+  6  256   # HTS1.T[17]
+  0       0                       0                       0                
+  6  256   # HTS1.T[18]
+  0       0                       0                       0                
+  6  256   # HTS1.T[19]
+  0       0                       0                       0                
+  6  256   # HTS1.T[20]
+  0       0                       0                       0                
+  6  256   # HTS1.T[21]
+  0       0                       0                       0                
+  6  256   # HTS1.T[22]
+  0       0                       0                       0                
+  6  256   # HTS1.T[23]
+  0       0                       0                       0                
+  6  256   # HTS1.T[24]
+  0       0                       0                       0                
+  6  256   # HTS1.T[25]
+  0       0                       0                       0                
+  6  256   # HTS1.T[26]
+  0       0                       0                       0                
+  6  256   # HTS1.T[27]
+  0       0                       0                       0                
+  6  256   # HTS1.T[28]
+  0       0                       0                       0                
+  6  256   # HTS1.T[29]
+  0       0                       0                       0                
+  6  256   # HTS1.T[30]
+  0       0                       0                       0                
+  6  256   # HTS1.T[31]
+  0       0                       0                       0                
+  6  256   # HTS1.T[32]
+  0       0                       0                       0                
+  6  256   # HTS1.T[33]
+  0       0                       0                       0                
+  6  256   # HTS1.T[34]
+  0       0                       0                       0                
+  6  256   # HTS1.T[35]
+  0       0                       0                       0                
+  6  256   # HTS1.T[36]
+  0       0                       0                       0                
+  6  256   # HTS1.T[37]
+  0       0                       0                       0                
+  6  256   # HTS1.T[38]
+  0       0                       0                       0                
+  6  256   # HTS1.T[39]
+  0       0                       0                       0                
+  6  256   # HTS1.T[40]
+  0       0                       0                       0                
+  6  256   # HTS1.T[41]
+  0       0                       0                       0                
+  6  256   # HTS1.T[42]
+  0       0                       0                       0                
+  6  256   # HTS1.T[43]
+  0       0                       0                       0                
+  6  256   # HTS1.T[44]
+  0       0                       0                       0                
+  6  256   # HTS1.T[45]
+  0       0                       0                       0                
+  6  256   # HTS1.T[46]
+  0       0                       0                       0                
+  6  256   # HTS1.T[47]
+  0       0                       0                       0                
+  6  256   # HTS1.T[48]
+  0       0                       0                       0                
+  6  256   # HTS1.T[49]
+  0       0                       0                       0                
+  6  256   # HTS1.T[50]
+  0       0                       0                       0                
+  6  256   # HTS1.T[51]
+  0       0                       0                       0                
+  6  256   # HTS1.T[52]
+  0       0                       0                       0                
+  6  256   # HTS1.T[53]
+  0       0                       0                       0                
+  6  256   # HTS1.T[54]
+  0       0                       0                       0                
+  6  256   # HTS1.T[55]
+  0       0                       0                       0                
+  6  256   # HTS1.T[56]
+  0       0                       0                       0                
+  6  256   # HTS1.T[57]
+  0       0                       0                       0                
+  6  256   # HTS1.T[58]
+  0       0                       0                       0                
+  6  256   # HTS1.T[59]
+  0       0                       0                       0                
+  6  256   # HTS1.T[60]
+  0       0                       0                       0                
+  6  256   # HTS1.T[61]
+  0       0                       0                       0                
+  6  256   # HTS1.T[62]
+  0       0                       0                       0                
+  6  256   # HTS1.T[63]
+  0       0                       0                       0                
+  6  256   # HTS1.T[64]
+  0       0                       0                       0                
+  6  256   # HTS1.T[65]
+  0       0                       0                       0                
+  6  256   # HTS1.T[66]
+  0       0                       0                       0                
+  6  256   # HTS1.T[67]
+  0       0                       0                       0                
+  6  256   # HTS1.T[68]
+  0       0                       0                       0                
+  6  256   # HTS1.T[69]
+  0       0                       0                       0                
+  6  256   # HTS1.T[70]
+  0       0                       0                       0                
+  6  256   # HTS1.T[71]
+  0       0                       0                       0                
+  6  256   # HTS1.T[72]
+  0       0                       0                       0                
+  6  256   # HTS1.T[73]
+  0       0                       0                       0                
+  6  256   # HTS1.T[74]
+  0       0                       0                       0                
+  6  256   # HTS1.T[75]
+  0       0                       0                       0                
+  6  256   # HTS1.T[76]
+  0       0                       0                       0                
+  6  256   # HTS1.T[77]
+  0       0                       0                       0                
+  6  256   # HTS1.T[78]
+  0       0                       0                       0                
+  6  256   # HTS1.T[79]
+  0       0                       0                       0                
+  6  256   # HTS1.T[80]
+  0       0                       0                       0                
+  6  256   # HTS1.T[81]
+  0       0                       0                       0                
+  6  256   # HTS1.T[82]
+  0       0                       0                       0                
+  6  256   # HTS1.T[83]
+  0       0                       0                       0                
+  6  256   # HTS1.T[84]
+  0       0                       0                       0                
+  6  256   # HTS1.T[85]
+  0       0                       0                       0                
+  6  256   # HTS1.T[86]
+  0       0                       0                       0                
+  6  256   # HTS1.T[87]
+  0       0                       0                       0                
+  6  256   # HTS1.T[88]
+  0       0                       0                       0                
+  6  256   # HTS1.T[89]
+  0       0                       0                       0                
+  6  256   # HTS1.T[90]
+  0       0                       0                       0                
+  6  256   # HTS1.T[91]
+  0       0                       0                       0                
+  6  256   # HTS1.T[92]
+  0       0                       0                       0                
+  6  256   # HTS1.T[93]
+  0       0                       0                       0                
+  6  256   # HTS1.T[94]
+  0       0                       0                       0                
+  6  256   # HTS1.T[95]
+  0       0                       0                       0                
+  6  256   # HTS1.T[96]
+  0       0                       0                       0                
+  6  256   # HTS1.T[97]
+  0       0                       0                       0                
+  6  256   # HTS1.T[98]
+  0       0                       0                       0                
+  6  256   # HTS1.T[99]
+  0       0                       0                       0                
+  6  256   # HTS1.T[100]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[1]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[2]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[3]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[4]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[5]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[6]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[7]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[8]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[9]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[10]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[11]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[12]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[13]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[14]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[15]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[16]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[17]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[18]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[19]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[20]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[21]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[22]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[23]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[24]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[25]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[26]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[27]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[28]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[29]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[30]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[31]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[32]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[33]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[34]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[35]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[36]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[37]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[38]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[39]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[40]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[41]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[42]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[43]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[44]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[45]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[46]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[47]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[48]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[49]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[50]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[51]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[52]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[53]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[54]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[55]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[56]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[57]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[58]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[59]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[60]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[61]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[62]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[63]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[64]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[65]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[66]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[67]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[68]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[69]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[70]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[71]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[72]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[73]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[74]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[75]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[76]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[77]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[78]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[79]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[80]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[81]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[82]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[83]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[84]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[85]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[86]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[87]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[88]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[89]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[90]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[91]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[92]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[93]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[94]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[95]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[96]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[97]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[98]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[99]
+  0       0                       0                       0                
+  6  256   # HTS1.Q_flow[100]
+  0       0                       0                       0                
+  6  256   # HTS1.I_c
+  0       0                       0                       0                
+  6  256   # HTS1.E
+  0       0                       0                       0                
+  6  256   # HTS1.R_pi
+  0       0                       0                       0                
+  6  256   # HTS1.R_ac
+  0       0                       0                       0                
+  6  256   # HTS1.L_pi
+  0       0                       0                 1.0000000000000000E+100
+  6  256   # HTS1.C_pi
+  0       0                       0                       0                
+  6  256   # HTS1.A_cu
+  0       0                       0                       0                
+  6  256   # HTS1.rho
+  0       0                       0                       0                
+  6  256   # HTS1.P
+  0       0                       0                       0                
+  6  256   # HTS1.x
+  0       0                       0                       0                
+  6  256   # HTS1.z[1]
+  0       0                       0                       0                
+  6  256   # HTS1.z[2]
+  0       0                       0                       0                
+  6  256   # HTS1.z[3]
+  0       0                       0                       0                
+  6  256   # HTS1.z[4]
+  0       0                       0                       0                
+  6  256   # HTS1.z[5]
+  0       0                       0                       0                
+  6  256   # HTS1.z[6]
+  0       0                       0                       0                
+  6  256   # HTS1.z[7]
+  0       0                       0                       0                
+  6  256   # HTS1.z[8]
+  0       0                       0                       0                
+  6  256   # HTS1.z[9]
+  0       0                       0                       0                
+  6  256   # HTS1.z[10]
+  0       0                       0                       0                
+  6  256   # HTS1.z[11]
+  0       0                       0                       0                
+  6  256   # HTS1.z[12]
+  0       0                       0                       0                
+  6  256   # HTS1.z[13]
+  0       0                       0                       0                
+  6  256   # HTS1.z[14]
+  0       0                       0                       0                
+  6  256   # HTS1.z[15]
+  0       0                       0                       0                
+  6  256   # HTS1.z[16]
+  0       0                       0                       0                
+  6  256   # HTS1.z[17]
+  0       0                       0                       0                
+  6  256   # HTS1.z[18]
+  0       0                       0                       0                
+  6  256   # HTS1.z[19]
+  0       0                       0                       0                
+  6  256   # HTS1.z[20]
+  0       0                       0                       0                
+  6  256   # HTS1.z[21]
+  0       0                       0                       0                
+  6  256   # HTS1.z[22]
+  0       0                       0                       0                
+  6  256   # HTS1.z[23]
+  0       0                       0                       0                
+  6  256   # HTS1.z[24]
+  0       0                       0                       0                
+  6  256   # HTS1.z[25]
+  0       0                       0                       0                
+  6  256   # HTS1.z[26]
+  0       0                       0                       0                
+  6  256   # HTS1.z[27]
+  0       0                       0                       0                
+  6  256   # HTS1.z[28]
+  0       0                       0                       0                
+  6  256   # HTS1.z[29]
+  0       0                       0                       0                
+  6  256   # HTS1.z[30]
+  0       0                       0                       0                
+  6  256   # HTS1.z[31]
+  0       0                       0                       0                
+  6  256   # HTS1.z[32]
+  0       0                       0                       0                
+  6  256   # HTS1.z[33]
+  0       0                       0                       0                
+  6  256   # HTS1.z[34]
+  0       0                       0                       0                
+  6  256   # HTS1.z[35]
+  0       0                       0                       0                
+  6  256   # HTS1.z[36]
+  0       0                       0                       0                
+  6  256   # HTS1.z[37]
+  0       0                       0                       0                
+  6  256   # HTS1.z[38]
+  0       0                       0                       0                
+  6  256   # HTS1.z[39]
+  0       0                       0                       0                
+  6  256   # HTS1.z[40]
+  0       0                       0                       0                
+  6  256   # HTS1.z[41]
+  0       0                       0                       0                
+  6  256   # HTS1.z[42]
+  0       0                       0                       0                
+  6  256   # HTS1.z[43]
+  0       0                       0                       0                
+  6  256   # HTS1.z[44]
+  0       0                       0                       0                
+  6  256   # HTS1.z[45]
+  0       0                       0                       0                
+  6  256   # HTS1.z[46]
+  0       0                       0                       0                
+  6  256   # HTS1.z[47]
+  0       0                       0                       0                
+  6  256   # HTS1.z[48]
+  0       0                       0                       0                
+  6  256   # HTS1.z[49]
+  0       0                       0                       0                
+  6  256   # HTS1.z[50]
+  0       0                       0                       0                
+  6  256   # HTS1.z[51]
+  0       0                       0                       0                
+  6  256   # HTS1.z[52]
+  0       0                       0                       0                
+  6  256   # HTS1.z[53]
+  0       0                       0                       0                
+  6  256   # HTS1.z[54]
+  0       0                       0                       0                
+  6  256   # HTS1.z[55]
+  0       0                       0                       0                
+  6  256   # HTS1.z[56]
+  0       0                       0                       0                
+  6  256   # HTS1.z[57]
+  0       0                       0                       0                
+  6  256   # HTS1.z[58]
+  0       0                       0                       0                
+  6  256   # HTS1.z[59]
+  0       0                       0                       0                
+  6  256   # HTS1.z[60]
+  0       0                       0                       0                
+  6  256   # HTS1.z[61]
+  0       0                       0                       0                
+  6  256   # HTS1.z[62]
+  0       0                       0                       0                
+  6  256   # HTS1.z[63]
+  0       0                       0                       0                
+  6  256   # HTS1.z[64]
+  0       0                       0                       0                
+  6  256   # HTS1.z[65]
+  0       0                       0                       0                
+  6  256   # HTS1.z[66]
+  0       0                       0                       0                
+  6  256   # HTS1.z[67]
+  0       0                       0                       0                
+  6  256   # HTS1.z[68]
+  0       0                       0                       0                
+  6  256   # HTS1.z[69]
+  0       0                       0                       0                
+  6  256   # HTS1.z[70]
+  0       0                       0                       0                
+  6  256   # HTS1.z[71]
+  0       0                       0                       0                
+  6  256   # HTS1.z[72]
+  0       0                       0                       0                
+  6  256   # HTS1.z[73]
+  0       0                       0                       0                
+  6  256   # HTS1.z[74]
+  0       0                       0                       0                
+  6  256   # HTS1.z[75]
+  0       0                       0                       0                
+  6  256   # HTS1.z[76]
+  0       0                       0                       0                
+  6  256   # HTS1.z[77]
+  0       0                       0                       0                
+  6  256   # HTS1.z[78]
+  0       0                       0                       0                
+  6  256   # HTS1.z[79]
+  0       0                       0                       0                
+  6  256   # HTS1.z[80]
+  0       0                       0                       0                
+  6  256   # HTS1.z[81]
+  0       0                       0                       0                
+  6  256   # HTS1.z[82]
+  0       0                       0                       0                
+  6  256   # HTS1.z[83]
+  0       0                       0                       0                
+  6  256   # HTS1.z[84]
+  0       0                       0                       0                
+  6  256   # HTS1.z[85]
+  0       0                       0                       0                
+  6  256   # HTS1.z[86]
+  0       0                       0                       0                
+  6  256   # HTS1.z[87]
+  0       0                       0                       0                
+  6  256   # HTS1.z[88]
+  0       0                       0                       0                
+  6  256   # HTS1.z[89]
+  0       0                       0                       0                
+  6  256   # HTS1.z[90]
+  0       0                       0                       0                
+  6  256   # HTS1.z[91]
+  0       0                       0                       0                
+  6  256   # HTS1.z[92]
+  0       0                       0                       0                
+  6  256   # HTS1.z[93]
+  0       0                       0                       0                
+  6  256   # HTS1.z[94]
+  0       0                       0                       0                
+  6  256   # HTS1.z[95]
+  0       0                       0                       0                
+  6  256   # HTS1.z[96]
+  0       0                       0                       0                
+  6  256   # HTS1.z[97]
+  0       0                       0                       0                
+  6  256   # HTS1.z[98]
+  0       0                       0                       0                
+  6  256   # HTS1.z[99]
+  0       0                       0                       0                
+  6  256   # HTS1.z[100]
+  0       0                       0                       0                
+  6  256   # HTS1.aa
+  0       1                       0                       0                
+  6  256   # HTS1.resistor.R
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1  280   # HTS1.resistor.T_ref
+ -1       0                       0                       0                
+  1  280   # HTS1.resistor.alpha
+  0       0                       0                       0                
+  6  256   # HTS1.resistor.v
+  0       0                       0                       0                
+  6  260   # HTS1.resistor.n.v
+  0       0                       0                       0                
+  6  769   # HTS1.resistor.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6  256   # HTS1.resistor.T
+  0       0                       0                       0                
+  6  256   # HTS1.resistor.LossPower
+  0       0                       0                       0                
+  6  256   # HTS1.resistor.R_actual
+  0       1                       0                       0                
+  6  256   # HTS1.resistor1.R
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1  280   # HTS1.resistor1.T_ref
+ -1       0                       0                       0                
+  1  280   # HTS1.resistor1.alpha
+  0       0                       0                       0                
+  6  256   # HTS1.resistor1.v
+  0       0                       0                       0                
+  6  260   # HTS1.resistor1.p.v
+  0       0                       0                       0                
+  6  769   # HTS1.resistor1.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6  256   # HTS1.resistor1.T
+  0       0                       0                       0                
+  6  256   # HTS1.resistor1.LossPower
+  0       0                       0                       0                
+  6  256   # HTS1.resistor1.R_actual
+  0       0                       0                       0                
+  6  388   # HTS1.inductor.p.i
+ -1       0                       0                       0                
+  2  280   # HTS1.inductor.Psi
+  0       0                       0                       0                
+  3  256   # HTS1.inductor.der(Psi)
+ -1  1.0000000000000001E-15       0                       0                
+  1  280   # HTS1.inductor.Lmin
+ -1       0                       0                       0                
+  1  280   # HTS1.inductor.IC
+  0       0                       0                       0                
+  6  257   # HTS1.inductor.UIC
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1  280   # HTS1.resistor2.T_ref
+ -1       0                       0                       0                
+  1  280   # HTS1.resistor2.alpha
+  0       0                       0                       0                
+  6  256   # HTS1.resistor2.v
+  0       0                       0                       0                
+  6  420   # HTS1.resistor2.p.i
+  0       0                       0                       0                
+  6  769   # HTS1.resistor2.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6  256   # HTS1.resistor2.T
+  0       0                       0                       0                
+  6  256   # HTS1.resistor2.LossPower
+  0       0                       0                       0                
+  6  256   # HTS1.resistor2.R_actual
+  0       0                       0                       0                
+  6  388   # HTS1.inductor1.p.i
+ -1       0                       0                       0                
+  2  280   # HTS1.inductor1.Psi
+  0       0                       0                       0                
+  3  256   # HTS1.inductor1.der(Psi)
+ -1  1.0000000000000001E-15       0                       0                
+  1  280   # HTS1.inductor1.Lmin
+ -1       0                       0                       0                
+  1  280   # HTS1.inductor1.IC
+  0       0                       0                       0                
+  6  257   # HTS1.inductor1.UIC
+ -1  3.0014999999999998E+02       0                 1.0000000000000000E+100
+  1  280   # HTS1.resistor3.T_ref
+ -1       0                       0                       0                
+  1  280   # HTS1.resistor3.alpha
+  0       0                       0                       0                
+  6  256   # HTS1.resistor3.v
+  0       0                       0                       0                
+  6  388   # HTS1.resistor3.p.i
+  0       0                       0                       0                
+  6  769   # HTS1.resistor3.useHeatPort
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6  256   # HTS1.resistor3.T
+  0       0                       0                       0                
+  6  256   # HTS1.resistor3.LossPower
+  0       0                       0                       0                
+  6  256   # HTS1.resistor3.R_actual
+  0       0                       0                       0                
+  6  260   # HTS1.ground.p.v
+  0       0                       0                       0                
+  6  388   # HTS1.ground.p.i
+  0  2.8814999999999998E+02       0                 1.0000000000000000E+100
+  6  260   # HTS1.port_a.T
+  0       0                       0                       0                
+  6  388   # HTS1.port_a.Q_flow
+ -1    1000                       0                       0                
+  2  280   # HTS1.capacitor.v
+  0       0                       0                       0                
+  3  256   # HTS1.capacitor.der(v)
+  0       0                       0                       0                
+  6  260   # HTS1.capacitor.n.v
+ -1  3.4565684000000001E-10       0                 1.0000000000000000E+100
+  1  280   # HTS1.capacitor.C
+
+
+# Matrix with 6 columns defining the initial value calculation
+# (columns 5 and 6 are not utilized for the calculation but are
+#  reported by dymosim via dymosim -i for user convenience):
+#
+# column 1: Type of initial value
+#           = -2: special case: for continuing simulation (column 2 = value)
+#           = -1: fixed value (column 2 = fixed value)
+#           =  0: free value, i.e., no restriction (column 2 = initial value)
+#           >  0: desired value (column 1 = weight for optimization
+#                                column 2 = desired value)
+#                 use weight=1, since automatic scaling usually
+#                 leads to equally weighted terms
+# column 2: fixed, free or desired value according to column 1.
+# column 3: Minimum value (ignored, if Minimum >= Maximum).
+# column 4: Maximum value (ignored, if Minimum >= Maximum).
+#           Minimum and maximum restrict the search range in initial
+#           value calculation. They might also be used for scaling.
+# column 5: Category of variable.
+#           = 1: parameter.
+#           = 2: state.
+#           = 3: state derivative.
+#           = 4: output.
+#           = 5: input.
+#           = 6: auxiliary variable.
+# column 6: Data type of variable and flags according to dsBaseType
+#  <value>&3= 0: real.
+#  <value>&3= 1: boolean.
+#  <value>&3= 2: integer.
+#
+# Initial values are calculated according to the following procedure:
+#
+# - If parameters, states and inputs are FIXED, and other variables
+#   are FREE, no special action takes place (default setting).
+#
+# - If there are only FIXED and FREE variables and the number of
+#   FREE parameters, states and inputs is IDENTICAL to the number of
+#   FIXED state derivatives, outputs and auxiliary variables, a non-linear
+#   equation is solved to determine a consistent set of initial conditions.
+#
+# - In all other cases the following optimization problem is solved:
+#      min( sum( weight(i)*( (value(i) - DESIRED(i))/scale(i) )^2 ) )
+#   under the constraint that the differential equation is fulfilled
+#   at the initial time. In most cases weight(i)=1 is sufficient, due
+#   to the automatic scaling (if DESIRED(i) is not close to zero,
+#   scale(i) = DESIRED(i). Otherwise, the scaling is based on the
+#   nominal value (and maybe minimum and maximum values given in 
+#   column 3 and 4). If these values are zero, scale(i)=1 is used).
+#
+char initialDescription(1032,90)
+Height of ramp [A]
+Duration of ramp [s]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Potential at the pin [V]
+Current flowing into the pin [A]
+Height of ramps
+Duration of ramp (= 0.0 gives a Step) [s]
+Offset of output signal y
+Output y = offset for time < startTime [s]
+Current offset [A]
+Time offset [s]
+Resistance at temperature T_ref [Ohm]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Current flowing into the pin [A]
+Potential at the pin [V]
+= true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Potential at the pin [V]
+Current flowing into the pin [A]
+Constant output value
+Length of wire [:#(type=Integer)]
+Reference electric field [V/m]
+Index value of the superconductor
+Critical current at 0K
+Area [m2]
+Copper area per tape (ref. 2mm by 1mm) [m2]
+Number of tapes
+Critical temperature [K|K]
+Resistance of the brass connectors [Ohm]
+Extra heat generation due to fault [W]
+Inner radius of co-axial cable [m|mm]
+Outer radius of co-axial cable [m|mm]
+Inner radius of cryostat [m]
+Outer radius of co-axial cable [m]
+[H/m]
+[F/m]
+Frequency of AC system [Hz]
+cable thermal conductivity [S/m]
+Velocity of gas [m/s]
+Heat capacity [J/K]
+
+
+[H/m]
+[F/m]
+[H/m]
+[F/m]
+[Ohm.m]
+[Ohm.m]
+Heat transfer coefficient of surfaces
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+Critical current at 20K [A]
+Electric field [V/m]
+[Ohm]
+[Ohm]
+[H]
+[F]
+Area of copper in wire [m2]
+[Ohm.m]
+Perimeter of line [m]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Resistance at temperature T_ref [Ohm]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Potential at the pin [V]
+= true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Resistance at temperature T_ref [Ohm]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Potential at the pin [V]
+= true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Current flowing into the pin [A]
+Potential at the pin [V]
+[Wb]
+[V]
+Lower bound for variable inductance [H]
+Initial Value [A]
+Decision if initial value IC shall be used [:#(type=Boolean)]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Current flowing into the pin [A]
+= true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Current flowing into the pin [A]
+[Wb]
+[V]
+Lower bound for variable inductance [H]
+Initial Value [A]
+Decision if initial value IC shall be used [:#(type=Boolean)]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Current flowing into the pin [A]
+= true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Potential at the pin [V]
+Lower bound for variable capacitance [F]
+[C]
+[A]
+Initial Value [V]
+Decision if initial value IC shall be used [:#(type=Boolean)]
+Potential at the pin [V]
+Port temperature [K|degC]
+Heat flow rate (positive if flowing from outside into the component) [W]
+Value of constant voltage [V]
+Current flowing into the pin [A]
+Potential at the pin [V]
+Resistance at temperature T_ref [Ohm]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Current flowing into the pin [A]
+Potential at the pin [V]
+= true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Potential at the pin [V]
+Current flowing into the pin [A]
+Constant output value
+Length of wire [:#(type=Integer)]
+Reference electric field [V/m]
+Index value of the superconductor
+Critical current at 0K
+Area [m2]
+Copper area per tape (ref. 2mm by 1mm) [m2]
+Number of tapes
+Critical temperature [K|K]
+Resistance of the brass connectors [Ohm]
+Extra heat generation due to fault [W]
+Inner radius of co-axial cable [m]
+Outer radius of co-axial cable [m]
+Inner radius of cryostat [m]
+Outer radius of co-axial cable [m]
+[H/m]
+[F/m]
+Frequency of AC system [Hz]
+cable thermal conductivity [S/m]
+Velocity of gas [m/s]
+Heat capacity [J/K]
+
+
+[H/m]
+[F/m]
+[H/m]
+[F/m]
+[Ohm.m]
+[Ohm.m]
+Heat transfer coefficient of surfaces
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Change in temperature
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+Temperature at point z on line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+heat dissipation from line
+Critical current at 20K [A]
+Electric field [V/m]
+[Ohm]
+[Ohm]
+[H]
+[F]
+Area of copper in wire [m2]
+[Ohm.m]
+Perimeter of line [m]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Resistance at temperature T_ref [Ohm]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Potential at the pin [V]
+= true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Resistance at temperature T_ref [Ohm]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Potential at the pin [V]
+= true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Current flowing into the pin [A]
+[Wb]
+[V]
+Lower bound for variable inductance [H]
+Initial Value [A]
+Decision if initial value IC shall be used [:#(type=Boolean)]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Current flowing into the pin [A]
+= true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Current flowing into the pin [A]
+[Wb]
+[V]
+Lower bound for variable inductance [H]
+Initial Value [A]
+Decision if initial value IC shall be used [:#(type=Boolean)]
+Reference temperature [K|degC]
+Temperature coefficient of resistance (R_actual = R*(1 + alpha*(T_heatPort - T_ref)) [1/K]
+Voltage drop of the two pins (= p.v - n.v) [V]
+Current flowing into the pin [A]
+= true, if heatPort is enabled [:#(type=Boolean)]
+Fixed device temperature if useHeatPort = false [K|degC]
+Loss power leaving component via heatPort [W]
+Actual resistance = R*(1 + alpha*(T_heatPort - T_ref)) [Ohm]
+Potential at the pin [V]
+Current flowing into the pin [A]
+Port temperature [K|degC]
+Heat flow rate (positive if flowing from outside into the component) [W]
+Voltage drop of the two pins (= p.v - n.v) [V]
+der(Voltage drop of the two pins (= p.v - n.v)) [V/s]
+Potential at the pin [V]
+Capacitance [F]
+

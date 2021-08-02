@@ -3,6 +3,7 @@ model Battery_switch_constantVoltage
   "Battery powering the CHEETA powertrain system"
   ElectrifiedPowertrains.ElectricDrives.ESM.ElectroMechanical.SpeedFOC
     speedFOC_ESM(
+    useThermalPort=false,
     redeclare ElectrifiedPowertrains.ElectricMachines.ESM.Controllers.Speed
       controller(redeclare
         Machines.Records.CHEETA_Records.CHEETA_2_5MW_ESM_Controller data),

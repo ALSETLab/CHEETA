@@ -49,8 +49,9 @@ model Al_Bar
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={0,-16})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a1
-    annotation (Placement(transformation(extent={{-54,-10},{-34,10}})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a1 annotation (
+      Placement(transformation(extent={{-50,-10},{-30,10}}), iconTransformation(
+          extent={{-50,-10},{-30,10}})));
   parameter Real l=0.38 "Lead length";
   parameter Real k_0=600 "Thermal conductivity";
   parameter Real h_L=20.7e3 "Latent heat of liquid media";
@@ -74,11 +75,11 @@ equation
   connect(cu_CurrentLead1.n1, resistor1.n) annotation (Line(points={{-13,-40},{
           -1.77636e-15,-40},{-1.77636e-15,-26}}, color={0,0,255}));
   connect(cu_CurrentLead.port_a, port_a1)
-    annotation (Line(points={{-22,36},{-22,0},{-44,0}}, color={191,0,0}));
+    annotation (Line(points={{-22,36},{-22,0},{-40,0}}, color={191,0,0}));
   connect(cu_CurrentLead1.port_a, port_a1) annotation (Line(points={{-20,-44},{
-          -22,-44},{-22,0},{-44,0}}, color={191,0,0}));
+          -22,-44},{-22,0},{-40,0}}, color={191,0,0}));
   connect(cu_CurrentLead2.port_a, port_a1) annotation (Line(points={{18,-4},{18,
-          -6},{-22,-6},{-22,0},{-44,0}}, color={191,0,0}));
+          -6},{-22,-6},{-22,0},{-40,0}}, color={191,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-40,
             -100},{40,100}}), graphics={Rectangle(extent={{-40,100},{40,-100}},
             lineColor={28,108,200})}), Diagram(coordinateSystem(

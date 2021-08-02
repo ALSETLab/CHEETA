@@ -18,8 +18,8 @@ model FuelCell_EquationBased
   Modelica.Electrical.Analog.Basic.VariableResistor
                                             R_conc
     annotation (Placement(transformation(extent={{0,0},{20,20}})));
-  Modelica.Electrical.Analog.Basic.Capacitor C_dl(v(fixed=false),
-                                                  C=10.6635)
+  Modelica.Electrical.Analog.Basic.Capacitor C_dl(v(fixed=true, start=1000), C=
+        C)
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
@@ -53,6 +53,7 @@ model FuelCell_EquationBased
     "Resistance of current leads";
   Modelica.Electrical.Analog.Basic.Resistor R_ohm(R=R_ohm_current)
     annotation (Placement(transformation(extent={{44,0},{64,20}})));
+  parameter Modelica.Units.SI.Capacitance C=10.6635 "Capacitance";
 equation
   E_Nernst = E_0 + R*port_a.T/(n*F) * ln(P_H2 * sqrt(P_O2));
   R_act_val = 1000*(R*port_a.T)/(alpha*n*F) * DymolaModels.Functions.Math.divNoZero(ln(-E_cell.i+ Modelica.Constants.eps),-E_cell.i);
