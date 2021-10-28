@@ -25,7 +25,7 @@ model Body_System_battery "Body power configuration with battery"
   Modelica.Blocks.Sources.Constant const2(k=733.038285)
     annotation (Placement(transformation(extent={{116,42},{102,56}})));
   Modelica.Electrical.Analog.Basic.Ground ground
-    annotation (Placement(transformation(extent={{56,-128},{76,-108}})));
+    annotation (Placement(transformation(extent={{56,-92},{76,-72}})));
   ElectrifiedPowertrains.ElectricDrives.ESM.ElectroMechanical.SpeedFOC
     speedFOC_ESM1(
     redeclare ElectrifiedPowertrains.ElectricMachines.ESM.Controllers.Speed
@@ -116,9 +116,9 @@ equation
     annotation (Line(points={{101.3,49},{90,49},{90,38}},
                                                        color={0,0,127}));
   connect(speedFOC_ESM.pin_n,ground. p)
-    annotation (Line(points={{80,20},{66,20},{66,-108}},   color={0,0,255}));
+    annotation (Line(points={{80,20},{66,20},{66,-72}},    color={0,0,255}));
   connect(speedFOC_ESM1.pin_n,ground. p)
-    annotation (Line(points={{80,-20},{66,-20},{66,-108}}, color={0,0,255}));
+    annotation (Line(points={{80,-20},{66,-20},{66,-72}},  color={0,0,255}));
   connect(speedFOC_ESM1.pin_p,speedFOC_ESM. pin_p) annotation (Line(points={{80,-8},
           {72,-8},{72,32},{80,32}},            color={0,0,255}));
   connect(const3.y,prescribedTemperature3. T)
@@ -138,7 +138,7 @@ equation
   connect(speedFOC_ESM2.pin_p, speedFOC_ESM.pin_p) annotation (Line(points={{80,
           -52},{72,-52},{72,32},{80,32}}, color={0,0,255}));
   connect(speedFOC_ESM2.pin_n, ground.p)
-    annotation (Line(points={{80,-64},{66,-64},{66,-108}}, color={0,0,255}));
+    annotation (Line(points={{80,-64},{66,-64},{66,-72}},  color={0,0,255}));
   connect(const6.y,prescribedTemperature4. T)
     annotation (Line(points={{-57,-4},{-46,-4}},
                                                color={0,0,127}));

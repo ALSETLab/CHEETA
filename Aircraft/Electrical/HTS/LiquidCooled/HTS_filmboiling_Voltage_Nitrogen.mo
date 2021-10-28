@@ -81,7 +81,7 @@ model HTS_filmboiling_Voltage_Nitrogen
   Modelica.Electrical.Analog.Basic.VariableResistor
                                             resistor3
     annotation (Placement(transformation(extent={{-6,6},{6,-6}})));
-  Modelica.Electrical.Analog.Basic.Capacitor capacitor(v(start=1000), C=C)  annotation (Placement(
+  Modelica.Electrical.Analog.Basic.Capacitor capacitor(v(start=540),  C=C)  annotation (Placement(
         transformation(
         extent={{-6,6},{6,-6}},
         rotation=270,

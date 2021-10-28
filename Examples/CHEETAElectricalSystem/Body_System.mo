@@ -150,9 +150,9 @@ equation
   connect(prescribedTemperature3.port, HTS.port_a) annotation (Line(points={{
           -28,114},{-65.8,114},{-65.8,84}}, color={191,0,0}));
   annotation (
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
+    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-180,-100},{100,
             140}})),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-180,-100},{
             100,140}})),
     Documentation(info="<html>
 <p>The architecture of the CHEETA electrical system is shown below:</p>

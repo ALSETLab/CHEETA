@@ -23,10 +23,10 @@ model FuelCell_ShortCircuit_nitrogen
     annotation (Placement(transformation(extent={{40,-28},{60,-8}})));
   Modelica.Electrical.Analog.Basic.Resistor resistor4(R=100)
     annotation (Placement(transformation(extent={{68,-28},{88,-8}})));
-  CHEETA.Aircraft.Electrical.FuelCell.FuelCell_EquationBased
+  FuelCell.FuelCell_EquationBased_DetailedRohm
     fuelCell_EquationBased_DetailedRohm1(
-    E_0=1550,                            n=2,
-    R_ohm_current=0.4425)
+    E_0=1000,                            n=2,
+    R_ohm0=0.15)
     annotation (Placement(transformation(extent={{-72,-6},{-58,8}})));
   Modelica.Electrical.Analog.Basic.Inductor inductor1(L=0.12086)
     annotation (Placement(transformation(extent={{68,-2},{88,18}})));
