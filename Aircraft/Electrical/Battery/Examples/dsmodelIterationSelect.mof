@@ -1,0 +1,20 @@
+model dsmodelIterationSelect
+  extends CHEETA.Aircraft.Electrical.FuelCell.Examples.FCDynamics;
+  annotation(__Dymola_SimulationIterationVariables={"hydrogen_Inlet.port[1].m_flow",
+   "stack60.anodeChannel.m_flowsFM[2]", "stack60.anodeChannel.m_flowsFM[3]", 
+  "stack60.cathodeChannel.m_flowsFM[5]", "air_Outlet.port[1].m_flow", 
+  "stack60.cathodeChannel.m_flowsFM[2]", "stack60.cathodeChannel.m_flowsFM[3]", 
+  "air_Inlet.port[1].m_flow", "stack60.cathodeChannel.m_flowsFM[4]", 
+  "stack60.anodeChannel.m_flowsFM[5]", "stack60.anodeChannel.m_flowsFM[4]", 
+  "hydrogen_Inlet1.port[1].m_flow", "stack80.anodeChannel.m_flowsFM[2]", 
+  "stack80.anodeChannel.m_flowsFM[3]", "stack80.cathodeChannel.m_flowsFM[5]", 
+  "air_Outlet1.port[1].m_flow", "stack80.cathodeChannel.m_flowsFM[2]", 
+  "stack80.cathodeChannel.m_flowsFM[3]", "air_Inlet1.port[1].m_flow", 
+  "stack80.cathodeChannel.m_flowsFM[4]", "stack80.anodeChannel.m_flowsFM[5]", 
+  "stack80.anodeChannel.m_flowsFM[4]", "hydrogen_Inlet2.port[1].m_flow", 
+  "stack40.anodeChannel.m_flowsFM[2]", "stack40.anodeChannel.m_flowsFM[3]", 
+  "stack40.cathodeChannel.m_flowsFM[5]", "air_Outlet2.port[1].m_flow", 
+  "stack40.cathodeChannel.m_flowsFM[2]", "stack40.cathodeChannel.m_flowsFM[3]", 
+  "air_Inlet2.port[1].m_flow", "stack40.cathodeChannel.m_flowsFM[4]", 
+  "stack40.anodeChannel.m_flowsFM[5]", "stack40.anodeChannel.m_flowsFM[4]"});
+end dsmodelIterationSelect;

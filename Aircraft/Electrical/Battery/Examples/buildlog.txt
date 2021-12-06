@@ -1,0 +1,32 @@
+ 
+Compiling and linking the model (Visual C++). 
+ 
+64-bit mode activated. 
+dsmodel.c
+C:/Program Files/Dymola 2021x\source\matrixop.h(265): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+C:/Program Files/Dymola 2021x\source\matrixop.h(1181): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2021x\source\matrixop.c(4010): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2021x\source\matrixop.c(4477): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\program files\dymola 2021x\source\matrixop.c(4525): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2021x\source\matrixop.c(4535): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2021x\source\matrixop.c(4544): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2021x\source\matrixop.c(4553): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2021x\source\matrixop.c(4565): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2021x\source\matrixop.c(4575): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2021x\source\matrixop.c(4585): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2021x\source\matrixop.c(4692): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+c:\program files\dymola 2021x\source\matrixop.c(4706): warning C4267: 'function': conversion from 'size_t' to 'SizeType', possible loss of data
+C:/Program Files/Dymola 2021x\source\ModelicaInternal.c(637): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:/Program Files/Dymola 2021x\source\ModelicaInternal.c(608): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+dsmodel.c(25873): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
+dsmodel.c(30031): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
+dsmodel.c(34169): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
+dsmodel.c(38128): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
+Microsoft (R) Incremental Linker Version 14.16.27032.1
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/stack:0x500000 /MACHINE:X64 /NODEFAULTLIB:LIBC /NODEFAULTLIB:LIBCD /OPT:NOREF libdsdll.lib lapack.lib legacy_stdio_definitions.lib 
+   Creating library dymosim.lib and object dymosim.exp
+ 
+Successful generation of Dymosim with DDE. 
+ 

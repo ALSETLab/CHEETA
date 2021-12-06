@@ -5,3 +5,5 @@ Body_Taxi_BMS
 Battery_switch_constantVoltage
 Battery_switch
 BatteryDynamics
+BatteryDischarge
+BatteryDischarge_varyingCurrent

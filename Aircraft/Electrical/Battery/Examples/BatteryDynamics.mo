@@ -147,8 +147,9 @@ equation
     Documentation(info="<html>
 <p>Power imposed on  a scaled battery pack.</p>
 </html>"),
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-240,-120},{280,
-            100}}), graphics={
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-240,-120},{
+            240,100}}),
+                    graphics={
         Rectangle(extent={{-220,80},{-80,-100}}, lineColor={28,108,200}),
         Rectangle(extent={{-70,80},{70,-100}}, lineColor={28,108,200}),
         Rectangle(extent={{82,80},{222,-100}}, lineColor={28,108,200}),
@@ -170,7 +171,7 @@ equation
       Evaluate=false,
       OutputCPUtime=false,
       OutputFlatModelica=false),
-    Icon(coordinateSystem(extent={{-240,-120},{280,100}})),
+    Icon(coordinateSystem(extent={{-240,-120},{240,100}})),
     __Dymola_Commands(file=
           "Aircraft/Electrical/Battery/Examples/CompareBatteryVI.mos"
         "CompareBatteryVI", file=
