@@ -1,0 +1,28 @@
+%implements s0_b0_w55sr_ForcingFunction "C"
+
+%function ForcingFunction(block, system) Output
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+%openfile localVarDecl
+
+XDot_PEMFC500V_fmu_2020a_T *_rtXdot;
+%closefile localVarDecl
+_rtXdot = %<(SLibCG_SE(SLibGetContStatesDerivativeStructPtr()))>;
+_rtXdot->Integrator_CSTATE = PEMFC500V_fmu_2020a_B.uMfcCfc;
+_rtXdot->Integrator_CSTATE_f = PEMFC500V_fmu_2020a_B.Product2;
+_rtXdot->Dropdelayblock_CSTATE = 0.0;
+_rtXdot->Dropdelayblock_CSTATE += PEMFC500V_fmu_2020a_P.Dropdelayblock_A * PEMFC500V_fmu_2020a_X.Dropdelayblock_CSTATE;
+_rtXdot->Dropdelayblock_CSTATE += PEMFC500V_fmu_2020a_B.u25A;
+%closefile cfgTxt
+%<cfgTxt>
+%<LibSetSystemField(system, "CachedForcingFunctionLocalVars", localVarDecl)>
+%endfunction
+%function ForcingFunctionFcnProtoType(block, system) Output
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void ForcingFunction(\
+%assign comma = ""
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 6, fcnProtoType)>
+%endfunction

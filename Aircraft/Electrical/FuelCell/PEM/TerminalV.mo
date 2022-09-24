@@ -141,8 +141,8 @@ equation
           {-124,6},{-124,-28},{-116,-28}}, color={0,0,127}));
   connect(dropDelay.I, realExpression5.y) annotation (Line(points={{-116,30},{
           -132,30},{-132,6},{-139,6}}, color={0,0,127}));
-  connect(concentration_function1.I, realExpression5.y) annotation (Line(points
-        ={{-114,-60},{-132,-60},{-132,6},{-139,6}}, color={0,0,127}));
+  connect(concentration_function1.I, realExpression5.y) annotation (Line(points=
+         {{-114,-60},{-132,-60},{-132,6},{-139,6}}, color={0,0,127}));
   connect(act2_function1.I, realExpression5.y) annotation (Line(points={{-116,
           -20},{-132,-20},{-132,6},{-139,6}}, color={0,0,127}));
   connect(ohmic_loss_function1.I, realExpression5.y) annotation (Line(points={{

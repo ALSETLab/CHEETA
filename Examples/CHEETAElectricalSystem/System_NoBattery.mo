@@ -53,7 +53,7 @@ model System_NoBattery
     annotation (Placement(transformation(extent={{-48,26},{-32,18}})));
   Aircraft.Electrical.FuelCell.FuelCell_EquationBased
     fuelCell_EquationBased_DetailedRohm1(n=2, R_ohm_current=0.075)
-    annotation (Placement(transformation(extent={{-94,12},{-80,26}})));
+    annotation (Placement(transformation(extent={{-92,14},{-78,28}})));
 equation
   connect(const3.y,prescribedTemperature3. T)
     annotation (Line(points={{47,44},{8,44}},  color={0,0,127}));
@@ -67,12 +67,12 @@ equation
   connect(const2.y,speedFOC_ESM. desiredSpeed)
     annotation (Line(points={{32.7,29},{40,29},{40,8}},color={0,0,127}));
   connect(fuelCell_EquationBased_DetailedRohm1.p1,HTS. pin_p) annotation (Line(
-        points={{-80,19.7},{-66,19.7},{-66,22},{-49,22}},
+        points={{-78,21.7},{-66,21.7},{-66,22},{-49,22}},
                                                         color={0,0,255}));
   connect(prescribedTemperature3.port, HTS.port_a) annotation (Line(points={{
           -14,44},{-40,44},{-40,30},{-39.8,30},{-39.8,26}}, color={191,0,0}));
   connect(fuelCell_EquationBased_DetailedRohm1.port_a, prescribedTemperature4.port)
-    annotation (Line(points={{-87,12},{-84,12},{-84,-2},{-70,-2},{-70,-20},{-86,
+    annotation (Line(points={{-85,14},{-84,14},{-84,-2},{-70,-2},{-70,-20},{-86,
           -20}}, color={191,0,0}));
   connect(speedFOC_ESM.pin_p, HTS.pin_n) annotation (Line(points={{30,2},{-24,2},
           {-24,22},{-31,22}}, color={0,0,255}));

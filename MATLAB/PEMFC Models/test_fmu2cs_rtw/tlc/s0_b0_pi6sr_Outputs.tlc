@@ -1,0 +1,58 @@
+%implements s0_b0_pi6sr_Outputs "C"
+
+%function Outputs(block, system) Output
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+%openfile localVarDecl
+
+real_T rtb_powerT1334;
+real_T rtb_PressureofsaturatedH2OvsTem;
+real_T rtb_IIdensity;
+%closefile localVarDecl
+%assign _modelSS = ""
+
+%if SLibCG_FcnCallArgAccessed(0,2,3,0)
+%<SLibCG_TrackEI(1)>
+%endif
+
+%if SLibCG_FcnCallArgAccessed(0,2,2,0)
+%<SLibCG_TrackEI(1)>
+%endif
+
+%if SLibCG_FcnCallArgAccessed(0,2,1,0)
+%<SLibCG_TrackEI(1)>
+%endif
+
+%if SLibCG_FcnCallArgAccessed(0,2,0,0)
+%<SLibCG_TrackEI(1)>
+%endif
+
+%<SLibCG_TrackEO(1)>\
+%<SLibCG_TrackEO(0)>\
+%<SLibCG_TrackEI(3)>\
+%<SLibCG_TrackEI(2)>\
+%<SLibCG_TrackEI(1)>\
+%<SLibCG_TrackEI(0)>\
+rtb_IIdensity = test_P.IIdensity_Gain * test_U.I;
+if ((test_U.T < 0.0) && (test_P.k1_Value > floor(test_P.k1_Value))) {
+    rtb_powerT1334 = -%<(SLibCGCallSubFcn("rt_powd_snf", ["-test_U.T", "test_P.k1_Value"], 0, 2, 3))>;
+} else {
+    rtb_powerT1334 = %<(SLibCGCallSubFcn("rt_powd_snf", ["test_U.T", "test_P.k1_Value"], 0, 2, 0))>;
+}
+rtb_PressureofsaturatedH2OvsTem = (((401.94033912153 * test_U.T + -40529.4522405347) - 1.33430273535993 * %<(SLibCGCallSubFcn("rt_powd_snf", ["test_U.T", "2.0"], 0, 2, 1))>) + 0.00148378443819808 * %<(SLibCGCallSubFcn("rt_powd_snf", ["test_U.T", "3.0"], 0, 2, 2))>) / 760.0;
+test_Y.PH2 = fabs(1.0 / (exp(test_P.factor2_Gain * rtb_IIdensity / rtb_powerT1334) * (rtb_PressureofsaturatedH2OvsTem / test_U.Panode)) - 1.0) * (test_P.factor_Gain * rtb_PressureofsaturatedH2OvsTem);
+test_Y.PO2 = fabs(1.0 / (exp(test_P.factor1_Gain * rtb_IIdensity / rtb_powerT1334) * (rtb_PressureofsaturatedH2OvsTem / test_U.Pcathode)) - 1.0) * rtb_PressureofsaturatedH2OvsTem;
+%<SLibInsertSolverResetCode()>\
+%closefile cfgTxt
+%<cfgTxt>
+%<LibSetSystemField(system, "CachedOutputLocalVars", localVarDecl)>
+%endfunction
+%function OutputsFcnProtoType(block, system) Output
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void Outputs(\
+%assign comma = ""
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 2, fcnProtoType)>
+%endfunction

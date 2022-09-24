@@ -1,0 +1,19 @@
+%implements s0_b0_w55sr_Update "C"
+
+%function Update(block, system) Output
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+PEMFC500V_fmu_2020a_DW.Integrator_IWORK = 0;
+PEMFC500V_fmu_2020a_DW.Integrator_IWORK_j = 0;
+%closefile cfgTxt
+%<cfgTxt>
+%endfunction
+%function UpdateFcnProtoType(block, system) Output
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void Update(\
+%assign comma = ""
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 4, fcnProtoType)>
+%endfunction

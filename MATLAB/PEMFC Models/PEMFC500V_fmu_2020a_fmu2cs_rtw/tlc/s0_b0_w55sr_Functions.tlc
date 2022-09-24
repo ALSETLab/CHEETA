@@ -1,0 +1,64 @@
+%implements s0_b0_w55sr_Functions "C"
+
+%function rt_powd_snf_Fcn0(block) void
+%assign fcnBuff = ""
+%openfile fcnBuff
+%assign cfgTxt = ""
+%openfile cfgTxt
+real_T y;
+real_T tmp;
+real_T tmp_0;
+if (rtIsNaN(u0) || rtIsNaN(u1)) {
+    y = %<LibGetMathConstant(LibRealNonFinite("nan"), FcnGetDataTypeIdFromName("double"))>;
+} else {
+    tmp = fabs(u0);
+    tmp_0 = fabs(u1);
+    if (rtIsInf(u1)) {
+        if (tmp == 1.0) {
+            y = 1.0;
+        } else if (tmp > 1.0) {
+            if (u1 > 0.0) {
+                y = %<LibGetMathConstant(LibRealNonFinite("inf"), FcnGetDataTypeIdFromName("double"))>;
+            } else {
+                y = 0.0;
+            }
+        } else if (u1 > 0.0) {
+            y = 0.0;
+        } else {
+            y = %<LibGetMathConstant(LibRealNonFinite("inf"), FcnGetDataTypeIdFromName("double"))>;
+        }
+    } else if (tmp_0 == 0.0) {
+        y = 1.0;
+    } else if (tmp_0 == 1.0) {
+        if (u1 > 0.0) {
+            y = u0;
+        } else {
+            y = 1.0 / u0;
+        }
+    } else if (u1 == 2.0) {
+        y = u0 * u0;
+    } else if ((u1 == 0.5) && (u0 >= 0.0)) {
+        y = sqrt(u0);
+    } else if ((u0 < 0.0) && (u1 > floor(u1))) {
+        y = %<LibGetMathConstant(LibRealNonFinite("nan"), FcnGetDataTypeIdFromName("double"))>;
+    } else {
+        y = pow(u0, u1);
+    }
+}
+return y;
+%closefile cfgTxt
+%<cfgTxt>
+%closefile fcnBuff
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+extern real_T rt_powd_snf(\
+%assign comma = ""
+%<comma>real_T u0\
+%assign comma = ", "
+%<comma>real_T u1\
+%assign comma = ", "
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 0, fcnProtoType)>
+%return fcnBuff
+%endfunction
+

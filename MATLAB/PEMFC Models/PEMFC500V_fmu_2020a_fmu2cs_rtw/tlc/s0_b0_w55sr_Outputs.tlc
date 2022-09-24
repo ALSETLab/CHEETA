@@ -1,0 +1,123 @@
+%implements s0_b0_w55sr_Outputs "C"
+
+%function Outputs(block, system) Output
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+%openfile localVarDecl
+
+real_T rtb_Sum1_n0;
+real_T rtb_ln;
+real_T rtb_Product2;
+real_T rtb_factor;
+real_T rtb_u73373K;
+real_T rtb_Integrator;
+%closefile localVarDecl
+%<SLibCG_TrackEO(2)>\
+%<SLibCG_TrackEO(1)>\
+%<SLibCG_TrackEO(0)>\
+%<SLibCG_TrackEI(2)>\
+%<SLibCG_TrackEI(1)>\
+%<SLibCG_TrackEI(0)>\
+if (PEMFC500V_fmu_2020a_U.Inport > PEMFC500V_fmu_2020a_P.u25A_UpperSat) {
+    PEMFC500V_fmu_2020a_B.u25A = PEMFC500V_fmu_2020a_P.u25A_UpperSat;
+} else if (PEMFC500V_fmu_2020a_U.Inport < PEMFC500V_fmu_2020a_P.u25A_LowerSat) {
+    PEMFC500V_fmu_2020a_B.u25A = PEMFC500V_fmu_2020a_P.u25A_LowerSat;
+} else {
+    PEMFC500V_fmu_2020a_B.u25A = PEMFC500V_fmu_2020a_U.Inport;
+}
+rtb_Integrator = PEMFC500V_fmu_2020a_P.IIdensity_Gain * PEMFC500V_fmu_2020a_B.u25A;
+if (PEMFC500V_fmu_2020a_DW.Integrator_IWORK != 0) {
+    PEMFC500V_fmu_2020a_X.Integrator_CSTATE = PEMFC500V_fmu_2020a_U.Inport2;
+}
+if (PEMFC500V_fmu_2020a_X.Integrator_CSTATE > PEMFC500V_fmu_2020a_P.u73373K_UpperSat) {
+    rtb_u73373K = PEMFC500V_fmu_2020a_P.u73373K_UpperSat;
+} else if (PEMFC500V_fmu_2020a_X.Integrator_CSTATE < PEMFC500V_fmu_2020a_P.u73373K_LowerSat) {
+    rtb_u73373K = PEMFC500V_fmu_2020a_P.u73373K_LowerSat;
+} else {
+    rtb_u73373K = PEMFC500V_fmu_2020a_X.Integrator_CSTATE;
+}
+if ((rtb_u73373K < 0.0) && (PEMFC500V_fmu_2020a_P.k1_Value > floor(PEMFC500V_fmu_2020a_P.k1_Value))) {
+    rtb_Sum1_n0 = -%<(SLibCGCallSubFcn("rt_powd_snf", ["-rtb_u73373K", "PEMFC500V_fmu_2020a_P.k1_Value"], 0, 3, 3))>;
+} else {
+    rtb_Sum1_n0 = %<(SLibCGCallSubFcn("rt_powd_snf", ["rtb_u73373K", "PEMFC500V_fmu_2020a_P.k1_Value"], 0, 3, 0))>;
+}
+rtb_ln = (((401.94033912153 * rtb_u73373K + -40529.4522405347) - 1.33430273535993 * %<(SLibCGCallSubFcn("rt_powd_snf", ["rtb_u73373K", "2.0"], 0, 3, 1))>) + 0.00148378443819808 * %<(SLibCGCallSubFcn("rt_powd_snf", ["rtb_u73373K", "3.0"], 0, 3, 2))>) / 760.0;
+rtb_Product2 = rtb_ln / PEMFC500V_fmu_2020a_P.Panode_Value;
+rtb_factor = PEMFC500V_fmu_2020a_P.factor_Gain * rtb_ln;
+rtb_ln *= fabs(1.0 / (exp(PEMFC500V_fmu_2020a_P.factor1_Gain * rtb_Integrator / rtb_Sum1_n0) * (rtb_ln / PEMFC500V_fmu_2020a_P.Pcathode_Value)) - 1.0);
+if (rtb_ln < 0.0) {
+    rtb_ln = -sqrt(fabs(rtb_ln));
+} else {
+    rtb_ln = sqrt(rtb_ln);
+}
+rtb_ln *= fabs(1.0 / (exp(PEMFC500V_fmu_2020a_P.factor2_Gain * rtb_Integrator / rtb_Sum1_n0) * rtb_Product2) - 1.0) * rtb_factor;
+rtb_ln = log(rtb_ln);
+rtb_Sum1_n0 = rtb_u73373K - PEMFC500V_fmu_2020a_P.T0_Value;
+if (%<(SLibCGIRIsSampleHit(1, 0))>) {
+    PEMFC500V_fmu_2020a_B.Vc1_0 = PEMFC500V_fmu_2020a_P.Vc1_0_Value;
+}
+if (PEMFC500V_fmu_2020a_DW.Integrator_IWORK_j != 0) {
+    PEMFC500V_fmu_2020a_X.Integrator_CSTATE_f = PEMFC500V_fmu_2020a_B.Vc1_0;
+}
+rtb_Product2 = (PEMFC500V_fmu_2020a_B.u25A - PEMFC500V_fmu_2020a_P.Dropdelayblock_C * PEMFC500V_fmu_2020a_X.Dropdelayblock_CSTATE) * PEMFC500V_fmu_2020a_P.K_Gain;
+if (rtb_Product2 > PEMFC500V_fmu_2020a_P.DeadZone1_End) {
+    rtb_Product2 -= PEMFC500V_fmu_2020a_P.DeadZone1_End;
+} else if (rtb_Product2 >= PEMFC500V_fmu_2020a_P.DeadZone1_Start) {
+    rtb_Product2 = 0.0;
+} else {
+    rtb_Product2 -= PEMFC500V_fmu_2020a_P.DeadZone1_Start;
+}
+rtb_Product2 = (((((rtb_u73373K * PEMFC500V_fmu_2020a_P.R2F_Value * rtb_ln + PEMFC500V_fmu_2020a_P.E0_Value) - PEMFC500V_fmu_2020a_P.u85e3_Gain * rtb_Sum1_n0) - (0.97841976 - 0.0022 * rtb_u73373K) * PEMFC500V_fmu_2020a_P.Gain_Gain) - PEMFC500V_fmu_2020a_X.Integrator_CSTATE_f) - ((3.8e-5 * rtb_u73373K + -0.0158) - PEMFC500V_fmu_2020a_P.Gain_Gain_j * PEMFC500V_fmu_2020a_B.u25A) * PEMFC500V_fmu_2020a_B.u25A * PEMFC500V_fmu_2020a_P.Gain1_Gain) * PEMFC500V_fmu_2020a_P.Ncell - rtb_Product2;
+if (rtb_Product2 > PEMFC500V_fmu_2020a_P.u580V_UpperSat) {
+    rtb_Product2 = PEMFC500V_fmu_2020a_P.u580V_UpperSat;
+} else {
+    if (rtb_Product2 < PEMFC500V_fmu_2020a_P.u580V_LowerSat) {
+        rtb_Product2 = PEMFC500V_fmu_2020a_P.u580V_LowerSat;
+    }
+}
+rtb_Integrator = rtb_Product2 - PEMFC500V_fmu_2020a_P.degradation_Value;
+if (rtb_Integrator > PEMFC500V_fmu_2020a_P.u580V_UpperSat_b) {
+    rtb_Integrator = PEMFC500V_fmu_2020a_P.u580V_UpperSat_b;
+} else {
+    if (rtb_Integrator < PEMFC500V_fmu_2020a_P.u580V_LowerSat_f) {
+        rtb_Integrator = PEMFC500V_fmu_2020a_P.u580V_LowerSat_f;
+    }
+}
+PEMFC500V_fmu_2020a_Y.Outport = PEMFC500V_fmu_2020a_U.Inport * rtb_Integrator;
+PEMFC500V_fmu_2020a_Y.Outport1 = rtb_Integrator;
+PEMFC500V_fmu_2020a_Y.Outport2 = rtb_u73373K;
+rtb_Integrator = PEMFC500V_fmu_2020a_P.u_Gain * PEMFC500V_fmu_2020a_U.Inport1 - rtb_u73373K;
+rtb_factor = rtb_u73373K - PEMFC500V_fmu_2020a_U.Inport1;
+PEMFC500V_fmu_2020a_B.uMfcCfc = (((((PEMFC500V_fmu_2020a_P.dG0_Value - PEMFC500V_fmu_2020a_P.u163_Gain * rtb_Sum1_n0) + rtb_ln * rtb_u73373K * PEMFC500V_fmu_2020a_P.R_Value) * (PEMFC500V_fmu_2020a_P.u2F_Gain_c * PEMFC500V_fmu_2020a_B.u25A) * PEMFC500V_fmu_2020a_P.Ncell1_Value - PEMFC500V_fmu_2020a_B.u25A * rtb_Product2) - rtb_factor * PEMFC500V_fmu_2020a_P.Ncell_Value * PEMFC500V_fmu_2020a_P.Acell_Value * PEMFC500V_fmu_2020a_P.h_Value) - (((PEMFC500V_fmu_2020a_P.u2F_Gain * PEMFC500V_fmu_2020a_B.u25A * PEMFC500V_fmu_2020a_P.CpH2_Value * rtb_Integrator + PEMFC500V_fmu_2020a_P.u4F_Gain * PEMFC500V_fmu_2020a_B.u25A * PEMFC500V_fmu_2020a_P.CpO2_Value * rtb_Integrator) + PEMFC500V_fmu_2020a_P.u2F_Gain_g * PEMFC500V_fmu_2020a_B.u25A * PEMFC500V_fmu_2020a_P.CpH2O_Value * rtb_factor) + PEMFC500V_fmu_2020a_P.u02F_Gain * PEMFC500V_fmu_2020a_B.u25A * PEMFC500V_fmu_2020a_P.Hvaporization_Value) * PEMFC500V_fmu_2020a_P.Ncell_Gain) * PEMFC500V_fmu_2020a_P.uMfcCfc_Gain;
+rtb_Integrator = PEMFC500V_fmu_2020a_B.u25A + PEMFC500V_fmu_2020a_P.umA_Value;
+rtb_Sum1_n0 = log(fabs(1.0 - PEMFC500V_fmu_2020a_B.u25A / 25.0) + 1.0e-100) * (PEMFC500V_fmu_2020a_P.R2F_Gain * rtb_u73373K) * PEMFC500V_fmu_2020a_P.Gain1_Gain_l;
+if (rtb_Sum1_n0 > PEMFC500V_fmu_2020a_P.u10V_UpperSat) {
+    rtb_Sum1_n0 = PEMFC500V_fmu_2020a_P.u10V_UpperSat;
+} else {
+    if (rtb_Sum1_n0 < PEMFC500V_fmu_2020a_P.u10V_LowerSat) {
+        rtb_Sum1_n0 = PEMFC500V_fmu_2020a_P.u10V_LowerSat;
+    }
+}
+rtb_Sum1_n0 = log(PEMFC500V_fmu_2020a_B.u25A + 1.0) * 0.000187 * 0.4 * rtb_u73373K * PEMFC500V_fmu_2020a_P.Gain_Gain_h / rtb_Integrator + rtb_Sum1_n0 / rtb_Integrator;
+if (rtb_Sum1_n0 > PEMFC500V_fmu_2020a_P.u0000110_UpperSat) {
+    rtb_Sum1_n0 = PEMFC500V_fmu_2020a_P.u0000110_UpperSat;
+} else {
+    if (rtb_Sum1_n0 < PEMFC500V_fmu_2020a_P.u0000110_LowerSat) {
+        rtb_Sum1_n0 = PEMFC500V_fmu_2020a_P.u0000110_LowerSat;
+    }
+}
+PEMFC500V_fmu_2020a_B.Product2 = (rtb_Integrator - PEMFC500V_fmu_2020a_X.Integrator_CSTATE_f / rtb_Sum1_n0) / PEMFC500V_fmu_2020a_P.Cdl_Value;
+%<SLibInsertSolverResetCode()>\
+%closefile cfgTxt
+%<cfgTxt>
+%<LibSetSystemField(system, "CachedOutputLocalVars", localVarDecl)>
+%endfunction
+%function OutputsFcnProtoType(block, system) Output
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void Outputs(\
+%assign comma = ""
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 3, fcnProtoType)>
+%endfunction

@@ -1,0 +1,23 @@
+%implements s0_b0_w55sr_ModelExternalInputInit "C"
+
+%function ModelExternalInputInit(block, system) Output
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+%<SLibCG_TrackEI(2)>\
+%<SLibCG_TrackEI(1)>\
+%<SLibCG_TrackEI(0)>\
+PEMFC500V_fmu_2020a_U.Inport = 0.0;
+PEMFC500V_fmu_2020a_U.Inport1 = 0.0;
+PEMFC500V_fmu_2020a_U.Inport2 = 0.0;
+%closefile cfgTxt
+%<cfgTxt>
+%endfunction
+%function ModelExternalInputInitFcnProtoType(block, system) Output
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void ModelExternalInputInit(\
+%assign comma = ""
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 7, fcnProtoType)>
+%endfunction
